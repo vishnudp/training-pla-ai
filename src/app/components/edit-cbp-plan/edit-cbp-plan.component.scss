@@ -424,10 +424,11 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #1B4CA1;
+border-right: 2px solid #1B4CA1;
 background: #EDF1F8;
-width:132px
+margin:0 10px;
 }
 
 .outside-layer-functional {
@@ -436,10 +437,11 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #E24577;
+border-right: 2px solid #E24577;
 background: #F8D2DE;
-width:132px
+margin:0 10px;
 }
 
 .outside-layer-domain {
@@ -448,10 +450,11 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #7B47A4;
+border-right: 2px solid #7B47A4;
 background: #DFD3E9;
-width:132px
+margin:0 10px;
 }
 .outside-layer-behavioral {
     display: flex;
@@ -459,10 +462,11 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #F8B861;
+border-right: 2px solid #F8B861;
 background: #FDE8CC;
-width:132px
+margin:0 10px;
 }
 
 .inside-layer {
@@ -570,7 +574,7 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #F8B861;
 background: linear-gradient(0deg, rgba(248, 184, 97, 0.32) 0%, rgba(248, 184, 97, 0.32) 100%), #FFF;
 margin: 5px 0;
@@ -582,7 +586,7 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #E24577;
 background: linear-gradient(0deg, rgba(226, 69, 119, 0.24) 0%, rgba(226, 69, 119, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -594,7 +598,7 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #7B47A4;
 background: linear-gradient(0deg, rgba(123, 71, 164, 0.24) 0%, rgba(123, 71, 164, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -663,7 +667,7 @@ margin: 5px 0;
   .competency-list {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 6px;
   }
 
   .competency-text {
@@ -671,8 +675,9 @@ margin: 5px 0;
 font-family: Lato;
 font-size: 10px;
 font-style: normal;
-font-weight: 700;
+font-weight: normal;
 line-height: normal;
+padding: 5px;
   }
 
   .competency-sub-heading {
@@ -735,4 +740,8 @@ border: none;
 .close .mat-icon {
     height: 18px !important;
     width: 18px !important;
+}
+
+:host ::ng-deep .mat-select-arrow-wrapper {
+    height: 6px !important;
 }

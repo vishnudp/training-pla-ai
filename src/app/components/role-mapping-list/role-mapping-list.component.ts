@@ -103,7 +103,7 @@ export class RoleMappingListComponent {
     // Navigate or open modal
     console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(EditCbpPlanComponent, {
-      width: '700px',
+      width: '1000px',
       data: element,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '300px',          // Set minimum height
@@ -136,7 +136,7 @@ export class RoleMappingListComponent {
     this.activeRowElement = element
     console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(ViewCbpPlanComponent, {
-      width: '700px',
+      width: '1000px',
       data: element,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '300px',          // Set minimum height

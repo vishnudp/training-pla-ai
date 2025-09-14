@@ -12,7 +12,7 @@
         <mat-card class="mt-4">
             <div class="section-header">
                 <input type="text" formControlName="designation_name" [value]="planData?.designation_name"
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;">
+                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
             </div>
 
             <div class="competency-container mt-4">
@@ -55,7 +55,7 @@
                 </div>
                 <div class="mt-2">
                 <input type="text" formControlName="wing_division_section" [value]="planData?.wing_division_section"
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width:100%">
+                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width:100%;font-size: 14px;font-family: 'Lato';">
                 </div>
             </div>
             <div class="mt-2 section">
@@ -105,9 +105,9 @@
                                     style="background: white; border-radius: 25px; padding: 0 12px;">
                                     <mat-select formControlName="competencyType" [(value)]="selectedValue" placeholder="Select Competency"
                                         style="border-radius: 25px; background: white;">
-                                        <mat-option [value]="'behavioral'">Behavioral</mat-option>
-                                        <mat-option [value]="'functional'">Functional</mat-option>
-                                        <mat-option [value]="'domain'">Domain</mat-option>
+                                        <mat-option [value]="'Behavioral'">Behavioral</mat-option>
+                                        <mat-option [value]="'Functional'">Functional</mat-option>
+                                        <mat-option [value]="'Domain'">Domain</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -118,29 +118,29 @@
                     </div>
                     
                 </div>
-                <div>
+                <div class="mt-4">
                     <div class="competency-sub-heading" *ngIf="getCompetenciesByType('Behavioral')?.length">Behavioral Competencies</div>
                     <ul class="competency-list">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType('Behavioral')">
-                           <span class="competency-text"> {{ comp.theme }} </span>
+                           <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>
                 </div>
-                <div >
+                <div class="mt-4">
                     <div class="competency-sub-heading " *ngIf="getCompetenciesByType('Functional')?.length">Functional Competencies</div>
                     <ul class="competency-list">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType('Functional')">
-                            <span class="competency-text"> {{ comp.theme }} </span>
+                            <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>
                 </div>
-                <div>
+                <div class="mt-4">
                     <div class="competency-sub-heading">Domain Competencies</div>
                     <ul class="competency-list">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType('Domain')">
-                            <span class="competency-text"> {{ comp.theme }} </span>
+                            <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>

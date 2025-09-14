@@ -1,7 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
-
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -12,10 +12,11 @@ export class ViewFinalCbpPlanComponent {
     public dialogRef: MatDialogRef<ViewFinalCbpPlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
-    private sharedService: SharedService
+    public sharedService: SharedService
   ) {
     this.getMappingData()
   }
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   loading = false
   designationData:any = []
   totalCompetencieObj = {total:0, behavioral:0, functional:0, domain:0}
@@ -117,22 +118,26 @@ export class ViewFinalCbpPlanComponent {
        let functionalCompetencies =[]
        let domainCompetencies =[]
        for(let i=0; i<res.length;i++) {
+        behavioralCompetencies = []
+        functionalCompetencies =[]
+        domainCompetencies =[]
         let competenciesObj = {total:0, behavioral:0, functional:0, domain:0}
        res[i].competencies.forEach(c => {
         competenciesObj.total++;
         this.totalCompetencieObj.total++
          if (c.type.toLowerCase() === 'behavioral') { 
-          behavioralCompetencies.push(c.theme)
+          
+          behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
           competenciesObj.behavioral++;
           this.totalCompetencieObj.behavioral++
          }
          if (c.type.toLowerCase() === 'functional') {
-          functionalCompetencies.push(c.theme)
+          functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
           competenciesObj.functional++;
           this.totalCompetencieObj.functional++
          }
          if (c.type.toLowerCase() === 'domain') { 
-          domainCompetencies.push(c.theme)
+          domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
           competenciesObj.domain++;
           this.totalCompetencieObj.domain++
 
@@ -143,6 +148,7 @@ export class ViewFinalCbpPlanComponent {
           wing: res[i].wing_division_section,
           updated: res[i].updated_at,
           rolesResponsibilities: res[i].role_responsibilities,
+          activities:res[i].activities,
           competenciesObj: competenciesObj,
           behavioralCompetencies: behavioralCompetencies,
           functionalCompetencies: functionalCompetencies,
@@ -175,12 +181,110 @@ export class ViewFinalCbpPlanComponent {
        })
     }
     if(this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
+      console.log('this.sharedService?.cbpPlanFinalObj',this.sharedService?.cbpPlanFinalObj)
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
       let department_id = this.sharedService?.cbpPlanFinalObj.departments
       this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
-       console.log('res', res)
+        console.log('res', res)
+        let behavioralCompetencies =[]
+        let functionalCompetencies =[]
+        let domainCompetencies =[]
+        for(let i=0; i<res.length;i++) {
+         behavioralCompetencies = []
+         functionalCompetencies =[]
+         domainCompetencies =[]
+         let competenciesObj = {total:0, behavioral:0, functional:0, domain:0}
+        res[i].competencies.forEach(c => {
+         competenciesObj.total++;
+         this.totalCompetencieObj.total++
+          if (c.type.toLowerCase() === 'behavioral') { 
+           
+           behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+           competenciesObj.behavioral++;
+           this.totalCompetencieObj.behavioral++
+          }
+          if (c.type.toLowerCase() === 'functional') {
+           functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+           competenciesObj.functional++;
+           this.totalCompetencieObj.functional++
+          }
+          if (c.type.toLowerCase() === 'domain') { 
+           domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+           competenciesObj.domain++;
+           this.totalCompetencieObj.domain++
+ 
+          }
+        });
+         let obj:any =  {
+           designation: res[i].designation_name,
+           wing: res[i].wing_division_section,
+           updated: res[i].updated_at,
+           rolesResponsibilities: res[i].role_responsibilities,
+           activities:res[i].activities,
+           competenciesObj: competenciesObj,
+           behavioralCompetencies: behavioralCompetencies,
+           functionalCompetencies: functionalCompetencies,
+           domainCompetencies: domainCompetencies
+           // behavioralCompetencies: [
+           //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+           //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+           //   "Accountability", "Conflict Management"
+           // ],
+           // functionalCompetencies: [
+           //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+           //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+           //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+           //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+           // ],
+           // domainCompetencies: [
+           //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+           //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+           //   "National Programme Strategic Direction"
+           // ],
+           // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+         }
+        
+         
+        this.designationData.push(obj)
+        }
+        console.log('this.designationData', this.designationData)
+        console.log('this.totalCompetencieObj', this.totalCompetencieObj )
       
        })
     }
   }
+
+  downloadPDF() {
+    const element = this.pdfContent.nativeElement;
+
+  // Wait for images to load
+  const images = element.querySelectorAll('img');
+  const promises = Array.from(images).map((img: HTMLImageElement) => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => img.onload = resolve);
+  });
+
+  Promise.all(promises).then(() => {
+    const options = {
+      margin: 0.5,
+      filename: 'Final CBP Plan.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+      },
+      jsPDF: {
+        unit: 'in',
+        format: 'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: {
+        mode: ['css', 'legacy', 'avoid-all']
+      }
+    };
+
+    html2pdf().from(element).set(options).save();
+  });
+}
 }

@@ -640,6 +640,7 @@ margin: 5px 0;
     border-bottom: 1px solid #ddd;
     font-weight: bold;
     flex-shrink: 0;
+    padding-bottom: 12px;
   }
 
   .popup-footer {
@@ -736,6 +737,7 @@ border: none;
     list-style: none; /* Remove default bullets */
     padding-left: 20px; /* Left padding for indent */
     margin: 10px 0;
+    font-family: Lato;
   
     li {
       position: relative;
@@ -760,4 +762,9 @@ border: none;
 
   .vertical-middle {
     vertical-align: middle;
+  }
+
+  .sub-text {
+    font-family: Lato;
+    font-size: 12px;
   }

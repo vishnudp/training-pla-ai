@@ -1,14 +1,15 @@
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { EditCbpPlanComponent } from '../edit-cbp-plan/edit-cbp-plan.component';
 import { GenerateCourseRecommendationComponent } from '../generate-course-recommendation/generate-course-recommendation.component';
-
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-view-cbp-plan',
   templateUrl: './view-cbp-plan.component.html',
   styleUrls: ['./view-cbp-plan.component.scss']
 })
 export class ViewCbpPlanComponent {
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   selectedValue = ''
   searchText = ''
   planData:any
@@ -53,7 +54,7 @@ export class ViewCbpPlanComponent {
   editCBPPlan() {
     this.dialogRef.close();
     const dialogRefNew = this.dialog.open(EditCbpPlanComponent, {
-      width: '700px',
+      width: '1000px',
       data: this.planData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '300px',          // Set minimum height
@@ -95,7 +96,37 @@ export class ViewCbpPlanComponent {
     });
   }
 
-  downloadCBPPlan() {
+  downloadPDF() {
+    const element = this.pdfContent.nativeElement;
 
-  }
+  // Wait for images to load
+  const images = element.querySelectorAll('img');
+  const promises = Array.from(images).map((img: HTMLImageElement) => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => img.onload = resolve);
+  });
+
+  Promise.all(promises).then(() => {
+    const options = {
+      margin: 0.5,
+      filename: 'Role Mapping.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+      },
+      jsPDF: {
+        unit: 'in',
+        format: 'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: {
+        mode: ['css', 'legacy', 'avoid-all']
+      }
+    };
+
+    html2pdf().from(element).set(options).save();
+  });
+}
 }

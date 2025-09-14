@@ -1,16 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HEADER_DATA } from 'src/app/modules/shared/constant/app.constant';
 import { EventService } from 'src/app/modules/shared/services/event.service';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-role-mapping-generation',
   templateUrl: './role-mapping-generation.component.html',
   styleUrls: ['./role-mapping-generation.component.scss']
 })
 export class RoleMappingGenerationComponent {
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   headerData = HEADER_DATA;
   title = 'sunbird-cb-staticweb';
   isMaintenancePage: any
@@ -104,6 +106,7 @@ export class RoleMappingGenerationComponent {
       }
       if(this.selectedMinistryType === 'state') { 
         req['department_id'] = formData.departments ? formData.departments : ''
+        this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
       }
       if(req) {
         this.sharedService.generateRoleMapping(req).subscribe({
@@ -204,4 +207,27 @@ export class RoleMappingGenerationComponent {
   applyFilter() {
    
   }
+
+  downloadPDF() {
+      const element = this.pdfContent.nativeElement;
+  
+      const options = {
+        margin: 0.5,
+        filename: 'CBP_Plan.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,  // Important for external images/icons
+        },
+        jsPDF: {
+          unit: 'in',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+  
+      html2pdf().from(element).set(options).save();
+    
+  }
 }
+

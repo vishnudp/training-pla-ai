@@ -149,6 +149,7 @@ export class EditCbpPlanComponent implements OnInit{
   
     // Also, if you want to mark all child controls (FormControls / FormArrays / FormGroups) as pristine and untouched
     this.markFormGroupPristineUntouched(this.cbpForm);
+    this.dialogRef.close()
   }
   
   private markFormGroupPristineUntouched(formGroup: FormGroup | FormArray) {

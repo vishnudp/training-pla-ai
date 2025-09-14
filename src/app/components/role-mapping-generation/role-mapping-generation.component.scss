@@ -1,5 +1,5 @@
 // This comment is made for supressing sonarcube warning.
-.container {
+.container-fluid {
     border-radius: 12px;
     border: 1px solid #FFF;
     background: rgba(27, 76, 161, 0.12);
@@ -501,4 +501,10 @@ display: inline-block; /* Required in some cases */
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+::ng-deep mat-option .mat-option-text {
+    font-size: 14px;
+    color: #000;
+    font-family: 'Lato';
 }

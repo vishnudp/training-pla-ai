@@ -424,10 +424,10 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #1B4CA1;
+border-right: 2px solid #1B4CA1;
 background: #EDF1F8;
-width:132px
 }
 
 .outside-layer-functional {
@@ -436,10 +436,10 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #E24577;
+border-right: 2px solid #E24577;
 background: #F8D2DE;
-width:132px
 }
 
 .outside-layer-domain {
@@ -448,10 +448,10 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
 border-left: 2px solid #7B47A4;
+border-right: 2px solid #7B47A4;
 background: #DFD3E9;
-width:132px
 }
 .outside-layer-behavioral {
     display: flex;
@@ -459,10 +459,10 @@ padding: 4px 12px;
 justify-content: center;
 align-items: center;
 gap: 16px;
-border-radius: 12px 4px 4px 12px;
+border-radius: 12px 12px 12px 12px;
+border-left: 2px solid #F8B861;
 border-left: 2px solid #F8B861;
 background: #FDE8CC;
-width:132px
 }
 
 .inside-layer {
@@ -666,7 +666,7 @@ padding:5px 10px;
   .competency-list {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 6px;
   }
 
   .competency-text {
@@ -674,7 +674,7 @@ padding:5px 10px;
 font-family: Lato;
 font-size: 10px;
 font-style: normal;
-font-weight: 700;
+font-weight: normal;
 line-height: normal;
   }
 

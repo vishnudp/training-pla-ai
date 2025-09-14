@@ -508,3 +508,26 @@ line-height: normal;
 .progress-popup .progress-icon img{
 
 }
+
+.pl-10 {
+    padding-left:20px
+}
+
+.profile-pic {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.right-container {
+    display: flex;
+    margin-right: 40px;
+    gap:16px;
+}

@@ -8,8 +8,8 @@
             <mat-icon>close</mat-icon>
         </div>
     </div>
-    <div class="section-container">
-        <mat-card class="mt-4">
+    <div class="section-container"  #pdfContent>
+        <mat-card class="mt-2">
             <div class="section-header">
                 <div class="designation">{{planData?.designation_name}}</div>
             </div>
@@ -77,32 +77,32 @@
                     </p>
                 </div>
             </div>
-            <div class="mt-2 section">
+            <div class="mt-24section mt-4">
                 <div class="sub-heading">
                     <p>Competency</p>
                 </div>
                
-                <div>
+                <div class="mt-2">
                     <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Behavioral')?.length">Behavioral Competencies</div>
-                    <ul class="competency-list">
+                    <ul class="competency-list mt-2">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Behavioral')">
-                           <span class="competency-text"> {{ comp.theme }} </span>
+                           <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                           </li>
                     </ul>
                 </div>
-                <div >
+                <div class="mt-2">
                     <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Functional')?.length">Functional Competencies</div>
-                    <ul class="competency-list">
+                    <ul class="competency-list mt-2">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Functional')">
-                            <span class="competency-text"> {{ comp.theme }} </span>
+                            <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                           </li>
                     </ul>
                 </div>
-                <div>
+                <div class="mt-2">
                     <div class="competency-sub-heading" *ngIf="getCompetenciesByType(planData?.competencies, 'Domain')?.length">Domain Competencies</div>
-                    <ul class="competency-list">
+                    <ul class="competency-list mt-2">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Domain')">
-                            <span class="competency-text"> {{ comp.theme }} </span>
+                            <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                           </li>
                     </ul>
                 </div>
@@ -114,7 +114,7 @@
             <input class="btn-active" type="button" value="Generate Course Recommendation" (click)="generateCourseRecommendation()"/>
         </div>
         <div>
-            <input class="btn-active" type="button" value="Download" (click)="downloadCBPPlan()"/>
+            <input class="btn-active" type="button" value="Download" (click)="downloadPDF()"/>
         </div>
         <div>
             <input class="btn-active" type="button" value="Edit" (click)="editCBPPlan()"/>

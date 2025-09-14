@@ -1,11 +1,21 @@
 <div class="request-container">
-    <h2 class="highlight-ai">
-        <span class="ai-loader-icon-medium"><img src="assets/icons/ai-loader.gif"></span><span>AI Driven CBP</span>
-    </h2>
+    <div class="header-container">
+        <div>
+            <h2 class="highlight-ai mt-4 pl-10">
+                <span class="ai-loader-icon-medium"><img src="assets/icons/ai-loader.gif"></span><span>AI Driven CBP</span>
+            </h2>
+        </div>
+        <div class="right-container mt-4">
+            <div><mat-icon>help</mat-icon></div>
+            <div><mat-icon>settings</mat-icon></div>
+            <div><img src="assets/centerimage.png" alt="Profile" class="profile-pic"></div>
+        </div>
+    </div>
+    
 </div>
 
-<div class="container">
-    <div class="heading">Create CBP</div>
+<div class="container-fluid">
+    <!-- <div class="heading">Create CBP</div> -->
     <div *ngIf="nextStep === 'initial'">
         <app-role-mapping-generation (successRoleMapping)="successRoleMapping($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
     </div>

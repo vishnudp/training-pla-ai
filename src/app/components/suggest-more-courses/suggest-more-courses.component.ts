@@ -85,10 +85,10 @@ export class SuggestMoreCoursesComponent implements OnInit{
   addCourses() {
     let reqBody = {
       "role_mapping_id": this.planData.role_mapping_id,
-      "recommended_course_id": this.planData.recommended_course_id,
+      //"recommended_course_id": this.planData.recommended_course_id,
       "course_identifiers": this.selectFilterCourses
     }
-    this.sharedService.saveCourse(reqBody).subscribe({
+    this.sharedService.saveSuggestedCourse(reqBody).subscribe({
       next: (res) => {
         // Success handling
         console.log('Success:', res);
