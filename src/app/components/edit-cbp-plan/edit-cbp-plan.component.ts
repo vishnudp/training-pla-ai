@@ -62,6 +62,7 @@ export class EditCbpPlanComponent implements OnInit{
       designation_name: [this.planData?.designation_name || '', Validators.required],
       wing_division_section: [this.planData?.wing_division_section || '', Validators.required],
       role_responsibilities_text: [this.planData?.role_responsibilities?.join('\n') || ''],
+      activities_text: [this.planData?.activities?.join('\n') || ''],
       competencySearchText: [''],
       competencyType: [''],
       competencies: this.fb.array(this.planData?.competencies || []), // optional customization
@@ -99,6 +100,10 @@ export class EditCbpPlanComponent implements OnInit{
   .split('\n')
   .map(line => line.trim())
   .filter(line => line); 
+  const activities = this.cbpForm.value.activities_text
+  .split('\n')
+  .map(line => line.trim())
+  .filter(line => line); 
   this.loading = true
   let req = 
     {
@@ -107,8 +112,7 @@ export class EditCbpPlanComponent implements OnInit{
       "designation_name": formData?.designation_name ? formData.designation_name : '',
       "wing_division_section": formData?.wing_division_section,
       "role_responsibilities":roleResponsibilitiesArray,
-      "activities": [
-      ],
+      "activities": activities,
       "competencies": formData.competencies
     }
     let role_mapping_id = this.planData.id

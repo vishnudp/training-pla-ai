@@ -88,7 +88,8 @@ export class RoleMappingListComponent {
   }
 
   searchData() {
-
+    this.filteredData = this.filterData(this.searchText);
+    this.dataSource = new MatTableDataSource(this.filteredData);
   }
 
   applyFilter() {
@@ -357,6 +358,23 @@ export class RoleMappingListComponent {
 
   moveToInitialScreenLayout(event) {
     this.moveToInitialScreen.emit(event)
+  }
+
+  openFullList(element: any, type: 'role_responsibilities' | 'activities') {
+    const listToShow: string[] = element[type] || [];
+    const title = type === 'role_responsibilities' ? 'Role & Responsibilities' : 'Activities';
+
+    const dialogRef = this.dialog.open(ListPopupComponent, {
+      width: '600px',
+      data: { element: element, type: type},
+      disableClose: true,
+      maxHeight: '80vh'
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // No need to do anything special here to reset inline expanded state
+      // Because you're using dialog, not inline expand – view remains in initial (collapsed) state
+    });
   }
   
   

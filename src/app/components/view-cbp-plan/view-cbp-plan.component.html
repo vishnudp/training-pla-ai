@@ -9,12 +9,12 @@
         </div>
     </div>
     <div class="section-container">
-        <mat-card class="mt-2">
+        <mat-card class="mt-4">
             <div class="section-header">
                 <div class="designation">{{planData?.designation_name}}</div>
             </div>
 
-            <div class="competency-container mt-2">
+            <div class="competency-container mt-4">
                 <div class="outside-layer-total">
                     <div class="inside-layer">
                         Total Competencies
@@ -48,7 +48,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-2 section">
+            <div class="mt-4 section">
                 <div class="sub-heading">
                     <p>Wing/Division</p>
                 </div>
@@ -69,11 +69,21 @@
             </div>
             <div class="mt-2 section">
                 <div class="sub-heading">
+                    <p>Activities</p>
+                </div>
+                <div class="mt-4 additional-details">
+                    <p class="responsibility-text" *ngFor="let item of planData?.activities;let i=index">
+                       {{i+1}}. {{item}}
+                    </p>
+                </div>
+            </div>
+            <div class="mt-2 section">
+                <div class="sub-heading">
                     <p>Competency</p>
                 </div>
                
                 <div>
-                    <div class="competency-sub-heading ">Behavioral Competencies</div>
+                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Behavioral')?.length">Behavioral Competencies</div>
                     <ul class="competency-list">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Behavioral')">
                            <span class="competency-text"> {{ comp.theme }} </span>
@@ -81,7 +91,7 @@
                     </ul>
                 </div>
                 <div >
-                    <div class="competency-sub-heading ">Functional Competencies</div>
+                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Functional')?.length">Functional Competencies</div>
                     <ul class="competency-list">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Functional')">
                             <span class="competency-text"> {{ comp.theme }} </span>
@@ -89,7 +99,7 @@
                     </ul>
                 </div>
                 <div>
-                    <div class="competency-sub-heading">Domain Competencies</div>
+                    <div class="competency-sub-heading" *ngIf="getCompetenciesByType(planData?.competencies, 'Domain')?.length">Domain Competencies</div>
                     <ul class="competency-list">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Domain')">
                             <span class="competency-text"> {{ comp.theme }} </span>

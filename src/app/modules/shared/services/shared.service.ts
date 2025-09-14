@@ -21,6 +21,9 @@ const API_END_POINTS = {
   UPDATE_ROLE_MAPPING:'cbp-tpc-ai/role-mapping',
   GET_RECOMMENDED_COURSE: 'cbp-tpc-ai',
   SAVE_COURSES: 'cbp-tpc-ai/cbp-plan/save',
+  GET_COURSES:  'cbp-tpc-ai/cbp-plan',
+  UPDATE_COURSES: 'cbp-tpc-ai/cbp-plan',
+  IGOT_SUGGESTED_COURSE: 'cbp-tpc-ai/courses/suggestions'
 }
 
 // @Directive()
@@ -287,6 +290,26 @@ export class SharedService {
 
   saveCourse(reqBody){
     return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSES}`, reqBody)
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
+  updateCourse(reqBody, cbp_plan_id){
+    return this.http.put<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_COURSES}/${cbp_plan_id}`, reqBody)
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
+
+  getCourse(role_mapping_id) {
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_COURSES}?role_mapping_id=${role_mapping_id}`)
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
+  getIGOTSuggestedCourses(reqBody) {
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.IGOT_SUGGESTED_COURSE}`, reqBody)
       .pipe(map((response: any) => {
         return response
       }))

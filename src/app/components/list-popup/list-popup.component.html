@@ -1,1 +1,40 @@
-<p>list-popup works!</p>
+<div class="view-cbp-plan">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div>
+                <div class="heading">
+                    <span><mat-icon class="vertical-middle">remove_red_eye</mat-icon></span>
+                    <span *ngIf="listType === 'role_responsibilities'" class="ml-2">Role & Responsibilities</span>
+                    <span *ngIf="listType === 'activity'" class="ml-2">Key Activities</span>
+                </div>
+                <div *ngIf="listType === 'role_responsibilities'">
+                    <p>Complete roles and responsibilities</p>
+                </div>
+            </div>
+            <div  class="cursor-pointer" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="section-container mt-2">
+        <div class="mt-4">
+            <strong *ngIf="listType === 'role_responsibilities'">Roles and Responsibilities:</strong>
+            <strong *ngIf="listType === 'activity'">Key Activities:</strong>
+        </div>
+        <div class="custom-bullet-list" *ngIf="listType === 'role_responsibilities'">
+            <ul>
+                <li *ngFor="let item of listData?.role_responsibilities">
+                    {{item}}
+                </li>
+            </ul>
+        </div>
+        <div class="custom-bullet-list" *ngIf="listType === 'activity'">
+            <ul>
+                <li *ngFor="let item of listData?.activities">
+                    {{item}}
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+</div>

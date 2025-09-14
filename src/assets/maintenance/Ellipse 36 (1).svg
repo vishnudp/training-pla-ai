@@ -1,0 +1,12 @@
+<svg width="103" height="25" viewBox="0 0 103 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g opacity="0.51" filter="url(#filter0_f_145_2020)">
+<ellipse cx="51.5" cy="12.5" rx="43.5" ry="4.5" fill="black"/>
+</g>
+<defs>
+<filter id="filter0_f_145_2020" x="0.32375" y="0.32375" width="102.352" height="24.3525" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="3.83812" result="effect1_foregroundBlur_145_2020"/>
+</filter>
+</defs>
+</svg>

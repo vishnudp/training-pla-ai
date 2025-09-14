@@ -9,13 +9,13 @@
         </div>
     </div>
     <div class="section-container" [formGroup]="cbpForm">
-        <mat-card class="mt-2">
+        <mat-card class="mt-4">
             <div class="section-header">
                 <input type="text" formControlName="designation_name" [value]="planData?.designation_name"
                     style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;">
             </div>
 
-            <div class="competency-container mt-2">
+            <div class="competency-container mt-4">
                 <div class="outside-layer-total">
                     <div class="inside-layer">
                         Total Competencies
@@ -49,7 +49,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-2 section">
+            <div class="mt-4 section">
                 <div class="sub-heading">
                     <p>Wing/Division</p>
                 </div>
@@ -63,7 +63,15 @@
                     <p>Rols & Responsibilities</p>
                 </div>
                 <div class="mt-4 additional-details">
-                    <textarea class="custom-textarea" formControlName="role_responsibilities_text" rows="5" placeholder="Additional details" [value]="planData?.role_responsibilities?.join('\n')"></textarea>
+                    <textarea class="custom-textarea" formControlName="role_responsibilities_text" rows="5" placeholder="Roles & Responsibilities" [value]="planData?.role_responsibilities?.join('\n')"></textarea>
+                </div>
+            </div>
+            <div class="mt-2 section">
+                <div class="sub-heading">
+                    <p>Activities</p>
+                </div>
+                <div class="mt-4 additional-details">
+                    <textarea class="custom-textarea" formControlName="activities_text" rows="5" placeholder="Activities" [value]="planData?.activities?.join('\n')"></textarea>
                 </div>
             </div>
             <div class="mt-2 section">
@@ -111,20 +119,20 @@
                     
                 </div>
                 <div>
-                    <div class="competency-sub-heading ">Behavioral Competencies</div>
+                    <div class="competency-sub-heading" *ngIf="getCompetenciesByType('Behavioral')?.length">Behavioral Competencies</div>
                     <ul class="competency-list">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType('Behavioral')">
                            <span class="competency-text"> {{ comp.theme }} </span>
-                           <span class="cursor-pointer" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
+                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>
                 </div>
                 <div >
-                    <div class="competency-sub-heading ">Functional Competencies</div>
+                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType('Functional')?.length">Functional Competencies</div>
                     <ul class="competency-list">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType('Functional')">
                             <span class="competency-text"> {{ comp.theme }} </span>
-                           <span class="cursor-pointer" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
+                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>
                 </div>
@@ -133,7 +141,7 @@
                     <ul class="competency-list">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType('Domain')">
                             <span class="competency-text"> {{ comp.theme }} </span>
-                           <span class="cursor-pointer" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
+                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
                           </li>
                     </ul>
                 </div>

@@ -1,0 +1,20 @@
+<svg width="1440" height="225" viewBox="0 0 1440 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 0L1440 0V225H0V0Z" fill="#1146A2"/>
+<path opacity="0.01" d="M0 0L1440 0V20H0V0Z" fill="black"/>
+<path opacity="0.02" d="M0 20L1440 20V26H0V20Z" fill="white"/>
+<path opacity="0.02" d="M0 46L1440 46V52H0V46Z" fill="white"/>
+<path opacity="0.02" d="M0 72L1440 72V78H0V72Z" fill="white"/>
+<path opacity="0.02" d="M0 98L1440 98V104H0V98Z" fill="white"/>
+<path opacity="0.02" d="M0 124L1440 124V130H0V124Z" fill="white"/>
+<path opacity="0.02" d="M0 150L1440 150V156H0V150Z" fill="white"/>
+<path opacity="0.02" d="M0 176L1440 176V182H0V176Z" fill="white"/>
+<path opacity="0.02" d="M0 202L1440 202V208H0V202Z" fill="white"/>
+<path opacity="0.01" d="M0 26L1440 26V46H0V26Z" fill="black"/>
+<path opacity="0.01" d="M0 52L1440 52V72H0V52Z" fill="black"/>
+<path opacity="0.01" d="M0 78L1440 78V98H0V78Z" fill="black"/>
+<path opacity="0.01" d="M0 104L1440 104V124H0V104Z" fill="black"/>
+<path opacity="0.01" d="M0 130L1440 130V150H0V130Z" fill="black"/>
+<path opacity="0.01" d="M0 156L1440 156V176H0V156Z" fill="black"/>
+<path opacity="0.01" d="M0 182L1440 182V202H0V182Z" fill="black"/>
+<path opacity="0.01" d="M0 208L1440 208V225H0V208Z" fill="black"/>
+</svg>
