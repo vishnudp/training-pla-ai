@@ -3,7 +3,7 @@
     <mat-card class="mt-2" [formGroup]="roleMappingForm">
         <div class="section-header">
             <div class="sub-heading">
-                <p>Choose the ministry or organisation for role mapping</p>
+                <p>Choose Your Department</p>
             </div>
             <div>
                 <input [disabled]="roleMappingForm?.invalid" [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate Role Mapping" (click)="onGenerateRoleMapping()" />

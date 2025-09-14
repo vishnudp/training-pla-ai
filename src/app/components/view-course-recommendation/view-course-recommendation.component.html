@@ -57,7 +57,7 @@
 
                         </div>
 
-                        <div>
+                        <!-- <div>
                             <div class="ai-recommened-pill">
                                 <div class="ai-recommened-pill-text">
                                     <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
@@ -65,9 +65,39 @@
 
                                 </div>
                             </div>
+                        </div> -->
+                        <div *ngIf="item?.rationale && !item?.is_public">
+                            <div class="ai-recommened-pill-green">
+                                <div class="ai-recommened-pill-green-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                    <span >AI Recommended - iGOT </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="item?.rationale && item?.is_public">
+                            <div class="ai-recommened-pill-public">
+                                <div class="ai-recommened-pill-public-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                    <span >AI Recommended - Public </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!item?.rationale">
+                            <div class="ai-recommened-pill-gray">
+                                <div class="ai-recommened-pill-gray-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                    <span >Manually Suggested - iGOT</span>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="course-title">
+                    <div class="course-title mt-4">
                         <div>
                             <div>{{item?.course}}</div>
                         </div>
@@ -84,13 +114,13 @@
                             <div class="percentage">{{item?.relevancy}}%</div>
                         </div>
                     </div>
-                    <div>
+                    <!-- <div>
                         <div class="competencies-matched-container">
                             <div class="competencies-matched">Competencies Matched</div>
                             <div class="dash">-</div>
                             <div class="percentage">80%</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <!-- <div class="course-list-item">
                     <div class="course-header">

@@ -26,7 +26,9 @@ export class GenerateCourseRecommendationComponent {
   mode= 'add'
   cbp_plan_id = ''
   ngOnInit() {
+    this.loading = true
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
+      this.loading = false
       console.log('res', res)
       this.recommended_course_id = res.id
       this.originalData = res.filtered_courses

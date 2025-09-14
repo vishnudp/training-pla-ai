@@ -4,7 +4,7 @@
     <div class="popup-container">
     <div class="popup-header">
         <div>
-            <div class="heading">Save Courses</div>
+            <div class="heading">Save Courses (<span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">/ {{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span></span>)</div>
         </div>
         <div class="cursor-pointer" (click)="closeDialog()">
             <mat-icon>close</mat-icon>
@@ -27,14 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="edit-section mt-4">
-                        <div class="select-map-route-container">
-                            <div class="selected-mapping-route">
-                                <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">/{{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span></p>
-                            </div>
-        
-                        </div>
-                    </div>
+                    
                     <div class="search-filter-section mt-4">
                         <div class="search flex margin-right-m">
                             <label class="label">Search</label>
@@ -80,18 +73,53 @@
         
                                     </div>
         
-                                    <div>
+                                    <!-- <div>
                                         <div class="ai-recommened-pill">
                                             <div class="ai-recommened-pill-text">
                                                 <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
-                                                <span *ngIf="item?.rationale">AI Recommended</span>
-                                                <span *ngIf="!item?.rationale">AI Suggested</span>
+                                                
+                                                <span *ngIf="item?.rationale">AI Recommended 
+                                                    <span *ngIf="item?.is_public"> - Public</span>
+                                                    <span *ngIf="!item?.is_public"> - iGOT</span>
+                                                </span>
+                                                <span *ngIf="!item?.rationale">Manually Suggested - iGOT</span>
+        
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div *ngIf="item?.rationale && !item?.is_public">
+                                        <div class="ai-recommened-pill-green">
+                                            <div class="ai-recommened-pill-green-text">
+                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                
+                                                <span >AI Recommended - iGOT </span>
         
                                             </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="item?.rationale && item?.is_public">
+                                        <div class="ai-recommened-pill-public">
+                                            <div class="ai-recommened-pill-public-text">
+                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                
+                                                <span >AI Recommended - Public </span>
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!item?.rationale">
+                                        <div class="ai-recommened-pill-gray">
+                                            <div class="ai-recommened-pill-gray-text">
+                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                
+                                                <span>Manually Suggested - iGOT </span>
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="course-title">
+                                <div class="course-title mt-4">
                                     <div>
                                         <div>
                                             <span *ngIf="item?.course">{{item?.course}}</span>
@@ -102,8 +130,8 @@
                                 <div class="course-desc">
                                     <div>
                                         <div>
-                                            <span *ngIf="item?.rationale">{{item?.rationale | slice:0:250}}...</span>
-                                            <span *ngIf="item?.description">{{item?.description | slice:0:250}}...</span>
+                                            <span *ngIf="item?.rationale">{{item?.rationale | slice:0:300}}</span>
+                                            <span *ngIf="item?.description">{{item?.description | slice:0:300}}</span>
                                         </div>
                                     </div>
                                 </div>
