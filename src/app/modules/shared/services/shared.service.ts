@@ -25,7 +25,8 @@ const API_END_POINTS = {
   UPDATE_COURSES: 'cbp-tpc-ai/cbp-plan',
   IGOT_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions',
   SAVE_COURSE_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions/save',
-  SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions'
+  SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions',
+  ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation'
 }
 
 // @Directive()
@@ -326,6 +327,13 @@ export class SharedService {
 
   saveSuggestedCourse(reqBody){
     return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSE_SUGGESTED_COURSE}`, reqBody)
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
+
+  addDesignation(reqBody){
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_DESIGNATION}`, reqBody)
       .pipe(map((response: any) => {
         return response
       }))

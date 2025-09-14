@@ -1,21 +1,62 @@
 // This comment is made for supressing sonarcube warning.
-.container-fluid {
-    border-radius: 12px;
-    border: 1px solid #FFF;
-    background: rgba(27, 76, 161, 0.12);
+.container {
+    // border-radius: 12px;
+    // border: 1px solid #FFF;
+    
+    width: 40%;
 }
 
 .sub-heading p{
     color: #000;
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
 }
 
-.radio-group {
+.radio-btn-group {
+    display: flex;
+    justify-content: space-between;
+    // border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    // background-color: #f9f9f9;
+    align-items: center;
+    max-width: 600px; /* Optional */
+    margin: 0 auto;    /* Optional: center the group */
+    gap:20px;
+}
 
+.radio-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.radio-btn {
+    background-color: #eef2f7;
+}
+
+.radio-btn:hover {
+    background-color: #eef2f7;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.radio-icon {
+    font-size: 24px;
+    color: gray; /* Primary icon color */
 }
 
 .radio-label {
@@ -23,24 +64,24 @@
 
 /* Body 1 */
 font-family: Lato;
-font-size: 16px;
+font-size: 18px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
 }
 
-.radio-btn-group {
-    display: flex;
-    width: 32px;
-    height: 32px;
-    padding: 2px;
-    gap: 10px;
-}
+// .radio-btn-group {
+//     display: flex;
+//     width: 32px;
+//     height: 32px;
+//     padding: 2px;
+//     gap: 10px;
+// }
 
 .label {
     color: var(--Body-Text-Body-Color, #212529);
 font-family: Lato;
-font-size: 14px;
+font-size: 18px;
 font-style: normal;
 font-weight: 700;
 line-height: 150%; /* 21px */
@@ -118,6 +159,12 @@ font-style: normal;
 font-weight: 400;
 line-height: normal;
 resize: none;
+border: none;
+outline: none; /* Optional: removes the blue border on focus */
+resize: none;  /* Optional: disables resizing */
+box-shadow: none; /* Optional: removes any shadow */
+border-radius: 4px;
+border: 1px solid #ccc;
   }
  
 
@@ -142,12 +189,13 @@ font-style: normal;
 font-weight: 700;
 line-height: normal;
 display: flex;
-height: 32px;
+height: 48px;
 padding: 0px 16px;
 justify-content: center;
 align-items: center;
 gap: 8px;
 border: none;
+width: 100%;
   }
 
   .btn-active {
@@ -164,12 +212,13 @@ font-style: normal;
 font-weight: 700;
 line-height: normal;
 display: flex;
-height: 32px;
+height: 48px;
 padding: 0px 16px;
 justify-content: center;
 align-items: center;
 gap: 8px;
 border: none;
+width: 100%;
 }
 
   .btn-group {
@@ -471,7 +520,7 @@ background-color: white;
 
 .highlight-ai {
     font-family: Montserrat;
-font-size: 24px;
+font-size: 28px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -484,8 +533,8 @@ display: inline-block; /* Required in some cases */
 }
 
 .ai-loader-icon-medium img{
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     flex-shrink: 0;
 
 }
@@ -504,7 +553,38 @@ display: inline-block; /* Required in some cases */
 }
 
 ::ng-deep mat-option .mat-option-text {
-    font-size: 14px;
+    font-size: 16px;
     color: #000;
     font-family: 'Lato';
+}
+
+:host ::ng-deep mat-select .mat-select-placeholder {
+    font-size: 16px;
+}
+
+:host mat-select .mat-select-value-text {
+    font-size: 16px !important;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.depatment-container{
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid rgba(27, 76, 161, 0.12);
+    padding: 5%;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),   /* soft main shadow */
+        0 8px 20px rgba(0, 0, 0, 0.15); /* deeper outer shadow */
+    border-radius: 8px;
+    // background-color: white;
+}
+
+.checked-label {
+    color:#1B4CA1;
 }

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenerateCourseRecommendationComponent } from '../generate-course-recommendation/generate-course-recommendation.component';
+import { AddPersonalisationComponent } from '../add-personalisation/add-personalisation.component';
 
 @Component({
   selector: 'app-view-course-recommendation',
@@ -56,6 +57,32 @@ export class ViewCourseRecommendationComponent {
     // Navigate or open modal
     console.log('View CBP Plan clicked', this.planData);
     const dialogRef = this.dialog.open(GenerateCourseRecommendationComponent, {
+      width: '1000px',
+      data: this.planData,
+       panelClass: 'view-cbp-plan-popup',
+      minHeight: '400px',          // Set minimum height
+      maxHeight: '90vh',           // Prevent it from going beyond viewport
+      disableClose: true // Optional: prevent closing with outside click
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        console.log('Changes saved!');
+        // Refresh data or show a toast here
+       
+        
+      }
+    });
+  }
+
+  addPersonilisation() {
+    this.dialogRef.close();
+    console.log('Generate Course Recommendation clicked', this.planData);
+    
+    console.log('Edit Role Mapping clicked', this.planData);
+    // Navigate or open modal
+    console.log('View CBP Plan clicked', this.planData);
+    const dialogRef = this.dialog.open(AddPersonalisationComponent, {
       width: '1000px',
       data: this.planData,
        panelClass: 'view-cbp-plan-popup',

@@ -1,0 +1,40 @@
+<div class="view-cbp-plan">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div>
+                <div class="heading">Add Designation</div>
+            </div>
+            <div class="cursor-pointer" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="section-container" [formGroup]="designationForm">
+        <mat-card class="mt-1">
+            <div class="mt-2 section">
+                <div class="section-header">
+                    <input type="text" formControlName="designation_name" placeholder="Enter Designation" [value]=""
+                        style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                </div>
+            </div>
+            <div class="mt-2 section">
+                <div class="sub-heading">
+                    <p>Instructions</p>
+                </div>
+                <div class="mt-4 additional-details">
+                    <textarea class="custom-textarea" formControlName="instruction" rows="5"
+                        placeholder="Add Instructions" [value]=""></textarea>
+                </div>
+            </div>
+
+        </mat-card>
+    </div>
+    <div class="popup-footer">
+        <div>
+            <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
+        </div>
+        <div>
+            <input [disabled]="designationForm?.invalid" [ngClass]="designationForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Save" (click)="saveDesignation()" />
+        </div>
+    </div>
+</div>

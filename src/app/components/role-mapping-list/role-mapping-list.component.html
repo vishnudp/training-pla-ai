@@ -14,14 +14,15 @@
                         <div class="select-map-flex">
                             <div class="selected-mapping-route">
                                 <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                        *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length"> / {{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span>
+                                        *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">
+                                        / {{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span>
                                 </p>
                             </div>
                             <div class="edit-plan cursor-pointer" (click)="moveToInitialScreenLayout('edit')">
                                 <mat-icon>edit</mat-icon>Edit
                             </div>
                             <div class="cursor-pointer ml-10">
-                                <input class="btn-active" value="+ Add New CBP Plan"
+                                <input class="btn-active cursor-pointer" value="+ Create New CBP Plan"
                                     (click)="moveToInitialScreenLayout('add')" />
                             </div>
                         </div>
@@ -55,13 +56,7 @@
                                     type="button" value="Search" (click)="applyFilter()" />
                             </div>
                         </div>
-                        <!-- <div class="btn-group">
-                        <div>
-                            <input class="btn-active" type="button" value="Add More Designation"
-                                (click)="addMoreDesignation()" />
-                        </div>
-
-                    </div> -->
+                        
 
 
                     </div>
@@ -230,11 +225,11 @@
                                                 <ul>
                                                     <li class="role-item"
                                                         *ngFor="let role of (isResponisbilityExpanded(element.id) ? element.role_responsibilities : element.role_responsibilities.slice(0, 2)); let i = index">
-                                                        {{i+1}}.{{ role }}</li>
+                                                        {{i+1}}. {{ role }}</li>
                                                     <li *ngIf="element.role_responsibilities.length > 2"
                                                         class="view-more-less cursor-pointer"
                                                         (click)="openFullList(element, 'role_responsibilities')">
-                                                        <span style="color: #1B4CA1;">
+                                                        <span style="color: #1B4CA1;font-size: 16px;">
                                                             <!-- {{ isResponisbilityExpanded(element.id) ? 'View Less' : 'View More' }} -->
                                                             View More
                                                         </span>
@@ -249,11 +244,11 @@
                                                 <ul>
                                                     <li class="role-item"
                                                         *ngFor="let activity of (isActivityExpanded(element.id) ? element.activities : element.activities.slice(0, 2)); let i = index">
-                                                        {{i+1}}.{{ activity }}</li>
+                                                        {{i+1}}. {{ activity }}</li>
                                                     <li *ngIf="element.activities.length > 2"
                                                         class="view-more-less cursor-pointer"
                                                         (click)="openFullList(element, 'activity')">
-                                                        <span style="color: #1B4CA1;">
+                                                        <span style="color: #1B4CA1;font-size: 16px;">
                                                             View More
                                                         </span>
                                                     </li>
@@ -355,7 +350,7 @@
 
                         <div class="no-cbp-data" *ngIf="dataSource?.filteredData?.length === 0">
                             <!-- <div><img src="/mdo-assets/images/no-content-data.svg" alt="no-content"></div> -->
-                            <div class="sub-heading">
+                            <div class="sub-heading mt-4">
                                 <p>No Data Found</p>
                             </div>
                             <!-- <div class=" margin-top-m no-content-create">

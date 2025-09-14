@@ -283,4 +283,8 @@ export class GenerateCourseRecommendationComponent {
       }
     });
   }
+
+  getCompetenciesByType(type: string, index): any[] {
+    return (this.filterdCourses[index].competencies || []).filter(c => c.competencyAreaName === type);
+  }
 }

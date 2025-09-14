@@ -42,6 +42,8 @@ import { ViewFinalCbpPlanComponent } from './components/view-final-cbp-plan/view
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ListPopupComponent } from './components/list-popup/list-popup.component';
 import { SuggestMoreCoursesComponent } from './components/suggest-more-courses/suggest-more-courses.component';
+import { AddDesignationComponent } from './components/add-designation/add-designation.component';
+import { AddPersonalisationComponent } from './components/add-personalisation/add-personalisation.component';
 
 const appInitializer = (initSvc: InitService) => async () => {
   try {
@@ -63,7 +65,9 @@ const appInitializer = (initSvc: InitService) => async () => {
     DeleteRoleMappingComponent,
     ViewFinalCbpPlanComponent,
     ListPopupComponent,
-    SuggestMoreCoursesComponent
+    SuggestMoreCoursesComponent,
+    AddDesignationComponent,
+    AddPersonalisationComponent
   ],
   imports: [
     BrowserModule,

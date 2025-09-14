@@ -10,6 +10,7 @@ import { DeleteRoleMappingComponent } from '../delete-role-mapping/delete-role-m
 import { ViewCourseRecommendationComponent } from '../view-course-recommendation/view-course-recommendation.component';
 import { ViewFinalCbpPlanComponent } from '../view-final-cbp-plan/view-final-cbp-plan.component';
 import { ListPopupComponent } from '../list-popup/list-popup.component';
+import { AddDesignationComponent } from '../add-designation/add-designation.component';
 @Component({
   selector: 'app-role-mapping-list',
   templateUrl: './role-mapping-list.component.html',
@@ -43,7 +44,8 @@ export class RoleMappingListComponent {
   }
 
   ngAfterViewInit() {
-    //this.dataSource.paginator = this.paginator;
+   // this.dataSource.paginator = this.paginator;
+   // this.dataSource.sort = this.sort;
   }
 
   ngOnInit() {
@@ -53,7 +55,10 @@ export class RoleMappingListComponent {
       this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
        console.log('res', res)
        this.dataSource.data = res
-       this.dataSource.paginator = this.paginator;
+       setTimeout(()=>{
+        this.dataSource.paginator = this.paginator;
+       },1000)
+       
        this.originalData = res;
        console.log('this.dataSource',this.dataSource)
        })
@@ -65,7 +70,9 @@ export class RoleMappingListComponent {
       this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
        console.log('res', res)
        this.dataSource.data = res
-       this.dataSource.paginator = this.paginator;
+       setTimeout(()=>{
+        this.dataSource.paginator = this.paginator;
+       },1000)
        this.originalData = res;
        console.log('this.dataSource',this.dataSource)
        })
@@ -297,7 +304,34 @@ export class RoleMappingListComponent {
 
 
   addMoreDesignation() {
-
+    const dialogRef = this.dialog.open(AddDesignationComponent, {
+      width: '600px',
+      data: {state_center_id:''},
+       panelClass: 'view-cbp-plan-popup',
+      minHeight: '300px',          // Set minimum height
+      maxHeight: '90vh',           // Prevent it from going beyond viewport
+      disableClose: true // Optional: prevent closing with outside click
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        console.log('Changes saved!');
+        // Refresh data or show a toast here
+        console.log(this.sharedService.cbpPlanFinalObj)
+        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
+          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
+            console.log('res', res)
+            this.dataSource.data = res
+            this.dataSource.paginator = this.paginator;
+            this.originalData = res;
+            console.log('this.dataSource',this.dataSource)
+            })
+        } else {
+          
+        }
+        
+      }
+    });
   }
 
   deleteRoleMapping(element) {

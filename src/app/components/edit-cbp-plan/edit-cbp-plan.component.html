@@ -9,8 +9,8 @@
         </div>
     </div>
     <div class="section-container" [formGroup]="cbpForm">
-        <mat-card class="mt-4">
-            <div class="section-header">
+        
+            <div class="section-header mt-4">
                 <input type="text" formControlName="designation_name" [value]="planData?.designation_name"
                     style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
             </div>
@@ -53,7 +53,7 @@
                 <div class="sub-heading">
                     <p>Wing/Division</p>
                 </div>
-                <div class="mt-2">
+                <div class="mt-4">
                 <input type="text" formControlName="wing_division_section" [value]="planData?.wing_division_section"
                     style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width:100%;font-size: 14px;font-family: 'Lato';">
                 </div>
@@ -119,8 +119,8 @@
                     
                 </div>
                 <div class="mt-4">
-                    <div class="competency-sub-heading" *ngIf="getCompetenciesByType('Behavioral')?.length">Behavioral Competencies</div>
-                    <ul class="competency-list">
+                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Behavioral')?.length">Behavioral Competencies</div>
+                    <ul class="competency-list mt-2">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType('Behavioral')">
                            <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
@@ -128,8 +128,8 @@
                     </ul>
                 </div>
                 <div class="mt-4">
-                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType('Functional')?.length">Functional Competencies</div>
-                    <ul class="competency-list">
+                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Functional')?.length">Functional Competencies</div>
+                    <ul class="competency-list mt-2">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType('Functional')">
                             <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
@@ -137,8 +137,8 @@
                     </ul>
                 </div>
                 <div class="mt-4">
-                    <div class="competency-sub-heading">Domain Competencies</div>
-                    <ul class="competency-list">
+                    <div class="competency-sub-heading mt-2">Domain Competencies</div>
+                    <ul class="competency-list mt-2">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType('Domain')">
                             <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
@@ -146,7 +146,6 @@
                     </ul>
                 </div>
             </div>
-        </mat-card>
     </div>
     <div class="popup-footer">
         <div>

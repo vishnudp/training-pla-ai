@@ -65,7 +65,7 @@ export class RoleMappingGenerationComponent {
     this.roleMappingForm = this.fb.group({
       ministryType: ['center', Validators.required],
       ministry: [null, Validators.required],
-      sectors: [[], Validators.required],
+      sectors: [[]],
       departments: [[]], // shown only if ministryType == 'state'
       additionalDetails: ['']
     });
@@ -101,7 +101,7 @@ export class RoleMappingGenerationComponent {
       // Submit logic here
       let req = {
         "state_center_id":formData.ministry,
-        "sector_name": sectors,
+        "sector_name": "Urban development",
         "instruction": ""
       }
       if(this.selectedMinistryType === 'state') { 

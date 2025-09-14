@@ -1,10 +1,21 @@
 <div class="request-container">
     <div class="header-container">
-        <div>
-            <h2 class="highlight-ai mt-4 pl-10">
-                <span class="ai-loader-icon-medium"><img src="assets/icons/ai-loader.gif"></span><span>AI Driven CBP</span>
-            </h2>
+        <div class="left-container mt-4 mb-1">
+            <div>
+                <img src="https://cbc.gov.in/sites/default/files/logo_1.png"
+                    alt="Capacity Building Commission Logo" class="h-50" />
+            </div>
+            <div>
+                <img src="https://igotkarmayogi.gov.in/assets/img/karmayogiLogo.svg"
+                    alt="Karmayogi Bharat Logo" class="h-50" />
+            </div>
+            <div *ngIf="nextStep !== 'initial'">
+                <h2 class="highlight-ai">
+                    <span class="ai-loader-icon-medium"><img src="assets/icons/ai-loader.gif"></span><span>AI Driven CBP</span>
+                </h2>
+            </div>
         </div>
+        
         <div class="right-container mt-4">
             <div><mat-icon>help</mat-icon></div>
             <div><mat-icon>settings</mat-icon></div>

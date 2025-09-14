@@ -1,7 +1,9 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -255,36 +257,77 @@ export class ViewFinalCbpPlanComponent {
   }
 
   downloadPDF() {
-    const element = this.pdfContent.nativeElement;
+    this.loading = true;
+  //   const element = this.pdfContent.nativeElement;
 
-  // Wait for images to load
-  const images = element.querySelectorAll('img');
-  const promises = Array.from(images).map((img: HTMLImageElement) => {
-    if (img.complete) return Promise.resolve();
-    return new Promise(resolve => img.onload = resolve);
-  });
+  // // Wait for images to load
+  // const images = element.querySelectorAll('img');
+  // const promises = Array.from(images).map((img: HTMLImageElement) => {
+  //   if (img.complete) return Promise.resolve();
+  //   return new Promise(resolve => img.onload = resolve);
+  // });
 
-  Promise.all(promises).then(() => {
-    const options = {
-      margin: 0.5,
-      filename: 'Final CBP Plan.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        scrollY: 0,
-      },
-      jsPDF: {
-        unit: 'in',
-        format: 'a4',
-        orientation: 'portrait'
-      },
-      pagebreak: {
-        mode: ['css', 'legacy', 'avoid-all']
+  // Promise.all(promises).then(() => {
+  //   const options = {
+  //     margin: 0.5,
+  //     filename: 'Final CBP Plan.pdf',
+  //     image: { type: 'jpeg', quality: 0.98 },
+  //     html2canvas: {
+  //       scale: 2,
+  //       useCORS: true,
+  //       scrollY: 0,
+  //     },
+  //     jsPDF: {
+  //       unit: 'in',
+  //       format: 'a4',
+  //       orientation: 'portrait'
+  //     },
+  //     pagebreak: {
+  //       mode: ['css', 'legacy', 'avoid-all']
+  //     }
+  //   };
+
+  //   html2pdf().from(element).set(options).save();
+  // });
+  const element = this.pdfContent.nativeElement;
+
+    html2canvas(element, {
+      scale: 2, // improves quality
+      useCORS: true, // if loading images from different origin
+      logging: true,
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgProps = pdf.getImageProperties(imgData);
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      let position = 0;
+
+      if (pdfHeight <= pageHeight) {
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      } else {
+        let heightLeft = pdfHeight;
+
+        while (heightLeft > 0) {
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
+          heightLeft -= pageHeight;
+          position -= pageHeight;
+
+          if (heightLeft > 0) {
+            pdf.addPage();
+          }
+        }
       }
-    };
 
-    html2pdf().from(element).set(options).save();
-  });
+      pdf.save('Final CBP Plan.pdf');
+      this.loading = false
+    }).catch((error) => {
+      console.error('PDF generation error:', error);
+      this.loading = false; // Stop loader on error
+    });
 }
 }

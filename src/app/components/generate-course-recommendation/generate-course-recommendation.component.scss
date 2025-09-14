@@ -41,7 +41,7 @@ line-height: normal;
 .label {
     color: var(--Body-Text-Body-Color, #212529);
 font-family: Lato;
-font-size: 14px;
+font-size: 16px;
 font-style: normal;
 font-weight: 700;
 line-height: 150%; /* 21px */
@@ -278,7 +278,7 @@ background: #0080001c;
 .ai-recommened-pill-green-text {
     color: darkgreen;
 font-family: Lato;
-font-size: 12px;
+font-size: 14px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
@@ -297,7 +297,7 @@ background: rgba(27, 76, 161, 0.16);
 .ai-recommened-pill-public-text {
     color: #1B4CA1;
 font-family: Lato;
-font-size: 12px;
+font-size: 14px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
@@ -316,7 +316,36 @@ background: lightgray
 .ai-recommened-pill-gray-text {
     color: #000;
 font-family: Lato;
-font-size: 12px;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+
+.ai-recommened-pill-orange {
+    display: flex;
+padding: 4px 8px;
+align-items: center;
+gap: 8px;
+border-radius: var(--Radius-4, 4px);
+// border: 1px solid #1B4CA1;
+background: #ffa50052;
+}
+
+.ai-recommened-pill-orange-text {
+    color: #5a3f0d;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+}
+
+
+.ai-recommened-pill-orange-text a{
+    color: #5a3f0d !important;
+font-family: Lato;
+font-size: 14px;
 font-style: normal;
 font-weight: 700;
 line-height: normal;
@@ -344,20 +373,20 @@ line-height: 30px; /* 150% */
 .course-desc {
     color: rgba(0, 0, 0, 0.60);
 font-family: Lato;
-font-size: 14px;
+font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
 }
 
 .relevancy , .competencies-matched{
-color: var(--accessbility-shades-with-opacity-kb-greys-black-60, rgba(0, 0, 0, 0.60));
+color: #000;
 
 /* Body 2 */
 font-family: Lato;
 font-size: 14px;
 font-style: normal;
-font-weight: 400;
+font-weight: 700;
 line-height: normal;
 align-items: center;
 }
@@ -365,7 +394,7 @@ align-items: center;
 .percentage {
     color: #1D8923;
 font-family: Lato;
-font-size: 14px;
+font-size: 16px;
 font-style: normal;
 font-weight: 800;
 line-height: normal;
@@ -398,7 +427,7 @@ line-height: normal;
   }
   
   .course-list-item {
-    flex: 0 0 48%; /* Two items per row with space for gap */
+    flex: 0 0 100%; /* Two items per row with space for gap */
     box-sizing: border-box;
     border: 1px solid #ccc;
     padding: 16px;
@@ -407,7 +436,8 @@ line-height: normal;
   }
 
   .checked-course-container {
-    display: flex
+    display: flex;
+    width:60%;
   }
 
   .ml-2 {
@@ -611,10 +641,11 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #F8B861;
 background: linear-gradient(0deg, rgba(248, 184, 97, 0.32) 0%, rgba(248, 184, 97, 0.32) 100%), #FFF;
 margin: 5px 0;
+font-size: 16px;
 }
 
 .functional-pill {
@@ -623,10 +654,11 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #E24577;
 background: linear-gradient(0deg, rgba(226, 69, 119, 0.24) 0%, rgba(226, 69, 119, 0.24) 100%), #FFF;
 margin: 5px 0;
+font-size: 16px;
 }
 
 .domain-pill {
@@ -635,10 +667,11 @@ padding: 0px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 99px;
+border-radius: 32px;
 border: 1px solid #7B47A4;
 background: linear-gradient(0deg, rgba(123, 71, 164, 0.24) 0%, rgba(123, 71, 164, 0.24) 100%), #FFF;
 margin: 5px 0;
+font-size: 16px;
 }
 
 .popup-header {
@@ -704,22 +737,24 @@ margin: 5px 0;
   .competency-list {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 0px;
+    flex-wrap: wrap;
   }
 
   .competency-text {
     color: #000;
 font-family: Lato;
-font-size: 10px;
+font-size: 14px;
 font-style: normal;
-font-weight: 700;
+font-weight: normal;
 line-height: normal;
+padding: 5px 10px;
   }
 
   .competency-sub-heading {
     color: #1B4CA1;
 font-family: Montserrat;
-font-size: 12px;
+font-size: 16px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -772,3 +807,50 @@ border: none;
     justify-content: center;
     align-items: center;
 }
+
+.competencis-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap:16px;
+}
+.grid-list-item-behavioral div{
+    border-left: 2px solid darkorange;
+  }
+  .grid-list-item-functional div{
+    border-left: 2px solid #ff1493;
+  }
+  .grid-list-item-domain div{
+    border-left: 2px solid #6b21a8;
+  }
+  .competencies-grid-3 {
+    width: 33%;
+  }
+  .bg-blue-50 { background-color: #FDE8CC; border-radius: 4px; }
+.bg-green-50 { background-color: #F8D2DE; border-radius: 4px;}
+.bg-purple-50 { background-color: #DFD3E9;border-radius: 4px;}
+
+.grid-list-item div{
+    padding: 5px 10px;
+    margin: 10px 0px;
+  }
+
+  .course-pill-container {
+    display: flex;
+    gap:8px
+  }
+
+  .relevancy-pill-green {
+    display: flex;
+padding: 0px 8px;
+align-items: center;
+gap: 0px;
+border-radius: var(--Radius-4, 4px);
+// border: 1px solid #;
+background: #0080001c;
+  }
+
+  .mt-3 {
+    margin-top: 1.25rem;
+  }
+ 

@@ -9,11 +9,11 @@
             </div>
         </div>
     </div>
-    <div class="section-container">
+    <div class="section-container mt-2">
         <div class="ministry-heading mt-2">
-            {{cbpPlanData?.ministry.name}}
+            {{cbpPlanData?.ministry.name}} / {{planData?.designation_name}}
         </div>
-        <div class="competency-container mt-2">
+        <div class="competency-container mt-4">
             <div class="outside-layer-total">
                 <div class="inside-layer">
                     Total Courses
@@ -102,12 +102,12 @@
                             <div>{{item?.course}}</div>
                         </div>
                     </div>
-                    <div class="course-desc">
+                    <div class="course-desc mt-2">
                         <div>
                             <div>{{item?.rationale}}</div>
                         </div>
                     </div>
-                    <div>
+                    <div class="mt-2">
                         <div class="relevancy-container">
                             <div class="relevancy">Relevancy</div>
                             <div class="dash">-</div>
@@ -172,7 +172,7 @@
     </div>
     <div class="popup-footer">
         <div>
-           
+            <input class="btn-active" type="button" value="Add Personilisation" (click)="addPersonilisation()"/>
         </div>
         <div>
             <input class="btn-active" type="button" value="Add More Courses" (click)="addMoreCourses()"/>
