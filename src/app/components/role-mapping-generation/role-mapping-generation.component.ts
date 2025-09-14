@@ -34,7 +34,7 @@ export class RoleMappingGenerationComponent {
       value: 'Rural development'
     },
     {
-      value: 'Urben development'
+      value: 'Urban development'
     },
     {
       value: 'Healthcare'
