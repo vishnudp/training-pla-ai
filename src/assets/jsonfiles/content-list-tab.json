@@ -1,0 +1,22 @@
+{
+    "tabs": [
+        {
+            "name": "Course", "primaryCategory": "Course" 
+        },
+        {
+            "name": "Program", "primaryCategory": "Program" 
+        },
+        {
+            "name": "Blended Program", "primaryCategory": "Blended Program" 
+        },        
+        {
+            "name": "Curated Program", "primaryCategory": "Curated Program" 
+        },
+        {
+            "name": "Standalone Assessment", "primaryCategory": "Standalone Assessment" 
+        },
+        {
+            "name": "Curated Collections", "primaryCategory": "CuratedCollections" 
+        }
+    ]
+}

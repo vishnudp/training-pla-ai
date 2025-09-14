@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/vishnubansal/IGoT-GCP/sunbird-cb-staticweb/src/app/modules/shared/services/multilingual-translation.service.spec.ts">
+    <testCase name="MultilingualTranslationService constructor should be created" duration="4"/>
+    <testCase name="MultilingualTranslationService constructor should initialize with &quot;en&quot; as the default language" duration="1"/>
+    <testCase name="MultilingualTranslationService constructor should have languages array with &quot;en&quot; and &quot;hi&quot;" duration="1"/>
+    <testCase name="MultilingualTranslationService initializeLanguage should initialize with language from localStorage if available" duration="2"/>
+    <testCase name="MultilingualTranslationService initializeLanguage should set default language and save to localStorage if no language is stored" duration="2"/>
+    <testCase name="MultilingualTranslationService setlanguageChange should emit new language value" duration="1"/>
+  </file>
+</testExecutions>

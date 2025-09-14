@@ -1,0 +1,152 @@
+<div class="view-cbp-plan">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div>
+                <div class="heading">View Course Recommendation</div>
+            </div>
+            <div class="cursor-pointer" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="section-container">
+        <div class="ministry-heading mt-2">
+            {{cbpPlanData?.ministry.name}}
+        </div>
+        <div class="competency-container mt-2">
+            <div class="outside-layer-total">
+                <div class="inside-layer">
+                    Total Courses
+                </div>
+                <div class="count">
+                    {{competenciesCount?.total}}
+                </div>
+            </div>
+            <div class="outside-layer-total">
+                <div class="inside-layer">
+                    iGOT Platform Courses
+                </div>
+                <div class="count">
+                    {{competenciesCount?.public_courses}}
+                </div>
+            </div>
+            <div class="outside-layer-total">
+                <div class="inside-layer">
+                    Public Courses
+                </div>
+                <div class="count">
+                    {{competenciesCount?.igot}}
+                </div>
+            </div>
+            
+        </div>
+        <div class="my-4">
+        
+            <div class="course-list-container">
+                <div class="course-list-item" *ngFor="let item of filterdCourses">
+                    <div class="course-header">
+                        <div class="checked-course-container">
+                           
+                            <div>
+                                <div class="course-pill">
+                                    <div class="course-pill-text">Course</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div class="ai-recommened-pill">
+                                <div class="ai-recommened-pill-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    <span>AI Recommended</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-title">
+                        <div>
+                            <div>{{item?.course}}</div>
+                        </div>
+                    </div>
+                    <div class="course-desc">
+                        <div>
+                            <div>{{item?.rationale}}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="relevancy-container">
+                            <div class="relevancy">Relevancy</div>
+                            <div class="dash">-</div>
+                            <div class="percentage">{{item?.relevancy}}%</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="competencies-matched-container">
+                            <div class="competencies-matched">Competencies Matched</div>
+                            <div class="dash">-</div>
+                            <div class="percentage">80%</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="course-list-item">
+                    <div class="course-header">
+                        <div>
+                            <div class="course-pill">
+                                <div class="course-pill-text">Course</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="ai-recommened-pill">
+                                <div class="ai-recommened-pill-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    <span>AI Recommended</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-title">
+                        <div>
+                            <div>Maternal, Infant And Young Child Nutrition</div>
+                        </div>
+                    </div>
+                    <div class="course-desc">
+                        <div>
+                            <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                which is
+                                to provide and educate on nutrition for mother and young children</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="relevancy-container">
+                            <div class="relevancy">Relevancy</div>
+                            <div class="dash">-</div>
+                            <div class="percentage">90%</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="competencies-matched-container">
+                            <div class="competencies-matched">Competencies Matched</div>
+                            <div class="dash">-</div>
+                            <div class="percentage">80%</div>
+                        </div>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <div>
+           
+        </div>
+        <div>
+            <input class="btn-active" type="button" value="Add More Courses" (click)="addMoreCourses()"/>
+        </div>
+    </div>
+</div>
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

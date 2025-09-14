@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "ഞങ്ങളെക്കുറിച്ച്",
+        "missionKarmayogi": "മിഷൻ കർമ്മയോഗി",
+        "newsroom": "വാർത്താ മുറി",
+        "contactUs": "ഞങ്ങളെ ബന്ധപ്പെടുക",
+        "login": "ലോഗിൻ ചെയ്യുക",
+        "register": "രജിസ്റ്റർ ചെയ്യുക"
+    },
+    "topBanner": {
+        "iGot": "ഐജിഒടി",
+        "karmayogi": "കർമ്മയോഗി",
+        "slogans1": "വൻതോതിലുള്ള ശേഷി വർദ്ധന സംരംഭം",
+        "followUs": "ഞങ്ങളെ പിന്തുടരുക",
+        "slogans2": "സർക്കാർ ഉദ്യോഗസ്ഥരുടെ പരിവർത്തനം, ഇന്ത്യയുടെ പരിവർത്തനം",
+        "slogans3": "'നിയമങ്ങൾ അടിസ്ഥാനമാക്കിയുള്ള' ഭരണം മുതൽ 'റോളുകൾ അടിസ്ഥാനമാക്കിയുള്ള' ഭരണം",
+        "slogans4": "സിവിൽ സർവീസുകാരെ പരിവർത്തനം ചെയ്യുകയും ശാക്തീകരിക്കുകയും ചെയ്യുക",
+        "slogans5": "'കർമ്മചാരി' മുതൽ 'കർമ്മയോഗി' വരെ",
+        "slogans6": "ഉദ്യോഗസ്ഥരുടെ ശേഷി വർദ്ധിപ്പിക്കൽ",
+        "slogans7": "പുതിയ ഭാരതത്തിനായുള്ള ദർശനത്തിൽ നിന്ന് ദൌത്യ രൂപത്തിലേക്ക്"
+    },
+    "stats": {
+        "karmayogisOnboarded": "മൊത്തം കർമ്മയോഗികൾ കപ്പലിൽ",
+        "totalCourses": "മൊത്തം കോഴ്സുകൾ",
+        "totalCompletitions": "മൊത്തം പൂർത്തീകരണങ്ങൾ",
+        "monthlyActiveUsers": "പ്രതിമാസ സജീവ ഉപയോക്താക്കൾ",
+        "certificatesIssued": "ഇന്നലെ വിതരണം ചെയ്ത സർട്ടിഫിക്കറ്റുകൾ"
+    },
+    "gallery": {
+        "videoGallery": "വീഡിയോ ഗാലറി",
+        "photoGallery": "ഫോട്ടോ ഗാലറി"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "പ്രധാനമന്ത്രിയുടെ ചർച്ചകൾ",
+        "courseSneakPeak": "കോഴ്സ് സ്നീക്ക് പീക്ക്",
+        "karmaYogiTalks": "കർമ്മയോഗി ചർച്ചകൾ"
+    },
+    "solutionSpace": {
+        "learnHub": "ഒരു വ്യക്തിഗത പഠനാനുഭവത്തിലേക്കുള്ള നിങ്ങളുടെ കവാടം",
+        "discussHub": "നിങ്ങളുടെ ആശയങ്ങളും അറിവും ഐജിഒടി കമ്മ്യൂണിറ്റിയിൽ പങ്കിടുക, നിർദ്ദേശിക്കുക, പോസ്റ്റ് ചെയ്യുക",
+        "networkHub": "മന്ത്രാലയങ്ങൾ, വകുപ്പുകൾ, സംഘടനകൾ എന്നിവയിലുടനീളമുള്ള സമപ്രായക്കാരുമായി ബന്ധപ്പെടുകയും സഹകരിക്കുകയും ചെയ്യുക.",
+        "eventsHub": "നിങ്ങളുടെ കഴിവുകൾ വർദ്ധിപ്പിക്കുന്നതിനായി ഇവന്റുകൾ, വർക്ക്ഷോപ്പുകൾ, സംവേദനാത്മക സെഷനുകൾ എന്നിവയിൽ പങ്കെടുക്കുക.",
+        "competencyHub": "നിങ്ങളുടെ സ്ഥാനത്തിനായുള്ള ശുപാർശ ചെയ്യപ്പെടുന്ന കഴിവുകൾ കോമ്പറ്റൻസി ഹബ് വിശദമാക്കുന്നു, അങ്ങനെ നിങ്ങളുടെ വളർച്ചാ അവസരങ്ങൾ വർദ്ധിപ്പിക്കുന്നു.",
+        "careerHub": "നിങ്ങളുടെ അഭിലാഷങ്ങളുമായി പൊരുത്തപ്പെടുന്ന കരിയർ പാതകൾ കണ്ടെത്തുക.",
+        "title": "കർമ്മയോഗി ഹബ്ബുകൾ"
+    },
+    "walkThrough": {
+        "whatIsIGot": "എന്താണ് ഐഗോട്ട്",
+        "howToLoginAndRegister": "എങ്ങനെ ലോഗിൻ ചെയ്ത് രജിസ്റ്റർ ചെയ്യാം",
+        "igotWalkthrough": "ഐജിഒടി വാക്ക് ത്രൂ"
+    },
+    "courses": {
+        "showcasedCourses": "പ്രദർശിപ്പിച്ച കോഴ്സുകൾ",
+        "showAll":"എല്ലാം കാണിക്കുക"
+    },
+    "socailHub": {
+        "socailHub": "സോഷ്യൽ ഹബ്",
+        "followUs": "ഞങ്ങളെ പിന്തുടരുക"
+    },
+    "newsRoom": "വാർത്താ മുറി",
+    "testimonial": "സാക്ഷ്യപത്രങ്ങൾ",
+    "partners": "ഉള്ളടക്ക പങ്കാളികൾ",
+    "aboutUs": {
+        "title": "ഞങ്ങളെക്കുറിച്ച്",
+        "content1": "2020 സെപ്റ്റംബറിൽ ഇന്ത്യാ ഗവൺമെന്റ് സിവിൽ സർവീസസ് കപ്പാസിറ്റി ബിൽഡിംഗിനുള്ള ദേശീയ പരിപാടിയായ മിഷൻ കർമ്മയോഗി (എൻ. പി. സി. എസ്. സി. ബി) ആരംഭിച്ചു. നവ ഇന്ത്യയുടെ കാഴ്ചപ്പാടുമായി പൊരുത്തപ്പെടുന്ന ശരിയായ മനോഭാവവും വൈദഗ്ധ്യവും അറിവും ഉപയോഗിച്ച് ഭാവിയിൽ സജ്ജമായ സിവിൽ സർവീസ് കെട്ടിപ്പടുക്കുകയാണ് പരിപാടി ലക്ഷ്യമിടുന്നത്.",
+        "content2": "മിഷൻ കർമ്മയോഗിയുടെ പരിധിയിൽ വരുന്ന ഐ. ജി. ഒ. ടി കർമ്മയോഗി (ഇന്റഗ്രേറ്റഡ് ഗവൺമെന്റ് ഓൺലൈൻ ട്രെയിനിംഗ്) പ്ലാറ്റ്ഫോം സ്വന്തമാക്കുന്നതിനും കൈകാര്യം ചെയ്യുന്നതിനും പരിപാലിക്കുന്നതിനും മെച്ചപ്പെടുത്തുന്നതിനും ഉത്തരവാദിത്തമുള്ള പേഴ്സണൽ, പബ്ലിക് ഗ്രീവൻസസ്, പെൻഷൻസ് മന്ത്രാലയത്തിലെ ഡി. ഒ. പി. ടി സ്ഥാപിച്ച ഇന്ത്യാ ഗവൺമെന്റിന്റെ ഉടമസ്ഥതയിലുള്ള എസ്. പി. വി ആണ് കർമ്മയോഗി ഭാരത്.",
+        "content3": "സർക്കാർ ഉദ്യോഗസ്ഥരുടെ വ്യതിരിക്തമായ വിജ്ഞാന ആവശ്യങ്ങൾ നിറവേറ്റുന്നതിനായി ഇന്ത്യയിൽ നിർമ്മിച്ച ഒരു വലിയ തോതിലുള്ള സമഗ്ര പഠന, കരിയർ മാനേജ്മെന്റ് പ്ലാറ്റ്ഫോമാണ് ഐജിഒടി കർമ്മയോഗി.",
+        "content4": "നെറ്റ്വർക്കിംഗ്, പിയർ-ടു-പിയർ ഇടപെടലുകൾ, കരിയർ മാനേജ്മെന്റ് എന്നിവയ്ക്കുള്ള ഉപകരണങ്ങൾ ഉപയോഗിച്ച് തുടർച്ചയായതും സംഘർഷരഹിതവും മാർഗനിർദേശിതവുമായ പഠനത്തിന്റെ അന്തരീക്ഷം പ്ലാറ്റ്ഫോം സൃഷ്ടിക്കും. ഒരു ഡിജിറ്റൽ പ്ലാറ്റ്ഫോമായി വിഭാവനം ചെയ്ത ഇത് കോഴ്സുകൾ കഴിവുകൾക്ക് അനുസൃതമായി മാപ്പ് ചെയ്യുന്ന ഒരു ഉള്ളടക്ക വിപണിയായി പരിണമിക്കാനും അതുവഴി എല്ലാ സിവിൽ സർവീസ് ഉദ്യോഗസ്ഥർക്കും ഇഷ്ടാനുസൃതമായ കഴിവ് വർദ്ധിപ്പിക്കാനും ലക്ഷ്യമിടുന്നു."
+    },
+    "conference": {
+        "title": "ഞങ്ങൾ ഇപ്പോൾ വീഡിയോ കോൺഫറൻസ് വഴി ലഭ്യമാണ്.",
+        "support": "ആവശ്യമായ ഏത് പിന്തുണയ്ക്കും",
+        "duration": "തിങ്കൾ മുതൽ വെള്ളി വരെ",
+        "slot": "രാവിലെ 9 മണി മുതൽ വൈകുന്നേരം 5 മണി വരെ",
+        "action": "ഇപ്പോൾ വിളിക്കുക",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "ഡൌൺലോഡ് ചെയ്യുക",
+        "iGot": "ഐജിഒടി",
+        "karmayogi": "കർമ്മയോഗി",
+        "mobile": "മൊബൈൽ",
+        "app": "ആപ്പ്",
+        "description": "നിങ്ങളുടെ ആജീവനാന്ത പഠനാനുഭവം എപ്പോൾ വേണമെങ്കിലും എവിടെയും തുടരുക.",
+        "scanToDownload": "ഡൌൺലോഡ് ചെയ്യാൻ സ്കാൻ ചെയ്യുക"
+    },
+    "footerLinks": {
+        "newsroom": "വാർത്താ മുറി",
+        "faq": "പതിവായി ചോദിക്കുന്ന ചോദ്യങ്ങൾ",
+        "contactUs": "ഞങ്ങളെ ബന്ധപ്പെടുക",
+        "nodalOffice": "നോഡൽ ഓഫീസർമാരുടെ വിശദാംശങ്ങൾ",
+        "doptCircular": "ഡി. ഒ. പി. ടി സർക്കുലർ",
+        "karmayogiCorner": "കർമ്മയോഗി കോർണർ",
+        "missionKarmayogi": "മിഷൻ കർമ്മയോഗി",
+        "dopt": "ഡിഒപിടി",
+        "cpc": "ശേഷി നിർമ്മാണ കമ്മീഷൻ"
+    },
+    "hubNames": {
+        "learnHub": "ഹബ് പഠിക്കുക",
+        "discussHub": "ഹബ് ചർച്ച ചെയ്യുക",
+        "networkHub": "നെറ്റ്വർക്ക് ഹബ്",
+        "eventsHub": "ഇവന്റ്സ് ഹബ്",        
+        "competencyHub": "യോഗ്യതാ കേന്ദ്രം",
+        "careerHub": "കരിയർ ഹബ്"
+    },
+    "nodelHeader": {
+        "organization": "സംഘടന",
+        "ministry": "മന്ത്രാലയം",
+        "nodalName": "നോഡൽ നാമം",
+        "nodalEmail": "നോഡൽ ഇമെയിൽ"
+    },
+    "twitter": "ട്വിറ്റർ",
+    "linkedin": "ലിങ്ക്ഡ്ഇൻ",
+    "hallOfFame": {
+        "title": "പ്രശസ്തിയുടെ മതിൽ",
+        "titleInfo":"കഴിഞ്ഞ മാസം നേടിയ മൊത്തം സ്കോറുകളുടെ അടിസ്ഥാനത്തിൽ മികച്ച 5 എം. ഡി. ഒമാരെ വാൾ ഓഫ് ഫെയിം പ്രദർശിപ്പിക്കുന്നു. ഉപയോക്തൃ അടിത്തറ നിർവചിക്കുകയും എല്ലാ മാസവും ആദ്യ ദിവസം അപ്ഡേറ്റ് ചെയ്യുകയും ചെയ്യുന്ന ടാബുകളും ഇതിൽ ഉൾപ്പെടുത്തും.",
+        "tabHeading_1": "ഉപയോക്തൃ അടിത്തറ",
+        "tabHeading_2": "500ൽ താഴെ",
+        "tabHeading_3": "500-1K",
+        "tabHeading_4": "1കെ-10കെ",
+        "tabHeading_5": "10കെ-50കെ",
+        "tabHeading_6": "50 ആയിരത്തിൽ കൂടുതൽ"
+    },
+    "organisationPartners": {
+        "title": "സംഘടനയുടെ പങ്കാളികൾ",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"പകർപ്പവകാശം © കർമ്മയോഗി ഭാരത് നിയന്ത്രിക്കുന്ന വെബ്സൈറ്റ്.",
+    "CopyrightMobile":"പകർപ്പവകാശം © കർമ്മയോഗി ഭാരത് നിയന്ത്രിക്കുന്ന വെബ്സൈറ്റ്.",
+    "FaqTitle":"എഫ്. എ. ക്യു ചാറ്റ് ബോട്ട്",
+    "karmayogiCorner":"കർമ്മയോഗി കോർണർ",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "Related Links",
+        "support": "Support"
+    }
+}

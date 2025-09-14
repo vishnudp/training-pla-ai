@@ -1,0 +1,67 @@
+<div class="container">
+    <mat-card class="mt-2" [formGroup]="roleMappingForm">
+        <div class="section-header">
+            <div class="sub-heading">
+                <p>Choose the ministry or organisation for role mapping</p>
+            </div>
+            <div>
+                <input [disabled]="roleMappingForm?.invalid" [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate Role Mapping" (click)="onGenerateRoleMapping()" />
+            </div>
+        </div>
+
+        <div class="radio-group mt-4">
+            <mat-radio-group class="radio-btn-group" formControlName="ministryType" [(ngModel)]="selectedMinistryType"
+                (change)="onMinistryTypeChange($event)">
+                <mat-radio-button value="center" class="radio-btn"><span
+                        class="radio-label">Center</span></mat-radio-button>
+                <mat-radio-button value="state" class="radio-btn"><span
+                        class="radio-label">State</span></mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="mt-4">
+            <label class="label">Ministry</label>
+            <div>
+                <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px;">
+                    <mat-select  placeholder="Select Ministry" (selectionChange)="onMinistryChange($event)" formControlName="ministry" style="border-radius: 25px; background: white;">
+                        <mat-option [value]="item?.id" *ngFor="let item of ministryData">{{item?.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mt-4">
+            <label class="label">Sector</label>
+            <div>
+                <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px;">
+                    <mat-select placeholder="Select Sector" multiple formControlName="sectors"
+                        style="border-radius: 25px; background: white;">
+                        <mat-option [value]="item?.value"
+                            *ngFor="let item of sectorData">{{item?.value}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="mt-4" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <label class="label">Department</label>
+            <div>
+                <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px;">
+                    <mat-select placeholder="Select Department" formControlName="departments"
+                        style="border-radius: 25px; background: white;">
+                        <mat-option [value]="item?.id"
+                            *ngFor="let item of departmentData">{{item?.name}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="mt-4 additional-details" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <textarea rows="5" placeholder="Additional details" formControlName="additionalDetails"></textarea>
+        </div>
+    </mat-card>
+</div>
+
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

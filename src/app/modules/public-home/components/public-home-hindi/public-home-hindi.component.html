@@ -1,0 +1,58 @@
+<app-header [headerData]="headerData"></app-header>
+
+<!-- Igot slider section start here -->
+<section class="igot-slider">
+    <app-slider [slidesList]="slidesList"></app-slider>
+  </section>
+
+<section id="dashboardAnalytics" class="section igotAnalytics pt-4 pt-md-5">
+    <div class="container">
+        <div class="row d-flex igotAnalyticsMobile">
+            <app-dashboard-analytics [dashboardAnalyticsList]="dashboardAnalyticsList"></app-dashboard-analytics>
+        </div>
+    </div>
+
+
+</section>
+<!-- Features course section start here -->
+<app-nav-slider [navSlideData]="featuredCourses"></app-nav-slider>
+<!-- end here -->
+<div class="igotVision mb-5 pb-2">
+    <app-igot-vision [igonVisionDetails]="igonVisionDetails"></app-igot-vision>
+  </div>
+
+  <div class="igotRegister mt-0 mt-md-2">
+    <app-register [registerDetails]="registerDetails"></app-register>
+  </div>
+
+  <div class="igotHub mt-2 pt-2">
+    <app-solution-space [solutionSpace]="solutionSpace"></app-solution-space>
+  </div>
+  <div class="igotHub mt-2 pt-2">
+    <app-video-conference [conferanceData]="conferanceData"></app-video-conference>
+  </div>
+
+<div class="igotPortalSection">
+    <app-quick-walk-through [quickWalkThroughDetails]="quickWalkThroughDetails"></app-quick-walk-through>
+  </div>
+
+<app-mobileapp-download [mobileAppDownloadDetails]="mobileAppDownloadDetails"></app-mobileapp-download>
+  
+
+<section class="comp-seperator">
+    <div class="container">
+        <hr>
+    </div>
+</section>
+
+<app-app-download [mobileviewAppDownloadDetails]="mobileviewAppDownloadDetails"></app-app-download>
+
+<div class="footer footer-nav">
+    <app-footer-nav [navFooterDetails]="navFooterDetails"></app-footer-nav>
+  </div>
+  
+  <app-footer [footerDetails]="footerDetails"></app-footer>
+<div class="need_help_box" style="display:none">
+    <a class="rotate need_help_btn" id="needHelpLink" href="">
+        Need help? </a>
+</div>

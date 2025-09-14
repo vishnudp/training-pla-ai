@@ -1,0 +1,338 @@
+<div class="role-mapping-container">
+    <div class="container">
+        <div class="view-final-cbp-plan">
+            <div class="view-final-cbp-plan-text cursor-pointer" (click)="viewFinalCBPPlan()">
+                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span><span>View Final CBP Plan</span>
+            </div>
+            
+        </div>
+        <mat-card class="mt-2">
+            <div class="section-header">
+                <div class="sub-heading">
+                    <p>Role Mapping</p>
+                </div>
+                
+            </div>
+            <div class="edit-section">
+                <div class="select-map-route-container">
+                    <div class="selected-mapping-route">
+                        <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">/{{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span></p>
+                    </div>
+                    <div class="edit-plan cursor-pointer" (click)="moveToInitialScreenLayout('edit')">
+                        <mat-icon>edit</mat-icon>Edit
+                    </div>
+                    <div class="cursor-pointer ml-10">
+                        <input class="btn-active" value="+ Add New CBP Plan" (click)="moveToInitialScreenLayout('add')" />
+                    </div>
+                </div>
+            </div>
+            <div class="search-filter-section mt-4">
+                <div class="search flex margin-right-m">
+                    <label class="label">Search</label>
+                    <div class="mt-2">
+                        <div class="search-container">
+                            <div class="rsearch">
+                                <mat-icon
+                                    class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                <input class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                    (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                    placeholder="Search by designation name or wing/division..." type="Standard">
+                            </div>
+                            <div class="pl-2 mt-2">
+                                <input [disabled]="searchText.trim()?.length === 0" [ngClass]="searchText.trim()?.length === 0 ? 'btn-disable':'btn-active'" type="button" value="Search" (click)="applyFilter()" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="filter-section flex">
+                    <!-- <div>
+                        <label class="label">Filter by competency type</label>
+                        <div>
+                            <mat-form-field appearance="fill"
+                                style="background: white; border-radius: 25px; padding: 0 12px;">
+                                <mat-select [(value)]="selectedValue" placeholder="Select Ministry"
+                                    style="border-radius: 25px; background: white;">
+                                    <mat-option [value]="'test'">Test</mat-option>
+                                    <mat-option [value]="'another'">Another</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <div class="btn-group">
+                        <div>
+                            <input class="btn-active" type="button" value="Add More Designation" (click)="addMoreDesignation()"/>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-container">
+                <div class="sidenav-content">
+                    <div class="table-class">
+                        <ng-container *ngIf="dataSource?.filteredData?.length > 0">
+                            <!-- <table mat-table [dataSource]="dataSource">
+                                <ng-container matColumnDef="RequestId">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Request ID </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">{{element?.demand_id}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="title">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Title </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">{{element?.title}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="requestor">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Requestor </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">{{element?.ownerName}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="requestType">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Request Type </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">{{element?.requestType}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="requestStatus">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Request Status </th>
+
+                                    <td mat-cell class="title-class" *matCellDef="let element">
+                                        <span [ngClass]="getStatusClass(element?.status)">{{element?.status ===
+                                            statusKey.fullfill ? 'Fulfilled'
+                                            : element?.status}}</span>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="assignee">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Assignee </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">
+                                        {{element?.assignedProvider ?
+                                        element?.assignedProvider : 'Not Assigned' }}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="requestedOn">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Requested On </th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">{{element?.createdOn |
+                                        date}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="interests">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Interests</th>
+                                    <td mat-cell class="title-class" *matCellDef="let element">
+                                        <a class="action-btn-view" *ngIf="element?.interestCount!== 0"
+                                            href="javascript:void(0)" [ngStyle]="getPointerEventsStyle(element)">
+                                            <span (click)="handleClick(element)">
+                                                {{element?.interestCount}}
+                                            </span></a>
+                                        <a class="" *ngIf="element?.interestCount === 0"
+                                            href="javascript:void(0)">{{element?.requestType ==
+                                            'Single' ? 'N/A' : element?.interestCount}}</a>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="details">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading">Details</th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <mat-icon (click)="navigateToDetails(element?.demand_id)"
+                                            class="cursor-pointer">visibility</mat-icon>
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef class="row-heading"></th>
+                                    <td mat-cell *matCellDef="let element">
+
+
+                                        <span>
+                                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                aria-label="Example icon-button with a menu">
+                                                <mat-icon>more_vert</mat-icon>
+                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <button mat-menu-item (click)="onClickMenu(element,'viewContent')">
+                                                    <span>View</span>
+                                                </button>
+                                                <button
+                                                    *ngIf="element?.status === statusKey.Unassigned && element?.status!== statusKey.Inprogress &&  element?.status!== statusKey.invalid "
+                                                    mat-menu-item (click)="onClickMenu(element,'invalidContent')">
+                                                    <span>Mark as invalid</span>
+                                                </button>
+                                                <button mat-menu-item
+                                                    *ngIf="element?.status!== statusKey.Assigned && element?.interestCount >0 && element?.status!== statusKey.Inprogress &&  element?.status!== statusKey.invalid && element?.status!==statusKey.fullfill"
+                                                    (click)="onClickMenu(element,'assignContent')">
+                                                    <span>Assign</span>
+                                                </button>
+                                                <button
+                                                    *ngIf="element?.status === statusKey.Assigned && element?.status!== statusKey.Inprogress &&  element?.status!== statusKey.invalid && element?.status!==statusKey.fullfill "
+                                                    mat-menu-item (click)="onClickMenu(element,'reAssignContent')">
+                                                    <span> Re-Assign</span>
+                                                </button>
+                                                <button mat-menu-item (click)="onClickMenu(element,'copyContent')">
+                                                    <span>Copy</span>
+                                                </button>
+                                            </mat-menu>
+                                        </span>
+                                    </td>
+
+
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="table-row-data"></tr>
+                                <tr mat-row *matRowDef="let row;columns:displayedColumns"></tr>
+
+
+                            </table> -->
+                            <mat-card>
+                                <div class="table-container" style="overflow: auto;">
+                                  <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+                              
+                                    <!-- Designation Name -->
+                                    <ng-container matColumnDef="designation_name">
+                                      <th mat-header-cell *matHeaderCellDef> Designation Name </th>
+                                      <td mat-cell *matCellDef="let element"> 
+                                       <p class="designation">{{ element.designation_name }} </p> 
+                                       <p class="wing-text mt-2">Wing/Division - {{ element.wing_division_section }} </p> 
+                                    </td>
+                                    </ng-container>
+                              
+                                    <!-- Role & Responsibilities -->
+                                    <ng-container matColumnDef="role_responsibilities">
+                                      <th mat-header-cell *matHeaderCellDef> Role & Responsibilities </th>
+                                      <td mat-cell *matCellDef="let element">
+                                        <ul>
+                                          <li class="role-item" *ngFor="let role of (isResponisbilityExpanded(element.id) ? element.role_responsibilities : element.role_responsibilities.slice(0, 2)); let i = index">{{i+1}}.{{ role }}</li>
+                                          <li *ngIf="element.role_responsibilities.length > 2" class="view-more-less cursor-pointer" (click)="toggleResponsibilityExpand(element.id)">
+                                            <span style="color: #1B4CA1;">
+                                              {{ isResponisbilityExpanded(element.id) ? 'View Less' : 'View More' }}
+                                            </span>
+                                          </li>
+                                        </ul>
+                                      </td>
+                                    </ng-container>
+                                    <!-- Activities -->
+                                    <ng-container matColumnDef="activities">
+                                        <th mat-header-cell *matHeaderCellDef> Activities </th>
+                                        <td mat-cell *matCellDef="let element">
+                                          <ul>
+                                            <li class="role-item" *ngFor="let activity of (isActivityExpanded(element.id) ? element.activities : element.activities.slice(0, 2)); let i = index">{{i+1}}.{{ activity }}</li>
+                                            <li *ngIf="element.activities.length > 2" class="view-more-less cursor-pointer" (click)="toggleActivityExpand(element.id)">
+                                              <span style="color: #1B4CA1;">
+                                                {{ isActivityExpanded(element.id) ? 'View Less' : 'View More' }}
+                                              </span>
+                                            </li>
+                                          </ul>
+                                        </td>
+                                      </ng-container>
+                              
+                                    <!-- Behavioral Competencies -->
+                                    <ng-container matColumnDef="behavioral">
+                                      <th mat-header-cell *matHeaderCellDef> Behavioral Competencies </th>
+                                      <td mat-cell *matCellDef="let element">
+                                        <ul class="competency-list">
+                                          <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType(element.competencies, 'Behavioral')">
+                                           <span class="competency-text"> {{ comp.theme }} </span>
+                                          </li>
+                                        </ul>
+                                      </td>
+                                    </ng-container>
+                              
+                                    <!-- Functional Competencies -->
+                                    <ng-container matColumnDef="functional">
+                                      <th mat-header-cell *matHeaderCellDef> Functional Competencies </th>
+                                      <td mat-cell *matCellDef="let element">
+                                        <ul class="competency-list">
+                                          <li class="functional-pill" *ngFor="let comp of getCompetenciesByType(element.competencies, 'Functional')">
+                                            <span class="competency-text"> {{ comp.theme }} </span>
+                                          </li>
+                                        </ul>
+                                      </td>
+                                    </ng-container>
+                              
+                                    <!-- Domain Competencies -->
+                                    <ng-container matColumnDef="domain">
+                                      <th mat-header-cell *matHeaderCellDef> Domain Competencies </th>
+                                      <td mat-cell *matCellDef="let element">
+                                        <ul class="competency-list">
+                                          <li class="domain-pill" *ngFor="let comp of getCompetenciesByType(element.competencies, 'Domain')">
+                                            <span class="competency-text"> {{ comp.theme }} </span>
+                                          </li>
+                                        </ul>
+                                      </td>
+                                    </ng-container>
+                              
+                                    <!-- Actions -->
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef> Action </th>
+                                        <td mat-cell *matCellDef="let element">
+                                          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+                                            <mat-icon>more_vert</mat-icon>
+                                          </button>
+                                          <mat-menu #actionMenu="matMenu">
+                                            <button mat-menu-item (click)="editRoleMapping(element)">
+                                              <mat-icon>edit</mat-icon>
+                                              <span>Edit Role Mapping</span>
+                                            </button>
+                                            <button mat-menu-item (click)="viewCBPPlan(element)">
+                                              <mat-icon>visibility</mat-icon>
+                                              <span>View Role Mapping</span>
+                                            </button>
+                                            <button mat-menu-item (click)="generateCourseRecommendation(element)">
+                                              <mat-icon>school</mat-icon>
+                                              <span>Generate Course Recommendation</span>
+                                            </button>
+                                            <button mat-menu-item (click)="viewCourseRecommendation(element)">
+                                              <mat-icon>preview</mat-icon>
+                                              <span>View Course Recommendation</span>
+                                            </button>
+                                            <button mat-menu-item (click)="deleteRoleMapping(element)">
+                                                <mat-icon>delete</mat-icon>
+                                                <span>Delete Role Mapping</span>
+                                              </button>
+                                          </mat-menu>
+                                        </td>
+                                      </ng-container>
+                              
+                                    <!-- Header & Rows -->
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                  </table>
+                              
+                                  <!-- Pagination -->
+                                  <mat-paginator [length]="dataSource?.data.length"
+                                                 [pageSize]="5"
+                                                 [pageSizeOptions]="[5, 10, 20]"
+                                                 showFirstLastButtons>
+                                  </mat-paginator>
+                                </div>
+                              </mat-card>
+                              
+                        </ng-container>
+
+                        <div class="no-cbp-data" *ngIf="dataSource?.filteredData?.length === 0">
+                            <div><img src="/mdo-assets/images/no-content-data.svg" alt="no-content"></div>
+                            <div>No Request yet made</div>
+                            <div class=" margin-top-m no-content-create">
+                                <button mat-button type="button" class="search-btns"
+                                    [routerLink]="['/app/home/create-request-form']">Request Content</button>
+                            </div>
+
+                        </div>
+
+                        <!-- <mat-paginator *ngIf="dataSource?.filteredData?.length > 0" [pageSize]="pageSize"
+                            [length]="this.requestCount" [pageSizeOptions]="[10,20,40]"
+                            (page)="onChangePage($event)"></mat-paginator> -->
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>

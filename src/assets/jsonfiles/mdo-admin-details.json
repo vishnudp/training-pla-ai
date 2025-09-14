@@ -1,0 +1,597 @@
+{
+    "headerInfo": {
+        "org_head": "Organization",
+        "ministry_head": "Ministry",
+        "admin_head": "Nodal Name",
+        "admin_email_head": "Nodal Email"
+    },
+    "content": [
+      {
+       "Organization": "D\/o Agriculture & Farmers Welfare",
+       "Ministry": "M\/o Agriculture & Farmers Welfare",
+       "Nodal Name": "Shri.Chandan Kumar, (US)",
+       "Nodal Email": "us-it[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Agricultural Research & Education",
+       "Ministry": "M\/o Agriculture & Farmers Welfare",
+       "Nodal Name": "Mr. Shaleen Agrawal",
+       "Nodal Email": "dirdare[dot]icar[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o AYUSH",
+       "Ministry": "M\/o AYUSH",
+       "Nodal Name": "Shri Abdul Sadiq Khan",
+       "Nodal Email": "khan[dot]as[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Chemicals & Petrochemicals",
+       "Ministry": "M\/o Chemicals & Fertilizers",
+       "Nodal Name": "Shri Kanishkant Srivastava",
+       "Nodal Email": "kanishk[dot]kant[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Fertilizers",
+       "Ministry": "M\/o Chemicals & Fertilizers",
+       "Nodal Name": "Shri Johan Topno",
+       "Nodal Email": "mdoadmn-fert-igot[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Pharmaceuticals",
+       "Ministry": "M\/o Chemicals & Fertilizers",
+       "Nodal Name": "Shri Sandeep Kumar",
+       "Nodal Email": "usadmn-pharma[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Civil Aviation",
+       "Ministry": "M\/o Civil Aviation",
+       "Nodal Name": "Shri Kumar Saurabh Raj",
+       "Nodal Email": "saurabh[dot]kumar11[at]ias[dot]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Coal",
+       "Ministry": "M\/o Coal",
+       "Nodal Name": "Shri Kishore Kumar",
+       "Nodal Email": "kishore[dot]k[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Commerce",
+       "Ministry": "M\/o Commerce & Industry",
+       "Nodal Name": "Shri Ravinder Kumar",
+       "Nodal Email": "kumar[dot]ravinder66[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/f Promotion of Industry & Internal Trade",
+       "Ministry": "M\/o Commerce & Industry",
+       "Nodal Name": "Mr. Rajeev Kumar Jain",
+       "Nodal Email": "igot[dot]dpiitadmin[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Posts",
+       "Ministry": "M\/o Communications",
+       "Nodal Name": "Shri Dinesh Kumar Sharma",
+       "Nodal Email": "ddgtraining[at]indiapost[dot]gov[dot]in"
+      },
+      {
+       "Organization": "Ministry of Communications- Department of Telecommunications",
+       "Ministry": "M\/o Communications",
+       "Nodal Name": "Mr. Rajeev Sharma",
+       "Nodal Email": "dirtrg-dot[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Consumer Affairs",
+       "Ministry": "M\/o Consumer Affairs, Food & Public Distribution",
+       "Nodal Name": "Shri Vineet Mathur",
+       "Nodal Email": "mdoadmn-dca-igot[at]karmayogi[dot]in"
+      },
+      {
+       "Organization": "D\/o Food & Public Distribution",
+       "Ministry": "M\/o Consumer Affairs, Food & Public Distribution",
+       "Nodal Name": "Shri Sangeet Kumar",
+       "Nodal Email": "usadm[dot]fpd[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Cooperation",
+       "Ministry": "M\/o Cooperation",
+       "Nodal Name": "Shri Sanjeev Kumar",
+       "Nodal Email": "sanjeev[dot]kumar29[at]nic.in"
+      },
+      {
+       "Organization": "M\/o Corporate Affairs",
+       "Ministry": "M\/o Corporate Affairs",
+       "Nodal Name": "Shri Prashant Rastogi",
+       "Nodal Email": "igotmca-admin[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Culture",
+       "Ministry": "M\/o Culture",
+       "Nodal Name": "Shri Arvind Kumar",
+       "Nodal Email": "soestt-culture[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Defence",
+       "Ministry": "M\/o Defence",
+       "Nodal Name": "Chetan Dass",
+       "Nodal Email": "\nuscbu-mod@gov.in"
+      },
+      {
+       "Organization": "D\/o Defence Production",
+       "Ministry": "M\/o Defence",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "D\/o Defence Research & Development",
+       "Ministry": "M\/o Defence",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "D\/o Ex-Servicemen Welfare",
+       "Ministry": "M\/o Defence",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "D\/o Military Affairs",
+       "Ministry": "M\/o Defence",
+       "Nodal Name": "Shri Raja Ram Meena",
+       "Nodal Email": "rajar[dot]meena[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Development of North Eastern Region",
+       "Ministry": "M\/o Development of North Eastern Region",
+       "Nodal Name": "Shri Vijay Balayan",
+       "Nodal Email": "mdoadmn-mdoner-igot[at]karmayogi[dot]in \nvk[dot]balayan[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Earth Sciences",
+       "Ministry": "M\/o Earth Sciences",
+       "Nodal Name": "Shri Maheshkumar Rajamma Sukumaran",
+       "Nodal Email": "mahesh[dot]rs[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Higher Education",
+       "Ministry": "M\/o Education",
+       "Nodal Name": "Shri Vishwajeet Kumar",
+       "Nodal Email": "vishwajeet[dot]kumar[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o School Education & Literacy",
+       "Ministry": "M\/o Education",
+       "Nodal Name": "Smt. Rashi Sharma",
+       "Nodal Email": "rashi[dot]edu[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Electronics & Information Technology",
+       "Ministry": "M\/o Electronics & Information Technology",
+       "Nodal Name": "Shri Devendra Pal",
+       "Nodal Email": "roop[dot]kishor[at]meity[dot]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Environment, Forest & Climate Change",
+       "Ministry": "M\/o Environment, Forest & Climate Change",
+       "Nodal Name": "Shri Anand Kumar Prabhaka",
+       "Nodal Email": "or154[at]ifs[dot]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o External Affairs",
+       "Ministry": "M\/o External Affairs"
+      },
+      {
+       "Organization": "M\/o External Affairs",
+       "Ministry": "M\/o External Affairs",
+       "Nodal Name": "Shri Nithin K",
+       "Nodal Email": "usga[at]mea[dot]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o of Economic Affairs",
+       "Ministry": "M\/o of Finance",
+       "Nodal Name": "Shri. Virender Singh",
+       "Nodal Email": "virender[dot]justa[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Expenditure",
+       "Ministry": "M\/o Finance",
+       "Nodal Name": "Shri Avinash K Nilankar",
+       "Nodal Email": "igotdoe-admin[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Public Enterprises",
+       "Ministry": "M\/o Finance",
+       "Nodal Name": "Shri Kranti Kumar",
+       "Nodal Email": "kranti[dot]kumar84[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Revenue",
+       "Ministry": "M\/o Finance",
+       "Nodal Name": "Shri. Smarak Swain, Director",
+       "Nodal Email": "smarak[dot]swain[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Investment & Public Asset Management",
+       "Ministry": "M\/o Finance",
+       "Nodal Name": "Shri Amarjeet Singh",
+       "Nodal Email": "amarjeet[dot]singh[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Financial Services",
+       "Ministry": "M\/o Finance",
+       "Nodal Name": "Shri VVS Khairyat",
+       "Nodal Email": "igotdfsadmin[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Animal Husbandry & Dairying",
+       "Ministry": "M\/o Fisheries, Animal Husbandry & Dairying",
+       "Nodal Name": "Shri S.C. Srivastav",
+       "Nodal Email": "mdoadmn-igot[at]dahd[dot]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Fisheries",
+       "Ministry": "M\/o Fisheries, Animal Husbandry & Dairying",
+       "Nodal Name": "Shri S.K. Jha",
+       "Nodal Email": "admn-fishery[at]dof[dot]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Food Processing Industries",
+       "Ministry": "M\/o Food Processing Industries",
+       "Nodal Name": "Shri Ajay Kumar",
+       "Nodal Email": "ajay[dot]kr69[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Health & Family Welfare",
+       "Ministry": "M\/o Health & Family Welfare",
+       "Nodal Name": "Shri Subrata Hazra",
+       "Nodal Email": "subrata[dot]hazra[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Health Research",
+       "Ministry": "M\/o Health & Family Welfare",
+       "Nodal Name": "Shri Senapathi",
+       "Nodal Email": "b[dot]senapati[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Heavy Industries",
+       "Ministry": "M\/o Heavy Industries",
+       "Nodal Name": "Shri. Rajesh Kumar (Deputy Secretary)",
+       "Nodal Email": "ds-admn-mhi[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Home",
+       "Ministry": "M\/o Home Affairs",
+       "Nodal Name": "Shri Vishwajeet Gupta",
+       "Nodal Email": "usad2[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Official Language",
+       "Ministry": "M\/o Home Affairs",
+       "Nodal Name": "Shri Anil Kumar",
+       "Nodal Email": "anilkumar-chti[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Border Management",
+       "Ministry": "M\/o Home Affairs",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "Inter State Council Secretariat",
+       "Ministry": "M\/o Home Affairs",
+       "Nodal Name": "Shri Om Prakash Kumar",
+       "Nodal Email": "om[dot]kumar[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Housing & Urban Affairs",
+       "Ministry": "M\/o Housing & Urban Affairs",
+       "Nodal Name": "Shri Rahul Kapoor",
+       "Nodal Email": "rahul[dot]kapoor[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Information & Broadcasting",
+       "Ministry": "M\/o Information & Broadcasting",
+       "Nodal Name": "Shri Rajendra Singh",
+       "Nodal Email": "igotmoib-admin[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Drinking Water & Sanitation",
+       "Ministry": "M\/o Jal Shakti",
+       "Nodal Name": "Shri Sudhir Sinha",
+       "Nodal Email": "ddws_usadm[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Water Resources, River Development & Ganga Rejuvenation",
+       "Ministry": "M\/o Jal Shakti",
+       "Nodal Name": "Shri G.S Panwar",
+       "Nodal Email": "dscoord-dowr[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Labour & Employment",
+       "Ministry": "M\/o Labour & Employment",
+       "Nodal Name": "Shri Rahul Sinha",
+       "Nodal Email": "rahul[dot]sinha81[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Justice",
+       "Ministry": "M\/o Law & Justice",
+       "Nodal Name": "Shri Sanjay Yadav",
+       "Nodal Email": "yadav[dot]sanjay05[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Legal Affairs",
+       "Ministry": "M\/o Law & Justice",
+       "Nodal Name": "Shri Varun Singh Chauhan",
+       "Nodal Email": "mdoadmn-dola-igot[at]karmayogi[dot]in"
+      },
+      {
+       "Organization": "Legislative Department",
+       "Ministry": "M\/o Law & Justice",
+       "Nodal Name": "Shri. Bhoopender Singh Bisht",
+       "Nodal Email": "bhoopender[dot]singh[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Micro, Small & Medium Enterprises",
+       "Ministry": "M\/o Micro, Small & Medium Enterprises",
+       "Nodal Name": "Shri Ashwini Lal",
+       "Nodal Email": "ashwini[dot]lal[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Mines",
+       "Ministry": "M\/o Mines",
+       "Nodal Name": "Shri Kumar Paurush",
+       "Nodal Email": "igotadmin-mines[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Minority Affairs",
+       "Ministry": "M\/o Minority Affairs",
+       "Nodal Name": "Shri Vikas Mohan",
+       "Nodal Email": "usestt-moma[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o New & Renewable Energy",
+       "Ministry": "M\/o New & Renewable Energy",
+       "Nodal Name": "Shri Vasanta Thakur",
+       "Nodal Email": "vasanta[dot]thakur[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Panchayati Raj",
+       "Ministry": "M\/o Panchayati Raj",
+       "Nodal Name": "Shri Subhadeep Das",
+       "Nodal Email": "das[dot]subhadeep[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Parliamentary Affairs",
+       "Ministry": "M\/o Parliamentary Affairs",
+       "Nodal Name": "Shri Mukesh Kumar",
+       "Nodal Email": "mdoadmn-mopa-igot[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Personnel & Training",
+       "Ministry": "M\/o Personnel, Public Grievances & Pensions",
+       "Nodal Name": "Dr. Kartik Hegadekatti",
+       "Nodal Email": "kartik[dot]hegadekatti[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Administrative Reforms & PG",
+       "Ministry": "M\/o Personnel, Public Grievances & Pensions",
+       "Nodal Name": "Shri Narendra Kumar Meena",
+       "Nodal Email": "narendrakumar[dot]meena[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Pension & Pensioners Welfare",
+       "Ministry": "M\/o Personnel, Public Grievances & Pensions",
+       "Nodal Name": "Shri Ruchir Mittal",
+       "Nodal Email": "ruchirmittal[dot]cgda[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Petroleum & Natural Gas",
+       "Ministry": "M\/o Petroleum & Natural Gas",
+       "Nodal Name": "Shri Kapil Verma",
+       "Nodal Email": "mdoadmn-mpng-igot[at]gov[dot]in"
+      },
+      {
+       "Organization": "NITI Aayog",
+       "Ministry": "M\/o Planning",
+       "Nodal Name": "Shri Shib Kumar Sadhu",
+       "Nodal Email": "mdoadmn-igot-niti[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Ports, Shipping & Waterways",
+       "Ministry": "M\/o Ports, Shipping & Waterways",
+       "Nodal Name": "Shri Sandeep Gupta",
+       "Nodal Email": "dir[dot]admin-psw[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Power",
+       "Ministry": "M\/o Power",
+       "Nodal Name": "Shri TSC Bosh, Shri Vinod Kumar Singh, Shri Anshul Bhargava, Shri Dilip Kumar Patel",
+       "Nodal Email": "tscbosh[at]rec[dot]in, vksingh[at]powergrid[dot]in, directorhr[at]posoco[dot]in, dkpatel01[at]ntpc[dot]co[dot]in"
+      },
+      {
+       "Organization": "M\/o Railways",
+       "Ministry": "M\/o Railways",
+       "Nodal Name": "Shri Jitendra Kumar",
+       "Nodal Email": "npcscb[dot]rb[at]gmail[dot]com"
+      },
+      {
+       "Organization": "M\/o Road Transport & Highways",
+       "Ministry": "M\/o Road Transport & Highways",
+       "Nodal Name": "Shri Jitendra Kumar",
+       "Nodal Email": "k[dot]jitendra[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Land Resources",
+       "Ministry": "M\/o Rural Development",
+       "Nodal Name": "Shri Vijay Kaushik",
+       "Nodal Email": "vijay[dot]kaushik[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Rural Development",
+       "Ministry": "M\/o Rural Development",
+       "Nodal Name": "Shri Pradeep Kumar",
+       "Nodal Email": "ds-training-dord[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Bio-Technology",
+       "Ministry": "M\/o Science & Technology",
+       "Nodal Name": "Shri Deo Prakash Chaturvedi",
+       "Nodal Email": "cbu-dbt[at]dbt[dot]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Science & Technology",
+       "Ministry": "M\/o Science & Technology",
+       "Nodal Name": "Shri Umesh Kumar",
+       "Nodal Email": "umeshkumar[dot]edu[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Scientific & Industrial Research",
+       "Ministry": "M\/o Science & Technology",
+       "Nodal Name": "Dr. Nadir Sheikh",
+       "Nodal Email": "nadir[at]csirhrdc[dot]res[dot]in"
+      },
+      {
+       "Organization": "M\/o Skill Development & Entrepreneurship",
+       "Ministry": "M\/o Skill Development & Entrepreneurship",
+       "Nodal Name": "Shri Praveen Kumar",
+       "Nodal Email": "praveenkumar[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Empowerment of Persons with Disabilities",
+       "Ministry": "M\/o Social Justice &Empowerment",
+       "Nodal Name": "Shri Anupam Shukla",
+       "Nodal Email": "anupam[dot]shukla[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Social Justice & Empowerment",
+       "Ministry": "M\/o Social Justice &Empowerment",
+       "Nodal Name": "Shri Narendra Singh,",
+       "Nodal Email": "mdoadmin[dot]dosje-igot[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Statistics & Programme Implementation",
+       "Ministry": "M\/o Statistics & Programme Implementation",
+       "Nodal Name": "Shri Alok Kumar Verma",
+       "Nodal Email": "ddg[dot]nssta[at]mospi[dot]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Steel",
+       "Ministry": "M\/o Steel",
+       "Nodal Name": "Shri Ajit Shah",
+       "Nodal Email": "nodal[dot]igot-steel[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Textiles",
+       "Ministry": "M\/o Textiles",
+       "Nodal Name": "Smt. Jayashree Sivakumar",
+       "Nodal Email": "usadmin-igot-mot[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Tourism",
+       "Ministry": "M\/o Tourism",
+       "Nodal Name": "Shri Prashant Ranjan",
+       "Nodal Email": "igotadmin[dot]tourism[at]gov[dot]in"
+      },
+      {
+       "Organization": "M\/o Tribal Affairs",
+       "Ministry": "M\/o Tribal Affairs",
+       "Nodal Name": "Shri Manoj Kumar Singh",
+       "Nodal Email": "singh[dot]mk[at]nic[dot]in"
+      },
+      {
+       "Organization": "M\/o Women & Child Development",
+       "Ministry": "M\/o Women & Child Development",
+       "Nodal Name": "Shri Kumar Kalikanand [US (Admin)]",
+       "Nodal Email": "kkalikanand[dot]edu[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Sports",
+       "Ministry": "M\/o Youth Affairs & Sports",
+       "Nodal Name": "Smt. Shantha Sharma",
+       "Nodal Email": "shanthasharma-upsc[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Youth Affairs",
+       "Ministry": "M\/o Youth Affairs & Sports",
+       "Nodal Name": "Shri Dharmendra Kumar Yadav",
+       "Nodal Email": "admn[dot]yas[at]nic[dot]in"
+      },
+      {
+       "Organization": "D\/o Atomic Energy",
+       "Ministry": "D\/o Atomic Energy",
+       "Nodal Name": "Shri Venkatesan Gpalakrishna",
+       "Nodal Email": "dirati[dot]dae[at]gov[dot]in"
+      },
+      {
+       "Organization": "D\/o Space",
+       "Ministry": "D\/o Space",
+       "Nodal Name": "Shri Sudheer Kumar N",
+       "Nodal Email": "dir[dot]cbpo[at]isro[dot]gov[dot]in"
+      },
+      {
+       "Organization": "Cabinet Secretariat",
+       "Ministry": "Cabinet Secretariat",
+       "Nodal Name": "Shri Saumitra Sahar",
+       "Nodal Email": "sahar[dot]saumitra[at]nic[dot]in"
+      },
+      {
+       "Organization": "Cabinet Secretary",
+       "Ministry": "-",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "Secretary (Coordination)",
+       "Ministry": "-",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "Secretary (R)",
+       "Ministry": "-",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "Secretary (Security)",
+       "Ministry": "-",
+       "Nodal Name": "-",
+       "Nodal Email": "-"
+      },
+      {
+       "Organization": "Secretary to the President",
+       "Ministry": "President’s Secretariat",
+       "Nodal Name": "Shri Joseph Antony",
+       "Nodal Email": "dir-admn1[at]rb[dot]nic[dot]in"
+      },
+      {
+       "Organization": "Prime Minister’s Office",
+       "Ministry": "Prime Minister’s Office",
+       "Nodal Name": "Shri Chandra Shekhar Singh",
+       "Nodal Email": "\nus-admin[dot]sb[at]gov[dot]in"
+      },
+      {
+       "Organization": "National Security Council Secretariat",
+       "Ministry": "National Security Council Secretariat",
+       "Nodal Name": "Pushpender Kumar",
+       "Nodal Email": "pushpender[dot]kumar[at]nic[dot]in"
+      },
+      {
+       "Organization": "Rajya Sabha Secretariat",
+       "Ministry": "Rajya Sabha Secretariat",
+       "Nodal Name": "Shri Saket Kumar",
+       "Nodal Email": "dsmdo[dot]cbd[at]sansad[dot]nic[dot]in"
+      },
+      {
+       "Organization": "Lok Sabha Secretariat",
+       "Ministry": "Lok Sabha Secretariat",
+       "Nodal Name": "Shri Rajkumar",
+       "Nodal Email": "pride[at]sansad[dot]nic[dot]in"
+      },
+      {
+       "Organization": "Vice-President Secretariat",
+       "Ministry": "Vice-President Secretariat",
+       "Nodal Name": "Smt. Sarita Chauhan",
+       "Nodal Email": "ddo-vps[at]nic[dot]in"
+      }
+  
+     ]
+}

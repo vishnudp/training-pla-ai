@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "ನಮ್ಮ ಬಗ್ಗೆ",
+        "missionKarmayogi": "ಮಿಷನ್ ಕರ್ಮಯೋಗಿ",
+        "newsroom": "ಸುದ್ದಿ ಕೊಠಡಿ",
+        "contactUs": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+        "login": "ಲಾಗ್ ಇನ್ ಮಾಡಿ",
+        "register": "ನೋಂದಾಯಿಸಿ"
+    },
+    "topBanner": {
+        "iGot": "ಐಜಿಒಟಿ",
+        "karmayogi": "ಕರ್ಮಯೋಗಿ",
+        "slogans1": "ಬೃಹತ್ ಸಾಮರ್ಥ್ಯ ನಿರ್ಮಾಣ ಉಪಕ್ರಮ",
+        "followUs": "ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ",
+        "slogans2": "ಸರ್ಕಾರಿ ಅಧಿಕಾರಿಗಳನ್ನು ಪರಿವರ್ತಿಸುವುದು, ಭಾರತವನ್ನು ಪರಿವರ್ತಿಸುವುದು.",
+        "slogans3": "'ನಿಯಮ ಆಧಾರಿತ' ದಿಂದ 'ಪಾತ್ರ ಆಧಾರಿತ' ಆಡಳಿತ",
+        "slogans4": "ನಾಗರಿಕ ಸೇವಕರ ಪರಿವರ್ತನೆ ಮತ್ತು ಸಬಲೀಕರಣ",
+        "slogans5": "'ಕರ್ಮಚಾರಿ' ಯಿಂದ 'ಕರ್ಮಯೋಗಿ' ಗೆ",
+        "slogans6": "ಅಧಿಕಾರಿಗಳ ಸಾಮರ್ಥ್ಯ-ಚಾಲಿತ ಸಾಮರ್ಥ್ಯ ವೃದ್ಧಿ",
+        "slogans7": "ಹೊಸ ಭಾರತಕ್ಕಾಗಿ ದೂರದೃಷ್ಟಿಯಿಂದ ಮಿಷನ್ ಮೋಡ್ಗೆ"
+    },
+    "stats": {
+        "karmayogisOnboarded": "ಒಟ್ಟು ಕರ್ಮಯೋಗಿಗಳು ಹಡಗಿನಲ್ಲಿದ್ದಾರೆ",
+        "totalCourses": "ಒಟ್ಟು ಕೋರ್ಸ್ಗಳು",
+        "totalCompletitions": "ಒಟ್ಟು ಪೂರ್ಣಗೊಳಿಸುವಿಕೆಗಳು",
+        "monthlyActiveUsers": "ಮಾಸಿಕ ಸಕ್ರಿಯ ಬಳಕೆದಾರರು",
+        "certificatesIssued": "ನಿನ್ನೆ ನೀಡಲಾದ ಪ್ರಮಾಣಪತ್ರಗಳು."
+    },
+    "gallery": {
+        "videoGallery": "ವೀಡಿಯೊ ಗ್ಯಾಲರಿ",
+        "photoGallery": "ಫೋಟೋ ಗ್ಯಾಲರಿ"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "ಪ್ರಧಾನಿ ಮಾತುಕತೆ",
+        "courseSneakPeak": "ಕೋರ್ಸ್ ಸ್ನೀಕ್ ಪೀಕ್",
+        "karmaYogiTalks": "ಕರ್ಮಯೋಗಿ ಮಾತುಕತೆಗಳು"
+    },
+    "solutionSpace": {
+        "learnHub": "ವೈಯಕ್ತಿಕ ಕಲಿಕೆಯ ಅನುಭವಕ್ಕೆ ನಿಮ್ಮ ಹೆಬ್ಬಾಗಿಲು",
+        "discussHub": "ಐಜಿಒಟಿ ಸಮುದಾಯದಲ್ಲಿ ನಿಮ್ಮ ಆಲೋಚನೆಗಳು ಮತ್ತು ಜ್ಞಾನವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ, ಸೂಚಿಸಿ, ಪೋಸ್ಟ್ ಮಾಡಿ.",
+        "networkHub": "ಸಚಿವಾಲಯಗಳು, ಇಲಾಖೆಗಳು, ಸಂಸ್ಥೆಗಳಲ್ಲಿರುವ ಸಹೋದ್ಯೋಗಿಗಳೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಿ ಮತ್ತು ಸಹಕರಿಸಿ.",
+        "eventsHub": "ನಿಮ್ಮ ಕೌಶಲ್ಯಗಳನ್ನು ಹೆಚ್ಚಿಸಲು ಕಾರ್ಯಕ್ರಮಗಳು, ಕಾರ್ಯಾಗಾರಗಳು ಮತ್ತು ಸಂವಾದಾತ್ಮಕ ಅಧಿವೇಶನಗಳಲ್ಲಿ ಭಾಗವಹಿಸಿ.",
+        "competencyHub": "ಕಾಂಪಿಟೆನ್ಸಿ ಹಬ್ ನಿಮ್ಮ ಸ್ಥಾನಕ್ಕೆ ಶಿಫಾರಸು ಮಾಡಲಾದ ಸಾಮರ್ಥ್ಯಗಳನ್ನು ವಿವರಿಸುತ್ತದೆ, ಹೀಗೆ ನಿಮ್ಮ ಬೆಳವಣಿಗೆಯ ಅವಕಾಶಗಳನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ.",
+        "careerHub": "ನಿಮ್ಮ ಆಕಾಂಕ್ಷೆಗಳೊಂದಿಗೆ ಹೊಂದಿಕೊಂಡ ವೃತ್ತಿ ಮಾರ್ಗಗಳನ್ನು ಕಂಡುಕೊಳ್ಳಿ.",
+        "title": "ಕರ್ಮಯೋಗಿ ಕೇಂದ್ರಗಳು"
+    },
+    "walkThrough": {
+        "whatIsIGot": "ಐಗಾಟ್ ಎಂದರೇನು?",
+        "howToLoginAndRegister": "ಲಾಗಿನ್ ಮತ್ತು ನೋಂದಾಯಿಸುವುದು ಹೇಗೆ",
+        "igotWalkthrough": "ಐಜಿಒಟಿ ವಾಕ್ಥ್ರೂ"
+    },
+    "courses": {
+        "showcasedCourses": "ಪ್ರದರ್ಶನಗೊಂಡ ಕೋರ್ಸ್ಗಳು",
+        "showAll":"ಎಲ್ಲವನ್ನೂ ತೋರಿಸಿ"
+    },
+    "socailHub": {
+        "socailHub": "ಸಾಮಾಜಿಕ ಕೇಂದ್ರ",
+        "followUs": "ನಮ್ಮನ್ನು ಅನುಸರಿಸಿ"
+    },
+    "newsRoom": "ಸುದ್ದಿ ಕೊಠಡಿ",
+    "testimonial": "ಪ್ರಶಂಸಾಪತ್ರಗಳು",
+    "partners": "ವಿಷಯ ಪಾಲುದಾರರು",
+    "aboutUs": {
+        "title": "ನಮ್ಮ ಬಗ್ಗೆ",
+        "content1": "2020ರ ಸೆಪ್ಟೆಂಬರ್ನಲ್ಲಿ, ಭಾರತ ಸರ್ಕಾರವು ಮಿಷನ್ ಕರ್ಮಯೋಗಿ ಎಂಬ ನಾಗರಿಕ ಸೇವೆಗಳ ಸಾಮರ್ಥ್ಯ ವೃದ್ಧಿಗಾಗಿ ರಾಷ್ಟ್ರೀಯ ಕಾರ್ಯಕ್ರಮವನ್ನು (ಎನ್. ಪಿ. ಸಿ. ಎಸ್. ಸಿ. ಬಿ) ಪ್ರಾರಂಭಿಸಿತು. ಈ ಕಾರ್ಯಕ್ರಮವು ನವ ಭಾರತದ ದೃಷ್ಟಿಕೋನಕ್ಕೆ ಅನುಗುಣವಾಗಿ ಸರಿಯಾದ ಮನೋಭಾವ, ಕೌಶಲ್ಯ ಮತ್ತು ಜ್ಞಾನದೊಂದಿಗೆ ಭವಿಷ್ಯದ ಸಿದ್ಧ ನಾಗರಿಕ ಸೇವೆಯನ್ನು ನಿರ್ಮಿಸುವ ಗುರಿಯನ್ನು ಹೊಂದಿದೆ.",
+        "content2": "ಕರ್ಮಯೋಗಿ ಭಾರತ್ ಭಾರತ ಸರ್ಕಾರದ ಒಡೆತನದ ಎಸ್. ಪಿ. ವಿ. ಯಾಗಿದ್ದು, ಇದನ್ನು ಡಿ. ಓ. ಪಿ. ಟಿ, ಸಿಬ್ಬಂದಿ, ಸಾರ್ವಜನಿಕ ಕುಂದುಕೊರತೆ ಮತ್ತು ಪಿಂಚಣಿ ಸಚಿವಾಲಯವು ಸ್ಥಾಪಿಸಿದೆ, ಇದು ಮಿಷನ್ ಕರ್ಮಯೋಗಿಯ ವ್ಯಾಪ್ತಿಯೊಳಗೆ ಐ. ಜಿ. ಓ. ಟಿ ಕರ್ಮಯೋಗಿ (ಸಮಗ್ರ ಸರ್ಕಾರಿ ಆನ್ಲೈನ್ ತರಬೇತಿ) ವೇದಿಕೆಯನ್ನು ಹೊಂದುವ, ನಿರ್ವಹಿಸುವ, ನಿರ್ವಹಿಸುವ ಮತ್ತು ಸುಧಾರಿಸುವ ಜವಾಬ್ದಾರಿಯನ್ನು ಹೊಂದಿದೆ.",
+        "content3": "ಐಜಿಒಟಿ ಕರ್ಮಯೋಗಿ ಎಂಬುದು ಸರ್ಕಾರಿ ಅಧಿಕಾರಿಗಳ ವಿಶಿಷ್ಟ ಜ್ಞಾನದ ಅವಶ್ಯಕತೆಗಳನ್ನು ಪೂರೈಸಲು ಭಾರತದಲ್ಲಿ ನಿರ್ಮಿಸಲಾದ ದೊಡ್ಡ ಪ್ರಮಾಣದ ಸಮಗ್ರ ಕಲಿಕೆ ಮತ್ತು ವೃತ್ತಿ ನಿರ್ವಹಣಾ ವೇದಿಕೆಯಾಗಿದೆ.",
+        "content4": "ಈ ವೇದಿಕೆಯು ನೆಟ್ವರ್ಕಿಂಗ್, ಪೀರ್-ಟು-ಪೀರ್ ಸಂವಹನ ಮತ್ತು ವೃತ್ತಿ ನಿರ್ವಹಣೆಯ ಸಾಧನಗಳೊಂದಿಗೆ ನಿರಂತರ, ಘರ್ಷಣೆಯಿಲ್ಲದ ಮತ್ತು ಮಾರ್ಗದರ್ಶಿ ಕಲಿಕೆಯ ವಾತಾವರಣವನ್ನು ಸೃಷ್ಟಿಸುತ್ತದೆ. ಡಿಜಿಟಲ್ ವೇದಿಕೆಯಾಗಿ ಕಲ್ಪಿಸಲಾಗಿರುವ ಇದು, ಎಲ್ಲಾ ನಾಗರಿಕ ಸೇವಾ ಅಧಿಕಾರಿಗಳಿಗೆ ಕಸ್ಟಮೈಸ್ ಮಾಡಿದ ಸಾಮರ್ಥ್ಯ ವರ್ಧನೆಗೆ ಅನುವು ಮಾಡಿಕೊಡುವ ಮೂಲಕ ಕೋರ್ಸ್ಗಳನ್ನು ಸಾಮರ್ಥ್ಯಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡುವ ವಿಷಯ ಮಾರುಕಟ್ಟೆಯಾಗಿ ವಿಕಸನಗೊಳ್ಳುವ ಗುರಿಯನ್ನು ಹೊಂದಿದೆ."
+    },
+    "conference": {
+        "title": "ನಾವು ಈಗ ವಿಡಿಯೋ ಕಾನ್ಫರೆನ್ಸ್ ಮೂಲಕ ಲಭ್ಯವಿದ್ದೇವೆ.",
+        "support": "ಅಗತ್ಯವಿರುವ ಯಾವುದೇ ಬೆಂಬಲಕ್ಕಾಗಿ",
+        "duration": "ಸೋಮವಾರದಿಂದ ಶುಕ್ರವಾರದವರೆಗೆ",
+        "slot": "ಬೆಳಗ್ಗೆ 9 ಗಂಟೆಯಿಂದ ಸಂಜೆ 5 ಗಂಟೆಯವರೆಗೆ",
+        "action": "ಈಗಲೇ ಕರೆ ಮಾಡಿ",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "ಡೌನ್ಲೋಡ್ ಮಾಡಿ",
+        "iGot": "ಐಜಿಒಟಿ",
+        "karmayogi": "ಕರ್ಮಯೋಗಿ",
+        "mobile": "ಮೊಬೈಲ್",
+        "app": "ಅಪ್ಲಿಕೇಶನ್",
+        "description": "ನಿಮ್ಮ ಜೀವಮಾನದ ಕಲಿಕೆಯ ಅನುಭವವನ್ನು ಯಾವಾಗ ಬೇಕಾದರೂ ಮುಂದುವರಿಸಿ.",
+        "scanToDownload": "ಡೌನ್ಲೋಡ್ ಮಾಡಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ"
+    },
+    "footerLinks": {
+        "newsroom": "ಸುದ್ದಿ ಕೊಠಡಿ",
+        "faq": "ಪದೇ ಪದೇ ಕೇಳಲಾಗುವ ಪ್ರಶ್ನೆಗಳು",
+        "contactUs": "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+        "nodalOffice": "ನೋಡಲ್ ಅಧಿಕಾರಿಗಳ ವಿವರಗಳು",
+        "doptCircular": "ಡಿ. ಓ. ಪಿ. ಟಿ ಸುತ್ತೋಲೆ",
+        "karmayogiCorner": "ಕರ್ಮಯೋಗಿ ಮೂಲೆ",
+        "missionKarmayogi": "ಮಿಷನ್ ಕರ್ಮಯೋಗಿ",
+        "dopt": "ಡಿಓಪಿಟಿ",
+        "cpc": "ಸಾಮರ್ಥ್ಯ ವೃದ್ಧಿ ಆಯೋಗ"
+    },
+    "hubNames": {
+        "learnHub": "ಲರ್ನ್ ಹಬ್",
+        "discussHub": "ಹಬ್ ಬಗ್ಗೆ ಚರ್ಚಿಸಿ",
+        "networkHub": "ನೆಟ್ವರ್ಕ್ ಹಬ್",
+        "eventsHub": "ಈವೆಂಟ್ಸ್ ಹಬ್",        
+        "competencyHub": "ಸಾಮರ್ಥ್ಯದ ಕೇಂದ್ರ",
+        "careerHub": "ವೃತ್ತಿ ಕೇಂದ್ರ"
+    },
+    "nodelHeader": {
+        "organization": "ಸಂಸ್ಥೆ",
+        "ministry": "ಸಚಿವಾಲಯ",
+        "nodalName": "ನೋಡಲ್ ಹೆಸರು",
+        "nodalEmail": "ನೋಡಲ್ ಇಮೇಲ್"
+    },
+    "twitter": "ಟ್ವಿಟರ್",
+    "linkedin": "ಲಿಂಕ್ಡ್ಇನ್",
+    "hallOfFame": {
+        "title": "ವಾಲ್ ಆಫ್ ಫೇಮ್",
+        "titleInfo":"ವಾಲ್ ಆಫ್ ಫೇಮ್ ಹಿಂದಿನ ತಿಂಗಳಲ್ಲಿ ಗಳಿಸಿದ ಸಂಚಿತ ಅಂಕಗಳ ಆಧಾರದ ಮೇಲೆ ಅಗ್ರ 5 ಎಂ. ಡಿ. ಓ. ಗಳನ್ನು ಪ್ರದರ್ಶಿಸುತ್ತದೆ. ಇದು ಬಳಕೆದಾರರ ಮೂಲವನ್ನು ವ್ಯಾಖ್ಯಾನಿಸುವ ಮತ್ತು ಪ್ರತಿ ತಿಂಗಳ ಮೊದಲ ದಿನದಂದು ನವೀಕರಿಸುವ ಟ್ಯಾಬ್ಗಳನ್ನು ಸಹ ಹೊಂದಿರುತ್ತದೆ.",
+        "tabHeading_1": "ಬಳಕೆದಾರ ಬೇಸ್",
+        "tabHeading_2": "500ಕ್ಕಿಂತ ಕಡಿಮೆ",
+        "tabHeading_3": "500-1 K",
+        "tabHeading_4": "1ಕೆ-10ಕೆ",
+        "tabHeading_5": "10ಕೆ-50ಕೆ",
+        "tabHeading_6": "50 ಸಾವಿರಕ್ಕಿಂತ ಹೆಚ್ಚು"
+    },
+    "organisationPartners": {
+        "title": "ಸಂಸ್ಥೆಯ ಪಾಲುದಾರರು",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"ಕೃತಿಸ್ವಾಮ್ಯ © ಕರ್ಮಯೋಗಿ ಭಾರತ್ ನಿರ್ವಹಿಸುವ ವೆಬ್‌ಸೈಟ್.",
+    "CopyrightMobile":"ಕೃತಿಸ್ವಾಮ್ಯ © ಕರ್ಮಯೋಗಿ ಭಾರತ್ ನಿರ್ವಹಿಸುವ ವೆಬ್‌ಸೈಟ್.",
+    "FaqTitle":"ಎಫ್ಎಕ್ಯೂ ಚಾಟ್ಬಾಟ್",
+    "karmayogiCorner":"ಕರ್ಮಯೋಗಿ ಕಾರ್ನರ್",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "Related Links",
+        "support": "Support"
+    }
+}

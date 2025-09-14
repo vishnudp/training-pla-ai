@@ -1,0 +1,35 @@
+<div class="view-cbp-plan">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div>
+                <div class="heading">Delete Role Mapping</div>
+            </div>
+            <div class="cursor-pointer" (click)="cancel()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+        <div class="section-container mt-4">
+            <div class="progress-icon">
+                <img src="assets/icons/info.svg">
+            </div>
+            <div class="heading">
+                <div>Delete Role Mapping</div>
+            </div>
+            <div class="">
+                <div>Are You Sure to Delete Selected Role Mapping</div>
+            </div>
+
+        </div>
+        <div class="popup-footer mt-4">
+            <div>
+                <input class="btn-active" type="button" value="Cancel" (click)="cancel()" />
+            </div>
+            <div>
+                <input class="btn-active" type="button" value="Save" (click)="deleteRoleMapping()" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

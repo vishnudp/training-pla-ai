@@ -1,0 +1,175 @@
+
+
+<div class="view-cbp-plan">
+    <div class="popup-container">
+    <div class="popup-header">
+        <div>
+            <div class="heading">Save Courses</div>
+        </div>
+        <div class="cursor-pointer" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+        </div>
+    </div>
+    <div class="section-container">
+        <div class="role-mapping-container">
+            <div class="container">
+                <mat-card class="mt-2">
+                    <div class="section-header">
+                        <div class="sub-heading">
+                            <!-- <p>Save Courses</p> -->
+                        </div>
+                        <div class="btn-group">
+                            <div>
+                                <input class="btn-active" type="button" value="Suggest More Course From iGOT" />
+                            </div>
+                            <div class="pl-2">
+                                <input [disabled]="selectFilterCourses?.length > 0 ? false : true" [ngClass]="selectFilterCourses?.length > 0 ? 'btn-active' : 'btn-disable'" type="button" value="Save Courses" (click)="saveCourses()"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-section mt-4">
+                        <div class="select-map-route-container">
+                            <div class="selected-mapping-route">
+                                <p>Secretary (WCD) / Ministry of Women and Child / Ruler Development</p>
+                            </div>
+        
+                        </div>
+                    </div>
+                    <div class="search-filter-section mt-4" *ngIf="filterdCourses?.length">
+                        <div class="search flex margin-right-m">
+                            <label class="label">Search</label>
+                            <div>
+                                <div class="search-container mt-2">
+                                    <div class="rsearch">
+                                        <mat-icon
+                                            class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                        <input class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                            (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                            placeholder="Search Courses" type="Standard">
+                                    </div>
+                                    <div class="pl-2 mt-2">
+                                        <input class="btn-disable" type="button" value="Search" />
+                                    </div>
+                                </div>
+        
+        
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2"  *ngIf="filterdCourses?.length">
+                        <div>
+                            <mat-checkbox [checked]="false">Select All Courses</mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="my-4">
+        
+                        <div class="course-list-container">
+                            <div class="course-list-item" *ngFor="let item of filterdCourses">
+                                <div class="course-header">
+                                    <div class="checked-course-container">
+                                        <div>
+                                            <mat-checkbox [checked]="false" (change)="selectedFilterCourses($event, item)"></mat-checkbox>
+                                        </div>
+                                        <div class="ml-2">
+                                            <div class="course-pill">
+                                                <div class="course-pill-text">Course</div>
+                                            </div>
+                                        </div>
+        
+                                    </div>
+        
+                                    <div>
+                                        <div class="ai-recommened-pill">
+                                            <div class="ai-recommened-pill-text">
+                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                <span>AI Recommended</span>
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-title">
+                                    <div>
+                                        <div>{{item?.course}}</div>
+                                    </div>
+                                </div>
+                                <div class="course-desc">
+                                    <div>
+                                        <div>{{item?.rationale}}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="relevancy-container">
+                                        <div class="relevancy">Relevancy</div>
+                                        <div class="dash">-</div>
+                                        <div class="percentage">{{item?.relevancy}}%</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="competencies-matched-container">
+                                        <div class="competencies-matched">Competencies Matched</div>
+                                        <div class="dash">-</div>
+                                        <div class="percentage">80%</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="course-list-item">
+                                <div class="course-header">
+                                    <div>
+                                        <div class="course-pill">
+                                            <div class="course-pill-text">Course</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="ai-recommened-pill">
+                                            <div class="ai-recommened-pill-text">
+                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                <span>AI Recommended</span>
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="course-title">
+                                    <div>
+                                        <div>Maternal, Infant And Young Child Nutrition</div>
+                                    </div>
+                                </div>
+                                <div class="course-desc">
+                                    <div>
+                                        <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                            which is
+                                            to provide and educate on nutrition for mother and young children</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="relevancy-container">
+                                        <div class="relevancy">Relevancy</div>
+                                        <div class="dash">-</div>
+                                        <div class="percentage">90%</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="competencies-matched-container">
+                                        <div class="competencies-matched">Competencies Matched</div>
+                                        <div class="dash">-</div>
+                                        <div class="percentage">80%</div>
+                                    </div>
+                                </div>
+                            </div> -->
+        
+                        </div>
+                    </div>
+        
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    
+</div>
+</div>
+
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>
+

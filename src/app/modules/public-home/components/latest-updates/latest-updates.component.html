@@ -1,0 +1,22 @@
+<ng-container *ngIf="staticContent" id="latest-updates">
+<app-navbar [navBarData]="staticContent.headerData"></app-navbar>
+    <section id="update-section">
+        <div class="container text-top">
+            <div class="row">
+                <div class="col-lg-12">
+                  <h3 class="mb-5 text-center">{{karmayogiCorner?.title | translate}} </h3>
+                    <ul id="contentarea">   
+                        <ng-container *ngFor="let updates of latestUpdatesLinks">
+                            <li><a [href]="updates?.updateUrl" target="_blank" class="dataLink">{{updates.updateTitle}}</a></li>
+
+                        </ng-container>
+                        </ul>
+    
+                </div>
+            </div>
+        </div>
+      </section>
+    <div class="footer footer-nav">
+        <app-footer-nav [navFooterDetails]="staticContent.navFooterDetails"></app-footer-nav>
+      </div>
+</ng-container>

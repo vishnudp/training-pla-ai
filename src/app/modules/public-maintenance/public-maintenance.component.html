@@ -1,0 +1,78 @@
+<div class="maintenance-block" *ngIf="false">
+    <div class="main-container">
+        <div class="top-strip"></div>
+
+        <div class="middle-strip text-center">
+           <div class="container">
+                <img class="lampleft" src="/assets/maintenance/lamp2.svg" alt="">
+                <img class="karmaimage" src="/assets/maintenance/karmayogilady.svg" alt="">
+                <img class="lampright" src="/assets/maintenance/lamp1.svg" alt="">
+                <div class="innerbox">
+                    <img class="logoimg" src="/assets/img/karmayogiLogo.svg" alt="karmayogiLogo">
+                    <div>
+                        <h3 class="orange-text">Namaste Karmayogi</h3>
+                        <h1 class="margin-bottom-l">We Will Be Back Soon!</h1>
+                        <p class="mat-body margin-bottom-xl">Our website is currently undergoing scheduled maintenance to bring you a 
+                            better experience, to enhance your learning journey at iGOT Karmayogi.</p>
+                        <div class="margin-bottom-xxl">
+                            <p class="mat-body">In the meantime, stay connected with us on social media</p>
+                            <app-sociallinks [linksData]="linksData"></app-sociallinks>
+                        </div>
+                    </div>
+                </div>
+           </div>
+        </div>
+        <div class="bottom-strip">
+            <div class="container-fluid px-0 contact-us-wrapper videoConfSection">
+                <ng-container>
+                  <app-videoconference-maintain [videoConf]="videoConf"></app-videoconference-maintain>
+                </ng-container>
+              </div>
+        </div>
+    </div>
+</div>
+
+<div class="maintenance-block">
+    <div class="top-strip"></div>
+    <img class="lampleft" src="/assets/maintenance/lamp2.svg" alt="">
+    <img class="lampright" src="/assets/maintenance/lamp1.svg" alt="">
+    <div class="logo-section">
+        <div class="container">
+            <div class="myloag">
+                <img class="logo-img" src="/assets/img/karmayogiLogo.svg" alt="karmayogiLogo">
+            </div>
+        </div>
+    </div>
+    <div class="content-section">
+        <div class="container content-container">
+            <div class="details-section">
+                <div class="details">
+                    <h3 class="orange-text">Namaste Karmayogi,</h3>
+                    <h1 class="margin-bottom-l sub-2">We Will Be Back Soon!</h1>
+                    <div class="message">
+                        </div>
+                        <p class="mat-body m2 extra-padding">
+                           Our website is currently undergoing scheduled maintenance to bring you a 
+                            better experience, to enhance your learning journey at iGOT Karmayogi.
+                        </p>
+                        <div class="mat-body m1 font-bold margin-bottom-xl">16th November, 7 PM to 10 PM,
+                    </div>
+                    <p class="mat-body m2 margin-bottom-xs">Meanwhile, Explore Karmayogi Talks on YouTube.</p>
+                    <div class="margin-bottom-xxl links">
+                        <div *ngFor="let obj of videoTunbnails">
+                            <img class="thumbnails" [src]="obj.image" alt="" (click)="redirectTo(obj.url)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contact-section">
+        <div class="container relative">
+            <img class="karmaimage" src="/assets/maintenance/karmayogilady.svg" alt="">
+            <img class="shadow-mob" src="/assets/maintenance/Ellipse 36 (1).svg" alt="">
+            <img class="shadow-web" src="/assets/maintenance/Ellipse 36.svg" alt="">
+            <app-videoconference-maintain [videoConf]="videoConf"></app-videoconference-maintain>
+        </div>
+    </div>
+</div>

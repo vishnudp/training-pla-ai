@@ -1,0 +1,92 @@
+.featured {
+    color: #1B2133;
+    text-align: center;
+    /* stylelint-disable */
+    font-family: Montserrat;
+    /* stylelint-enable */
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 36px;
+    margin-top: 70px;
+}
+
+
+.bg-group {
+    position: relative;
+}
+
+.bg-group::before {
+    content: "";
+    position: absolute;
+    background: url(../../../../../assets/group_bg.svg) no-repeat right;
+    width: 18%;
+    height: 85%;
+    right: 0;
+    top: 0;
+    z-index: 6;
+}
+
+#newsroom {
+    background: #EDF1F7;
+    padding: 20px 0;
+}
+
+@media (max-width: 992px) {
+    .bg-group::before {
+        content: "";
+        display: none;
+    }
+}
+
+.infocus {
+    background: linear-gradient(0deg, #1B4CA1 -133.97%, #FFFFFF 70.99%);
+}
+
+.learner-tutorial {
+    background: linear-gradient(0deg, rgba(243, 150, 47, 40%) -23.65%, #FFFFFF 70.99%);
+}
+
+.social-hub-wrapper, .testimonials-wrapper {
+    background: #EDF1F7;
+}
+
+.contact-us-wrapper {
+    background: linear-gradient(106.94deg, #3A70CF 3.96%, #1146A2 39.76%);
+}
+
+@media(max-width:576px) {
+    .onMove {
+        overflow-x: hidden;
+    }
+}
+
+.hide-img {
+    display: none !important;
+}
+
+
+.lookpro {
+    margin:1% 0
+}
+
+// .lookpro iframe {
+//     height: 30rem
+// }
+
+// @media(min-width:1848px) and (max-width:1848px){
+//     .lookpro iframe {
+//         height: 50rem
+//     }
+// }
+
+// @media(min-width:1680px) and (max-width:1680px){
+//     .lookpro iframe {
+//         height: 40rem
+//     }
+// }
+// @media(min-width:1478px) and (max-width:1478px){
+//     .lookpro iframe {
+//         height: 50rem
+//     }
+// }

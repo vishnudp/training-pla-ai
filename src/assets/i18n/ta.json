@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "எங்களைப் பற்றி",
+        "missionKarmayogi": "மிஷன் கர்மயோகி",
+        "newsroom": "செய்தி அறை",
+        "contactUs": "எங்களைத் தொடர்பு கொள்ளுங்கள்.",
+        "login": "உள்நுழையவும்",
+        "register": "பதிவு செய்யுங்கள்"
+    },
+    "topBanner": {
+        "iGot": "ஐஜிஓடி",
+        "karmayogi": "கர்மயோகி",
+        "slogans1": "மாபெரும் திறன் மேம்பாட்டு முயற்சி",
+        "followUs": "எங்களைப் பின்தொடரவும்",
+        "slogans2": "அரசு அதிகாரிகளை மாற்றியமைத்தல், இந்தியாவை மாற்றியமைத்தல்",
+        "slogans3": "'விதிகள் அடிப்படையிலான' முதல் 'பாத்திரங்கள் அடிப்படையிலான' ஆளுகை",
+        "slogans4": "அரசு ஊழியர்களை மாற்றியமைத்தல் மற்றும் அவர்களுக்கு அதிகாரமளித்தல்",
+        "slogans5": "'கர்மசாரி' முதல் 'கர்மயோகி' வரை",
+        "slogans6": "அதிகாரிகளின் திறன்-இயக்க திறன் மேம்பாடு",
+        "slogans7": "புதிய இந்தியாவுக்கான தொலைநோக்குப் பார்வையிலிருந்து இயக்க முறைக்கு"
+    },
+    "stats": {
+        "karmayogisOnboarded": "கர்மயோகிகள் கப்பலில்",
+        "totalCourses": "மொத்தப் படிப்புகள்",
+        "totalCompletitions": "மொத்த நிறைவு",
+        "monthlyActiveUsers": "மாதாந்திர செயலில் உள்ள பயனர்கள்",
+        "certificatesIssued": "நேற்று வழங்கப்பட்ட சான்றிதழ்கள்"
+    },
+    "gallery": {
+        "videoGallery": "வீடியோ கேலரி",
+        "photoGallery": "புகைப்படக் காட்சியகம்"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "பிரதமர் பேச்சு",
+        "courseSneakPeak": "கோர்ஸ் ஸ்னீக் பீக்",
+        "karmaYogiTalks": "கர்மயோகி பேச்சு"
+    },
+    "solutionSpace": {
+        "learnHub": "தனிப்பட்ட கற்றல் அனுபவத்திற்கான உங்கள் நுழைவாயில்",
+        "discussHub": "ஐஜிஓடி சமூகத்தில் உங்கள் யோசனைகளையும் அறிவையும் பகிர்ந்து கொள்ளுங்கள், பரிந்துரைக்கவும், இடுகையிடவும்",
+        "networkHub": "அமைச்சகங்கள், துறைகள், அமைப்புகளில் உள்ள சக ஊழியர்களுடன் தொடர்புகொண்டு ஒத்துழைக்கவும்.",
+        "eventsHub": "உங்கள் திறன்களை மேம்படுத்த நிகழ்வுகள், பட்டறைகள் மற்றும் கலந்துரையாடல் அமர்வுகளில் பங்கேற்கவும்.",
+        "competencyHub": "உங்கள் திறமைகளை நாங்கள் அடையாளம் கண்டுவிட்டோம்-இப்போது உங்கள் தொழிலை வளர்த்துக் கொள்ளுங்கள்!",
+        "careerHub": "திறன் மையம் உங்கள் பதவிக்கான பரிந்துரைக்கப்பட்ட திறன்களை விவரிக்கிறது, இதனால் உங்கள் வளர்ச்சி வாய்ப்புகளை மேம்படுத்துகிறது.",
+        "title": "கர்மயோகி மையங்கள்"
+    },
+    "walkThrough": {
+        "whatIsIGot": "ஐகோட் என்றால் என்ன?",
+        "howToLoginAndRegister": "எப்படி உள்நுழைந்து பதிவு செய்வது?",
+        "igotWalkthrough": "ஐ. ஜி. ஓ. டி வாக் த்ரூ"
+    },
+    "courses": {
+        "showcasedCourses": "கண்காட்சிப் படிப்புகள்",
+        "showAll":"அனைத்தையும் காட்டு"
+    },
+    "socailHub": {
+        "socailHub": "சமூக மையம்",
+        "followUs": "எங்களைப் பின்தொடரவும்"
+    },
+    "newsRoom": "செய்தி அறை",
+    "testimonial": "சான்றுகள்",
+    "partners": "உள்ளடக்க பங்குதாரர்கள்",
+    "aboutUs": {
+        "title": "எங்களைப் பற்றி",
+        "content1": "2020 செப்டம்பரில், இந்திய அரசு சிவில் சர்வீசஸ் திறன் மேம்பாட்டுக்கான தேசிய திட்டமான மிஷன் கர்மயோகியை (மிஷன் கர்மயோகி) அறிமுகப்படுத்தியது. புதிய இந்தியாவின் தொலைநோக்குப் பார்வைக்கு ஏற்ப சரியான அணுகுமுறை, திறன்கள் மற்றும் அறிவுடன் எதிர்காலத்திற்குத் தயாராக இருக்கும் சிவில் சேவையை உருவாக்குவதே இந்தத் திட்டத்தின் நோக்கமாகும்.",
+        "content2": "கர்மயோகி பாரத் என்பது இந்திய அரசுக்குச் சொந்தமான எஸ். பி. வி. ஆகும், இது பணியாளர், பொதுமக்கள் குறைதீர்ப்பு மற்றும் ஓய்வூதிய அமைச்சகத்தின் டி. ஓ. பி. டி. யால் நிறுவப்பட்டது, இது மிஷன் கர்மயோகியின் வரம்பிற்குள் ஐ. ஜி. ஓ. டி கர்மயோகி (ஒருங்கிணைந்த அரசு ஆன்லைன் பயிற்சி) தளத்தை சொந்தமாக வைத்திருத்தல், நிர்வகித்தல், பராமரித்தல் மற்றும் மேம்படுத்துதல் ஆகியவற்றிற்கு பொறுப்பாகும்.",
+        "content3": "ஐஜிஓடி கர்மயோகி என்பது அரசாங்க அதிகாரிகளின் தனித்துவமான அறிவுத் தேவைகளைப் பூர்த்தி செய்வதற்காக இந்தியாவில் தயாரிக்கப்பட்ட ஒரு பெரிய அளவிலான விரிவான கற்றல் மற்றும் தொழில் மேலாண்மை தளமாகும்.",
+        "content4": "நெட்வொர்க்கிங், பியர்-டு-பியர் தொடர்புகள் மற்றும் தொழில் மேலாண்மைக்கான கருவிகளுடன் தொடர்ச்சியான, உராய்வு இல்லாத மற்றும் வழிகாட்டப்பட்ட கற்றல் சூழலை இந்த தளம் உருவாக்கும். ஒரு டிஜிட்டல் தளமாக கருதப்படும் இது, அனைத்து சிவில் சர்வீஸ் அதிகாரிகளுக்கும் தனிப்பயனாக்கப்பட்ட திறனை மேம்படுத்துவதன் மூலம், திறன்களுக்கு ஏற்ப படிப்புகள் வரைபடமாக்கப்படும் ஒரு உள்ளடக்க சந்தையாக உருவாகுவதை நோக்கமாகக் கொண்டுள்ளது."
+    },
+    "conference": {
+        "title": "நாங்கள் இப்போது வீடியோ கான்பரன்சிங் மூலம் கிடைக்கிறோம்.",
+        "support": "தேவைப்படும் எந்த ஆதரவிற்கும்",
+        "duration": "திங்கள் முதல் வெள்ளி வரை",
+        "slot": "காலை 9 மணி முதல் மாலை 5 மணி வரை",
+        "action": "இப்போது அழைக்கவும்",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "பதிவிறக்கவும்",
+        "iGot": "ஐஜிஓடி",
+        "karmayogi": "கர்மயோகி",
+        "mobile": "மொபைல்",
+        "app": "பயன்பாடு",
+        "description": "எந்த நேரத்திலும் உங்கள் வாழ்நாள் முழுவதும் கற்றல் அனுபவத்தைத் தொடருங்கள்.",
+        "scanToDownload": "பதிவிறக்கம் செய்ய ஸ்கேன்"
+    },
+    "footerLinks": {
+        "newsroom": "செய்தி அறை",
+        "faq": "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+        "contactUs": "எங்களைத் தொடர்பு கொள்ளுங்கள்",
+        "nodalOffice": "ஒருங்கிணைப்பு அதிகாரிகள் விவரங்கள்",
+        "doptCircular": "டிஓபிடி சுற்றறிக்கை",
+        "karmayogiCorner": "கர்மயோகி மூலையில்",
+        "missionKarmayogi": "மிஷன் கர்மயோகி",
+        "dopt": "டிஓபிடி",
+        "cpc": "திறன் மேம்பாட்டு ஆணையம்"
+    },
+    "hubNames": {
+        "learnHub": "மையத்தைக் கற்றுக்கொள்ளுங்கள்",
+        "discussHub": "மையத்தைப் பற்றி விவாதிக்கவும்",
+        "networkHub": "நெட்வொர்க் மையம்",
+        "eventsHub": "நிகழ்வுகள் மையம்",        
+        "competencyHub": "திறன் மையம்",
+        "careerHub":"தொழில் மையம்"
+    },
+    "nodelHeader": {
+        "organization":"அமைப்பு.",
+        "ministry": "அமைச்சகம்",
+        "nodalName":"முனையத்தின் பெயர்",
+        "nodalEmail":"நோடல் மின்னஞ்சல்"
+    },
+    "twitter": "ட்விட்டர்",
+    "linkedin": "இணைக்கப்பட்டுள்ள",
+    "hallOfFame": {
+        "title": "புகழ்பெற்ற சுவர்",
+        "titleInfo":"வோல் ஆஃப் ஃபேம் முந்தைய மாதத்தில் சம்பாதித்த ஒட்டுமொத்த மதிப்பெண்களின் அடிப்படையில் சிறந்த 5 எம். டி. ஓ. க்களைக் காட்டுகிறது. இது பயனர் தளத்தை வரையறுக்கும் தாவல்களையும் கொண்டிருக்கும், மேலும் ஒவ்வொரு மாதமும் முதல் நாளில் புதுப்பிக்கப்படும்.",
+        "tabHeading_1": "பயனர் தளம்",
+        "tabHeading_2": "500க்கும் குறைவாக",
+        "tabHeading_3": "500-1 கே",
+        "tabHeading_4": "1கே-10கே",
+        "tabHeading_5": "10K-50K",
+        "tabHeading_6": "50 ஆயிரத்திற்கு மேல்"
+    },
+    "organisationPartners": {
+        "title": "அமைப்புகளின் பங்குதாரர்கள்",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"பதிப்புரிமை © கர்மயோகி பாரதத்தால் நிர்வகிக்கப்படும் இணையதளம்.",
+    "CopyrightMobile":"பதிப்புரிமை © கர்மயோகி பாரதத்தால் நிர்வகிக்கப்படும் இணையதளம்.",
+    "FaqTitle":"எஃப்ஏக்யூ சாட்போட்",
+    "karmayogiCorner":"கர்மயோகி மூலை",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "Related Links",
+        "support": "Support"
+    }
+}

@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "ਸਾਡੇ ਬਾਰੇ",
+        "missionKarmayogi": "ਮਿਸ਼ਨ ਕਰਮਯੋਗੀ",
+        "newsroom": "ਨਿਊਜ਼ ਰੂਮ",
+        "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+        "login": "ਲਾਗਇਨ ਕਰੋ",
+        "register": "ਰਜਿਸਟਰ ਕਰੋ"
+    },
+    "topBanner": {
+        "iGot": "ਆਈ ਜੀ ਓ ਟੀ",
+        "karmayogi": "ਕਰਮਯੋਗੀ",
+        "slogans1": "ਵਿਸ਼ਾਲ ਸਮਰੱਥਾ ਨਿਰਮਾਣ ਪਹਿਲ",
+        "followUs": "ਸਾਨੂੰ ਫਾਲੋ ਕਰੋ",
+        "slogans2": "ਸਰਕਾਰੀ ਅਧਿਕਾਰੀਆਂ ਦਾ ਪਰਿਵਰਤਨ, ਭਾਰਤ ਦਾ ਪਰਿਵਰਤਨ",
+        "slogans3": "'ਨਿਯਮ ਅਧਾਰਤ' ਤੋਂ 'ਭੂਮਿਕਾ ਅਧਾਰਤ' ਸ਼ਾਸਨ",
+        "slogans4": "ਸਿਵਲ ਸੇਵਕਾਂ ਦਾ ਪਰਿਵਰਤਨ ਅਤੇ ਸਸ਼ਕਤੀਕਰਨ",
+        "slogans5": "'ਕਰਮਚਾਰੀ' ਤੋਂ 'ਕਰਮਯੋਗੀ' ਤੱਕ",
+        "slogans6": "ਅਧਿਕਾਰੀਆਂ ਦੀ ਯੋਗਤਾ-ਸੰਚਾਲਿਤ ਸਮਰੱਥਾ ਨਿਰਮਾਣ",
+        "slogans7": "ਇੱਕ ਨਵੇਂ ਭਾਰਤ ਲਈ ਵਿਜ਼ਨ ਤੋਂ ਮਿਸ਼ਨ ਮੋਡ ਤੱਕ"
+    },
+    "stats": {
+        "karmayogisOnboarded": "ਕੁੱਲ ਕਰਮਯੋਗੀ ਜਹਾਜ਼ ਵਿੱਚ ਸਵਾਰ",
+        "totalCourses": "ਕੁੱਲ ਕੋਰਸ",
+        "totalCompletitions": "ਕੁੱਲ ਮੁਕੰਮਲ",
+        "monthlyActiveUsers": "ਮਹੀਨਾਵਾਰ ਸਰਗਰਮ ਉਪਭੋਗਤਾ",
+        "certificatesIssued": "ਕੱਲ੍ਹ ਜਾਰੀ ਕੀਤੇ ਗਏ ਸਰਟੀਫਿਕੇਟ"
+    },
+    "gallery": {
+        "videoGallery": "ਵੀਡੀਓ ਗੈਲਰੀ",
+        "photoGallery": "ਫੋਟੋ ਗੈਲਰੀ"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "ਪ੍ਰਧਾਨ ਮੰਤਰੀ ਦੀ ਗੱਲਬਾਤ",
+        "courseSneakPeak": "ਕੋਰਸ ਸਨੈਕ ਪੀਕ",
+        "karmaYogiTalks": "ਕਰਮਯੋਗੀ ਗੱਲਬਾਤ"
+    },
+    "solutionSpace": {
+        "learnHub": "ਇੱਕ ਵਿਅਕਤੀਗਤ ਸਿੱਖਣ ਦੇ ਅਨੁਭਵ ਲਈ ਤੁਹਾਡਾ ਗੇਟਵੇ",
+        "discussHub": "ਆਪਣੇ ਵਿਚਾਰ ਅਤੇ ਗਿਆਨ ਨੂੰ ਆਈ. ਜੀ. ਓ. ਟੀ. ਕਮਿਊਨਿਟੀ ਨਾਲ ਸਾਂਝਾ ਕਰੋ, ਸੁਝਾਅ ਦਿਓ, ਪੋਸਟ ਕਰੋ।",
+        "networkHub": "ਮੰਤਰਾਲਿਆਂ, ਵਿਭਾਗਾਂ, ਸੰਗਠਨਾਂ ਦੇ ਸਾਥੀਆਂ ਨਾਲ ਜੁਡ਼ੋ ਅਤੇ ਸਹਿਯੋਗ ਕਰੋ।",
+        "eventsHub": "ਆਪਣੇ ਹੁਨਰ ਨੂੰ ਵਧਾਉਣ ਲਈ ਪ੍ਰੋਗਰਾਮਾਂ, ਵਰਕਸ਼ਾਪਾਂ ਅਤੇ ਇੰਟਰਐਕਟਿਵ ਸੈਸ਼ਨਾਂ ਵਿੱਚ ਹਿੱਸਾ ਲਓ।",
+        "competencyHub": "ਯੋਗਤਾ ਹੱਬ ਤੁਹਾਡੀ ਸਥਿਤੀ ਲਈ ਸਿਫਾਰਸ਼ ਕੀਤੀਆਂ ਯੋਗਤਾਵਾਂ ਦਾ ਵੇਰਵਾ ਦਿੰਦਾ ਹੈ, ਇਸ ਤਰ੍ਹਾਂ ਤੁਹਾਡੇ ਵਿਕਾਸ ਦੇ ਮੌਕਿਆਂ ਨੂੰ ਵਧਾਉਂਦਾ ਹੈ।",
+        "careerHub": "ਆਪਣੀਆਂ ਇੱਛਾਵਾਂ ਦੇ ਅਨੁਸਾਰ ਕੈਰੀਅਰ ਦੇ ਰਸਤੇ ਲੱਭੋ।",
+        "title": "ਕਰਮਯੋਗੀ ਹੱਬ"
+    },
+    "walkThrough": {
+        "whatIsIGot": "ਆਈਗੋਟ ਕੀ ਹੈ?",
+        "howToLoginAndRegister": "ਲੌਗਇਨ ਅਤੇ ਰਜਿਸਟਰ ਕਿਵੇਂ ਕਰੀਏ",
+        "igotWalkthrough": "ਆਈ ਜੀ ਓ ਟੀ ਵਾਕਥਰੂ"
+    },
+    "courses": {
+        "showcasedCourses": "ਪ੍ਰਦਰਸ਼ਿਤ ਕੋਰਸ",
+        "showAll":"-pu"
+    },
+    "socailHub": {
+        "socailHub": "ਸਮਾਜਿਕ ਹੱਬ",
+        "followUs": "ਸਾਨੂੰ ਫਾਲੋ ਕਰੋ"
+    },
+    "newsRoom": "ਨਿਊਜ਼ ਰੂਮ",
+    "testimonial": "ਪ੍ਰਮਾਣ ਪੱਤਰ",
+    "partners": "ਸਮੱਗਰੀ ਭਾਈਵਾਲ",
+    "aboutUs": {
+        "title": "ਸਾਡੇ ਬਾਰੇ",
+        "content1": "ਸਤੰਬਰ 2020 ਵਿੱਚ, ਭਾਰਤ ਸਰਕਾਰ ਨੇ ਮਿਸ਼ਨ ਕਰਮਯੋਗੀ, ਸਿਵਲ ਸੇਵਾਵਾਂ ਸਮਰੱਥਾ ਨਿਰਮਾਣ ਲਈ ਇੱਕ ਰਾਸ਼ਟਰੀ ਪ੍ਰੋਗਰਾਮ (ਐੱਨ. ਪੀ. ਸੀ. ਐੱਸ. ਸੀ. ਬੀ.) ਦੀ ਸ਼ੁਰੂਆਤ ਕੀਤੀ। ਇਸ ਪ੍ਰੋਗਰਾਮ ਦਾ ਉਦੇਸ਼ ਨਵੇਂ ਭਾਰਤ ਦੇ ਦ੍ਰਿਸ਼ਟੀਕੋਣ ਨਾਲ ਜੁਡ਼ੇ ਸਹੀ ਰਵੱਈਏ, ਹੁਨਰ ਅਤੇ ਗਿਆਨ ਨਾਲ ਭਵਿੱਖ ਲਈ ਤਿਆਰ ਸਿਵਲ ਸੇਵਾ ਦਾ ਨਿਰਮਾਣ ਕਰਨਾ ਹੈ।",
+        "content2": "ਕਰਮਯੋਗੀ ਭਾਰਤ ਭਾਰਤ ਸਰਕਾਰ ਦੀ ਮਲਕੀਅਤ ਵਾਲੀ ਇੱਕ ਐੱਸਪੀਵੀ ਹੈ, ਜਿਸ ਦੀ ਸਥਾਪਨਾ ਡੀਓਪੀਟੀ, ਪਰਸੋਨਲ, ਜਨਤਕ ਸ਼ਿਕਾਇਤਾਂ ਅਤੇ ਪੈਨਸ਼ਨਾਂ ਮੰਤਰਾਲੇ ਦੁਆਰਾ ਕੀਤੀ ਗਈ ਹੈ, ਜੋ ਮਿਸ਼ਨ ਕਰਮਯੋਗੀ ਦੇ ਦਾਇਰੇ ਵਿੱਚ ਆਈ. ਜੀ. ਓ. ਟੀ. ਕਰਮਯੋਗੀ (ਏਕੀਕ੍ਰਿਤ ਸਰਕਾਰੀ ਔਨਲਾਈਨ ਸਿਖਲਾਈ) ਪਲੇਟਫਾਰਮ ਦੀ ਮਾਲਕੀ, ਪ੍ਰਬੰਧਨ, ਰੱਖ-ਰਖਾਅ ਅਤੇ ਸੁਧਾਰ ਲਈ ਜ਼ਿੰਮੇਵਾਰ ਹੈ।",
+        "content3": "ਆਈ. ਜੀ. ਓ. ਟੀ. ਕਰਮਯੋਗੀ ਇੱਕ ਵੱਡੇ ਪੱਧਰ ਦਾ ਵਿਆਪਕ ਸਿਖਲਾਈ ਅਤੇ ਕੈਰੀਅਰ ਪ੍ਰਬੰਧਨ ਪਲੇਟਫਾਰਮ ਹੈ, ਜੋ ਸਰਕਾਰੀ ਅਧਿਕਾਰੀਆਂ ਦੀਆਂ ਵਿਲੱਖਣ ਗਿਆਨ ਜ਼ਰੂਰਤਾਂ ਨੂੰ ਪੂਰਾ ਕਰਨ ਲਈ ਭਾਰਤ ਵਿੱਚ ਬਣਾਇਆ ਗਿਆ ਹੈ।",
+        "content4": "ਇਹ ਮੰਚ ਨੈੱਟਵਰਕਿੰਗ, ਪੀਅਰ-ਟੂ-ਪੀਅਰ ਗੱਲਬਾਤ ਅਤੇ ਕੈਰੀਅਰ ਪ੍ਰਬੰਧਨ ਲਈ ਸਾਧਨਾਂ ਨਾਲ ਨਿਰੰਤਰ, ਟਕਰਾਅ ਰਹਿਤ ਅਤੇ ਨਿਰਦੇਸ਼ਿਤ ਸਿੱਖਣ ਦਾ ਵਾਤਾਵਰਣ ਪੈਦਾ ਕਰੇਗਾ। ਇੱਕ ਡਿਜੀਟਲ ਪਲੇਟਫਾਰਮ ਦੇ ਰੂਪ ਵਿੱਚ ਕਲਪਨਾ ਕੀਤੀ ਗਈ, ਇਸ ਦਾ ਉਦੇਸ਼ ਇੱਕ ਸਮੱਗਰੀ ਬਾਜ਼ਾਰ ਵਿੱਚ ਵਿਕਸਿਤ ਹੋਣਾ ਹੈ ਜਿੱਥੇ ਕੋਰਸਾਂ ਨੂੰ ਯੋਗਤਾਵਾਂ ਨਾਲ ਜੋਡ਼ਿਆ ਜਾਂਦਾ ਹੈ, ਜਿਸ ਨਾਲ ਸਾਰੇ ਸਿਵਲ ਸੇਵਾ ਅਧਿਕਾਰੀਆਂ ਲਈ ਅਨੁਕੂਲਿਤ ਯੋਗਤਾ ਵਿੱਚ ਵਾਧਾ ਕੀਤਾ ਜਾ ਸਕੇ।"
+    },
+    "conference": {
+        "title": "ਅਸੀਂ ਹੁਣ ਵੀਡੀਓ ਕਾਨਫਰੰਸਿੰਗ ਰਾਹੀਂ ਉਪਲਬਧ ਹਾਂ।",
+        "support": "ਕਿਸੇ ਵੀ ਸਹਾਇਤਾ ਦੀ ਜ਼ਰੂਰਤ ਲਈ",
+        "duration": "ਸੋਮਵਾਰ ਤੋਂ ਸ਼ੁੱਕਰਵਾਰ",
+        "slot": "ਸਵੇਰੇ 9 ਵਜੇ ਤੋਂ ਸ਼ਾਮ 5 ਵਜੇ ਤੱਕ",
+        "action": "ਹੁਣ ਕਾਲ ਕਰੋ",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "ਡਾਊਨਲੋਡ ਕਰੋ",
+        "iGot": "ਆਈ ਜੀ ਓ ਟੀ",
+        "karmayogi": "ਕਰਮਯੋਗੀ",
+        "mobile": "ਮੋਬਾਈਲ",
+        "app": "ਐਪ",
+        "description": "ਆਪਣੇ ਜੀਵਨ ਭਰ ਦੇ ਸਿੱਖਣ ਦੇ ਤਜਰਬੇ ਨੂੰ ਕਿਸੇ ਵੀ ਸਮੇਂ ਜਾਰੀ ਰੱਖੋ।",
+        "scanToDownload": "स्कैन तो डाउनलोड"
+    },
+    "footerLinks": {
+        "newsroom": "ਨਿਊਜ਼ ਰੂਮ",
+        "faq": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ",
+        "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+        "nodalOffice": "ਨੋਡਲ ਅਧਿਕਾਰੀਆਂ ਦਾ ਵੇਰਵਾ",
+        "doptCircular": "ਡੀਓਪੀਟੀ ਸਰਕੂਲਰ",
+        "karmayogiCorner": "ਕਰਮਯੋਗੀ ਕੋਨਾ",
+        "missionKarmayogi": "ਮਿਸ਼ਨ ਕਰਮਯੋਗੀ",
+        "dopt": "ਡੀਓਪੀਟੀ",
+        "cpc": "ਸਮਰੱਥਾ ਨਿਰਮਾਣ ਕਮਿਸ਼ਨ"
+    },
+    "hubNames": {
+        "learnHub": "ਹੱਬ ਸਿੱਖੋ",
+        "discussHub": "ਹੱਬ ਬਾਰੇ ਚਰਚਾ ਕਰੋ",
+        "networkHub": "ਨੈੱਟਵਰਕ ਹੱਬ",
+        "eventsHub": "ਇਵੈਂਟਸ ਹੱਬ",        
+        "competencyHub": "ਯੋਗਤਾ ਹੱਬ",
+        "careerHub": "ਕੈਰੀਅਰ ਹੱਬ"
+    },
+    "nodelHeader": {
+        "organization": "ਸੰਗਠਨ",
+        "ministry": "ਮੰਤਰਾਲਾ",
+        "nodalName": "ਨੋਡਲ ਨਾਮ",
+        "nodalEmail": "ਨੋਡਲ ਈਮੇਲ"
+    },
+    "twitter": "ਟਵਿੱਟਰ",
+    "linkedin": "ਲਿੰਕਡਇਨ",
+    "hallOfFame": {
+        "title": "ਫੇਮ ਦੀ ਕੰਧ",
+        "titleInfo":"ਵਾਲ ਆਫ ਫੇਮ ਪਿਛਲੇ ਮਹੀਨੇ ਵਿੱਚ ਪ੍ਰਾਪਤ ਕੀਤੇ ਸੰਚਤ ਅੰਕਾਂ ਦੇ ਅਧਾਰ ਉੱਤੇ ਚੋਟੀ ਦੇ 5 ਐੱਮ. ਡੀ. ਓਜ਼ ਨੂੰ ਪ੍ਰਦਰਸ਼ਿਤ ਕਰਦੀ ਹੈ। ਇਸ ਵਿੱਚ ਉਹ ਟੈਬ ਵੀ ਹੋਣਗੇ ਜੋ ਉਪਭੋਗਤਾ ਅਧਾਰ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰਦੇ ਹਨ ਅਤੇ ਹਰ ਮਹੀਨੇ ਦੇ ਪਹਿਲੇ ਦਿਨ ਅਪਡੇਟ ਕੀਤੇ ਜਾਂਦੇ ਹਨ।",
+        "tabHeading_1": "ਉਪਭੋਗਤਾ ਅਧਾਰ",
+        "tabHeading_2": "500 ਤੋਂ ਘੱਟ",
+        "tabHeading_3": "500-1K",
+        "tabHeading_4": "1ਕੇ-10ਕੇ",
+        "tabHeading_5": "10K-50K",
+        "tabHeading_6": "50 ਹਜ਼ਾਰ ਤੋਂ ਵੱਧ"
+    },
+    "organisationPartners": {
+        "title": "ਸੰਗਠਨ ਦੇ ਭਾਈਵਾਲ",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"-pu.",
+    "CopyrightMobile":"-pu",
+    "FaqTitle":"-pu",
+    "karmayogiCorner":"-pu",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "ਸਬੰਧਤ ਲਿੰਕ",
+        "support": "ਸਮਰਥਨ"
+    }
+}

@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "మా గురించి",
+        "missionKarmayogi": "మిషన్ కర్మయోగి",
+        "newsroom": "న్యూస్ రూమ్",
+        "contactUs": "మమ్మల్ని సంప్రదించండి",
+        "login": "లాగిన్ అవ్వండి",
+        "register": "నమోదు చేసుకోండి"
+    },
+    "topBanner": {
+        "iGot": "ఐజిఓటి",
+        "karmayogi": "కర్మయోగి",
+        "slogans1": "భారీ సామర్థ్యాన్ని పెంపొందించే కార్యక్రమం",
+        "followUs": "మమ్మల్ని అనుసరించండి",
+        "slogans2": "ప్రభుత్వ అధికారులను మార్చడం, భారతదేశాన్ని మార్చడం",
+        "slogans3": "'నియమాల ఆధారిత' నుండి 'పాత్రల ఆధారిత' పాలన",
+        "slogans4": "పౌర సేవకులను మార్చడం మరియు సాధికారత కల్పించడం",
+        "slogans5": "'కర్మచారి' నుండి 'కర్మయోగి' వరకు",
+        "slogans6": "అధికారుల సామర్థ్యం-ఆధారిత సామర్థ్యం పెంపుదల",
+        "slogans7": "కొత్త భారత్ కోసం విజన్ నుండి మిషన్ మోడ్ వరకు"
+    },
+    "stats": {
+        "karmayogisOnboarded": "మొత్తం కర్మయోగులు విమానంలో ఉన్నారు",
+        "totalCourses": "మొత్తం కోర్సులు",
+        "totalCompletitions": "మొత్తం పూర్తులు",
+        "monthlyActiveUsers": "నెలవారీ క్రియాశీల వినియోగదారులు",
+        "certificatesIssued": "నిన్న జారీ చేసిన ధృవపత్రాలు"
+    },
+    "gallery": {
+        "videoGallery": "వీడియో గ్యాలరీ",
+        "photoGallery": "ఫోటో గ్యాలరీ"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "ప్రధాని చర్చలు",
+        "courseSneakPeak": "కోర్సు స్నీక్ పీక్",
+        "karmaYogiTalks": "కర్మయోగి చర్చలు"
+    },
+    "solutionSpace": {
+        "learnHub": "వ్యక్తిగతీకరించిన అభ్యాస అనుభవానికి మీ ప్రవేశ ద్వారం",
+        "discussHub": "ఐజిఓటి కమ్యూనిటీలో మీ ఆలోచనలు మరియు జ్ఞానాన్ని పంచుకోండి, సూచించండి, పోస్ట్ చేయండి",
+        "networkHub": "మంత్రిత్వ శాఖలు, విభాగాలు, సంస్థలలోని సహచరులతో కనెక్ట్ అవ్వండి మరియు సహకరించండి.",
+        "eventsHub": "మీ నైపుణ్యాలను పెంచుకోవడానికి ఈవెంట్లు, వర్క్షాప్లు మరియు ఇంటరాక్టివ్ సెషన్లలో పాల్గొనండి.",
+        "competencyHub": "కాంపిటెన్సీ హబ్ మీ స్థానానికి సిఫార్సు చేసిన సామర్థ్యాలను వివరిస్తుంది, తద్వారా మీ వృద్ధి అవకాశాలను పెంచుతుంది.",
+        "careerHub": "మీ ఆకాంక్షలకు అనుగుణంగా ఉన్న వృత్తి మార్గాలను కనుగొనండి.",
+        "title": "కర్మయోగి కేంద్రాలు"
+    },
+    "walkThrough": {
+        "whatIsIGot": "ఐగాట్ అంటే ఏమిటి?",
+        "howToLoginAndRegister": "లాగిన్ చేసి రిజిస్టర్ చేసుకోవడం ఎలా",
+        "igotWalkthrough": "ఐజిఓటి వాక్ త్రూ"
+    },
+    "courses": {
+        "showcasedCourses": "ప్రదర్శించిన కోర్సులు",
+        "showAll":"అన్నీ చూపించు"
+    },
+    "socailHub": {
+        "socailHub": "సోషల్ హబ్",
+        "followUs": "మమ్మల్ని అనుసరించండి"
+    },
+    "newsRoom": "న్యూస్ రూమ్",
+    "testimonial": "ప్రశంసాపత్రాలు",
+    "partners": "కంటెంట్ భాగస్వాములు",
+    "aboutUs": {
+        "title": "మా గురించి",
+        "content1": "2020 సెప్టెంబరులో భారత ప్రభుత్వం మిషన్ కర్మయోగి అనే పౌర సేవల సామర్థ్యాన్ని పెంపొందించే జాతీయ కార్యక్రమాన్ని (ఎన్. పి. సి. ఎస్. సి. బి) ప్రారంభించింది. కొత్త భారతదేశం యొక్క దార్శనికతకు అనుగుణంగా సరైన వైఖరి, నైపుణ్యాలు మరియు జ్ఞానంతో భవిష్యత్తుకు సిద్ధంగా ఉన్న పౌర సేవను నిర్మించడం ఈ కార్యక్రమం లక్ష్యం.",
+        "content2": "కర్మయోగి భారత్ అనేది భారత ప్రభుత్వ యాజమాన్యంలోని ఎస్. పి. వి., దీనిని డి. ఓ. పి. టి, సిబ్బంది, ప్రజా ఫిర్యాదులు మరియు పింఛన్ల మంత్రిత్వ శాఖ స్థాపించింది, ఇది మిషన్ కర్మయోగి పరిధిలోకి వచ్చే ఐజిఓటి కర్మయోగి (ఇంటిగ్రేటెడ్ గవర్నమెంట్ ఆన్లైన్ ట్రైనింగ్) ప్లాట్ఫామ్ను సొంతం చేసుకోవడానికి, నిర్వహించడానికి, నిర్వహించడానికి మరియు మెరుగుపరచడానికి బాధ్యత వహిస్తుంది.",
+        "content3": "ఐజిఓటి కర్మయోగి అనేది ప్రభుత్వ అధికారుల విలక్షణమైన జ్ఞాన అవసరాలను తీర్చడానికి భారతదేశంలో తయారు చేయబడిన పెద్ద ఎత్తున సమగ్ర అభ్యాసం మరియు వృత్తి నిర్వహణ వేదిక.",
+        "content4": "నెట్వర్కింగ్, పీర్-టు-పీర్ పరస్పర చర్యలు మరియు కెరీర్ నిర్వహణ కోసం సాధనాలతో నిరంతర, ఘర్షణ లేని మరియు గైడెడ్ లెర్నింగ్ వాతావరణాన్ని ఈ వేదిక సృష్టిస్తుంది. డిజిటల్ ప్లాట్ఫామ్గా భావించిన ఇది, కోర్సులను సామర్థ్యాలకు అనుగుణంగా మ్యాప్ చేసే కంటెంట్ మార్కెట్గా అభివృద్ధి చెందాలని లక్ష్యంగా పెట్టుకుంది, తద్వారా సివిల్ సర్వీస్ అధికారులందరికీ అనుకూలీకరించిన సామర్థ్యాన్ని మెరుగుపరచడానికి వీలు కల్పిస్తుంది."
+    },
+    "conference": {
+        "title": "మేము ఇప్పుడు వీడియో కాన్ఫరెన్స్ ద్వారా అందుబాటులో ఉన్నాము.",
+        "support": "అవసరమైన ఏదైనా మద్దతు కోసం",
+        "duration": "సోమవారం నుండి శుక్రవారం వరకు",
+        "slot": "ఉదయం 9 గంటల నుండి సాయంత్రం 5 గంటల వరకు",
+        "action": "ఇప్పుడు కాల్ చేయండి",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "డౌన్లోడ్ చేయండి.",
+        "iGot": "ఐజిఓటి",
+        "karmayogi": "కర్మయోగి",
+        "mobile": "మొబైల్",
+        "app": "యాప్",
+        "description": "మీ జీవితకాల అభ్యాస అనుభవాన్ని ఎప్పుడైనా ఎక్కడైనా కొనసాగించండి.",
+        "scanToDownload": "డౌన్లోడ్ చేయడానికి స్కాన్ చేయండి"
+    },
+    "footerLinks": {
+        "newsroom": "న్యూస్ రూమ్",
+        "faq": "తరచుగా అడిగే ప్రశ్నలు",
+        "contactUs": "మమ్మల్ని సంప్రదించండి",
+        "nodalOffice": "నోడల్ అధికారుల వివరాలు",
+        "doptCircular": "డిఓపిటి సర్క్యులర్",
+        "karmayogiCorner": "కర్మయోగి మూలలో",
+        "missionKarmayogi": "మిషన్ కర్మయోగి",
+        "dopt": "డిఓపిటి",
+        "cpc": "సామర్థ్యాన్ని పెంపొందించే కమిషన్"
+    },
+    "hubNames": {
+        "learnHub": "హబ్ నేర్చుకోండి",
+        "discussHub": "హబ్ గురించి చర్చించండి",
+        "networkHub": "నెట్వర్క్ హబ్",
+        "eventsHub": "ఈవెంట్స్ హబ్",        
+        "competencyHub": "సమర్థత కేంద్రం",
+        "careerHub": "కెరీర్ హబ్"
+    },
+    "nodelHeader": {
+        "organization": "సంస్థ",
+        "ministry": "మంత్రిత్వ శాఖ",
+        "nodalName": "నోడల్ పేరు",
+        "nodalEmail": "నోడల్ ఇమెయిల్"
+    },
+    "twitter": "ట్విట్టర్",
+    "linkedin": "లింక్డ్ఇన్",
+    "hallOfFame": {
+        "title": "వాల్ ఆఫ్ ఫేమ్",
+        "titleInfo":"వాల్ ఆఫ్ ఫేమ్ మునుపటి నెలలో సంపాదించిన సంచిత స్కోర్ల ఆధారంగా టాప్ 5 ఎండిఓలను ప్రదర్శిస్తుంది. ఇది యూజర్ బేస్ను నిర్వచించే ట్యాబ్లను కూడా కలిగి ఉంటుంది మరియు ప్రతి నెల మొదటి రోజున నవీకరించబడుతుంది.",
+        "tabHeading_1": "వినియోగదారు ఆధారం",
+        "tabHeading_2": "500 కంటే తక్కువ",
+        "tabHeading_3": "500-1 K",
+        "tabHeading_4": "1కే-10కే",
+        "tabHeading_5": "10K-50K",
+        "tabHeading_6": "50 వేల కంటే ఎక్కువ"
+    },
+    "organisationPartners": {
+        "title": "సంస్థల భాగస్వాములు",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"కాపీరైట్ © కర్మయోగి భారత్ ద్వారా నిర్వహించబడే వెబ్‌సైట్.",
+    "CopyrightMobile":"కాపీరైట్ © కర్మయోగి భారత్ ద్వారా నిర్వహించబడే వెబ్‌సైట్.",
+    "FaqTitle":"ఎఫ్ఎక్యూ చాట్బాట్",
+    "karmayogiCorner":"కర్మయోగి కార్నర్",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "Related Links",
+        "support": "Support"
+    }
+}

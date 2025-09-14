@@ -1,0 +1,129 @@
+.header {
+    position: relative;
+    background: #FCE5CC;
+    z-index: 0;
+    padding-bottom: 4rem;
+    padding-top: 100px;
+
+    @media (max-width:756px) {
+        padding-top: 125px;
+        // margin-top: 16px;
+    }
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0px;
+    right: 0;
+    bottom: 20%;
+    left: 0px;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.banner-img {
+    box-shadow: 0px 0px 24px 0px #00000029;
+}
+
+.banner-wrapper {
+    // padding: 66px 92px 0 92px;
+    padding-top: 66px;
+
+    @media (max-width:992px) {
+        padding: 22px 56px;
+        // margin-top: 16px;
+    }
+
+    @media (max-width:576px) {
+        padding: 0 16px;
+    }
+}
+
+.banner-inner {
+    position: relative;
+
+    @media (max-width:1200px) and (min-width: 992px) {
+        // width: 485px;
+        display: flex;
+        align-items: center;
+    }
+
+    .line1 {
+        position: absolute;
+        width: 27px;
+        height: 113px;
+        top: -42px;
+        left: 0px;
+        background-color: #1B4CA1;
+        border-radius: 14px;
+        rotate: 45deg;
+        z-index: -1;
+    }
+
+    .line2 {
+        position: absolute;
+        width: 27px;
+        height: 172px;
+        bottom: -50px;
+        right: 20px;
+        background-color: #F39834;
+        border-radius: 14px;
+        rotate: 45deg;
+        z-index: -1;
+
+    }
+
+    @media (max-width:1340px) {
+        .line2 {
+            bottom: -59px;
+            right: 17px;
+        }
+    }
+
+    @media (max-width:1200px) {
+        .line2 {
+            width: 21px;
+            height: 85px;
+            bottom: -9px;
+            right: -3px;
+        }
+
+        .line1 {
+            width: 21px;
+            height: 83px;
+            top: -4px;
+            left: 0px;
+        }
+    }
+
+    @media (max-width:992px) {
+        margin: 2rem auto;
+
+        .line1 {
+            top: -22px;
+            left: -3px;
+        }
+        .line2 {
+            bottom: -36px;
+            right: 1px;
+        }
+    }
+
+    @media (max-width:576px) {
+        .line1 {
+            width: 21px;
+            height: 80px;
+            top: -26px;
+            left: 4px;
+        }
+
+        .line2 {
+            width: 21px;
+            height: 89px;
+            bottom: -31px;
+            right: 10px;
+        }
+    }
+
+}

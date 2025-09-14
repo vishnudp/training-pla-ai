@@ -1,0 +1,636 @@
+<div class="request-container">
+    <h2 class="highlight-ai">
+        <span class="ai-loader-icon-medium"><img src="assets/icons/ai-loader.gif"></span><span>AI Driven CBP</span>
+    </h2>
+</div>
+
+<div class="container">
+    <div class="heading">Create CBP</div>
+    <div *ngIf="nextStep === 'initial'">
+        <app-role-mapping-generation (successRoleMapping)="successRoleMapping($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
+    </div>
+    <div *ngIf="nextStep === 'role-mapping'">
+        <app-role-mapping-list [formData]="formData" (moveToInitialScreen)="moveToInitialScreen($event)"></app-role-mapping-list>
+    </div>
+</div>
+
+
+
+<!-- <div class="role-mapping-suggestion">
+    <div class="container">
+        <mat-card class="mt-2">
+            <div class="section-header">
+                <div class="sub-heading">
+                    <p>Role Mapping / Generate Course Recommendation</p>
+                </div>
+                <div class="btn-group">
+                    <div>
+                        <input class="btn-disable" type="button" value="Suggest More Courses From iGOT" />
+                    </div>
+                    <div class="pl-2">
+                        <input class="btn-disable" type="button" value="Save Courses" />
+                    </div>
+                </div>
+            </div>
+            <div class="edit-section">
+                <div class="select-map-route-container">
+                    <div class="selected-mapping-route">
+                        <p>Secretary (WCD) / Ministry of Women and Child / Ruler Development</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="course-container my-4">
+                <div class="course-list-container">
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-pill">
+                                    <div class="course-pill-text">Course</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="igot-platform-pill">
+                                    <div class="igot-platform-pill-text">
+                                        <span class="igot-platform-icon"><img src="assets/centerimage.png"></span>
+                                        <span>iGOT Platform</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-pill">
+                                    <div class="course-pill-text">Course</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="ai-recommened-pill">
+                                    <div class="ai-recommened-pill-text">
+                                        <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                        <span>AI Recommended</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </mat-card>
+    </div>
+</div>
+
+<div class="role-mapping-container">
+    <div class="container">
+        <mat-card class="mt-2">
+            <div class="section-header">
+                <div class="sub-heading">
+                    <p>Save Courses</p>
+                </div>
+                <div class="btn-group">
+                    <div>
+                        <input class="btn-disable" type="button" value="Cancel" />
+                    </div>
+                    <div class="pl-2">
+                        <input class="btn-disable" type="button" value="Add the selected course with designation" />
+                    </div>
+                </div>
+            </div>
+            <div class="edit-section">
+                <div class="select-map-route-container">
+                    <div class="selected-mapping-route">
+                        <p>Secretary (WCD) / Ministry of Women and Child / Ruler Development</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="search-filter-section">
+                <div class="search flex margin-right-m">
+                    <label class="label">Search</label>
+                    <div>
+                        <div class="search-container">
+                            <div class="rsearch">
+                                <mat-icon
+                                    class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                <input class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                    (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                    placeholder="Search Courses" type="Standard">
+                            </div>
+                            <div class="pl-2">
+                                <input class="btn-disable" type="button" value="Search" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <mat-checkbox>Select All Courses</mat-checkbox>
+                </div>
+            </div>
+            <div class="course-container my-4">
+
+                <div class="course-list-container">
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div class="checked-course-container">
+                                <div>
+                                    <mat-checkbox></mat-checkbox>
+                                </div>
+                                <div class="ml-2">
+                                    <div class="course-pill">
+                                        <div class="course-pill-text">Course</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="ai-recommened-pill">
+                                    <div class="ai-recommened-pill-text">
+                                        <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                        <span>AI Recommended</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-pill">
+                                    <div class="course-pill-text">Course</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="ai-recommened-pill">
+                                    <div class="ai-recommened-pill-text">
+                                        <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                        <span>AI Recommended</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </mat-card>
+    </div>
+</div>
+
+<div class="role-mapping-container">
+    <div class="container">
+        <mat-card class="mt-2">
+            <div class="section-header">
+                <div class="sub-heading">
+                    <p>Add Courses</p>
+                </div>
+                <div class="btn-group">
+                    <div>
+                        <input class="btn-disable" type="button" value="Cancel" />
+                    </div>
+                    <div class="pl-2">
+                        <input class="btn-disable" type="button" value="Add the selected course with designation" />
+                    </div>
+                </div>
+            </div>
+            <div class="edit-section">
+                <div class="select-map-route-container">
+                    <div class="selected-mapping-route">
+                        <p>Secretary (WCD) / Ministry of Women and Child / Ruler Development</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="search-filter-section">
+                <div class="search flex margin-right-m">
+                    <label class="label">Search</label>
+                    <div>
+                        <div class="search-container">
+                            <div class="rsearch">
+                                <mat-icon
+                                    class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                <input class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                    (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                    placeholder="Search Courses" type="Standard">
+                            </div>
+                            <div class="pl-2">
+                                <input class="btn-disable" type="button" value="Search" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <mat-checkbox [checked]="true">Select All Courses</mat-checkbox>
+                </div>
+            </div>
+            <div class="course-container my-4">
+
+                <div class="course-list-container">
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div class="checked-course-container">
+                                <div>
+                                    <mat-checkbox [checked]="true"></mat-checkbox>
+                                </div>
+                                <div class="ml-2">
+                                    <div class="course-pill">
+                                        <div class="course-pill-text">Course</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="ai-recommened-pill">
+                                    <div class="ai-recommened-pill-text">
+                                        <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                        <span>AI Recommended</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-list-item">
+                        <div class="course-header">
+                            <div>
+                                <div class="course-pill">
+                                    <div class="course-pill-text">Course</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="ai-recommened-pill">
+                                    <div class="ai-recommened-pill-text">
+                                        <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                        <span>AI Recommended</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-title">
+                            <div>
+                                <div>Maternal, Infant And Young Child Nutrition</div>
+                            </div>
+                        </div>
+                        <div class="course-desc">
+                            <div>
+                                <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
+                                    which is
+                                    to provide and educate on nutrition for mother and young children</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="relevancy-container">
+                                <div class="relevancy">Relevancy</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">90%</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="competencies-matched-container">
+                                <div class="competencies-matched">Competencies Matched</div>
+                                <div class="dash">-</div>
+                                <div class="percentage">80%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </mat-card>
+    </div>
+</div>
+
+<div class="view-cbp-plan">
+    <div class="container">
+        <mat-card class="mt-2">
+            <div class="section-header">
+                <h2>Secretary (WCD)</h2>
+            </div>
+
+            <div class="competency-container">
+                <div class="outside-layer">
+                    <div class="inside-layer">
+                        Behavioural Competencies
+                    </div>
+                </div>
+                <div class="outside-layer">
+                    <div class="inside-layer">
+                        Behavioural Competencies
+                    </div>
+                </div>
+                <div class="outside-layer">
+                    <div class="inside-layer">
+                        Behavioural Competencies
+                    </div>
+                </div>
+                <div class="outside-layer">
+                    <div class="inside-layer">
+                        Behavioural Competencies
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="sub-heading">
+                    <p>Wing/Division</p>
+                </div>
+                <input type="text" value="Ministry Leadership"
+                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px;">
+            </div>
+            <div>
+                <div class="sub-heading">
+                    <p>Rols & Responsibilities</p>
+                </div>
+                <div class="mt-4 additional-details">
+                    <textarea rows="5" placeholder="Additional details"></textarea>
+                </div>
+            </div>
+            <div>
+                <div class="sub-heading">
+                    <p>Competency</p>
+                </div>
+                <div class="search-filter-section">
+                    <div class="search flex margin-right-m">
+                        <label class="label">Search</label>
+                        <div>
+                            <div class="search-container">
+                                <div class="rsearch">
+                                    <mat-icon
+                                        class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                    <input style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px;"
+                                        class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                        (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                        placeholder="Search by designation name or wing/division..." type="Standard">
+                                </div>
+                                <div class="pl-2">
+                                    <input class="btn-disable" type="button" value="Search" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="filter-section flex">
+                        <div>
+                            <label class="label">Filter by competency type</label>
+                            <div>
+                                <mat-form-field appearance="fill"
+                                    style="background: white; border-radius: 25px; padding: 0 12px;">
+                                    <mat-select [(value)]="selectedValue" placeholder="Select Ministry"
+                                        style="border-radius: 25px; background: white;">
+                                        <mat-option [value]="'test'">Test</mat-option>
+                                        <mat-option [value]="'another'">Another</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input class="btn-disable" type="button" value="Add" />
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+<div class="suggest-courses-plan">
+    <div class="container">
+        <mat-card class="mt-2">
+            <div class="suggest-courses-header">
+                <div>
+                    <div class="section-header">
+                        <h2>Suggest Course from iGOT</h2>
+                    </div>
+                    <div class="sub-heading">
+                        <p>These courses is coming from the iGOT platform</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="suggest-course-control">
+                        <div>
+                            <input class="btn-disable" type="button" value="Cancel" />
+                        </div>
+                        <div>
+                            <input class="btn-disable" type="button" value="Add" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="sub-heading">
+                    <p>Competency</p>
+                </div>
+                <div class="search-filter-section">
+                    <div class="search flex margin-right-m">
+                        <label class="label">Search</label>
+                        <div>
+                            <div class="search-container">
+                                <div class="rsearch">
+                                    <mat-icon
+                                        class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                                    <input style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px;"
+                                        class="sinput color-60 w-full" [(ngModel)]="searchText"
+                                        (keyup.enter)="searchData()" label="" (input)="applyFilter()"
+                                        placeholder="Search by designation name or wing/division..." type="Standard">
+                                </div>
+                                <div class="pl-2">
+                                    <input class="btn-disable" type="button" value="Search" />
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <mat-checkbox>Select All Courses</mat-checkbox>
+                </div>
+            </div>
+            <div class="course-card-container">
+                <div>
+                    <div>
+                        <img src="assets/career/careers1.png"/>
+                    </div>
+                    <div>
+                        <div class="course-pill">
+                            <div class="course-pill-text">Course</div>
+                        </div>
+                    </div>
+                    <div>
+                        Code of Conduct for Government Employees
+                    </div>
+                    <div>
+                        Published on: 1/May/24
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div> 
+
+<div class="progress-popup">
+    
+    <div class="heading">
+        <div>Adding Your Courses</div>
+    </div>
+    <div class="">
+        <div>Wait a second , your adding in processing….</div>
+    </div>
+    <div class="progress-icon">
+        <img src="assets/icons/progress-icon.svg">
+    </div>
+</div> -->

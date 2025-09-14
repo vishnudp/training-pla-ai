@@ -1,0 +1,195 @@
+{
+    "topNavBar": {
+        "aboutUs": "ଆମ ବିଷଯ଼ରେ",
+        "missionKarmayogi": "ମିଶନ କର୍ମଯୋଗୀ",
+        "newsroom": "ସମ୍ବାଦ କକ୍ଷ",
+        "contactUs": "ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+        "login": "ଲଗ୍ ଇନ୍ କରନ୍ତୁ",
+        "register": "ପଞ୍ଜିକରଣ କରନ୍ତୁ"
+    },
+    "topBanner": {
+        "iGot": "ଆଇଜିଓଟି",
+        "karmayogi": "କର୍ମଯୋଗୀ",
+        "slogans1": "ବ୍ଯ଼ାପକ କ୍ଷମତା ନିର୍ମାଣ ପଦକ୍ଷେପ",
+        "followUs": "ଆମକୁ ଅନୁସରଣ କରନ୍ତୁ",
+        "slogans2": "ସରକାରୀ ଅଧିକାରୀମାନଙ୍କର ପରିବର୍ତ୍ତନ, ଭାରତର ପରିବର୍ତ୍ତନ",
+        "slogans3": "'ନିଯ଼ମ-ଆଧାରିତ' ରୁ 'ଭୂମିକା-ଆଧାରିତ' ଶାସନ",
+        "slogans4": "ପ୍ରଶାସନିକ କର୍ମଚାରୀଙ୍କ ପରିବର୍ତ୍ତନ ଏବଂ ସଶକ୍ତିକରଣ",
+        "slogans5": "'କର୍ମଚାରୀ' ରୁ 'କର୍ମଯୋଗୀ'",
+        "slogans6": "ଅଧିକାରୀମାନଙ୍କ ଦକ୍ଷତା-ପରିଚାଳିତ କ୍ଷମତା ନିର୍ମାଣ",
+        "slogans7": "ଏକ ନୂତନ ଭାରତ ପାଇଁ ଦୂରଦୃଷ୍ଟିରୁ ମିଶନ ମୋଡକୁ"
+    },
+    "stats": {
+        "karmayogisOnboarded": "ମୋଟ କର୍ମଯୋଗୀମାନେ ଏଥିରେ ସାମିଲ ହୋଇଛନ୍ତି।",
+        "totalCourses": "ମୋଟ ପାଠ୍ଯ଼କ୍ରମ",
+        "totalCompletitions": "ମୋଟ ସମାପ୍ତି",
+        "monthlyActiveUsers": "ମାସିକ ସକ୍ରିଯ଼ ବ୍ଯ଼ବହାରକାରୀମାନେ",
+        "certificatesIssued": "ଗତକାଲି ଜାରି କରାଯାଇଥିବା ପ୍ରମାଣପତ୍ର"
+    },
+    "gallery": {
+        "videoGallery": "ଭିଡିଓ ଗ୍ଯ଼ାଲେରୀ",
+        "photoGallery": "ଫଟୋ ଗ୍ଯ଼ାଲେରୀ"
+    },
+    "VideoGalleryTabs": {
+        "pmTalks": "ପ୍ରଧାନମନ୍ତ୍ରୀଙ୍କ ଆଲୋଚନା",
+        "courseSneakPeak": "କୋର୍ସ ସ୍ନୀକ୍ ଶିଖର",
+        "karmaYogiTalks": "କର୍ମଯୋଗୀ ବାର୍ତ୍ତାଳାପ"
+    },
+    "solutionSpace": {
+        "learnHub": "ଏକ ବ୍ଯ଼କ୍ତିଗତ ଶିକ୍ଷଣ ଅଭିଜ୍ଞତାର ପ୍ରବେଶ ଦ୍ୱାର",
+        "discussHub": "ଆଇ. ଜି. ଓ. ଟି. ଗୋଷ୍ଠୀରେ ନିଜର ବିଚାର ଏବଂ ଜ୍ଞାନ ବାଣ୍ଟନ୍ତୁ, ପରାମର୍ଶ ଦିଅନ୍ତୁ, ପୋଷ୍ଟ କରନ୍ତୁ।",
+        "networkHub": "ମନ୍ତ୍ରଣାଳଯ଼, ବିଭାଗ, ସଙ୍ଗଠନର ସହକର୍ମୀମାନଙ୍କ ସହିତ ଯୋଡ଼ି ହୁଅନ୍ତୁ ଏବଂ ସହଯୋଗ କରନ୍ତୁ।",
+        "eventsHub": "ନିଜର ଦକ୍ଷତା ବୃଦ୍ଧି କରିବା ପାଇଁ କାର୍ଯ୍ଯ଼କ୍ରମ, କର୍ମଶାଳା ଏବଂ ଭାବ ବିନିମଯ଼ ଅଧିବେଶନରେ ଅଂଶଗ୍ରହଣ କରନ୍ତୁ।",
+        "competencyHub": "କମ୍ପିଟିନ୍ସି ହବ୍ ଆପଣଙ୍କ ପଦବୀ ପାଇଁ ସୁପାରିସ କରାଯାଇଥିବା ଦକ୍ଷତାର ବିବରଣୀ ପ୍ରଦାନ କରିଥାଏ, ଯାହାଦ୍ୱାରା ଆପଣଙ୍କ ବିକାଶର ସୁଯୋଗ ବୃଦ୍ଧି ପାଇଥାଏ।",
+        "careerHub": "ନିଜ ଅଭିଳାଷ ଅନୁସାରେ କ୍ଯ଼ାରିଅରର ମାର୍ଗ ଖୋଜନ୍ତୁ।",
+        "title": "କର୍ମଯୋଗୀ ହବ୍"
+    },
+    "walkThrough": {
+        "whatIsIGot": "ଆଇଗାଟ୍ କ \"ଣ?",
+        "howToLoginAndRegister": "କିପରି ଲଗ୍ଇନ୍ ଏବଂ ପଞ୍ଜିକରଣ କରିବେ",
+        "igotWalkthrough": "ଆଇଜିଓଟି ୱାକ୍ଥ୍ରୁ"
+    },
+    "courses": {
+        "showcasedCourses": "ପ୍ରଦର୍ଶିତ ପାଠ୍ଯ଼କ୍ରମ",
+        "showAll":"-od"
+    },
+    "socailHub": {
+        "socailHub": "ସାମାଜିକ ହବ୍",
+        "followUs": "ଆମକୁ ଅନୁସରଣ କରନ୍ତୁ"
+    },
+    "newsRoom": "ସମ୍ବାଦ କକ୍ଷ",
+    "testimonial": "ପ୍ରଶଂସାପତ୍ର",
+    "partners": "ବିଷଯ଼ବସ୍ତୁ ଅଂଶୀଦାର",
+    "aboutUs": {
+        "title": "ଆମ ବିଷଯ଼ରେ",
+        "content1": "ସେପ୍ଟେମ୍ବର 2020 ରେ, ଭାରତ ସରକାର ମିଶନ କର୍ମଯୋଗୀ, ସିଭିଲ୍ ସର୍ଭିସ୍ କ୍ଷମତା ନିର୍ମାଣ ପାଇଁ ଏକ ଜାତୀଯ଼ କାର୍ଯ୍ଯ଼କ୍ରମ (NPCSCB) ଆରମ୍ଭ କରିଥିଲେ। ଏହି କାର୍ଯ୍ଯ଼କ୍ରମର ଉଦ୍ଦେଶ୍ଯ଼ ହେଉଛି ନୂତନ ଭାରତର ପରିକଳ୍ପନା ସହିତ ସଠିକ ମନୋଭାବ, ଦକ୍ଷତା ଏବଂ ଜ୍ଞାନ ସହିତ ଭବିଷ୍ଯ଼ତରେ ପ୍ରସ୍ତୁତ ନାଗରିକ ସେବା ନିର୍ମାଣ କରିବା।",
+        "content2": "କର୍ମଯୋଗୀ ଭାରତ ହେଉଛି ଭାରତ ସରକାରଙ୍କ ମାଲିକାନାରେ ଥିବା ଏକ ଏସ୍. ପି. ଭି., ଯାହା ଡି. ଓ. ପି. ଟି., କାର୍ମିକ, ସାଧାରଣ ଅଭିଯୋଗ ଏବଂ ପେନସନ୍ ମନ୍ତ୍ରଣାଳଯ଼ ଦ୍ୱାରା ସ୍ଥାପିତ, ଯାହା ମିଶନ କର୍ମଯୋଗୀ ଅଧୀନରେ ଆଇ. ଜି. ଓ. ଟି କର୍ମଯୋଗୀ (ସମନ୍ୱିତ ସରକାରୀ ଅନଲାଇନ୍ ତାଲିମ) ପ୍ଲାଟଫର୍ମର ମାଲିକାନା, ପରିଚାଳନା, ରକ୍ଷଣାବେକ୍ଷଣ ଏବଂ ଉନ୍ନତି ପାଇଁ ଦାଯ଼ୀ।",
+        "content3": "ଆଇଜିଓଟି କର୍ମଯୋଗୀ ହେଉଛି ଏକ ବ୍ଯ଼ାପକ ଶିକ୍ଷା ଏବଂ କ୍ଯ଼ାରିଅର ମ୍ଯ଼ାନେଜମେଣ୍ଟ ପ୍ଲାଟଫର୍ମ, ଯାହା ସରକାରୀ ଅଧିକାରୀଙ୍କ ସ୍ୱତନ୍ତ୍ର ଜ୍ଞାନ ଆବଶ୍ଯ଼କତାକୁ ପୂରଣ କରିବା ପାଇଁ ଭାରତରେ ନିର୍ମିତ।",
+        "content4": "ଏହି ମଞ୍ଚ ନେଟୱାର୍କିଂ, ପରସ୍ପର ସହ କଥାବାର୍ତ୍ତା ଏବଂ କ୍ଯ଼ାରିଯ଼ର ପରିଚାଳନା ପାଇଁ ଉପକରଣ ସହିତ ନିରନ୍ତର, ଘର୍ଷଣହୀନ ଏବଂ ନିର୍ଦ୍ଦେଶିତ ଶିକ୍ଷଣର ପରିବେଶ ସୃଷ୍ଟି କରିବ। ଏକ ଡିଜିଟାଲ୍ ପ୍ଲାଟଫର୍ମ ଭାବରେ ପରିକଳ୍ପିତ, ଏହାର ଲକ୍ଷ୍ଯ଼ ହେଉଛି ଏକ ବିଷଯ଼ବସ୍ତୁ ବଜାରରେ ବିକଶିତ ହେବା ଯେଉଁଠାରେ ପାଠ୍ଯ଼କ୍ରମଗୁଡିକ ଦକ୍ଷତା ସହିତ ମ୍ଯ଼ାପ୍ କରାଯାଏ, ଯାହା ଦ୍ୱାରା ସମସ୍ତ ସିଭିଲ୍ ସର୍ଭିସ୍ ଅଧିକାରୀଙ୍କ ପାଇଁ ସ୍ୱତନ୍ତ୍ର ଦକ୍ଷତା ବୃଦ୍ଧି ସକ୍ଷମ ହୁଏ |"
+    },
+    "conference": {
+        "title": "ଆମେ ଏବେ ଭିଡିଓ କନଫରେନ୍ସ ଜରିଆରେ ଉପଲବ୍ଧ ଅଛୁ।",
+        "support": "ଆବଶ୍ଯ଼କ ଯେକୌଣସି ସହାଯ଼ତା ପାଇଁ",
+        "duration": "ସୋମବାରରୁ ଶୁକ୍ରବାର",
+        "slot": "ସକାଳ 9ଟାରୁ ସନ୍ଧ୍ଯ଼ା 5ଟା ପର୍ଯ୍ଯ଼ନ୍ତ",
+        "action": "ଏବେ କଲ୍ କରନ୍ତୁ",
+        "url": ""
+    },
+    "downloadSection": {
+        "download": "ଡାଉନ୍ଲୋଡ୍ କରନ୍ତୁ",
+        "iGot": "ଆଇଜିଓଟି",
+        "karmayogi": "କର୍ମଯୋଗୀ",
+        "mobile": "ମୋବାଇଲ",
+        "app": "ଆପ୍",
+        "description": "ଯେକୌଣସି ସମଯ଼ରେ ଯେକୌଣସି ସ୍ଥାନରେ ଆପଣଙ୍କ ଜୀବନବ୍ଯ଼ାପୀ ଶିକ୍ଷଣ ଅନୁଭୂତି ଜାରି ରଖନ୍ତୁ।",
+        "scanToDownload": "ଡାଉନ୍ଲୋଡ୍ କରିବା ପାଇଁ ସ୍କାନ୍ କରନ୍ତୁ"
+    },
+    "footerLinks": {
+        "newsroom": "ସମ୍ବାଦ କକ୍ଷ",
+        "faq": "ବାରମ୍ବାର ପଚରାଯାଉଥିବା ପ୍ରଶ୍ନ",
+        "contactUs": "ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ",
+        "nodalOffice": "ନୋଡାଲ ଅଧିକାରୀଙ୍କ ବିବରଣୀ",
+        "doptCircular": "ଡିଓପିଟି ସର୍କୁଲାର",
+        "karmayogiCorner": "କର୍ମଯୋଗୀ କୋଣ",
+        "missionKarmayogi": "ମିଶନ କର୍ମଯୋଗୀ",
+        "dopt": "ଡିଓପିଟି",
+        "cpc": "କ୍ଷମତା ନିର୍ମାଣ ଆଯ଼ୋଗ"
+    },
+    "hubNames": {
+        "learnHub": "ହବ୍ ଶିଖନ୍ତୁ",
+        "discussHub": "ହବ୍ ବିଷଯ଼ରେ ଆଲୋଚନା କରନ୍ତୁ",
+        "networkHub": "ନେଟୱର୍କ ହବ୍",
+        "eventsHub": "ଇଭେଣ୍ଟ ହବ୍",        
+        "competencyHub": "ଦକ୍ଷତା ହବ୍",
+        "careerHub": "କ୍ଯ଼ାରିଯ଼ର ହବ୍"
+    },
+    "nodelHeader": {
+        "organization": "ସଙ୍ଗଠନ",
+        "ministry": "ମନ୍ତ୍ରଣାଳଯ଼",
+        "nodalName": "ନୋଡାଲ ନାମ",
+        "nodalEmail": "ନୋଡାଲ ଇମେଲ"
+    },
+    "twitter": "ଟ୍ୱିଟର",
+    "linkedin": "ଲିଙ୍କ୍ଡେନ୍ |",
+    "hallOfFame": {
+        "title": "ୱାଲ୍ ଅଫ୍ ଫେମ",
+        "titleInfo":"ୱାଲ୍ ଅଫ୍ ଫେମ୍ ପୂର୍ବ ମାସରେ ଅର୍ଜିତ ମୋଟ ସ୍କୋର ଆଧାରରେ ଶ୍ରେଷ୍ଠ 5 ଜଣ ଏମ୍. ଡି. ଓ. ଙ୍କୁ ପ୍ରଦର୍ଶିତ କରିଥାଏ। ଏଥିରେ ଏପରି ଟ୍ଯ଼ାବ ମଧ୍ଯ଼ ରହିବ ଯାହା ବ୍ଯ଼ବହାରକାରୀ ଆଧାରକୁ ପରିଭାଷିତ କରିବ ଏବଂ ପ୍ରତି ମାସର ପ୍ରଥମ ଦିନରେ ଅପଡେଟ୍ ହେବ।",
+        "tabHeading_1": "ବ୍ଯ଼ବହାରକାରୀ ଆଧାର",
+        "tabHeading_2": "500ରୁ କମ୍",
+        "tabHeading_3": "500-1K",
+        "tabHeading_4": "1କେ-10କେ",
+        "tabHeading_5": "10କେ-50କେ",
+        "tabHeading_6": "50k ରୁ ଅଧିକ"
+    },
+    "organisationPartners": {
+        "title": "ସଙ୍ଗଠନ ଅଂଶୀଦାରମାନେ",
+        "slideText_1": "Ministry of Agriculture & Farmers Welfare",
+        "slideText_2": "Ministry of AYUSH",
+        "slideText_3": "Ministry of Chemicals & Fertilizers",
+        "slideText_4": "Ministry of Civil Aviation",
+        "slideText_5": "Ministry of Coal",
+        "slideText_6": "Ministry of Commerce & Industry",
+        "slideText_7": "Ministry of Communications",
+        "slideText_8": "Ministry of Consumer Affairs, Food & Public Distribution",
+        "slideText_9": "Ministry of Cooperation",
+        "slideText_10": "Ministry of Corporate Affairs",
+        "slideText_11": "Ministry of Culture",
+        "slideText_12": "Ministry of Defence",
+        "slideText_13": "Ministry of Development of North Eastern Region",
+        "slideText_14": "Ministry of Earth Sciences",
+        "slideText_15": "Ministry of Education",
+        "slideText_16": "Ministry of Electronics & Information Technology",
+        "slideText_17": "Ministry of Environment, Forest & Climate Change",
+        "slideText_18": "Ministry of External Affairs",
+        "slideText_19": "Ministry of of Finance",
+        "slideText_20": "Ministry of Finance",
+        "slideText_21": "Ministry of Fisheries, Animal Husbandry & Dairying",
+        "slideText_22": "Ministry of Food Processing Industries",
+        "slideText_23": "Ministry of Health & Family Welfare",
+        "slideText_24": "Ministry of Heavy Industries",
+        "slideText_25": "Ministry of Home Affairs",
+        "slideText_26": "Ministry of Housing & Urban Affairs",
+        "slideText_27": "Ministry of Information & Broadcasting",
+        "slideText_28": "Ministry of Jal Shakti",
+        "slideText_29": "Ministry of Labour & Employment",
+        "slideText_30": "Ministry of Law & Justice",
+        "slideText_31": "Ministry of Micro, Small & Medium Enterprises",
+        "slideText_32": "Ministry of Mines",
+        "slideText_33": "Ministry of Minority Affairs",
+        "slideText_34": "Ministry of New & Renewable Energy",
+        "slideText_35": "Ministry of Panchayati Raj",
+        "slideText_36": "Ministry of Parliamentary Affairs",
+        "slideText_37": "Ministry of Personnel, Public Grievances & Pensions",
+        "slideText_38": "Ministry of Petroleum & Natural Gas",
+        "slideText_39": "Ministry of Planning",
+        "slideText_40": "Ministry of Ports, Shipping & Waterways",
+        "slideText_41": "Ministry of Power",
+        "slideText_42": "Ministry of Railways",
+        "slideText_43": "Ministry of Road Transport & Highways",
+        "slideText_44": "Ministry of Rural Development",
+        "slideText_45": "Ministry of Science & Technology",
+        "slideText_46": "Ministry of Skill Development & Entrepreneurship",
+        "slideText_47": "Ministry of Social Justice &Empowerment",
+        "slideText_48": "Ministry of Statistics & Programme Implementation",
+        "slideText_49": "Ministry of Steel",
+        "slideText_50": "Ministry of Textiles",
+        "slideText_51": "Ministry of Tourism",
+        "slideText_52": "Ministry of Tribal Affairs",
+        "slideText_53": "Ministry of Women & Child Development",
+        "slideText_54": "Ministry of Youth Affairs & Sports",
+        "slideText_55": "President’s Secretariat",
+        "slideText_56": "Prime Minister’s Office",
+        "slideText_57": "National Security Council Secretariat",
+        "slideText_58": "Rajya Sabha Secretariat",
+        "slideText_59": "Lok Sabha Secretariat",
+        "slideText_60": "Vice-President Secretariat"
+    },
+    "Copyright":"-od",
+    "CopyrightMobile":"-od",
+    "FaqTitle":"-od",
+    "karmayogiCorner":"-od",
+    "mwebFooterLinkHeading": {
+        "relatedLinks": "Related Links",
+        "support": "Support"
+    }
+}

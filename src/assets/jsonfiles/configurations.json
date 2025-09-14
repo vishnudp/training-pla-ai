@@ -1,0 +1,79 @@
+{
+    "portalURL": "https://portal.dev.karmayogibharat.net/",       
+    "telmetryUrl": "https://portal.dev.karmayogibharat.net/",
+    "loginPageRedirection": false,
+    "karmayogiOnboarded": "149137",
+    "registeredMdo": "742",
+    "courses": "589",
+    "availableContent": "682",
+    "courseEnrollments": "4166",
+    "activeUsers": "1200000",
+    "contentBucket": "assets/public",
+    "certImage": "assets/certimage/content",
+    "telemetryConfig" : {
+      "pdata": {
+        "id": "sunbird-cb-staticportal",
+        "ver": "3.0.1",
+        "pid": "sunbird-cb-staticportal"
+      },
+      "env": "prod",
+      "channel": "igot",
+      "batchsize": 10,
+      "host": "",
+      "endpoint": "api/data/v1/public/telemetry",
+      "apislug": "",
+      "object": {},
+      "publicEndpoint": "apis/data/v1/public/telemetry",
+      "protectedEndpoint": "apis/protected/v8/user/telemetry"
+    },
+    "showLookerProDashboard": true,
+    "lookerProDesktopUrl": "https://lookerstudio.google.com/embed/reporting/19d5f74a-da45-472c-81f6-e5438db05d4a/page/fyd9D",
+    "lookerProMobileUrl": "https://lookerstudio.google.com/embed/reporting/19d5f74a-da45-472c-81f6-e5438db05d4a/page/fyd9D",
+    "meetLink": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_M2Y3ZDE2ZDMtMWQwYS00OWQzLWE3NDctNDRkNTdjOGI4Yzll%40thread.v2/0?context=%7b%22Tid%22%3a%2240cfb65c-9b71-435f-8bc2-bc2c69df1aca%22%2c%22Oid%22%3a%22cbd37bc9-5c33-401f-b590-9decb3c370f8%22%7d",
+    "updateData" : [
+        {
+            "english" : [
+                {
+                    "updateTitle": "recent update 1",
+                    "updateUrl" : "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf"
+                },
+                {
+                    "updateTitle": "recent update 2",
+                    "updateUrl" : "https://images.unsplash.com/photo-1610484826967-09c5720778c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+                {
+                    "updateTitle": "recent update for html file",
+                    "updateUrl" : "index.html"
+                },
+                {
+                    "updateTitle": "recent update with txt file",
+                    "updateUrl" : "docs/git-doc.txt"
+                }
+            ]
+        },
+        {
+            "hindi" : [
+                {
+                    "updateTitle": "हाल के अद्यतन 1",
+                    "updateUrl" : "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20210101201653/PDF.pdf"
+                },
+                {
+                    "updateTitle": "हाल के अद्यतन 2",
+                    "updateUrl" : "https://images.unsplash.com/photo-1610484826967-09c5720778c7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                },
+                {
+                    "updateTitle": "हाल के अद्यतन for html file",
+                    "updateUrl" : "index.html"
+                },
+                {
+                    "updateTitle": "हाल के अद्यतन with txt file",
+                    "updateUrl" : "docs/git-doc.txt"
+                }
+            ]
+        }
+    ],
+    "monthyActiveUsers" : "4166",
+    "courseProgramCompletionCount": "547",
+    "courseProgramCompletionYesterdayCount": "875",
+    "isMaintenancePage": true
+}
