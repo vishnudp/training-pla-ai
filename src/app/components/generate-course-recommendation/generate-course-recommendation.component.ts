@@ -295,11 +295,9 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
-  getCompetenciesByType(type: string, index): string {
+  getCompetenciesByType(type: string, index): any[] {
     return (this.filterdCourses[index].competencies || [])
-      .filter(c => c.competencyAreaName === type)
-      .map(c => `${c.competencyThemeName} - ${c.competencySubThemeName}`)
-      .join(', ');
+      .filter(c => c.competencyAreaName === type);
   }
 
   getCompetenciesByBehviouralType(index): string {
