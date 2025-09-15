@@ -23,7 +23,7 @@ const API_END_POINTS = {
   SAVE_COURSES: 'cbp-tpc-ai/cbp-plan/save',
   GET_COURSES:  'cbp-tpc-ai/cbp-plan',
   UPDATE_COURSES: 'cbp-tpc-ai/cbp-plan',
-  IGOT_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions',
+  IGOT_SUGGESTED_COURSE: 'api/content/v1/search',
   SAVE_COURSE_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions/save',
   SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions',
   ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation'
@@ -312,7 +312,20 @@ export class SharedService {
   }
 
   getIGOTSuggestedCourses(reqBody) {
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.IGOT_SUGGESTED_COURSE}`, reqBody)
+    let req = {
+      "request": {
+          "filters": {
+              "primaryCategory": ["Course"],
+              "status": ["Live"],
+              "courseCategory":["Course"]
+          },
+          "fields":["posterImage","description","name"],
+          "sortBy": {"createdOn": "Desc"},
+          "Limit" : 10
+      }
+  }
+    
+    return this.http.post<any>(`https://portal.dev.karmayogibharat.net/api/content/v1/search`, req)
       .pipe(map((response: any) => {
         return response
       }))

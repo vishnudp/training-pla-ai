@@ -516,7 +516,7 @@ padding: 4px 8px;
 justify-content: center;
 align-items: center;
 gap: 6px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #F8B861;
 background: linear-gradient(0deg, rgba(248, 184, 97, 0.32) 0%, rgba(248, 184, 97, 0.32) 100%), #FFF;
 margin: 5px 0;
@@ -528,7 +528,7 @@ padding: 4px 8px;
 justify-content: center;
 align-items: center;
 gap: 6px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #E24577;
 background: linear-gradient(0deg, rgba(226, 69, 119, 0.24) 0%, rgba(226, 69, 119, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -540,7 +540,7 @@ padding: 4px 8px;
 justify-content: center;
 align-items: center;
 gap: 6px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #7B47A4;
 background: linear-gradient(0deg, rgba(123, 71, 164, 0.24) 0%, rgba(123, 71, 164, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -560,6 +560,31 @@ font-size: 14px;
 font-style: normal;
 font-weight: normal;
 line-height: normal;
+}
+
+.competency-text-behavioral {
+    color: #654321 ;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
+}
+.competency-text-functional {
+    color: #FF1493;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
+}
+.competency-text-domain {
+    color: #301934;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
 }
 
 .designation {

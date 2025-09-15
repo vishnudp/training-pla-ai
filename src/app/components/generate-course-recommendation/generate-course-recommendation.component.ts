@@ -287,4 +287,10 @@ export class GenerateCourseRecommendationComponent {
   getCompetenciesByType(type: string, index): any[] {
     return (this.filterdCourses[index].competencies || []).filter(c => c.competencyAreaName === type);
   }
+
+  getCompetenciesByBehviouralType(index): any[] {
+    return (this.filterdCourses[index].competencies || []).filter(
+      c => c.competencyAreaName === 'Behavioral' || c.competencyAreaName === 'Behavioural'
+    );
+  }
 }

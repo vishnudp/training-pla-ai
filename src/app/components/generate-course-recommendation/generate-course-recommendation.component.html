@@ -166,11 +166,11 @@
                                 <div class="competencis-grid mt-4">
                                     <!-- Behavioral -->
                                     <div class="bg-blue-50 rounded-lg p-3 competencies-grid-3">
-                                        <h4 class="font-semibold text-blue-800 text-base mb-2">Behavioral</h4>
+                                        <h4 class="font-semibold text-blue-800 text-base mb-2">Behavioural</h4>
                                         <div class="space-y-1 grid-list-item grid-list-item-behavioral">
-                                            <div *ngFor="let comp of getCompetenciesByType('Behavioral',i); let i = index"
+                                            <div *ngFor="let comp of getCompetenciesByBehviouralType(i); let i = index"
                                                 class="bg-white p-1.5 rounded text-sm text-gray-700 border-l-2 border-blue-400">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text-behavioral"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
                                             </div>
                                         </div>
                                         <!-- <div class="mt-2 text-sm text-blue-600 font-medium">
@@ -184,7 +184,7 @@
                                         <div class="space-y-1 grid-list-item grid-list-item-functional">
                                             <div *ngFor="let comp of getCompetenciesByType('Functional',i); let i = index"
                                                 class="bg-white p-1.5 rounded text-sm text-gray-700 border-l-2 border-green-400">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text-functional"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
                                             </div>
                                         </div>
                                         <!-- <div class="mt-2 text-sm text-green-600 font-medium">
@@ -198,7 +198,7 @@
                                         <div class="space-y-1 grid-list-item grid-list-item-domain">
                                             <div *ngFor="let comp of getCompetenciesByType('Domain',i); let i = index"
                                                 class="bg-white p-1.5 rounded text-sm text-gray-700 border-l-2 border-purple-400">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text-domain"> {{ comp.competencyThemeName }}- {{ comp.competencySubThemeName }} </span>
                                             </div>
                                         </div>
                                         <!-- <div class="mt-2 text-sm text-purple-600 font-medium">

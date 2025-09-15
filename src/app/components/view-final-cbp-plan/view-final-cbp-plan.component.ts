@@ -323,7 +323,7 @@ export class ViewFinalCbpPlanComponent {
         }
       }
 
-      pdf.save('Final CBP Plan.pdf');
+      pdf.save('Final CBP.pdf');
       this.loading = false
     }).catch((error) => {
       console.error('PDF generation error:', error);
