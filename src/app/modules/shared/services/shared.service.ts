@@ -325,7 +325,7 @@ export class SharedService {
       }
   }
     
-    return this.http.post<any>(`https://portal.dev.karmayogibharat.net/api/content/v1/search`, req)
+    return this.http.post<any>(`https://portal.igotkarmayogi.gov.in/api/content/v1/search`, req)
       .pipe(map((response: any) => {
         return response
       }))

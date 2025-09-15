@@ -61,7 +61,7 @@
                       </mat-checkbox>
               
                       <!-- ✅ Image -->
-                      <img src="assets/career/careers1.png" />
+                      <img [src]="item?.posterImage" (error)="onImgError($event)" />
                     </div>
               
                     <div class="mt-2" style="width: 100px">

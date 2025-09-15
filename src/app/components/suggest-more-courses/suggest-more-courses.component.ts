@@ -157,4 +157,9 @@ export class SuggestMoreCoursesComponent implements OnInit{
     }
     return flag
   }
+
+  onImgError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/career/careers1.png'; // replace with your default image path
+  }
 }
