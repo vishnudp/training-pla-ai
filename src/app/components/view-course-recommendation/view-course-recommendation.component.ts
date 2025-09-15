@@ -29,7 +29,15 @@ export class ViewCourseRecommendationComponent {
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
       console.log('res', res)
       this.recommended_course_id = res.id
-      this.filterdCourses = res.filtered_courses
+      let allCourses = []
+      if(res && res.filtered_courses && res.filtered_courses.length) {
+        res.filtered_courses.forEach((item)=>{
+          if(item?.relevancy > 85) {
+            allCourses.push(item)
+          }
+        })
+      }
+      this.filterdCourses = allCourses
       console.log('this.filterdCourses', this.filterdCourses)
       this.updateCompetencyCounts()
     })

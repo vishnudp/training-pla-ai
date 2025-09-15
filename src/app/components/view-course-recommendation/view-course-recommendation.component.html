@@ -75,6 +75,12 @@
 
                                 </div>
                             </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
+                                </div>  
+                            </div>
                         </div>
                         <div *ngIf="item?.rationale && item?.is_public">
                             <div class="ai-recommened-pill-public">
@@ -85,15 +91,27 @@
 
                                 </div>
                             </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
+                                </div>  
+                            </div>
                         </div>
                         <div *ngIf="!item?.rationale">
                             <div class="ai-recommened-pill-gray">
                                 <div class="ai-recommened-pill-gray-text">
                                     <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
                                     
-                                    <span >Manually Suggested - iGOT</span>
+                                    <span>Manually Suggested - iGOT </span>
 
                                 </div>
+                            </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
+                                </div>  
                             </div>
                         </div>
                     </div>
@@ -172,7 +190,7 @@
     </div>
     <div class="popup-footer">
         <div>
-            <input class="btn-active" type="button" value="Add Personilisation" (click)="addPersonilisation()"/>
+            <input class="btn-active" type="button" value="Add Personalisation" (click)="addPersonilisation()"/>
         </div>
         <div>
             <input class="btn-active" type="button" value="Add More Courses" (click)="addMoreCourses()"/>

@@ -2,7 +2,7 @@
     <div class="popup-container">
         <div class="popup-header">
             <div>
-                <div class="heading">View Final CBP Plan</div>
+                <div class="heading">View Final CBP</div>
             </div>
             <div class="cursor-pointer" (click)="closeDialog()">
                 <mat-icon>close</mat-icon>
@@ -14,7 +14,11 @@
                     <div class="flex items-center space-x-4">
                         <div class="image-container">
                             <div>
-                                <img src="https://cbc.gov.in/sites/default/files/logo_1.png"
+                                <img src="assets/icons/dopt-logo.png" 
+                                    alt="Department of Personnel & Training" class="h-10" />
+                            </div>
+                            <div>
+                                <img src="assets/icons/CBC_logo.svg" 
                                     alt="Capacity Building Commission Logo" class="h-10" />
                             </div>
                             <div>
@@ -349,9 +353,9 @@
             <div>
                 <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
             </div>
-            <div>
+            <!-- <div>
                 <input class="btn-active" type="button" value="Download as PDF" (click)="downloadPDF()" />
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="overlay-loader" *ngIf="loading">

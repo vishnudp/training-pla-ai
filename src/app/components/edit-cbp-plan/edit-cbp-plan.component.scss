@@ -165,7 +165,7 @@ border: none;
   .search-filter-section {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap:10px;
   }
 
   .search {
@@ -570,11 +570,11 @@ line-height: normal;
 
 .behavioural-pill {
     display: flex;
-padding: 0px 8px;
+padding: 2px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #F8B861;
 background: linear-gradient(0deg, rgba(248, 184, 97, 0.32) 0%, rgba(248, 184, 97, 0.32) 100%), #FFF;
 margin: 5px 0;
@@ -582,11 +582,11 @@ margin: 5px 0;
 
 .functional-pill {
     display: flex;
-padding: 0px 8px;
+padding: 2px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #E24577;
 background: linear-gradient(0deg, rgba(226, 69, 119, 0.24) 0%, rgba(226, 69, 119, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -594,11 +594,11 @@ margin: 5px 0;
 
 .domain-pill {
     display: flex;
-padding: 0px 8px;
+padding: 2px 8px;
 justify-content: center;
 align-items: center;
 gap: 10px;
-border-radius: 32px;
+border-radius: 8px;
 border: 1px solid #7B47A4;
 background: linear-gradient(0deg, rgba(123, 71, 164, 0.24) 0%, rgba(123, 71, 164, 0.24) 100%), #FFF;
 margin: 5px 0;
@@ -680,6 +680,31 @@ line-height: normal;
 padding: 5px;
   }
 
+  .competency-text-behavioral {
+    color: #654321 ;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
+}
+.competency-text-functional {
+    color: #b01669;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
+}
+.competency-text-domain {
+    color: #301934;
+font-family: Lato;
+font-size: 14px;
+font-style: normal;
+line-height: normal;
+font-weight: 550;
+}
+
   .competency-sub-heading {
     color: #1B4CA1;
 font-family: Montserrat;
@@ -745,3 +770,24 @@ border: none;
 :host ::ng-deep .mat-select-arrow-wrapper {
     height: 6px !important;
 }
+
+::ng-deep .filter-section .mat-form-field-appearance-fill .mat-form-field-flex {
+    padding: .5em .75em 0 .75em !important; 
+}
+
+.competency-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* optional: spacing between items */
+  }
+  
+  .competency-item {
+    flex: 0 0 calc(33.333% - 12px); /* 3 per row, accounting for gap */
+    box-sizing: border-box;
+    background-color: #f5f5f5; /* example styling */
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

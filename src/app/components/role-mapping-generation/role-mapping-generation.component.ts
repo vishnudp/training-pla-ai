@@ -107,6 +107,12 @@ export class RoleMappingGenerationComponent {
       if(this.selectedMinistryType === 'state') { 
         req['department_id'] = formData.departments ? formData.departments : ''
         this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
+        
+        
+        const departmentName = this.departmentData.find(u => u.id=== formData.departments);
+        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
+        console.log(departmentName); 
+
       }
       if(req) {
         this.sharedService.generateRoleMapping(req).subscribe({

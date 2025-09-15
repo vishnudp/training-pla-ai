@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 // import html2pdf from 'html2pdf.js';
@@ -14,6 +14,7 @@ export class ViewFinalCbpPlanComponent {
     public dialogRef: MatDialogRef<ViewFinalCbpPlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
+    private cdr: ChangeDetectorRef,
     public sharedService: SharedService
   ) {
     this.getMappingData()
@@ -110,6 +111,13 @@ export class ViewFinalCbpPlanComponent {
 
   }
 
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.scrollToTop();
+    });
+  }
+
   getMappingData() {
     console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
     if(this.sharedService?.cbpPlanFinalObj.ministry.type === 'central') {
@@ -179,7 +187,10 @@ export class ViewFinalCbpPlanComponent {
        }
        console.log('this.designationData', this.designationData)
        console.log('this.totalCompetencieObj', this.totalCompetencieObj )
-       
+       this.cdr.detectChanges();
+       setTimeout(() => {
+        this.scrollToTop()
+      }, 1000);
        })
     }
     if(this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
@@ -249,11 +260,30 @@ export class ViewFinalCbpPlanComponent {
          
         this.designationData.push(obj)
         }
+        this.cdr.detectChanges();
+        setTimeout(() => {
+         this.scrollToTop()
+        }, 1000);
         console.log('this.designationData', this.designationData)
         console.log('this.totalCompetencieObj', this.totalCompetencieObj )
       
        })
     }
+
+    
+    
+  }
+  scrollToTop(): void {
+    
+    // if (this.pdfContent && this.pdfContent.nativeElement && this.pdfContent.nativeElement.scrollTop !== undefined) {
+    //   this.pdfContent.nativeElement.scrollTop = 0;
+    // } else {
+    //   window.scrollTo({ top: 0, behavior: 'smooth' });
+    // }
+    // const dialogContainer = document.querySelector('mat-dialog-container');
+    // if (dialogContainer) {
+    //   dialogContainer.scrollTop = 0;
+    // }
   }
 
   downloadPDF() {
@@ -323,7 +353,7 @@ export class ViewFinalCbpPlanComponent {
         }
       }
 
-      pdf.save('Final CBP Plan.pdf');
+      pdf.save('Final CBP.pdf');
       this.loading = false
     }).catch((error) => {
       console.error('PDF generation error:', error);

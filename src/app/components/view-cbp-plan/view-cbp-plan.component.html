@@ -59,7 +59,7 @@
             </div>
             <div class="mt-2 section">
                 <div class="sub-heading">
-                    <p>Rols & Responsibilities</p>
+                    <p>Roles & Responsibilities</p>
                 </div>
                 <div class="mt-2 additional-details">
                     <p class="responsibility-text" *ngFor="let item of planData?.role_responsibilities;let i=index">
@@ -83,28 +83,61 @@
                 </div>
                
                 <div class="mt-4">
-                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Behavioral')?.length">Behavioral Competencies</div>
-                    <ul class="competency-list mt-2">
+                    <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Behavioral')?.length">Behavioural Competencies</div>
+                    <!-- <ul class="competency-list mt-2">
                         <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Behavioral')">
-                           <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
+                           <span class="competency-text-behavioral"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                           </li>
-                    </ul>
+                    </ul> -->
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item behavioural-pill"
+                            *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Behavioral')">
+                            <span class="competency-text-behavioral">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-2">
                     <div class="competency-sub-heading " *ngIf="getCompetenciesByType(planData?.competencies, 'Functional')?.length">Functional Competencies</div>
-                    <ul class="competency-list mt-2">
+                    <!-- <ul class="competency-list mt-2">
                         <li class="functional-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Functional')">
-                            <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
+                            <span class="competency-text-functional"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
                           </li>
-                    </ul>
+                    </ul> -->
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item functional-pill"
+                            *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Functional')">
+                            <span class="competency-text-functional">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-2">
                     <div class="competency-sub-heading" *ngIf="getCompetenciesByType(planData?.competencies, 'Domain')?.length">Domain Competencies</div>
-                    <ul class="competency-list mt-2">
+                    <!-- <ul class="competency-list mt-2">
                         <li class="domain-pill" *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Domain')">
-                            <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
+                            <span class="competency-text-domain"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
                           </li>
-                    </ul>
+                    </ul> -->
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item domain-pill"
+                        *ngFor="let comp of getCompetenciesByType(planData?.competencies, 'Domain')">
+                            <span class="competency-text-domain">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
     </div>
