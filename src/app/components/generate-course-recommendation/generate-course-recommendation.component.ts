@@ -25,6 +25,8 @@ export class GenerateCourseRecommendationComponent {
   selectFilterCourses:any = []
   mode= 'add'
   cbp_plan_id = ''
+  expandedCompetencies: any = {}; // Track expanded state for each course and competency type
+  
   ngOnInit() {
     this.loading = true
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
@@ -286,5 +288,35 @@ export class GenerateCourseRecommendationComponent {
 
   getCompetenciesByType(type: string, index): any[] {
     return (this.filterdCourses[index].competencies || []).filter(c => c.competencyAreaName === type);
+  }
+
+  getDisplayedCompetencies(type: string, index: number): any[] {
+    const competencies = this.getCompetenciesByType(type, index);
+    const key = `${index}-${type}`;
+    
+    if (this.expandedCompetencies[key]) {
+      return competencies;
+    }
+    
+    return competencies.slice(0, 2);
+  }
+
+  toggleCompetencies(type: string, index: number): void {
+    const key = `${index}-${type}`;
+    this.expandedCompetencies[key] = !this.expandedCompetencies[key];
+  }
+
+  isExpanded(type: string, index: number): boolean {
+    const key = `${index}-${type}`;
+    return this.expandedCompetencies[key] || false;
+  }
+
+  hasMoreThanTwo(type: string, index: number): boolean {
+    return this.getCompetenciesByType(type, index).length > 2;
+  }
+
+  getRemainingCount(type: string, index: number): number {
+    const totalCount = this.getCompetenciesByType(type, index).length;
+    return totalCount - 2;
   }
 }
