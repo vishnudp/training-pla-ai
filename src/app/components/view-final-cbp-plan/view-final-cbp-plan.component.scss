@@ -1072,4 +1072,9 @@ line-height: normal;
 
   }
 
+  .dialog-scrollable-content {
+    max-height: 70vh; /* limits height */
+    overflow-y: auto; /* enables vertical scroll */
+  }
+
  

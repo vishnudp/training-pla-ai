@@ -14,8 +14,8 @@
                         <div class="select-map-flex">
                             <div class="selected-mapping-route">
                                 <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                        *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">
-                                        / {{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span>
+                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name">
+                                        / {{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span>
                                 </p>
                             </div>
                             <div class="edit-plan cursor-pointer" (click)="moveToInitialScreenLayout('edit')">

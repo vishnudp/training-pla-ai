@@ -293,13 +293,21 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
-  getCompetenciesByType(type: string, index): any[] {
-    return (this.filterdCourses[index].competencies || []).filter(c => c.competencyAreaName === type);
+  getCompetenciesByType(type: string, index): string {
+    return (this.filterdCourses[index].competencies || [])
+      .filter(c => c.competencyAreaName === type)
+      .map(c => `${c.competencyThemeName} - ${c.competencySubThemeName}`)
+      .join(', ');
   }
 
-  getCompetenciesByBehviouralType(index): any[] {
-    return (this.filterdCourses[index].competencies || []).filter(
-      c => c.competencyAreaName === 'Behavioral' || c.competencyAreaName === 'Behavioural'
-    );
+  getCompetenciesByBehviouralType(index): string {
+    return (this.filterdCourses[index].competencies || [])
+      .filter(
+        c => c.competencyAreaName === 'Behavioral' || c.competencyAreaName === 'Behavioural'
+      )
+      .map(
+        c => `${c.competencyThemeName} - ${c.competencySubThemeName}`
+      )
+      .join(', ');
   }
 }
