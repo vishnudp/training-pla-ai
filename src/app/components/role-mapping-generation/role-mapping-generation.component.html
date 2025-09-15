@@ -9,9 +9,9 @@
                 <span>AI Driven CBP</span>
             </h2>
         </div>
-        <div class="sub-heading">
+        <!-- <div class="sub-heading">
             <p>Build Your Capacity With Customized Role Mapping</p>
-        </div>
+        </div> -->
     </div>
     <mat-card class="mt-2" [formGroup]="roleMappingForm">
         <div class="depatment-container">
@@ -29,15 +29,15 @@
     <!-- Left radio button -->
     <mat-radio-button value="center" class="radio-btn left-radio">
         <span class="radio-label" >
-            <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">domain</mat-icon> 
-            <span [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">Center</span>
+            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">domain</mat-icon>  -->
+            <span [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">Centre</span>
         </span>
     </mat-radio-button>
 
     <!-- Right radio button -->
     <mat-radio-button value="state" class="radio-btn right-radio">
         <span class="radio-label">
-            <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">location_on</mat-icon> 
+            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">location_on</mat-icon>  -->
             <span [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">State</span>
         </span>
     </mat-radio-button>
@@ -46,12 +46,12 @@
             </div>
             <div class="mt-4">
                 <label class="label">
-                    <span *ngIf="selectedMinistryType === 'center'">Ministry</span>
+                    <span *ngIf="selectedMinistryType === 'center'">Ministry/ Department</span>
                     <span *ngIf="selectedMinistryType === 'state'">State</span>
                 </label>
                 <div class="mt-2">
                     <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px; border: 1px solid #ccc;">
-                        <mat-select [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry':'Select State'"
+                        <mat-select [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
                             style="border-radius: 25px; background: white;">
                             <mat-option [value]="item?.id" *ngFor="let item of ministryData">{{item?.name}}</mat-option>
@@ -94,7 +94,7 @@
             <div class="mt-4">
                 <input [disabled]="roleMappingForm?.invalid"
                     [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button"
-                    value="Generate Role Mapping" (click)="onGenerateRoleMapping()" />
+                    value="Generate CBP" (click)="onGenerateRoleMapping()" />
             </div>
         </div>
     </mat-card>
