@@ -26,15 +26,20 @@ export class SuggestMoreCoursesComponent implements OnInit{
 
 
   ngOnInit() {
+    this.loading = true
     let reqBody = {
       "skip": 0,
       "limit": 20,
       "search_term": this.searchText
     }
     this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe((res)=>{
+      this.loading = false
       console.log('res--', res)
-      this.suggestedCourses = res
-      this.originalData = res
+      if(res && res.result && res.result.content && res.result.content.length) {
+        this.suggestedCourses = res.result.content
+        this.originalData = res.result.content
+      }
+     
     })
   }
   applyFilter() {
@@ -151,5 +156,10 @@ export class SuggestMoreCoursesComponent implements OnInit{
       flag = true 
     }
     return flag
+  }
+
+  onImgError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/career/careers1.png'; // replace with your default image path
   }
 }

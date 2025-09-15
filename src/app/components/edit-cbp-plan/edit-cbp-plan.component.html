@@ -1,15 +1,15 @@
 <div class="view-cbp-plan">
     <div class="popup-container">
-    <div class="popup-header">
-        <div>
-            <div class="heading">Edit Role Mapping</div>
+        <div class="popup-header">
+            <div>
+                <div class="heading">Edit Role Mapping</div>
+            </div>
+            <div class="cursor-pointer" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </div>
         </div>
-        <div class="cursor-pointer" (click)="closeDialog()">
-            <mat-icon>close</mat-icon>
-        </div>
-    </div>
-    <div class="section-container" [formGroup]="cbpForm">
-        
+        <div class="section-container" [formGroup]="cbpForm">
+
             <div class="section-header mt-4">
                 <input type="text" formControlName="designation_name" [value]="planData?.designation_name"
                     style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
@@ -54,16 +54,18 @@
                     <p>Wing/Division</p>
                 </div>
                 <div class="mt-4">
-                <input type="text" formControlName="wing_division_section" [value]="planData?.wing_division_section"
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width:100%;font-size: 14px;font-family: 'Lato';">
+                    <input type="text" formControlName="wing_division_section" [value]="planData?.wing_division_section"
+                        style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width:100%;font-size: 14px;font-family: 'Lato';">
                 </div>
             </div>
             <div class="mt-2 section">
                 <div class="sub-heading">
-                    <p>Rols & Responsibilities</p>
+                    <p>Roles & Responsibilities</p>
                 </div>
                 <div class="mt-4 additional-details">
-                    <textarea class="custom-textarea" formControlName="role_responsibilities_text" rows="5" placeholder="Roles & Responsibilities" [value]="planData?.role_responsibilities?.join('\n')"></textarea>
+                    <textarea class="custom-textarea" formControlName="role_responsibilities_text" rows="5"
+                        placeholder="Roles & Responsibilities"
+                        [value]="planData?.role_responsibilities?.join('\n')"></textarea>
                 </div>
             </div>
             <div class="mt-2 section">
@@ -71,7 +73,8 @@
                     <p>Activities</p>
                 </div>
                 <div class="mt-4 additional-details">
-                    <textarea class="custom-textarea" formControlName="activities_text" rows="5" placeholder="Activities" [value]="planData?.activities?.join('\n')"></textarea>
+                    <textarea class="custom-textarea" formControlName="activities_text" rows="5"
+                        placeholder="Activities" [value]="planData?.activities?.join('\n')"></textarea>
                 </div>
             </div>
             <div class="mt-2 section">
@@ -83,8 +86,9 @@
                         <!-- <label class="label">Search</label> -->
                         <div>
                             <div class="search-container">
-                                <div class="rsearch">                                    
-                                    <input formControlName="competencySearchText" style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 32px;"
+                                <div class="rsearch">
+                                    <input formControlName="competencySearchText"
+                                        style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 32px;"
                                         class="sinput color-60 w-full" [(ngModel)]="searchText"
                                         (keyup.enter)="searchData()" label="" (input)="applyFilter()"
                                         placeholder="Add Competency" type="Standard">
@@ -102,10 +106,11 @@
                             <!-- <label class="label">Filter by competency type</label> -->
                             <div>
                                 <mat-form-field appearance="fill"
-                                    style="background: white; border-radius: 25px; padding: 0 12px;">
-                                    <mat-select formControlName="competencyType" [(value)]="selectedValue" placeholder="Select Competency"
-                                        style="border-radius: 25px; background: white;">
-                                        <mat-option [value]="'Behavioral'">Behavioral</mat-option>
+                                    style="background: white; border-radius: 25px; padding: 0 12px;    border: 1px solid #ccc;
+    font-size: 14px;">
+                                    <mat-select formControlName="competencyType" [(value)]="selectedValue"
+                                        placeholder="Select Competency" style="border-radius: 25px; background: white;">
+                                        <mat-option [value]="'Behavioral'">Behavioural</mat-option>
                                         <mat-option [value]="'Functional'">Functional</mat-option>
                                         <mat-option [value]="'Domain'">Domain</mat-option>
                                     </mat-select>
@@ -114,48 +119,70 @@
                         </div>
                     </div>
                     <div>
-                        <input style="margin-left: 2px;" [disabled]="searchText.trim().length && selectedValue.trim().length ? false : true" [ngClass]="searchText.trim().length && selectedValue.trim().length  ? 'btn-active':'btn-disable'" type="button" value="Add" (click)="addCompetency()"/>
+                        <input style="margin-left: 2px;"
+                            [disabled]="searchText.trim().length && selectedValue.trim().length ? false : true"
+                            [ngClass]="searchText.trim().length && selectedValue.trim().length  ? 'btn-active':'btn-disable'"
+                            type="button" value="Add" (click)="addCompetency()" />
                     </div>
-                    
+
                 </div>
                 <div class="mt-4">
-                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Behavioral')?.length">Behavioral Competencies</div>
-                    <ul class="competency-list mt-2">
-                        <li class="behavioural-pill" *ngFor="let comp of getCompetenciesByType('Behavioral')">
-                           <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
-                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
-                          </li>
-                    </ul>
+                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Behavioral')?.length">
+                        Behavioural Competencies
+                    </div>
+
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item behavioural-pill"
+                            *ngFor="let comp of getCompetenciesByType('Behavioral')">
+                            <span class="competency-text-behavioral">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="mt-4">
-                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Functional')?.length">Functional Competencies</div>
-                    <ul class="competency-list mt-2">
-                        <li class="functional-pill" *ngFor="let comp of getCompetenciesByType('Functional')">
-                            <span class="competency-text"> {{ comp.theme }}- {{ comp.sub_theme }} </span>
-                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
-                          </li>
-                    </ul>
+                    <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Functional')?.length">
+                        Functional Competencies</div>
+                        <div class="competency-grid mt-2">
+                            <div class="competency-item functional-pill"
+                                *ngFor="let comp of getCompetenciesByType('Functional')">
+                                <span class="competency-text-functional">
+                                    {{ comp.theme }} - {{ comp.sub_theme }}
+                                </span>
+                                <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                    <mat-icon>close</mat-icon>
+                                </span>
+                            </div>
+                        </div>
                 </div>
                 <div class="mt-4">
                     <div class="competency-sub-heading mt-2">Domain Competencies</div>
-                    <ul class="competency-list mt-2">
-                        <li class="domain-pill" *ngFor="let comp of getCompetenciesByType('Domain')">
-                            <span class="competency-text"> {{ comp.theme }} - {{ comp.sub_theme }}</span>
-                           <span class="cursor-pointer close" (click)="deleteCompetency(comp)"> <mat-icon>close</mat-icon> </span>
-                          </li>
-                    </ul>
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item domain-pill"
+                            *ngFor="let comp of getCompetenciesByType('Domain')">
+                            <span class="competency-text-domain">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
-    </div>
-    <div class="popup-footer">
-        <div>
-            <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
         </div>
-        <div>
-            <input class="btn-active" type="button" value="Save" (click)="saveRoleMapping()"/>
+        <div class="popup-footer">
+            <div>
+                <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
+            </div>
+            <div>
+                <input class="btn-active" type="button" value="Save" (click)="saveRoleMapping()" />
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <div class="overlay-loader" *ngIf="loading">

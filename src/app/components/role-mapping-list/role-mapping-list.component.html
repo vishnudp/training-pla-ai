@@ -14,23 +14,25 @@
                         <div class="select-map-flex">
                             <div class="selected-mapping-route">
                                 <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                        *ngIf="sharedService?.cbpPlanFinalObj?.sectors && sharedService?.cbpPlanFinalObj?.sectors.length">
-                                        / {{getSectors(sharedService?.cbpPlanFinalObj?.sectors)}}</span>
+                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name">
+                                        / {{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span>
                                 </p>
                             </div>
                             <div class="edit-plan cursor-pointer" (click)="moveToInitialScreenLayout('edit')">
                                 <mat-icon>edit</mat-icon>Edit
                             </div>
                             <div class="cursor-pointer ml-10">
-                                <input class="btn-active cursor-pointer" value="+ Create New CBP Plan"
-                                    (click)="moveToInitialScreenLayout('add')" />
+                                <button class="btn-active cursor-pointer" (click)="moveToInitialScreenLayout('add')">
+                                    <mat-icon>add</mat-icon>
+                                    Create New CBP
+                                </button>
                             </div>
                         </div>
                         <div>
                             <div class="view-final-cbp-plan">
                                 <div class="view-final-cbp-plan-text cursor-pointer" (click)="viewFinalCBPPlan()">
                                     <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span><span>View
-                                        Final CBP Plan</span>
+                                        Final CBP</span>
                                 </div>
 
                             </div>
@@ -258,13 +260,13 @@
 
                                         <!-- Behavioral Competencies -->
                                         <ng-container matColumnDef="behavioral">
-                                            <th class="table-header" mat-header-cell *matHeaderCellDef> Behavioral
+                                            <th class="table-header" mat-header-cell *matHeaderCellDef> Behavioural
                                                 Competencies </th>
                                             <td mat-cell *matCellDef="let element">
                                                 <ul class="competency-list">
                                                     <li class="behavioural-pill"
                                                         *ngFor="let comp of getCompetenciesByType(element.competencies, 'Behavioral')">
-                                                        <span class="competency-text"> {{ comp.theme }} - {{
+                                                        <span class="competency-text-behavioral"> {{ comp.theme }} - {{
                                                             comp.sub_theme }} </span>
                                                     </li>
                                                 </ul>
@@ -279,7 +281,7 @@
                                                 <ul class="competency-list">
                                                     <li class="functional-pill"
                                                         *ngFor="let comp of getCompetenciesByType(element.competencies, 'Functional')">
-                                                        <span class="competency-text"> {{ comp.theme }} - {{
+                                                        <span class="competency-text-functional"> {{ comp.theme }} - {{
                                                             comp.sub_theme }}</span>
                                                     </li>
                                                 </ul>
@@ -294,7 +296,7 @@
                                                 <ul class="competency-list">
                                                     <li class="domain-pill"
                                                         *ngFor="let comp of getCompetenciesByType(element.competencies, 'Domain')">
-                                                        <span class="competency-text"> {{ comp.theme }} - {{
+                                                        <span class="competency-text-domain"> {{ comp.theme }} - {{
                                                             comp.sub_theme }}</span>
                                                     </li>
                                                 </ul>

@@ -123,6 +123,10 @@ export class EditCbpPlanComponent implements OnInit{
         console.log('Success:', res);
         this.loading = false
         this.dialogRef.close('saved')
+        this.snackBar.open('Role Mapping Saved Successfully', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
