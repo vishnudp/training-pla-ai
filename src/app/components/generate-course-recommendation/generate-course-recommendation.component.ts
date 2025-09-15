@@ -31,8 +31,17 @@ export class GenerateCourseRecommendationComponent {
       this.loading = false
       console.log('res', res)
       this.recommended_course_id = res.id
-      this.originalData = res.filtered_courses
-      this.filterdCourses = res.filtered_courses
+      let allCoures = []
+      if(res && res.filtered_courses && res.filtered_courses.length) {
+        res?.filtered_courses.forEach((item)=>{
+          if(item?.relevancy > 85) {
+            allCoures.push(item)
+          }
+        })
+        this.originalData = allCoures
+        this.filterdCourses = allCoures
+      }
+      
       console.log('this.filterdCourses', this.filterdCourses)
       this.getCourses()
       this.getSuggestedCourse()
