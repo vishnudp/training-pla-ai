@@ -26,28 +26,76 @@ export class SuggestMoreCoursesComponent implements OnInit{
 
 
   ngOnInit() {
-    this.loading = true
-    let reqBody = {
-      "skip": 0,
-      "limit": 20,
-      "search_term": this.searchText
-    }
-    this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe((res)=>{
-      this.loading = false
-      console.log('res--', res)
-      if(res && res.result && res.result.content && res.result.content.length) {
-        this.suggestedCourses = res.result.content
-        this.originalData = res.result.content
-      }
-     
-    })
+    this.loadAllCourses();
   }
   applyFilter() {
-    this.suggestedCourses = this.filterData(this.searchText);
+    // Local filtering disabled when we have backend search
+    // this.suggestedCourses = this.filterData(this.searchText);
   }
 
   searchData() {
+    console.log('searchData called with searchText:', this.searchText);
+    
+    if (!this.searchText.trim()) {
+      console.log('Search text is empty, loading all courses');
+      this.loadAllCourses();
+      return;
+    }
+    
+    this.loading = true;
+    let reqBody = {
+      "skip": 0,
+      "limit": 20,
+      "search_term": this.searchText.trim()
+    };
+    
+    console.log('Search request body:', reqBody);
+    
+    this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
+      next: (res) => {
+        this.loading = false;
+        console.log('Search results:', res);
+        if (res && res.result && res.result.content && res.result.content.length) {
+          this.suggestedCourses = res.result.content;
+          this.originalData = res.result.content;
+        } else {
+          this.suggestedCourses = [];
+          this.originalData = [];
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        console.error('Search error:', error);
+        this.snackBar.open('Search failed. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
+  }
 
+  loadAllCourses() {
+    this.loading = true;
+    let reqBody = {
+      "skip": 0,
+      "limit": 20,
+      "search_term": ""
+    };
+    
+    this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
+      next: (res) => {
+        this.loading = false;
+        console.log('All courses loaded:', res);
+        if (res && res.result && res.result.content && res.result.content.length) {
+          this.suggestedCourses = res.result.content;
+          this.originalData = res.result.content;
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        console.error('Load courses error:', error);
+      }
+    });
   }
 
   cancel() {
@@ -139,12 +187,10 @@ export class SuggestMoreCoursesComponent implements OnInit{
     if(event.checked) {
       this.selectFilterCourses.push(item?.identifier)
     } else {
-      const index = this.selectFilterCourses.findIndex(
-        control => control.identifier === item.identifier 
-      );
+      const index = this.selectFilterCourses.indexOf(item?.identifier);
     
       if (index !== -1) {
-        this.selectFilterCourses.splice(index);
+        this.selectFilterCourses.splice(index, 1);
       }
     }
     console.log('this.selectFilterCourses', this.selectFilterCourses)
