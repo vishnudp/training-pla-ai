@@ -727,3 +727,12 @@ border: none;
 .mt-6 {
     margin-top: 1.7rem;
 }
+
+.mat-elevation-z1 {
+    .mat-mdc-cell
+{
+  vertical-align: top !important;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+}
