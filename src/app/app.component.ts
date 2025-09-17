@@ -43,6 +43,7 @@ export class AppComponent {
   ]
   formData: {}
   nextStep = 'initial'
+  loginSuccess = false
   constructor(
     private eventSvc: EventService, 
     public sharedService: SharedService) {
@@ -109,6 +110,10 @@ export class AppComponent {
       this.nextStep = 'initial'
     }
     
+  }
+
+  loginSuccessStatus(event) {
+    this.loginSuccess = event
   }
 
   

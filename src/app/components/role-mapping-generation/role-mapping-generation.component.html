@@ -1,4 +1,4 @@
-<div class="container" #pdfContent>
+<div class="container">
     <!-- <input class="btn-active" type="button" value="Download as PDF" (click)="downloadPDF()" /> -->
     <div class="logo-container">
         <div>
@@ -13,36 +13,36 @@
             <p>Build Your Capacity With Customized Role Mapping</p>
         </div> -->
     </div>
-    <mat-card class="mt-2" [formGroup]="roleMappingForm">
+    <mat-card *ngIf="login" class="mt-2" [formGroup]="roleMappingForm">
         <div class="depatment-container">
             <div class="section-header">
                 <div class="sub-heading">
                     <p>Choose Your Department</p>
                 </div>
-                
+
             </div>
 
             <div class="radio-group mt-4">
                 <mat-radio-group class="radio-btn-group" formControlName="ministryType"
-    [(ngModel)]="selectedMinistryType" (change)="onMinistryTypeChange($event)">
-    
-    <!-- Left radio button -->
-    <mat-radio-button value="center" class="radio-btn left-radio">
-        <span class="radio-label" >
-            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">domain</mat-icon>  -->
-            <span [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">Centre</span>
-        </span>
-    </mat-radio-button>
+                    [(ngModel)]="selectedMinistryType" (change)="onMinistryTypeChange($event)">
 
-    <!-- Right radio button -->
-    <mat-radio-button value="state" class="radio-btn right-radio">
-        <span class="radio-label">
-            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">location_on</mat-icon>  -->
-            <span [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">State</span>
-        </span>
-    </mat-radio-button>
+                    <!-- Left radio button -->
+                    <mat-radio-button value="center" class="radio-btn left-radio">
+                        <span class="radio-label">
+                            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">domain</mat-icon>  -->
+                            <span [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">Centre</span>
+                        </span>
+                    </mat-radio-button>
 
-</mat-radio-group>
+                    <!-- Right radio button -->
+                    <mat-radio-button value="state" class="radio-btn right-radio">
+                        <span class="radio-label">
+                            <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">location_on</mat-icon>  -->
+                            <span [ngClass]="selectedMinistryType === 'state'? 'checked-label':''">State</span>
+                        </span>
+                    </mat-radio-button>
+
+                </mat-radio-group>
             </div>
             <div class="mt-4">
                 <label class="label">
@@ -50,8 +50,10 @@
                     <span *ngIf="selectedMinistryType === 'state'">State</span>
                 </label>
                 <div class="mt-2">
-                    <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px; border: 1px solid #ccc;">
-                        <mat-select [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
+                    <mat-form-field appearance="fill"
+                        style="background: white; border-radius: 25px; padding: 0 12px; border: 1px solid #ccc;">
+                        <mat-select
+                            [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
                             style="border-radius: 25px; background: white;">
                             <mat-option [value]="item?.id" *ngFor="let item of ministryData">{{item?.name}}</mat-option>
@@ -62,7 +64,8 @@
             <div class="mt-4" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <label class="label">Department</label>
                 <div class="mt-2">
-                    <mat-form-field appearance="fill" style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
+                    <mat-form-field appearance="fill"
+                        style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
                         <mat-select placeholder="Select Department" formControlName="departments"
                             style="border-radius: 25px; background: white;">
                             <mat-option [value]="item?.id"
@@ -91,14 +94,36 @@
             <div class="mt-4 additional-details" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <textarea rows="5" placeholder="Additional details" formControlName="additionalDetails"></textarea>
             </div>
+            <div class="mt-4 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+                <div class="sub-heading">
+                    <p>Upload Document (PDF/Word/Excel/TXT)</p>
+                </div>
+                <div class="file-upload-wrapper">
+                    <label for="uploadDoc" class="file-upload-label">
+                        <span class="file-upload-icon">📎</span>
+                        <span>{{ uploadedFile?.name || 'Choose a file (PDF, Word, Excel, TXT)' }}</span>
+                    </label>
+
+                    <small class="file-upload-hint">Max file size: 25MB</small>
+
+                    <input id="uploadDoc" type="file" (change)="onFileChange($event)"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" class="file-upload-input" />
+
+                    <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
+                </div>
+            </div>
             <div class="mt-4">
                 <input [disabled]="roleMappingForm?.invalid"
-                    [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button"
-                    value="Generate CBP" (click)="onGenerateRoleMapping()" />
+                    [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
+                    (click)="onGenerateRoleMapping()" />
             </div>
         </div>
     </mat-card>
+    <div *ngIf="!login" class="mt-4">
+        <app-login (success)="loginStatus($event)"></app-login>
+    </div>
 </div>
+
 
 <div class="overlay-loader" *ngIf="loading">
     <mat-spinner diameter="50"></mat-spinner>

@@ -2,7 +2,7 @@
     <div class="popup-container">
         <div class="popup-header">
             <div>
-                <div class="heading">Add Designation</div>
+                <div class="heading">Add New Designation</div>
             </div>
             <div class="cursor-pointer" (click)="closeDialog()">
                 <mat-icon>close</mat-icon>
@@ -12,20 +12,42 @@
     <div class="section-container" [formGroup]="designationForm">
         <mat-card class="mt-1">
             <div class="mt-2 section">
-                <div class="section-header">
+                <div class="sub-heading">
+                    <p>Designation Name</p>
+                </div>
+                <div class="section-header mt-4">
                     <input type="text" formControlName="designation_name" placeholder="Enter Designation" [value]=""
                         style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
                 </div>
             </div>
+
             <div class="mt-2 section">
                 <div class="sub-heading">
-                    <p>Instructions</p>
+                    <p>Role & responsibilities /Additional details</p>
                 </div>
                 <div class="mt-4 additional-details">
                     <textarea class="custom-textarea" formControlName="instruction" rows="5"
                         placeholder="Add Instructions" [value]=""></textarea>
                 </div>
             </div>
+            <!-- <div class="mt-2 section">
+                <div class="sub-heading">
+                    <p>Upload Document (PDF/Word/Excel/TXT)</p>
+                </div>
+                <div class="file-upload-wrapper">
+                    <label for="uploadDoc" class="file-upload-label">
+                        <span class="file-upload-icon">📎</span>
+                        <span>{{ uploadedFile?.name || 'Choose a file (PDF, Word, Excel, TXT)' }}</span>
+                    </label>
+
+                    <small class="file-upload-hint">Max file size: 25MB</small>
+
+                    <input id="uploadDoc" type="file" (change)="onFileChange($event)"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" class="file-upload-input" />
+
+                    <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
+                </div>
+            </div> -->
 
         </mat-card>
     </div>
@@ -34,7 +56,9 @@
             <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
         </div>
         <div>
-            <input [disabled]="designationForm?.invalid" [ngClass]="designationForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Save" (click)="saveDesignation()" />
+            <input [disabled]="designationForm?.invalid"
+                [ngClass]="designationForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
+                (click)="saveDesignation()" />
         </div>
     </div>
 </div>

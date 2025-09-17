@@ -11,6 +11,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AddDesignationComponent {
   designationForm: FormGroup;
+  maxFileSizeMB = 25;
+  allowedTypes = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'text/plain'
+  ];
+  uploadError: string | null = null;
+  uploadedFile: File | null = null;
   constructor(public dialogRef: MatDialogRef<AddDesignationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -27,9 +38,37 @@ export class AddDesignationComponent {
   initializeForm() {
     this.designationForm = this.fb.group({
       designation_name: ['', Validators.required],
-      
-      instruction: [''],
+      instruction: ['', Validators.required],
+      uploadDoc: [null, []]
     });
+  }
+
+  onFileChange(event: any) {
+    const file: File = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    // Validate file size
+    const maxBytes = this.maxFileSizeMB * 1024 * 1024;
+    if (file.size > maxBytes) {
+      this.uploadError = `File exceeds maximum size of ${this.maxFileSizeMB}MB`;
+      this.designationForm.get('uploadDoc')?.setErrors({ maxSize: true });
+      return;
+    }
+
+    // Validate file type
+    if (!this.allowedTypes.includes(file.type)) {
+      this.uploadError = `Invalid file type. Allowed: PDF, Word, Excel, TXT`;
+      this.designationForm.get('uploadDoc')?.setErrors({ fileType: true });
+      return;
+    }
+
+    this.uploadedFile = file;
+    this.uploadError = null;
+    this.designationForm.patchValue({ uploadDoc: file });
+    this.designationForm.get('uploadDoc')?.updateValueAndValidity();
   }
 
   cancelForm() {
@@ -37,6 +76,13 @@ export class AddDesignationComponent {
   }
 
   saveDesignation() {
+    const formData = new FormData();
+    formData.append('designationName', this.designationForm.get('designationName')?.value);
+    formData.append('roleDetails', this.designationForm.get('roleDetails')?.value);
+    if (this.uploadedFile) {
+      formData.append('uploadDoc', this.uploadedFile);
+    }
+
     console.log('this.designationForm',this.designationForm)
     let req:any = {
       "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.id,
@@ -45,9 +91,9 @@ export class AddDesignationComponent {
       "instruction": this.designationForm.value.instruction,
     }
     console.log('req', req)
-    // this.sharedService.addDesignation(req).subscribe(()=>{
-    //   this.dialogRef.close()
-    // })
+    this.sharedService.addDesignation(req).subscribe((_res)=>{
+      this.dialogRef.close()
+    })
   }
 
   closeDialog() {

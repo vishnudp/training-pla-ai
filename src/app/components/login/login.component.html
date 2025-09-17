@@ -1,0 +1,37 @@
+<div class="depatment-container">
+    <div class="section-header">
+        <div class="sub-heading">
+            <p>Login</p>
+        </div>
+
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="mt-4">
+            <label class="label">
+                <span>User Name</span>
+            </label>
+            <mat-form-field appearance="fill" class="full-width" style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
+                <input matInput placeholder="Enter username" formControlName="username" />
+            </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+            <label class="label">
+                <span>Password</span>
+            </label>
+            <mat-form-field appearance="fill" class="full-width"style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;" >
+                <input matInput type="password" placeholder="Enter password" formControlName="password" />
+            </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+            <button [disabled]="loginForm?.invalid" mat-raised-button color="primary" [ngClass]="loginForm?.invalid ? 'btn-disable':'btn-active'" type="submit">
+                Login
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

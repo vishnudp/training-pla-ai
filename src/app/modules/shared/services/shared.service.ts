@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 //Injectable
 import { HostListener, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -26,7 +26,8 @@ const API_END_POINTS = {
   IGOT_SUGGESTED_COURSE: 'api/content/v1/search',
   SAVE_COURSE_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions/save',
   SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions',
-  ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation'
+  ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation',
+  LOGIN:'cbp-tpc-ai/auth/login'
 }
 
 // @Directive()
@@ -39,7 +40,7 @@ export class SharedService {
   baseUrl: string
   configDetails: any
   screenWidth: number;
-
+  headers:any
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = event.target.innerWidth;
@@ -56,7 +57,11 @@ export class SharedService {
       this.setConfiDetails()
     }
     this.screenWidth = window.innerWidth;
-
+    const storageData:any = JSON.parse(localStorage.getItem('loginData'))
+    console.log('storageData--', storageData)
+    this.headers = new HttpHeaders({
+      'Authorization': `Bearer ${storageData?.access_token}`
+    });
   }
 
   setConfiDetails(configDetails: any = null) {
@@ -232,80 +237,92 @@ export class SharedService {
       }))
   }
 
+
   getMinistryData() {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}`)
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}`, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
-  generateRoleMapping(reqBody) {
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING}`, reqBody)
-      .pipe(map((response: any) => {
-        return response
-      }))
-  }
+    generateRoleMapping(reqBody) {
+      const headers = this.headers
+      return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING}`, reqBody, { headers })
+        .pipe(map((response: any) => {
+          return response
+        }))
+    }
 
   getDepartmentList(ministryId) {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_DEPARTMENT}/${ministryId}`)
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_DEPARTMENT}/${ministryId}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   getRoleMappingByStateCenter(state_center_id) {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}`)
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   getRoleMappingByStateCenterAndDepartment(state_center_id, department_id) {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}`)
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   updateRoleMapping(role_mapping_id, reqBody) {
-    return this.http.put<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_ROLE_MAPPING}/${role_mapping_id}`, reqBody)
+    const headers = this.headers
+    return this.http.put<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_ROLE_MAPPING}/${role_mapping_id}`, reqBody, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   deleteRoleMapping(role_mapping_id) {
-    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_ROLE_MAPPING}/${role_mapping_id}`)
+    const headers = this.headers
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_ROLE_MAPPING}/${role_mapping_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   getRecommendedCourse(role_mapping_id) {
+    const headers = this.headers
     let reqBody = {
       role_mapping_id : role_mapping_id
     }
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_RECOMMENDED_COURSE}/course-recommendations/generate`, reqBody)
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_RECOMMENDED_COURSE}/course-recommendations/generate`, reqBody, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   saveCourse(reqBody){
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSES}`, reqBody)
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSES}`, reqBody, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
   updateCourse(reqBody, cbp_plan_id){
-    return this.http.put<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_COURSES}/${cbp_plan_id}`, reqBody)
+    const headers = this.headers
+    return this.http.put<any>(`${this.baseUrl}${API_END_POINTS.UPDATE_COURSES}/${cbp_plan_id}`, reqBody, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
   getCourse(role_mapping_id) {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_COURSES}?role_mapping_id=${role_mapping_id}`)
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_COURSES}?role_mapping_id=${role_mapping_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
@@ -324,33 +341,52 @@ export class SharedService {
           "Limit" : 10
       }
   }
-    
-    return this.http.post<any>(`https://portal.igotkarmayogi.gov.in/api/content/v1/search`, req)
+  const headers = this.headers
+    return this.http.post<any>(`https://portal.igotkarmayogi.gov.in/api/content/v1/search`, req, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
   getSuggestedCourses(role_mapping_id) {
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.SUGGESTED_COURSE_LIST}/${role_mapping_id}`, )
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.SUGGESTED_COURSE_LIST}/${role_mapping_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))
   }
 
   saveSuggestedCourse(reqBody){
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSE_SUGGESTED_COURSE}`, reqBody)
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSE_SUGGESTED_COURSE}`, reqBody, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
   addDesignation(reqBody){
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_DESIGNATION}`, reqBody)
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_DESIGNATION}`, reqBody, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
+  performLogin(reqBody) {
+    const body = new HttpParams()
+    .set('username', reqBody.username)
+    .set('password', reqBody.password);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json'
+    });
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.LOGIN}`, body.toString(), { headers })
+    .pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
   
 }

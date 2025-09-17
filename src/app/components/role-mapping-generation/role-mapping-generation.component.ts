@@ -26,6 +26,7 @@ export class RoleMappingGenerationComponent {
   ministryFullData:any = []
   roleMappingForm!: FormGroup;
   disableBtn = true
+  login = false
   sectorData = [
     {
       value: 'Women and child development'
@@ -49,8 +50,20 @@ export class RoleMappingGenerationComponent {
   ]
   departmentData = []
   loading = false
+  maxFileSizeMB = 25;
+  allowedTypes = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'text/plain'
+  ];
+  uploadError: string | null = null;
+  uploadedFile: File | null = null;
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
+  @Output() loginSuccess = new EventEmitter<any>()
   constructor(
     private eventSvc: EventService, 
     public sharedService: SharedService,
@@ -87,7 +100,7 @@ export class RoleMappingGenerationComponent {
       this.roleMappingForm.get('departments')?.updateValueAndValidity();
     });
     
-    this.getMinistryData()
+    
 
   }
 
@@ -234,6 +247,44 @@ export class RoleMappingGenerationComponent {
   
       html2pdf().from(element).set(options).save();
     
+  }
+
+  onFileChange(event: any) {
+    const file: File = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    // Validate file size
+    const maxBytes = this.maxFileSizeMB * 1024 * 1024;
+    if (file.size > maxBytes) {
+      this.uploadError = `File exceeds maximum size of ${this.maxFileSizeMB}MB`;
+     // this.designationForm.get('uploadDoc')?.setErrors({ maxSize: true });
+      return;
+    }
+
+    // Validate file type
+    if (!this.allowedTypes.includes(file.type)) {
+      this.uploadError = `Invalid file type. Allowed: PDF, Word, Excel, TXT`;
+     // this.designationForm.get('uploadDoc')?.setErrors({ fileType: true });
+      return;
+    }
+
+    this.uploadedFile = file;
+    this.uploadError = null;
+    // this.designationForm.patchValue({ uploadDoc: file });
+    // this.designationForm.get('uploadDoc')?.updateValueAndValidity();
+  }
+
+  loginStatus(event) {
+    if(event) {
+      this.login = true
+      this.loginSuccess.emit(true)
+      this.getMinistryData()
+    } else {
+      this.login = false
+    }
   }
 }
 
