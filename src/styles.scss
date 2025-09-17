@@ -3144,3 +3144,11 @@ input {
 textarea {
     font-size: 16px !important;
 }
+
+.snackbar-success .mat-mdc-snack-bar-container .mdc-snackbar__label{
+    background-color: #4CAF50 !important; /* Green */
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+  }

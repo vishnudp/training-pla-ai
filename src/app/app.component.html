@@ -24,6 +24,7 @@
             <div><mat-icon>help</mat-icon></div>
             <div><mat-icon>settings</mat-icon></div>
             <div><img src="assets/icons/chatbot-default.svg" alt="Profile" class="profile-pic"></div>
+            <div class="cursor-pointer" (click)="logout()"><mat-icon>logout</mat-icon></div>
         </div>
     </div>
     
@@ -32,7 +33,7 @@
 <div class="container-fluid">
     <!-- <div class="heading">Create CBP</div> -->
     <div *ngIf="nextStep === 'initial'">
-        <app-role-mapping-generation (successRoleMapping)="successRoleMapping($event)" (loginSuccess)="loginSuccessStatus($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
+        <app-role-mapping-generation [loginStatusFlag]="loginSuccess" (successRoleMapping)="successRoleMapping($event)" (loginSuccess)="loginSuccessStatus($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
     </div>
     <div *ngIf="nextStep === 'role-mapping'">
         <app-role-mapping-list [formData]="formData" (moveToInitialScreen)="moveToInitialScreen($event)"></app-role-mapping-list>

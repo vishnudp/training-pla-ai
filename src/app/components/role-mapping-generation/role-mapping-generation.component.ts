@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HEADER_DATA } from 'src/app/modules/shared/constant/app.constant';
 import { EventService } from 'src/app/modules/shared/services/event.service';
@@ -11,9 +11,10 @@ import html2pdf from 'html2pdf.js';
   templateUrl: './role-mapping-generation.component.html',
   styleUrls: ['./role-mapping-generation.component.scss']
 })
-export class RoleMappingGenerationComponent {
+export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   headerData = HEADER_DATA;
+  @Input() loginStatusFlag = false
   title = 'sunbird-cb-staticweb';
   isMaintenancePage: any
   selectedValue = ''
@@ -26,7 +27,6 @@ export class RoleMappingGenerationComponent {
   ministryFullData:any = []
   roleMappingForm!: FormGroup;
   disableBtn = true
-  login = false
   sectorData = [
     {
       value: 'Women and child development'
@@ -61,6 +61,7 @@ export class RoleMappingGenerationComponent {
   ];
   uploadError: string | null = null;
   uploadedFile: File | null = null;
+  login = false
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
@@ -70,11 +71,13 @@ export class RoleMappingGenerationComponent {
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {
+    this.login = this.loginStatusFlag
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
   }
 
   ngOnInit() {
+    this.login = this.loginStatusFlag
     this.roleMappingForm = this.fb.group({
       ministryType: ['center', Validators.required],
       ministry: [null, Validators.required],
@@ -102,6 +105,10 @@ export class RoleMappingGenerationComponent {
     
     
 
+  }
+
+  ngOnChanges() {
+    this.login = this.loginStatusFlag
   }
 
   onGenerateRoleMapping(): void {

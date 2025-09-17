@@ -27,7 +27,8 @@ const API_END_POINTS = {
   SAVE_COURSE_SUGGESTED_COURSE: 'cbp-tpc-ai/course/suggestions/save',
   SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions',
   ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation',
-  LOGIN:'cbp-tpc-ai/auth/login'
+  LOGIN:'cbp-tpc-ai/auth/login',
+  LOGOUT:'cbp-tpc-ai/auth/logout'
 }
 
 // @Directive()
@@ -387,6 +388,14 @@ export class SharedService {
         return response;
       })
     );
+  }
+
+  logout() {
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.LOGOUT}`, '',{headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
   }
   
 }

@@ -3,6 +3,7 @@ import { HEADER_DATA } from './modules/shared/constant/app.constant';
 import { EventService } from './modules/shared/services/event.service';
 import { SharedService } from './modules/shared/services/shared.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -46,7 +47,8 @@ export class AppComponent {
   loginSuccess = false
   constructor(
     private eventSvc: EventService, 
-    public sharedService: SharedService) {
+    public sharedService: SharedService,
+  public snackBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
   }
@@ -114,6 +116,19 @@ export class AppComponent {
 
   loginSuccessStatus(event) {
     this.loginSuccess = event
+  }
+
+  logout() {
+    this.loginSuccess = false
+    this.nextStep = 'initial'
+    localStorage.removeItem('loginData');
+    this.sharedService.logout().subscribe((res)=>{
+      console.log('res', res)
+      this.snackBar.open('You are logout successfully', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-success']
+      });
+    })
   }
 
   

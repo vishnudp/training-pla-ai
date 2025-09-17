@@ -514,8 +514,8 @@ line-height: normal;
 }
 
 .profile-pic {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 36px;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -549,4 +549,8 @@ line-height: normal;
 
 .mb-1 {
     margin-bottom: 1rem !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
