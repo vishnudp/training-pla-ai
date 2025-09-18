@@ -240,6 +240,11 @@ export class SharedService {
 
 
   getMinistryData() {
+    const storageData:any = JSON.parse(localStorage.getItem('loginData'))
+    console.log('storageData--', storageData)
+    this.headers = new HttpHeaders({
+      'Authorization': `Bearer ${storageData?.access_token}`
+    });
     const headers = this.headers
     return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}`, {headers})
       .pipe(map((response: any) => {
@@ -396,6 +401,26 @@ export class SharedService {
       .pipe(map((response: any) => {
         return response
       }))
+  }
+
+  setCBPPlanLocalStorage() {
+    localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.cbpPlanFinalObj))
+  }
+
+  getCBPPlanLocalStorage() {
+    let cbpPlanFinalObj = JSON.parse(localStorage.getItem('cbpPlanFinalObj'))
+    return cbpPlanFinalObj
+  }
+
+  checkIfLogin() {
+    let flag = false
+    let loginData =  localStorage.getItem('loginData')
+    if(loginData && JSON.parse(loginData)['access_token']) {
+      flag = true
+    } else {
+      flag = false
+    }
+    return flag
   }
   
 }

@@ -22,6 +22,7 @@ export class AddDesignationComponent {
   ];
   uploadError: string | null = null;
   uploadedFile: File | null = null;
+  cbpPlanFinalObj:any
   constructor(public dialogRef: MatDialogRef<AddDesignationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -82,7 +83,7 @@ export class AddDesignationComponent {
     if (this.uploadedFile) {
       formData.append('uploadDoc', this.uploadedFile);
     }
-
+    this.cbpPlanFinalObj = this.sharedService.getCBPPlanLocalStorage()
     console.log('this.designationForm',this.designationForm)
     let req:any = {
       "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.id,

@@ -29,6 +29,7 @@ export class LoginComponent {
   }
 
   onLogin(): void {
+    this.loading = true
     const { username, password } = this.loginForm.value;
     
     // const isValid = this.validCredentials.some(
@@ -40,15 +41,16 @@ export class LoginComponent {
     }
 
     this.sharedService.performLogin(req).subscribe((_res)=>{
+      this.loading = false
       if(_res && _res.access_token) {
         localStorage.setItem('loginData', JSON.stringify(_res))
         this.success.emit(true)
-        this.snackBar.open('Login Successful!', 'Close', {
+        this.snackBar.open('Login Successful!', 'X', {
           duration: 3000,
           panelClass: ['snackbar-success']
         });
       } else {
-        this.snackBar.open('Invalid username or password', 'Close', {
+        this.snackBar.open('Invalid username or password', 'X', {
           duration: 3000,
           panelClass: ['snackbar-error']
         });

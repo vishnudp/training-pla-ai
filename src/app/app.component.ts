@@ -45,6 +45,7 @@ export class AppComponent {
   formData: {}
   nextStep = 'initial'
   loginSuccess = false
+  cbpFinalObj:any = {}
   constructor(
     private eventSvc: EventService, 
     public sharedService: SharedService,
@@ -53,43 +54,18 @@ export class AppComponent {
     this.isMaintenancePage = window.location.href.includes('/maintenance')
   }
 
-  ngOnInit() {
-    //this.getMinistryData()
+  ngOnInit() {    
+   this.loginSuccess = this.sharedService.checkIfLogin()
+   this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
+   if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'center' || this.cbpFinalObj?.ministryType === 'state')) {
+    this.nextStep = 'role-mapping'
+   } else {
+    this.nextStep = 'initial'
+   }
+   console.log('this.nextStep',this.nextStep)
+   console.log('this.sharedService.cb', this.sharedService.cbpPlanFinalObj)
   }
 
-  getMinistryData() {
-    this.sharedService.getMinistryData().subscribe((data:any)=>{
-      console.log('data--', data)
-      this.ministryFullData = data
-      this.ministryData = []
-      if(this.selectedMinistryType === 'center') {
-        data.forEach((item)=>{
-          if(item?.type === 'central') {
-            this.ministryData.push(item)
-          } 
-        })
-      }
-    })
-  }
-
-  onMinistryTypeChange(event) {
-    console.log('event', event)
-    this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
-    this.ministryData = [] 
-    if(event?.value === 'state') {
-      this.ministryFullData.forEach((item)=>{
-        if(item?.type === 'state') {
-          this.ministryData.push(item)
-        } 
-      })
-    } else if(event?.value === 'center') {
-      this.ministryFullData.forEach((item)=>{
-        if(item?.type === 'central') {
-          this.ministryData.push(item)
-        } 
-      })
-    }
-  }
 
   successRoleMapping(event) {
     this.nextStep = 'role-mapping'
@@ -116,15 +92,16 @@ export class AppComponent {
 
   loginSuccessStatus(event) {
     this.loginSuccess = event
+    this.nextStep = 'initial'
   }
 
   logout() {
     this.loginSuccess = false
     this.nextStep = 'initial'
-    localStorage.removeItem('loginData');
+    localStorage.clear()
     this.sharedService.logout().subscribe((res)=>{
       console.log('res', res)
-      this.snackBar.open('You are logout successfully', 'Close', {
+      this.snackBar.open('You are logout successfully', 'X', {
         duration: 3000,
         panelClass: ['snackbar-success']
       });

@@ -66,7 +66,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
       error: (error) => {
         this.loading = false;
         console.error('Search error:', error);
-        this.snackBar.open('Search failed. Please try again.', 'Close', {
+        this.snackBar.open('Search failed. Please try again.', 'X', {
           duration: 3000,
           panelClass: ['snackbar-error']
         });
@@ -147,7 +147,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
         console.log('Success:', res);
         this.loading = false
         this.dialogRef.close('saved')
-        this.snackBar.open('Courses Saved Successfully', 'Close', {
+        this.snackBar.open('Courses Saved Successfully', 'X', {
           duration: 3000,
           panelClass: ['snackbar-success']
         });
@@ -160,7 +160,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
           // alert('Conflict detected: The resource already exists or action conflicts.');
           //this.get
           // Or you can set a UI error message variable
-          this.snackBar.open(error?.error?.detail, 'Close', {
+          this.snackBar.open(error?.error?.detail, 'X', {
             duration: 3000,
             panelClass: ['snackbar-error']
           });
