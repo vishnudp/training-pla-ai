@@ -1,0 +1,60 @@
+<div class="view-cbp-plan">
+    <div class="popup-container">
+        <div class="popup-header">
+            <div>
+                <div class="heading">Add Course</div>
+            </div>
+            <div class="cursor-pointer" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </div>
+        </div>
+    </div>
+    <div class="section-container" [formGroup]="courseForm">
+        <div>
+            <label>Course Name:</label>
+            <input formControlName="courseName" type="text" />
+          </div>
+        
+          <div>
+            <label>Summary / Rationale:</label>
+            <textarea formControlName="summary"></textarea>
+          </div>
+        
+          <div>
+            <label>Platform Name:</label>
+            <input formControlName="platformName" type="text" />
+          </div>
+        
+          <div>
+            <label>Course URL:</label>
+            <input formControlName="courseUrl" type="text" />
+          </div>
+        
+          <fieldset formGroupName="competencies">
+            <legend>Competencies</legend>
+        
+            <div>
+              <label>Behavioral:</label>
+              <input formControlName="behavioral" type="text" />
+            </div>
+        
+            <div>
+              <label>Functional:</label>
+              <input formControlName="functional" type="text" />
+            </div>
+        
+            <div>
+              <label>Domain:</label>
+              <input formControlName="domain" type="text" />
+            </div>
+          </fieldset>
+    </div>
+    <div class="popup-footer">
+        <div>
+            <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
+        </div>
+        <div>
+            <input class="btn-active" type="button" value="Save" (click)="saveCourse()" />
+        </div>
+    </div>
+</div>

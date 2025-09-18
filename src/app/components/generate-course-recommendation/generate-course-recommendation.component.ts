@@ -5,6 +5,7 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuggestMoreCoursesComponent } from '../suggest-more-courses/suggest-more-courses.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { AddCourseComponent } from '../add-course/add-course.component';
 
 @Component({
   selector: 'app-generate-course-recommendation',
@@ -552,7 +553,25 @@ export class GenerateCourseRecommendationComponent {
     return arr1.filter(item => !arr2.includes(item))
   }
   
+  addCourse() {
+    const dialogRef = this.dialog.open(AddCourseComponent, {
+      width: '800px',
+      data: {state_center_id:''},
+       panelClass: 'view-cbp-plan-popup',
+      minHeight: '400px',          // Set minimum height
+      maxHeight: '90vh',           // Prevent it from going beyond viewport
+      disableClose: true // Optional: prevent closing with outside click
+    });
   
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        console.log('Changes saved!');
+        // Refresh data or show a toast here
+       
+        
+      }
+    });
+  }
 
   
 
