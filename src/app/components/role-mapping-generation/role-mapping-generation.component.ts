@@ -6,6 +6,8 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import html2pdf from 'html2pdf.js';
+import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-role-mapping-generation',
   templateUrl: './role-mapping-generation.component.html',
@@ -72,7 +74,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     private eventSvc: EventService, 
     public sharedService: SharedService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
@@ -173,7 +176,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         ministry: [this.cbpFinalObj?.ministry?.id, Validators.required],
         sectors: [[]],
         departments: [this.cbpFinalObj?.departments], // shown only if ministryType == 'state'
-        additionalDetails: ['']
+        additionalDetails: [this.cbpFinalObj?.additionalDetails]
       });
 
       
@@ -231,87 +234,55 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   onGenerateRoleMapping(): void {
-    this.loading = true;
+    
     const currentFormValues = this.roleMappingForm.getRawValue();
     const changedFields = this.getChangedFields(this.originalFormValues, currentFormValues);
 
       if (changedFields.length > 0) {
         console.log('changedFields', changedFields)
         console.log('Changed fields:', changedFields);
-        if(changedFields.includes('additionalDetails')) {
-          // this.sharedService.deleteRoleMapping().subscribe(()=>{
-            
-          // })
+        if(changedFields.includes('additionalDetails') && this.roleMappingForm.value.additionalDetails?.trim()) {
+          const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
+            width: '1000px',
+            data: '',
+             panelClass: 'view-cbp-plan-popup',
+            minHeight: '400px',          // Set minimum height
+            maxHeight: '90vh',           // Prevent it from going beyond viewport
+            disableClose: true // Optional: prevent closing with outside click
+          });
+        
+          dialogRef.afterClosed().subscribe(result => {
+            if (result === 'saved') {
+              console.log('Changes saved!');
+              this.loading = true
+              this.sharedService.deleteRoleMappingByStateAndDepartment(this.roleMappingForm.value.ministry, this.roleMappingForm.value.departments).subscribe({
+                next: (res) => {
+                  // Success handling
+                  console.log('Success:', res);
+                  this.loading = false
+                  this.generateFinalRoleMapping()
+                },
+                error: (error) => {
+                  this.snackBar.open(error?.error?.detail, 'X', {
+                    duration: 3000,
+                    panelClass: ['snackbar-error']
+                  });
+                  this.loading = false
+                  this.generateFinalRoleMapping()
+                }
+              });
+            } else {
+              this.generateFinalRoleMapping()
+            }
+          });          
+        } else {
+          this.generateFinalRoleMapping()
         }
       } else {
+        this.generateFinalRoleMapping()
         console.log('No changes detected.');
       }
-    if (this.roleMappingForm.valid) {
-      const formData = this.roleMappingForm.value;
-      console.log('Form submitted:', formData);
-      let sectors = Array.isArray(formData.sectors) ? formData.sectors.join(', ') : ''
-      this.sharedService.cbpPlanFinalObj['sectors'] = formData.sectors
-      // Submit logic here
-      let req = {
-        "state_center_id":formData.ministry,
-        "sector_name": "Urban development",
-        "instruction": ""
-      }
-      if(this.selectedMinistryType === 'state') { 
-        req['department_id'] = formData.departments ? formData.departments : ''
-        this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
-        
-        
-        const departmentName = this.departmentData.find(u => u.id=== formData.departments);
-        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
-        console.log(departmentName); 
-        
-      }
-      this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
-      
-      if(req) {
-        this.sharedService.generateRoleMapping(req).subscribe({
-          next: (res) => {
-            // Success handling
-            console.log('Success:', res);
-            this.loading = false
-            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-            this.successRoleMapping.emit(this.roleMappingForm)
-          },
-          error: (error) => {
-            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = []
-            console.log('error', error)
-            if (error.status === 409) {
-              // Handle 409 Conflict here
-              // alert('Conflict detected: The resource already exists or action conflicts.');
-              //this.get
-              // Or you can set a UI error message variable
-              this.snackBar.open(error?.error?.detail, 'X', {
-                duration: 3000,
-                panelClass: ['snackbar-error']
-              });
-              this.loading = false
-              this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
-            } else {
-              // Handle other errors
-              if(error.status === 500) {
-                console.log('error', error)
-                this.snackBar.open(error?.error?.detail, 'X', {
-                  duration: 3000,
-                  panelClass: ['snackbar-error']
-                });
-              }
-             this.loading = false
-            }
-          }
-        });
-      }
-
-      localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
-      
-    } else {
-      this.roleMappingForm.markAllAsTouched();
-    }
+    
   }
 
 
@@ -438,6 +409,77 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.getMinistryData()
     } else {
       this.login = false
+    }
+  }
+
+  generateFinalRoleMapping() {
+    this.loading = true;
+    if (this.roleMappingForm.valid) {
+      const formData = this.roleMappingForm.value;
+      console.log('Form submitted:', formData);
+      let sectors = Array.isArray(formData.sectors) ? formData.sectors.join(', ') : ''
+      this.sharedService.cbpPlanFinalObj['sectors'] = formData.sectors
+      // Submit logic here
+      let req = {
+        "state_center_id":formData.ministry,
+        "sector_name": "Urban development",
+        "instruction": formData.additionalDetails
+      }
+      if(this.selectedMinistryType === 'state') { 
+        req['department_id'] = formData.departments ? formData.departments : ''
+        this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
+        
+        
+        const departmentName = this.departmentData.find(u => u.id=== formData.departments);
+        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
+        this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
+        console.log(departmentName); 
+        
+      }
+      this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
+      
+      if(req) {
+        this.sharedService.generateRoleMapping(req).subscribe({
+          next: (res) => {
+            // Success handling
+            console.log('Success:', res);
+            this.loading = false
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+            this.successRoleMapping.emit(this.roleMappingForm)
+          },
+          error: (error) => {
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = []
+            console.log('error', error)
+            if (error.status === 409) {
+              // Handle 409 Conflict here
+              // alert('Conflict detected: The resource already exists or action conflicts.');
+              //this.get
+              // Or you can set a UI error message variable
+              this.snackBar.open(error?.error?.detail, 'X', {
+                duration: 3000,
+                panelClass: ['snackbar-error']
+              });
+              this.loading = false
+              this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+            } else {
+              // Handle other errors
+              if(error.status === 500) {
+                console.log('error', error)
+                this.snackBar.open(error?.error?.detail, 'X', {
+                  duration: 3000,
+                  panelClass: ['snackbar-error']
+                });
+              }
+             this.loading = false
+            }
+          }
+        });
+      }
+
+      localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+      
+    } else {
+      this.roleMappingForm.markAllAsTouched();
     }
   }
 }

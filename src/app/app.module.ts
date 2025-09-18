@@ -45,6 +45,7 @@ import { SuggestMoreCoursesComponent } from './components/suggest-more-courses/s
 import { AddDesignationComponent } from './components/add-designation/add-designation.component';
 import { AddPersonalisationComponent } from './components/add-personalisation/add-personalisation.component';
 import { LoginComponent } from './components/login/login.component';
+import { DeleteRoleMappingPopupComponent } from './components/delete-role-mapping-popup/delete-role-mapping-popup.component';
 
 const appInitializer = (initSvc: InitService) => async () => {
   try {
@@ -69,7 +70,8 @@ const appInitializer = (initSvc: InitService) => async () => {
     SuggestMoreCoursesComponent,
     AddDesignationComponent,
     AddPersonalisationComponent,
-    LoginComponent
+    LoginComponent,
+    DeleteRoleMappingPopupComponent
   ],
   imports: [
     BrowserModule,

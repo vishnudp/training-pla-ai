@@ -15,6 +15,7 @@ const API_END_POINTS = {
   FETCH_TENDERS: 'api/content/v1/search',
   GET_STATE_CENTER: 'cbp-tpc-ai/state-center/',
   GET_ROLE_MAPPING: 'cbp-tpc-ai/role-mapping/generate',
+  DELETE_ROLE_MAPPING: 'cbp-tpc-ai/role-mapping/delete',
   GET_DEPARTMENT: 'cbp-tpc-ai/department/state-center',
   GET_ROLE_MAPPING_BY_STATE_CENTER: 'cbp-tpc-ai/role-mapping/state-center',
   GET_ROLE_MAPPING_BY_STATE_CENTER_DEPARTMENT: 'cbp-tpc-ai/role-mapping/state-center',
@@ -28,8 +29,11 @@ const API_END_POINTS = {
   SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/course/suggestions',
   ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation',
   LOGIN:'cbp-tpc-ai/auth/login',
-  LOGOUT:'cbp-tpc-ai/auth/logout'
+  LOGOUT:'cbp-tpc-ai/auth/logout',
+  DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping/state-center'
 }
+
+
 
 // @Directive()
 @Injectable({
@@ -259,6 +263,7 @@ export class SharedService {
           return response
         }))
     }
+    
 
   getDepartmentList(ministryId) {
     const headers = this.headers
@@ -423,4 +428,12 @@ export class SharedService {
     return flag
   }
   
+  deleteRoleMappingByStateAndDepartment(state_center_id, department_id) {
+    const headers = this.headers
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}`, {headers})
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
 }
