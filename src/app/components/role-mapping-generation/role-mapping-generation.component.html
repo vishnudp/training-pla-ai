@@ -96,12 +96,12 @@
             </div>
             <div class="mt-4 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <div class="sub-heading">
-                    <p>Upload Document (PDF/Word/Excel/TXT)</p>
+                    <p>Upload Document (PDF)</p>
                 </div>
                 <div class="file-upload-wrapper">
                     <label for="uploadDoc" class="file-upload-label">
                         <span class="file-upload-icon">📎</span>
-                        <span>{{ uploadedFile?.name || 'Choose a file (PDF, Word, Excel, TXT)' }}</span>
+                        <span>{{ uploadedFile?.name || 'Choose a file (PDF)' }}</span>
                     </label>
 
                     <small class="file-upload-hint">Max file size: 25MB</small>

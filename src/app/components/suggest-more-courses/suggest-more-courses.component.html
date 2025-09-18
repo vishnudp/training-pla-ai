@@ -34,6 +34,9 @@
                                         class="sinput color-60 w-full" [(ngModel)]="searchText"
                                         (keyup.enter)="searchData()" label=""
                                         placeholder="Search Courses from iGOT" type="Standard">
+                                    <mat-icon *ngIf="searchText.trim().length > 0" 
+                                        class="color-60 clear-icon mat-icon notranslate material-icons mat-icon-no-color cursor-pointer" 
+                                        (click)="clearSearch()">clear</mat-icon>
                                 </div>
                                 <div class="pl-2">
                                     <input [disabled]="!searchText.trim()" [ngClass]="searchText.trim() ? 'btn-active':'btn-disable'" type="button" value="Search" (click)="searchData()" />
@@ -46,8 +49,13 @@
                 </div>
             </div>
             <div class="mt-4">
-                <div>
-                    <mat-checkbox [checked]="false" (change)="selectAllCourses($event)">Select All Courses</mat-checkbox>
+                <div class="results-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <mat-checkbox [checked]="false" (change)="selectAllCourses($event)">Select All Courses</mat-checkbox>
+                    </div>
+                    <div class="results-info" *ngIf="totalCount > 0">
+                        <span class="text-muted">Showing {{ startItem }} - {{ endItem }} of {{ totalCount }} courses</span>
+                    </div>
                 </div>
             </div>
             <div class="course-card-list">
@@ -80,6 +88,35 @@
                     </div>
                   </div>
                 </div>
+              </div>
+              
+              <!-- Pagination Controls -->
+              <div class="pagination-controls mt-4" *ngIf="totalPages > 1" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <button mat-icon-button [disabled]="!hasPreviousPage" (click)="goToFirstPage()" title="First Page">
+                  <mat-icon>first_page</mat-icon>
+                </button>
+                
+                <button mat-icon-button [disabled]="!hasPreviousPage" (click)="goToPreviousPage()" title="Previous Page">
+                  <mat-icon>chevron_left</mat-icon>
+                </button>
+                
+                <span class="pagination-info" style="margin: 0 15px;">
+                  Page {{ currentPage + 1 }} of {{ totalPages }}
+                </span>
+                
+                <button mat-icon-button [disabled]="!hasNextPage" (click)="goToNextPage()" title="Next Page">
+                  <mat-icon>chevron_right</mat-icon>
+                </button>
+                
+                <button mat-icon-button [disabled]="!hasNextPage" (click)="goToLastPage()" title="Last Page">
+                  <mat-icon>last_page</mat-icon>
+                </button>
+              </div>
+
+              <!-- No Results Message -->
+              <div class="no-results mt-4" *ngIf="!loading && suggestedCourses.length === 0" style="text-align: center; padding: 20px;">
+                <p class="text-muted">{{ searchText.trim() ? 'No courses found for your search.' : 'No courses available.' }}</p>
+                <button mat-button color="primary" *ngIf="searchText.trim()" (click)="clearSearch()">Clear Search</button>
               </div>
         </mat-card>
     </div>

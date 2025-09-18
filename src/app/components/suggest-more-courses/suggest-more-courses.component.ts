@@ -15,9 +15,15 @@ export class SuggestMoreCoursesComponent implements OnInit{
   selectFilterCourses:any = []
   planData:any = {}
   loading=false
+
+  // Pagination properties
+  currentPage = 0
+  pageSize = 12
+  totalCount = 0
+  totalPages = 0
   constructor(
     public dialogRef: MatDialogRef<SuggestMoreCoursesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
     public sharedService: SharedService,
     public snackBar: MatSnackBar
   ) {
@@ -29,38 +35,151 @@ export class SuggestMoreCoursesComponent implements OnInit{
     this.loadAllCourses();
   }
   applyFilter() {
-    // Local filtering disabled when we have backend search
-    // this.suggestedCourses = this.filterData(this.searchText);
+    // This method is kept for future use if needed
+    // Search is now only triggered by search button click
   }
 
   searchData() {
     console.log('searchData called with searchText:', this.searchText);
-    
+
+    // Reset to first page when searching
+    this.currentPage = 0;
+
     if (!this.searchText.trim()) {
       console.log('Search text is empty, loading all courses');
       this.loadAllCourses();
       return;
     }
-    
+
+    // Call the dedicated search method
+    this.performSearch();
+  }
+
+  loadAllCourses() {
     this.loading = true;
     let reqBody = {
-      "skip": 0,
-      "limit": 20,
-      "search_term": this.searchText.trim()
+      "request": {
+        "filters": {
+          "primaryCategory": [
+            "Course"
+          ],
+          "status": [
+            "Live"
+          ],
+          "courseCategory": [
+            "Course"
+          ]
+        },
+        "fields": [
+          "posterImage",
+          "description",
+          "name"
+        ],
+        "sort_by": {
+          "createdOn": "desc"
+        },
+        "limit": this.pageSize,
+        "offset": this.currentPage * this.pageSize
+      }
     };
-    
-    console.log('Search request body:', reqBody);
-    
+
+    console.log('Load all courses request body:', reqBody);
+
+    this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
+      next: (res) => {
+        this.loading = false;
+        console.log('All courses loaded:', res);
+        if (res && res.result) {
+          this.suggestedCourses = res.result.content || [];
+          this.originalData = res.result.content || [];
+          this.totalCount = res.result.totalHits || res.result.count || 0;
+          this.totalPages = Math.ceil(this.totalCount / this.pageSize);
+        } else {
+          this.suggestedCourses = [];
+          this.originalData = [];
+          this.totalCount = 0;
+          this.totalPages = 0;
+        }
+      },
+      error: (error) => {
+        this.loading = false;
+        console.error('Load courses error:', error);
+        this.snackBar.open('Failed to load courses. Please try again.', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
+  }
+
+  cancel() {
+    this.dialogRef.close()
+  }
+
+  // Pagination methods
+  onPageChange(page: number) {
+    if (page >= 0 && page < this.totalPages) {
+      this.currentPage = page;
+      if (this.searchText.trim()) {
+        this.performSearch();
+      } else {
+        this.loadAllCourses();
+      }
+    }
+  }
+
+  // Separate method for performing search with query
+  performSearch() {
+    if (!this.searchText.trim()) {
+      this.loadAllCourses();
+      return;
+    }
+
+    this.loading = true;
+
+    let reqBody = {
+      "request": {
+        "filters": {
+          "primaryCategory": [
+            "Course"
+          ],
+          "status": [
+            "Live"
+          ],
+          "courseCategory": [
+            "Course"
+          ]
+        },
+        "fields": [
+          "posterImage",
+          "description",
+          "name"
+        ],
+        "sort_by": {
+          "createdOn": "desc"
+        },
+        "query": this.searchText.trim(),
+        "limit": this.pageSize,
+        "offset": this.currentPage * this.pageSize
+      }
+    };
+
+    console.log('Perform search request body:', JSON.stringify(reqBody, null, 2));
+
     this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
       next: (res) => {
         this.loading = false;
         console.log('Search results:', res);
-        if (res && res.result && res.result.content && res.result.content.length) {
-          this.suggestedCourses = res.result.content;
-          this.originalData = res.result.content;
+        if (res && res.result) {
+          this.suggestedCourses = res.result.content || [];
+          this.originalData = res.result.content || [];
+          this.totalCount = res.result.totalHits || res.result.count || 0;
+          this.totalPages = Math.ceil(this.totalCount / this.pageSize);
         } else {
           this.suggestedCourses = [];
           this.originalData = [];
+          this.totalCount = 0;
+          this.totalPages = 0;
         }
       },
       error: (error) => {
@@ -74,37 +193,48 @@ export class SuggestMoreCoursesComponent implements OnInit{
     });
   }
 
-  loadAllCourses() {
-    this.loading = true;
-    let reqBody = {
-      "skip": 0,
-      "limit": 20,
-      "search_term": ""
-    };
-    
-    this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
-      next: (res) => {
-        this.loading = false;
-        console.log('All courses loaded:', res);
-        if (res && res.result && res.result.content && res.result.content.length) {
-          this.suggestedCourses = res.result.content;
-          this.originalData = res.result.content;
-        }
-      },
-      error: (error) => {
-        this.loading = false;
-        console.error('Load courses error:', error);
-      }
-    });
+  goToFirstPage() {
+    this.onPageChange(0);
   }
 
-  cancel() {
-    this.dialogRef.close()
+  goToPreviousPage() {
+    this.onPageChange(this.currentPage - 1);
+  }
+
+  goToNextPage() {
+    this.onPageChange(this.currentPage + 1);
+  }
+
+  goToLastPage() {
+    this.onPageChange(this.totalPages - 1);
+  }
+
+  clearSearch() {
+    this.searchText = '';
+    this.currentPage = 0;
+    this.loadAllCourses();
+  }
+
+  // Helper methods for pagination UI
+  get hasPreviousPage(): boolean {
+    return this.currentPage > 0;
+  }
+
+  get hasNextPage(): boolean {
+    return this.currentPage < this.totalPages - 1;
+  }
+
+  get startItem(): number {
+    return this.currentPage * this.pageSize + 1;
+  }
+
+  get endItem(): number {
+    return Math.min((this.currentPage + 1) * this.pageSize, this.totalCount);
   }
 
   filterData(searchText: string): any[] {
     const filter = searchText.trim().toLowerCase();
-  
+
     return this.originalData.filter(item => {
       const stringified = this.flattenObjectToString(item).toLowerCase();
       return stringified.includes(filter);
@@ -113,10 +243,10 @@ export class SuggestMoreCoursesComponent implements OnInit{
 
   flattenObjectToString(obj: any): string {
     let result = '';
-  
+
     for (const key in obj) {
       const value = obj[key];
-  
+
       if (typeof value === 'string') {
         result += ' ' + value;
       } else if (Array.isArray(value)) {
@@ -131,7 +261,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
         result += ' ' + this.flattenObjectToString(value);
       }
     }
-  
+
     return result;
   }
 
@@ -188,7 +318,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
       this.selectFilterCourses.push(item?.identifier)
     } else {
       const index = this.selectFilterCourses.indexOf(item?.identifier);
-    
+
       if (index !== -1) {
         this.selectFilterCourses.splice(index, 1);
       }
@@ -199,7 +329,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
   checkIfCourseExists(item) {
     let flag = false
     if(this.selectFilterCourses.indexOf(item?.identifier)> -1) {
-      flag = true 
+      flag = true
     }
     return flag
   }

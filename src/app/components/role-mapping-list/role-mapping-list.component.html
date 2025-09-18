@@ -51,6 +51,9 @@
                                 <input class="sinput color-60 w-full" [(ngModel)]="searchText" label=""
                                     (input)="applyFilter()" placeholder="Search by designation name or wing/division..."
                                     type="Standard">
+                                <mat-icon *ngIf="searchText.trim().length > 0" 
+                                    class="color-60 clear-icon mat-icon notranslate material-icons mat-icon-no-color cursor-pointer" 
+                                    (click)="clearSearch()">clear</mat-icon>
                             </div>
                             <div class="pl-2 mt-2">
                                 <input [disabled]="searchText.trim()?.length === 0"
