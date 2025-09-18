@@ -429,7 +429,15 @@ line-height: normal;
     display: flex;
     flex-wrap: wrap;
     gap: 16px; /* Optional spacing between cards */
+    width: 100%;
+  padding: 1rem;
   }
+
+  // .course-list-container-flex {
+  //   display: flex;
+  //   gap: 2rem;
+  //   flex-wrap: wrap;
+  // }
   
   .course-list-item {
     flex: 0 0 48%; /* Two items per row with space for gap */
@@ -933,6 +941,8 @@ background: #f8f9fa;
   .course-footer {
     margin-top: auto;
     padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
   }
 
   ::ng-deep  .mdc-tab__text-label {
@@ -1023,3 +1033,46 @@ background: #f8f9fa;
   .all-category-list .mat-icon {
     vertical-align: middle;
   }
+
+  .course-list-container-flex {
+    display: flex;
+  align-items: flex-start; /* top alignment */
+  gap: 2rem;
+  }
+
+  /* Left panel (text or sidebar) */
+.left-panel {
+  flex: 0 0 250px; /* Fixed width */
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Right panel (course list) */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.category-list-item {
+  font-weight: normal;
+  font-size: 16px;
+  font-family: 'Lato';
+  padding: 5px;
+}
+
+.right-panel-flex {
+  display: flex;
+  flex: 0 0 100%;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.course-list-container-right-flex {
+  display: flex;
+}
+
+
