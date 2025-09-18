@@ -112,6 +112,11 @@
                     <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
                 </div>
             </div>
+            <div class="mt-2 section">
+                <div class="disclaimer-text">
+                    <p>Disclaimer: Please do not upload any confidential documents </p>
+                </div>
+            </div>
             <div class="mt-4">
                 <input [disabled]="roleMappingForm?.invalid"
                     [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"

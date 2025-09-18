@@ -556,7 +556,7 @@ export class GenerateCourseRecommendationComponent {
   addCourse() {
     const dialogRef = this.dialog.open(AddCourseComponent, {
       width: '800px',
-      data: {state_center_id:''},
+      data: this.planData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '400px',          // Set minimum height
       maxHeight: '90vh',           // Prevent it from going beyond viewport

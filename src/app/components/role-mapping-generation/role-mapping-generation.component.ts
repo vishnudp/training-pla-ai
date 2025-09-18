@@ -96,7 +96,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         ministry: [null, Validators.required],
         sectors: [[]],
         departments: [[]], // shown only if ministryType == 'state'
-        additionalDetails: ['']
+        additionalDetails: [''],
+        additional_document: []
       });
       this.roleMappingForm.get('sectors')?.setValue([]);
       this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {
@@ -105,7 +106,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           ministry: null,
           sectors: [],
           departments: [],
-          additionalDetails: ''
+          additionalDetails: '',
+          additional_document:[]
         });
         if (type === 'state') {
           this.roleMappingForm.get('departments')?.setValidators([Validators.required]);
@@ -233,15 +235,34 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     return changedKeys;
   }
 
-  onGenerateRoleMapping(): void {
+  onGenerateRoleMapping(): any {
     
     const currentFormValues = this.roleMappingForm.getRawValue();
+    const formData :any= new FormData();
+
+    formData.append('ministryType', currentFormValues.ministryType);
+    formData.append('ministry', currentFormValues.ministry);
+    formData.append('sectors', JSON.stringify(currentFormValues.sectors));
+    formData.append('departments', JSON.stringify(currentFormValues.departments));
+    formData.append('additionalDetails', currentFormValues.additionalDetails || '');  
+    const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
+    console.log('file', file)
+    if (file) {
+      formData.append('additional_document', file);
+    }
+    console.log('this.roleMappingForm', this.roleMappingForm)
+    console.log('formData--', formData)
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
+
+    
     const changedFields = this.getChangedFields(this.originalFormValues, currentFormValues);
 
-      if (changedFields.length > 0) {
+      if (changedFields.length > 0 || (file && file.size > 0)) {
         console.log('changedFields', changedFields)
         console.log('Changed fields:', changedFields);
-        if(changedFields.includes('additionalDetails') && this.roleMappingForm.value.additionalDetails?.trim()) {
+        if(changedFields.includes('additionalDetails') && this.roleMappingForm.value.additionalDetails?.trim() || (file && file.size > 0)) {
           const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
             width: '400px',
             data: '',
@@ -385,21 +406,21 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     const maxBytes = this.maxFileSizeMB * 1024 * 1024;
     if (file.size > maxBytes) {
       this.uploadError = `File exceeds maximum size of ${this.maxFileSizeMB}MB`;
-     // this.designationForm.get('uploadDoc')?.setErrors({ maxSize: true });
+     this.roleMappingForm.get('additional_document')?.setErrors({ maxSize: true });
       return;
     }
 
     // Validate file type
     if (!this.allowedTypes.includes(file.type)) {
       this.uploadError = `Invalid file type. Allowed: PDF, Word, Excel, TXT`;
-     // this.designationForm.get('uploadDoc')?.setErrors({ fileType: true });
+      this.roleMappingForm.get('additional_document')?.setErrors({ fileType: true });
       return;
     }
 
     this.uploadedFile = file;
     this.uploadError = null;
-    // this.designationForm.patchValue({ uploadDoc: file });
-    // this.designationForm.get('uploadDoc')?.updateValueAndValidity();
+    this.roleMappingForm.patchValue({ additional_document: file });
+    this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
   }
 
   loginStatus(event) {
@@ -416,6 +437,30 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     this.loading = true;
     if (this.roleMappingForm.valid) {
       const formData = this.roleMappingForm.value;
+      const currentFormValues = this.roleMappingForm.getRawValue();
+        let formUploadData :any= new FormData();
+
+        // formUploadData.append('ministryType', currentFormValues.ministryType);
+        // formUploadData.append('ministry', currentFormValues.ministry);
+        // formUploadData.append('sectors', JSON.stringify(currentFormValues.sectors));
+        // formUploadData.append('departments', JSON.stringify(currentFormValues.departments));
+        formUploadData.append('state_center_id', currentFormValues.ministry || '');  
+        if(currentFormValues.departments) {
+          formUploadData.append('department_id', currentFormValues.departments || '');  
+        }
+        if(currentFormValues.additionalDetails) {
+          formUploadData.append('instruction', currentFormValues.additionalDetails || '');  
+        }
+        const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
+        console.log('file', file)
+        if (file) {
+          formUploadData.append('additional_document', file);
+        }
+        console.log('this.roleMappingForm', this.roleMappingForm)
+        console.log('formUploadData--', formUploadData)
+        for (const pair of formUploadData.entries()) {
+          console.log(`${pair[0]}:`, pair[1]);
+        }
       console.log('Form submitted:', formData);
       let sectors = Array.isArray(formData.sectors) ? formData.sectors.join(', ') : ''
       this.sharedService.cbpPlanFinalObj['sectors'] = formData.sectors
@@ -439,7 +484,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
       
       if(req) {
-        this.sharedService.generateRoleMapping(req).subscribe({
+        this.sharedService.generateRoleMapping(formUploadData).subscribe({
           next: (res) => {
             // Success handling
             console.log('Success:', res);
