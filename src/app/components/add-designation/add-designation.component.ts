@@ -104,7 +104,7 @@ export class AddDesignationComponent {
         duration: 3000,
         panelClass: ['snackbar-success']
       });
-      this.dialogRef.close()
+      this.dialogRef.close('saved')
     })
   }
 

@@ -47,6 +47,7 @@ export class GenerateCourseRecommendationComponent {
 
   selectCategory(category: string) {
     this.selectedCategory = category;
+    this.gapAnalysisStats()
   }
   ngOnInit() {
     this.loading = true
@@ -415,7 +416,18 @@ export class GenerateCourseRecommendationComponent {
 
   gapAnalysisStats () {
     console.log('this.planData',this.planData)
-    const masterList = this.planData.competencies;
+    let masterList:any = this.planData.competencies;
+    if(this.selectedCategory === 'all') {
+      masterList = this.planData.competencies
+    } else if(this.selectedCategory === 'behavioral') {
+      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+    } else if(this.selectedCategory === 'functional') {
+      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+    } 
+    else if(this.selectedCategory === 'domain') {
+      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+    } 
+
     const masterListByCategory = {total: masterList.length, behavioural: 0, functional:0, domain:0}
     const matchCompetencyByCategory = {total:0,  behavioural: 0, functional:0, domain:0}
     const allCourseCompetencies = []
@@ -443,7 +455,8 @@ export class GenerateCourseRecommendationComponent {
     }
     const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
     this.competencyCoveredCount = result['total']
-    this.overallCoverage = `${(this.competencyCoveredCount/this.planData.competencies.length)*100}%`
+    let mathRound = Math.round((this.competencyCoveredCount/this.planData.competencies.length)*100)
+    this.overallCoverage = `${mathRound}%`
     console.log(result);
     console.log('this.competencyNotMatchedByCategory',this.competencyNotMatchedByCategory)
     this.behaviouralNotMatched = this.getCompetencyByCategoryNotMatching('behavioral')
