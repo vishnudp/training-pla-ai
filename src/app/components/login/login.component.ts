@@ -44,6 +44,7 @@ export class LoginComponent {
       this.loading = false
       if(_res && _res.access_token) {
         localStorage.setItem('loginData', JSON.stringify(_res))
+        localStorage.setItem('userEmail',username)
         this.success.emit(true)
         this.snackBar.open('Login Successful!', 'X', {
           duration: 3000,

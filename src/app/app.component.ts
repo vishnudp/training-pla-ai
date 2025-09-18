@@ -46,6 +46,7 @@ export class AppComponent {
   nextStep = 'initial'
   loginSuccess = false
   cbpFinalObj:any = {}
+  userEmail = ''
   constructor(
     private eventSvc: EventService, 
     public sharedService: SharedService,
@@ -56,6 +57,10 @@ export class AppComponent {
 
   ngOnInit() {    
    this.loginSuccess = this.sharedService.checkIfLogin()
+   if(this.loginSuccess) {
+    
+    this.userEmail = localStorage.getItem('userEmail')
+   }
    this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
    if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'center' || this.cbpFinalObj?.ministryType === 'state')) {
     this.nextStep = 'role-mapping'

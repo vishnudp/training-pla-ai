@@ -23,6 +23,7 @@ export class AddDesignationComponent {
   uploadError: string | null = null;
   uploadedFile: File | null = null;
   cbpPlanFinalObj:any
+  loading = false
   constructor(public dialogRef: MatDialogRef<AddDesignationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -77,6 +78,7 @@ export class AddDesignationComponent {
   }
 
   saveDesignation() {
+    this.loading = true
     const formData = new FormData();
     formData.append('designationName', this.designationForm.get('designationName')?.value);
     formData.append('roleDetails', this.designationForm.get('roleDetails')?.value);
@@ -87,12 +89,21 @@ export class AddDesignationComponent {
     console.log('this.designationForm',this.designationForm)
     let req:any = {
       "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.id,
-      "department_id": "",
+      // "department_id": "",
       "designation_name": this.designationForm.value.designation_name,
       "instruction": this.designationForm.value.instruction,
     }
+    if(this.sharedService.cbpPlanFinalObj?.ministryType === 'state') {
+      req['department_id'] = this.sharedService.cbpPlanFinalObj.departments
+    }
+    
     console.log('req', req)
     this.sharedService.addDesignation(req).subscribe((_res)=>{
+      this.loading = false
+      this.snackBar.open('Designation Added Successfully', 'X', {
+        duration: 3000,
+        panelClass: ['snackbar-success']
+      });
       this.dialogRef.close()
     })
   }

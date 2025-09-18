@@ -25,8 +25,10 @@ export class ViewCourseRecommendationComponent {
   selectFilterCourses:any = []
   competenciesCount = {total:0, public_courses:0, igot:0}
   ngOnInit() {
+    this.loading = true
     this.cbpPlanData = this.sharedService.cbpPlanFinalObj
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
+      this.loading = false
       console.log('res', res)
       this.recommended_course_id = res.id
       let allCourses = []

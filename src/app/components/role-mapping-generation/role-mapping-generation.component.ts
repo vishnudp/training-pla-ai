@@ -243,11 +243,11 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         console.log('Changed fields:', changedFields);
         if(changedFields.includes('additionalDetails') && this.roleMappingForm.value.additionalDetails?.trim()) {
           const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
-            width: '1000px',
+            width: '400px',
             data: '',
              panelClass: 'view-cbp-plan-popup',
-            minHeight: '400px',          // Set minimum height
-            maxHeight: '90vh',           // Prevent it from going beyond viewport
+            minHeight: '300px',          // Set minimum height
+            maxHeight: '80vh',           // Prevent it from going beyond viewport
             disableClose: true // Optional: prevent closing with outside click
           });
         
@@ -422,7 +422,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       // Submit logic here
       let req = {
         "state_center_id":formData.ministry,
-        "sector_name": "Urban development",
+        //"sector_name": "Urban development",
         "instruction": formData.additionalDetails
       }
       if(this.selectedMinistryType === 'state') { 

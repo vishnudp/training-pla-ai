@@ -14,7 +14,7 @@
                         <div class="select-map-flex">
                             <div class="selected-mapping-route">
                                 <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name">
+                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name && sharedService?.cbpPlanFinalObj?.ministryType === 'state'">
                                         / {{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span>
                                 </p>
                             </div>

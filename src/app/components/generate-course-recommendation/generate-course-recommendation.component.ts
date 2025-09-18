@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuggestMoreCoursesComponent } from '../suggest-more-courses/suggest-more-courses.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-generate-course-recommendation',
@@ -11,39 +12,59 @@ import { SuggestMoreCoursesComponent } from '../suggest-more-courses/suggest-mor
   styleUrls: ['./generate-course-recommendation.component.scss']
 })
 export class GenerateCourseRecommendationComponent {
-  planData:any
-  loading=false
-  recommended_course_id=''
-  constructor( public dialogRef: MatDialogRef<GenerateCourseRecommendationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService, 
+  planData: any
+  loading = false
+  recommended_course_id = ''
+  constructor(public dialogRef: MatDialogRef<GenerateCourseRecommendationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
     private snackBar: MatSnackBar, public dialog: MatDialog) {
-      this.planData = data
-    }
+    this.planData = data
+  }
   searchText = ''
-  filterdCourses :any = []
-  originalData:any = []
-  selectFilterCourses:any = []
-  mode= 'add'
+  filterdCourses: any = []
+  originalData: any = []
+  selectFilterCourses: any = []
+  mode = 'add'
   cbp_plan_id = ''
   expandedCompetencies: any = {}; // Track expanded state for each course and competency type
-  
+  outerTabActiveIndex = 0
+  innerTabActiveIndex = 0
+  outerTabActiveText = 'all'
+  innerTabActiveText = 'all'
+  selectedCategory = 'all';
+  competencyCoveredCount = 0
+  overallCoverage:any = 0
+  competencyNotMatchedByCategory = []
+  menuItems = [
+    { key: 'all', label: 'All Categories' },
+    { key: 'behavioral', label: 'Behavioral' },
+    { key: 'functional', label: 'Functional' },
+    { key: 'domain', label: 'Domain' }
+  ];
+  behaviouralNotMatched = []
+  functionalNotMatched = []
+  domainNotMatched = []
+
+  selectCategory(category: string) {
+    this.selectedCategory = category;
+  }
   ngOnInit() {
     this.loading = true
-    this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
+    this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res) => {
       this.loading = false
       console.log('res', res)
       this.recommended_course_id = res.id
       let allCoures = []
-      if(res && res.filtered_courses && res.filtered_courses.length) {
-        res?.filtered_courses.forEach((item)=>{
-          if(item?.relevancy > 85) {
+      if (res && res.filtered_courses && res.filtered_courses.length) {
+        res?.filtered_courses.forEach((item) => {
+          if (item?.relevancy > 85) {
             allCoures.push(item)
           }
         })
         this.originalData = allCoures
         this.filterdCourses = allCoures
       }
-      
+
       console.log('this.filterdCourses', this.filterdCourses)
       this.getCourses()
       this.getSuggestedCourse()
@@ -55,19 +76,19 @@ export class GenerateCourseRecommendationComponent {
   }
 
   searchData() {
-  //  this.filterdCourses = this.filterData(this.searchText);
+    //  this.filterdCourses = this.filterData(this.searchText);
   }
 
   selectedFilterCourses(event, item) {
     console.log('event', event)
     console.log('item', item)
-    if(event.checked) {
+    if (event.checked) {
       this.selectFilterCourses.push(item?.identifier)
     } else {
       const index = this.selectFilterCourses.findIndex(
-        control => control.identifier === item.identifier 
+        control => control.identifier === item.identifier
       );
-    
+
       if (index !== -1) {
         this.selectFilterCourses.splice(index);
       }
@@ -81,14 +102,14 @@ export class GenerateCourseRecommendationComponent {
 
   saveCourses() {
     this.loading = true
-    console.log('this.planData',this.planData)
+    console.log('this.planData', this.planData)
     let reqBody = {
       "role_mapping_id": this.planData.id,
       "recommended_course_id": this.recommended_course_id,
       "course_identifiers": this.selectFilterCourses
     }
-    console.log('reqBody, ',  reqBody)
-    if(this.mode === 'add') {
+    console.log('reqBody, ', reqBody)
+    if (this.mode === 'add') {
       this.sharedService.saveCourse(reqBody).subscribe({
         next: (res) => {
           // Success handling
@@ -104,20 +125,20 @@ export class GenerateCourseRecommendationComponent {
         error: (error) => {
           console.log('error', error)
           this.dialogRef.close()
-            // Handle 409 Conflict here
-            // alert('Conflict detected: The resource already exists or action conflicts.');
-            //this.get
-            // Or you can set a UI error message variable
-            this.snackBar.open(error?.error?.detail, 'X', {
-              duration: 3000,
-              panelClass: ['snackbar-error']
-            });
-            this.loading = false
-            //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+          // Handle 409 Conflict here
+          // alert('Conflict detected: The resource already exists or action conflicts.');
+          //this.get
+          // Or you can set a UI error message variable
+          this.snackBar.open(error?.error?.detail, 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+          this.loading = false
+          //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
         }
       });
     } else {
-      if(this.cbp_plan_id) {
+      if (this.cbp_plan_id) {
         this.sharedService.updateCourse(reqBody, this.cbp_plan_id).subscribe({
           next: (res) => {
             // Success handling
@@ -133,22 +154,22 @@ export class GenerateCourseRecommendationComponent {
           error: (error) => {
             console.log('error', error)
             this.dialogRef.close()
-              // Handle 409 Conflict here
-              // alert('Conflict detected: The resource already exists or action conflicts.');
-              //this.get
-              // Or you can set a UI error message variable
-              this.snackBar.open(error?.error?.detail, 'X', {
-                duration: 3000,
-                panelClass: ['snackbar-error']
-              });
-              this.loading = false
-              //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+            // Handle 409 Conflict here
+            // alert('Conflict detected: The resource already exists or action conflicts.');
+            //this.get
+            // Or you can set a UI error message variable
+            this.snackBar.open(error?.error?.detail, 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+            this.loading = false
+            //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
           }
         });
       }
-      
+
     }
-    
+
   }
 
   getCourses() {
@@ -160,9 +181,9 @@ export class GenerateCourseRecommendationComponent {
         this.loading = false
         console.log('res', res)
         this.cbp_plan_id = res?.id
-        if(res && res?.selected_courses && res?.selected_courses?.length) {
+        if (res && res?.selected_courses && res?.selected_courses?.length) {
           this.mode = 'edit'
-          for(let i=0; i<res?.selected_courses.length;i++) {
+          for (let i = 0; i < res?.selected_courses.length; i++) {
             this.selectFilterCourses.push(res.selected_courses[i]?.identifier)
           }
         }
@@ -170,17 +191,17 @@ export class GenerateCourseRecommendationComponent {
       },
       error: (error) => {
         console.log('error', error)
-        this.loading=false
-          // Handle 409 Conflict here
-          // alert('Conflict detected: The resource already exists or action conflicts.');
-          //this.get
-          // Or you can set a UI error message variable
-        
-          this.loading = false
-          //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+        this.loading = false
+        // Handle 409 Conflict here
+        // alert('Conflict detected: The resource already exists or action conflicts.');
+        //this.get
+        // Or you can set a UI error message variable
+
+        this.loading = false
+        //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
       }
-      
-     
+
+
     })
   }
   getSuggestedCourse() {
@@ -194,58 +215,58 @@ export class GenerateCourseRecommendationComponent {
         this.cbp_plan_id = res?.id
         this.loading = false
         console.log('res', res)
-        console.log('this.filterdCourses',this.filterdCourses)
-        for(let i=0; i<res.length;i++) {
+        console.log('this.filterdCourses', this.filterdCourses)
+        for (let i = 0; i < res.length; i++) {
           this.filterdCourses.push(res[i])
         }
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
         console.log('error', error)
-        this.loading=false
-          // Handle 409 Conflict here
-          // alert('Conflict detected: The resource already exists or action conflicts.');
-          //this.get
-          // Or you can set a UI error message variable
-        
-          this.loading = false
-          //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+        this.loading = false
+        // Handle 409 Conflict here
+        // alert('Conflict detected: The resource already exists or action conflicts.');
+        //this.get
+        // Or you can set a UI error message variable
+
+        this.loading = false
+        //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
       }
-      
-     
+
+
     })
   }
 
   checkIfCourseExists(item) {
     let flag = false
-    if(this.selectFilterCourses.indexOf(item?.identifier)> -1) {
-      flag = true 
+    if (this.selectFilterCourses.indexOf(item?.identifier) > -1) {
+      flag = true
     }
     return flag
   }
 
-  selectAllCourses(event){
-    if(event.checked) {
-      for(let i=0; i<this.filterdCourses.length;i++) {
+  selectAllCourses(event) {
+    if (event.checked) {
+      for (let i = 0; i < this.filterdCourses.length; i++) {
         this.selectFilterCourses.push(this.filterdCourses[i].identifier)
       }
     } else {
       this.selectFilterCourses = []
       this.mode = 'add'
     }
-    
-    
+
+
   }
   getSectors(sector) {
-    if(sector && sector.length) {
+    if (sector && sector.length) {
       return Array.isArray(sector) ? sector.join('/ ') : ''
     }
-    
+
   }
 
   filterData(searchText: string): any[] {
     const filter = searchText.trim().toLowerCase();
-  
+
     return this.originalData.filter(item => {
       const stringified = this.flattenObjectToString(item).toLowerCase();
       return stringified.includes(filter);
@@ -254,10 +275,10 @@ export class GenerateCourseRecommendationComponent {
 
   flattenObjectToString(obj: any): string {
     let result = '';
-  
+
     for (const key in obj) {
       const value = obj[key];
-  
+
       if (typeof value === 'string') {
         result += ' ' + value;
       } else if (Array.isArray(value)) {
@@ -272,7 +293,7 @@ export class GenerateCourseRecommendationComponent {
         result += ' ' + this.flattenObjectToString(value);
       }
     }
-  
+
     return result;
   }
 
@@ -280,13 +301,13 @@ export class GenerateCourseRecommendationComponent {
     this.dialogRef.close()
     const dialogRefNew = this.dialog.open(SuggestMoreCoursesComponent, {
       width: '1000px',
-      data: {recommended_course_id: this.recommended_course_id, role_mapping_id: this.planData.id},
+      data: { recommended_course_id: this.recommended_course_id, role_mapping_id: this.planData.id },
       panelClass: 'view-cbp-plan-popup',
       minHeight: '300px',          // Set minimum height
       maxHeight: '80vh',           // Prevent it from going beyond viewport
       disableClose: true // Optional: prevent closing with outside click
     });
-  
+
     dialogRefNew.afterClosed().subscribe(result => {
       if (result === 'saved') {
         console.log('Changes saved!');
@@ -314,11 +335,11 @@ export class GenerateCourseRecommendationComponent {
   getDisplayedCompetencies(type: string, index: number): any[] {
     const competencies = this.getCompetenciesByType(type, index);
     const key = `${index}-${type}`;
-    
+
     if (this.expandedCompetencies[key]) {
       return competencies;
     }
-    
+
     return competencies.slice(0, 2);
   }
 
@@ -340,4 +361,201 @@ export class GenerateCourseRecommendationComponent {
     const totalCount = this.getCompetenciesByType(type, index).length;
     return totalCount - 2;
   }
-}
+
+  onOuterTabChange(event: MatTabChangeEvent): void {
+    this.outerTabActiveIndex = event.index
+    this.outerTabActiveText = event.tab.textLabel
+    console.log('Outer Tab Index:', event.index);
+    console.log('Outer Tab Label:', event.tab.textLabel);
+    if(event.index === 1) {
+      this.gapAnalysisStats()
+    }
+  }
+
+  onInnerTabChange(event: MatTabChangeEvent): void {
+    this.innerTabActiveIndex = event.index
+    this.innerTabActiveText = event.tab.textLabel
+    console.log('Inner Tab Index:', event.index);
+    console.log('Inner Tab Label:', event.tab.textLabel);
+    let tabIndex = event.index
+    switch (tabIndex) {
+      case 0: // All
+        this.filterdCourses = this.originalData;
+        break;
+      case 1: // Behavioral
+        this.filterdCourses = this.behavioralFilter(this.originalData);
+        break;
+      case 2: // Functional
+        this.filterdCourses = this.functionalFilter(this.originalData);
+        break;
+      case 3: // Domain
+        this.filterdCourses = this.domainFilter(this.originalData);
+        break;
+    }
+    console.log('this.filterdCourses',this.filterdCourses)
+  }
+
+  behavioralFilter(data: any[]): any[] {
+    return data.filter(item =>
+      item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural'))
+    );
+  }
+
+  functionalFilter(data: any[]): any[] {
+    return data.filter(item =>
+      item.competencies?.some(c => c?.competencyAreaName?.toLowerCase() === 'functional')
+    );
+  }
+
+  domainFilter(data: any[]): any[] {
+    return data.filter(item =>
+      item.competencies?.some(c => c?.competencyAreaName?.toLowerCase() === 'domain')
+    );
+  }
+
+  gapAnalysisStats () {
+    console.log('this.planData',this.planData)
+    const masterList = this.planData.competencies;
+    const masterListByCategory = {total: masterList.length, behavioural: 0, functional:0, domain:0}
+    const matchCompetencyByCategory = {total:0,  behavioural: 0, functional:0, domain:0}
+    const allCourseCompetencies = []
+    this.filterdCourses.forEach(course => {
+      course.competencies.forEach((list:any) => {
+         allCourseCompetencies.push(list)
+      });
+    });
+    console.log('masterList', (masterList))
+    console.log('allCourseCompetencies', (allCourseCompetencies))
+    console.log('masterList', JSON.stringify(masterList))
+    console.log('allCourseCompetencies', JSON.stringify(allCourseCompetencies))
+    
+    for(let i=0; i<masterList.length;i++) {
+      if(masterList[i]['type'].toLowerCase() === 'behavioural' || masterList[i]['type'].toLowerCase() === 'Behavioral') {
+        masterListByCategory['behavioural'] = masterListByCategory['behavioural'] + 1
+      }
+      if(masterList[i]['type'].toLowerCase() === 'functional') {
+        masterListByCategory['functional'] = masterListByCategory['functional'] + 1
+      }
+      if(masterList[i]['type'].toLowerCase() === 'domain') {
+        masterListByCategory['domain'] = masterListByCategory['domain'] + 1
+      }
+      
+    }
+    const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
+    this.competencyCoveredCount = result['total']
+    this.overallCoverage = `${(this.competencyCoveredCount/this.planData.competencies.length)*100}%`
+    console.log(result);
+    console.log('this.competencyNotMatchedByCategory',this.competencyNotMatchedByCategory)
+    this.behaviouralNotMatched = this.getCompetencyByCategoryNotMatching('behavioral')
+    this.functionalNotMatched = this.getCompetencyByCategoryNotMatching('functional')
+    this.domainNotMatched = this.getCompetencyByCategoryNotMatching('domain')
+  }
+
+  getMatchedCompetencyStats(primaryArray: any[], secondaryArray: any[]) {
+    // Convert both arrays to ensure consistent casing
+    const counts: any = {
+      behavioral: 0,
+      functional: 0,
+      domain: 0,
+      total: 0
+    };
+    
+    // Set to keep track of unique matches
+    const seen = new Set<string>();
+    
+    for (const primary of primaryArray) {
+      const typeKey = primary.type?.toLowerCase().trim();
+      const themeKey = primary.theme?.toLowerCase().trim();
+      const subThemeKey = primary.sub_theme?.toLowerCase().trim();
+    
+      for (const secondary of secondaryArray) {
+        // Normalize secondary keys
+        let secType = secondary?.competencyAreaName?.toLowerCase().trim();
+        let secTheme = secondary?.competencyThemeName?.toLowerCase().trim();
+        let secSubTheme = secondary?.competencySubThemeName?.toLowerCase().trim();
+    
+        // Optional fix for data inconsistency
+        if (secType === 'behavioural') secType = 'behavioral';
+    
+        // Create unique match key
+        const matchKey = `${typeKey}|${themeKey}|${subThemeKey}`;
+    
+        // Match all three fields and check for uniqueness
+        if (
+          typeKey === secType &&
+         ( themeKey === secTheme ||
+          subThemeKey === secSubTheme )&&
+          !seen.has(matchKey)
+        ) {
+          let obj = {}
+          obj[typeKey] = []
+          obj[typeKey].push(secTheme)
+          this.competencyNotMatchedByCategory.push(obj)
+          seen.add(matchKey);
+          
+          if (counts.hasOwnProperty(typeKey)) {
+            counts[typeKey]++;
+          } else {
+            counts[typeKey] = 1;
+          }
+    
+          counts.total++;
+        }
+      }
+    }
+    
+  
+    return counts;
+  }
+
+  getCompetencyByCategoryNotMatching(categoryType) {
+    let categoryData = []
+    let matchedCompetencyCoverd = []
+   for(let i=0; i<this.planData.competencies.length;i++) {
+    if(this.planData.competencies[i]['type']?.toLowerCase() === categoryType?.toLowerCase()) {
+      categoryData.push(this.planData.competencies[i]['theme']?.toLowerCase())
+    }
+   }
+   for(let i=0; i<this.competencyNotMatchedByCategory.length;i++) {
+    if(this.competencyNotMatchedByCategory[i][categoryType?.toString()]) {
+      matchedCompetencyCoverd.push(this.competencyNotMatchedByCategory[i][categoryType][0])
+    }
+   }
+   return this.compareStringArrays(categoryData, matchedCompetencyCoverd)
+  //console.log('common--', )
+
+//  return this.compareStringArrays(categoryData, matchedCompetencyCoverd)
+  console.log('common--', )
+  }
+
+  compareStringArrays(arr1: string[], arr2: string[]) {
+    console.log('arr1--', arr1)
+    console.log('arr2--', arr2)
+    // return {
+    //   onlyInArr1: arr1.filter(item => !arr2.includes(item)),
+    //   onlyInArr2: arr2.filter(item => !arr1.includes(item)),
+    //   common: arr1.filter(item => !arr2.includes(item)),
+    // };
+    return arr1.filter(item => !arr2.includes(item))
+  }
+  
+  
+
+  
+
+    // const byCategory = masterList.map(([type, list]) => {
+    //     const total = list.length;
+    //     const covered = list.filter(c => allCourseCompetencies.has(c)).length;
+    //     return { type, total, covered };
+    // });
+
+    // const totalMaster = byCategory.reduce((sum, cat) => sum + cat.total, 0);
+    // const totalCovered = byCategory.reduce((sum, cat) => sum + cat.covered, 0);
+    // console.log('totalMaster', totalMaster)
+    // console.log('totalCovered', totalCovered)
+    // console.log('byCategory', byCategory)
+    //return { totalMaster, totalCovered, byCategory };
+  } 
+   
+  
+

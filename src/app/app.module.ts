@@ -46,7 +46,8 @@ import { AddDesignationComponent } from './components/add-designation/add-design
 import { AddPersonalisationComponent } from './components/add-personalisation/add-personalisation.component';
 import { LoginComponent } from './components/login/login.component';
 import { DeleteRoleMappingPopupComponent } from './components/delete-role-mapping-popup/delete-role-mapping-popup.component';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 const appInitializer = (initSvc: InitService) => async () => {
   try {
     await initSvc.init()
@@ -94,7 +95,9 @@ const appInitializer = (initSvc: InitService) => async () => {
     MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule,
+    MatTabsModule
   ],
   providers: [
     {

@@ -30,7 +30,7 @@ const API_END_POINTS = {
   ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation',
   LOGIN:'cbp-tpc-ai/auth/login',
   LOGOUT:'cbp-tpc-ai/auth/logout',
-  DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping/state-center'
+  DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping'
 }
 
 
@@ -430,7 +430,7 @@ export class SharedService {
   
   deleteRoleMappingByStateAndDepartment(state_center_id, department_id) {
     const headers = this.headers
-    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}`, {headers})
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}?state_center_id=${state_center_id}&department_id=${department_id}`, {headers})
     .pipe(map((response: any) => {
       return response
     }))

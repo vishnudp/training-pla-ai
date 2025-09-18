@@ -23,8 +23,8 @@
         <div class="right-container mt-4" *ngIf="loginSuccess">
             <div><mat-icon>help</mat-icon></div>
             <div><mat-icon>settings</mat-icon></div>
-            <div><img src="assets/icons/chatbot-default.svg" alt="Profile" class="profile-pic"></div>
-            <div class="cursor-pointer" (click)="logout()"><mat-icon>logout</mat-icon></div>
+            <div class="cursor-pointer" [matTooltip]="userEmail"><img src="assets/icons/user.png" alt="Profile" class="profile-pic"></div>
+            <div class="cursor-pointer" (click)="logout()" matTooltip="Logout"><mat-icon>logout</mat-icon></div>
         </div>
     </div>
     
