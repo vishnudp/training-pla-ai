@@ -98,13 +98,23 @@ export class AddDesignationComponent {
     }
     
     console.log('req', req)
-    this.sharedService.addDesignation(req).subscribe((_res)=>{
-      this.loading = false
-      this.snackBar.open('Designation Added Successfully', 'X', {
-        duration: 3000,
-        panelClass: ['snackbar-success']
-      });
-      this.dialogRef.close('saved')
+    this.sharedService.addDesignation(req).subscribe({
+      next: (_res) => {
+        this.loading = false
+        this.snackBar.open('Designation Added Successfully', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+        this.dialogRef.close('saved')
+      },
+      error: (error) => {
+        this.loading = false
+        this.snackBar.open('Failed to add designation. Please try again.', 'X', {
+          duration: 5000,
+          panelClass: ['snackbar-error']
+        });
+        console.error('Error adding designation:', error);
+      }
     })
   }
 
