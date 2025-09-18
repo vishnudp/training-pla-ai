@@ -227,7 +227,7 @@ export class SharedService {
           status: { "!=": "Retired" }
         },
         facets: ["mimeType"],
-        sortBy: { createdOn: "Desc" }
+        sortBy: { createdOn: "desc" }
       }
     }
     return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.FETCH_TENDERS}`, body)
@@ -263,7 +263,7 @@ export class SharedService {
           return response
         }))
     }
-    
+
 
   getDepartmentList(ministryId) {
     const headers = this.headers
@@ -340,7 +340,9 @@ export class SharedService {
   }
 
   getIGOTSuggestedCourses(reqBody) {
-    let req = {
+    // Use the reqBody parameter passed from the component
+    // If no reqBody is provided, use default structure
+    let req = reqBody || {
       "request": {
           "filters": {
               "primaryCategory": ["Course"],
@@ -348,11 +350,15 @@ export class SharedService {
               "courseCategory":["Course"]
           },
           "fields":["posterImage","description","name"],
-          "sortBy": {"createdOn": "Desc"},
-          "Limit" : 10
+          "sort_by": {"createdOn": "desc"},
+          "limit" : 12,
+          "offset" : 0
       }
-  }
-  const headers = this.headers
+    };
+
+    console.log('getIGOTSuggestedCourses final request:', JSON.stringify(req, null, 2));
+
+    const headers = this.headers
     return this.http.post<any>(`https://portal.igotkarmayogi.gov.in/api/content/v1/search`, req, {headers})
       .pipe(map((response: any) => {
         return response
@@ -427,7 +433,7 @@ export class SharedService {
     }
     return flag
   }
-  
+
   deleteRoleMappingByStateAndDepartment(state_center_id, department_id) {
     const headers = this.headers
     return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}?state_center_id=${state_center_id}&department_id=${department_id}`, {headers})
