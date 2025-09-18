@@ -122,13 +122,74 @@ export class RoleMappingListComponent {
   }
 
   searchData() {
-    this.filteredData = this.filterData(this.searchText);
-    this.dataSource = new MatTableDataSource(this.filteredData);
+    this.applyFilter();
   }
 
   applyFilter() {
-    this.filteredData = this.filterData(this.searchText);
-    this.dataSource = new MatTableDataSource(this.filteredData);
+    if (this.searchText.trim()) {
+      this.filteredData = this.filterData(this.searchText);
+      this.dataSource.data = this.filteredData;
+    } else {
+      // If search is cleared, restore original data
+      this.dataSource.data = this.originalData;
+    }
+    
+    // Reset paginator to first page after filtering
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+  }
+
+  clearSearch() {
+    this.searchText = '';
+    this.applyFilter();
+  }
+
+  refreshRoleMappingData() {
+    console.log('Refreshing role mapping data...');
+    if (this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
+      const ministryType = this.sharedService.cbpPlanFinalObj.ministryType;
+      const ministryId = this.sharedService.cbpPlanFinalObj.ministry.id;
+      
+      this.loading = true;
+      
+      if (ministryType === 'center') {
+        this.sharedService.getRoleMappingByStateCenter(ministryId).subscribe({
+          next: (res) => {
+            this.loading = false;
+            console.log('Center role mapping data refreshed:', res);
+            this.updateDataSource(res);
+          },
+          error: (error) => {
+            this.loading = false;
+            console.error('Error refreshing center role mapping data:', error);
+          }
+        });
+      } else if (ministryType === 'state') {
+        const departmentId = this.sharedService.cbpPlanFinalObj.departments;
+        this.sharedService.getRoleMappingByStateCenterAndDepartment(ministryId, departmentId).subscribe({
+          next: (res) => {
+            this.loading = false;
+            console.log('State role mapping data refreshed:', res);
+            this.updateDataSource(res);
+          },
+          error: (error) => {
+            this.loading = false;
+            console.error('Error refreshing state role mapping data:', error);
+          }
+        });
+      }
+    }
+  }
+
+  private updateDataSource(res: any[]) {
+    this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
+    this.dataSource.data = res;
+    this.originalData = res;
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+    }, 100);
+    console.log('DataSource updated:', this.dataSource);
   }
 
   editRoleMapping(element: any) {
@@ -149,19 +210,7 @@ export class RoleMappingListComponent {
       if (result === 'saved') {
         console.log('Changes saved!');
         // Refresh data or show a toast here
-        console.log(this.sharedService.cbpPlanFinalObj)
-        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
-          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
-            this.dataSource.data = res
-            this.dataSource.paginator = this.paginator;
-            this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
-            })
-        } else {
-
-        }
-        
+        this.refreshRoleMappingData();
       }
     });
   }
@@ -344,19 +393,7 @@ export class RoleMappingListComponent {
       if (result === 'saved') {
         console.log('Changes saved!');
         // Refresh data or show a toast here
-        console.log(this.sharedService.cbpPlanFinalObj)
-        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
-          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
-            this.dataSource.data = res
-            this.dataSource.paginator = this.paginator;
-            this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
-            })
-        } else {
-          
-        }
-        
+        this.refreshRoleMappingData();
       }
     });
   }
