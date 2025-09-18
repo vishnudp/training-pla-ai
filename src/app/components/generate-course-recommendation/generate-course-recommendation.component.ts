@@ -59,7 +59,7 @@ export class GenerateCourseRecommendationComponent {
       let allCoures = []
       if (res && res.filtered_courses && res.filtered_courses.length) {
         res?.filtered_courses.forEach((item) => {
-          if (item?.relevancy > 85) {
+          if (item?.relevancy >= 85) {
             allCoures.push(item)
           }
         })
@@ -456,7 +456,9 @@ export class GenerateCourseRecommendationComponent {
     }
     const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
     this.competencyCoveredCount = result['total']
-    let mathRound = Math.round((this.competencyCoveredCount/this.planData.competencies.length)*100)
+    // Fix: Use masterList.length instead of total competencies when category is selected
+    let totalCompetencies = (this.selectedCategory === 'all') ? this.planData.competencies.length : masterList.length;
+    let mathRound = Math.round((this.competencyCoveredCount/totalCompetencies)*100)
     this.overallCoverage = `${mathRound}%`
     console.log(result);
     console.log('this.competencyNotMatchedByCategory',this.competencyNotMatchedByCategory)
@@ -474,38 +476,49 @@ export class GenerateCourseRecommendationComponent {
       total: 0
     };
     
+    // Clear the competencyNotMatchedByCategory array for fresh calculation
+    this.competencyNotMatchedByCategory = [];
+    
     // Set to keep track of unique matches
     const seen = new Set<string>();
+    const matchedCompetencies = new Set<string>();
     
     for (const primary of primaryArray) {
       const typeKey = primary.type?.toLowerCase().trim();
       const themeKey = primary.theme?.toLowerCase().trim();
       const subThemeKey = primary.sub_theme?.toLowerCase().trim();
     
+      let isMatched = false;
+      
       for (const secondary of secondaryArray) {
         // Normalize secondary keys
         let secType = secondary?.competencyAreaName?.toLowerCase().trim();
         let secTheme = secondary?.competencyThemeName?.toLowerCase().trim();
         let secSubTheme = secondary?.competencySubThemeName?.toLowerCase().trim();
     
-        // Optional fix for data inconsistency
+        // Fix for data inconsistency
         if (secType === 'behavioural') secType = 'behavioral';
     
-        // Create unique match key
+        // Create unique match key for primary competency
         const matchKey = `${typeKey}|${themeKey}|${subThemeKey}`;
     
-        // Match all three fields and check for uniqueness
+        // Enhanced matching: type must match AND any cross-matching between theme/subtheme
+        // This allows: theme vs theme, subtheme vs subtheme, theme vs subtheme, subtheme vs theme
         if (
           typeKey === secType &&
-         ( themeKey === secTheme ||
-          subThemeKey === secSubTheme )&&
+          (themeKey === secTheme || 
+           subThemeKey === secSubTheme || 
+           themeKey === secSubTheme || 
+           subThemeKey === secTheme) &&
           !seen.has(matchKey)
         ) {
-          let obj = {}
-          obj[typeKey] = []
-          obj[typeKey].push(secTheme)
-          this.competencyNotMatchedByCategory.push(obj)
+          // Store matched competency info for later use
+          let obj = {};
+          obj[typeKey] = [themeKey]; // Store the original theme, not the course theme
+          this.competencyNotMatchedByCategory.push(obj);
           seen.add(matchKey);
+          matchedCompetencies.add(themeKey); // Track matched themes
+          isMatched = true;
           
           if (counts.hasOwnProperty(typeKey)) {
             counts[typeKey]++;
@@ -514,43 +527,90 @@ export class GenerateCourseRecommendationComponent {
           }
     
           counts.total++;
+          break; // Stop looking for matches for this primary competency
         }
       }
     }
     
-  
     return counts;
   }
 
   getCompetencyByCategoryNotMatching(categoryType) {
-    let categoryData = []
-    let matchedCompetencyCoverd = []
-   for(let i=0; i<this.planData.competencies.length;i++) {
-    if(this.planData.competencies[i]['type']?.toLowerCase() === categoryType?.toLowerCase()) {
-      categoryData.push(this.planData.competencies[i]['theme']?.toLowerCase())
+    // Get all competencies for the given category from role mapping
+    let allCategoryCompetencies = [];
+    for(let i = 0; i < this.planData.competencies.length; i++) {
+      if(this.planData.competencies[i]['type']?.toLowerCase() === categoryType?.toLowerCase()) {
+        allCategoryCompetencies.push(this.planData.competencies[i]['theme']?.toLowerCase().trim());
+      }
     }
-   }
-   for(let i=0; i<this.competencyNotMatchedByCategory.length;i++) {
-    if(this.competencyNotMatchedByCategory[i][categoryType?.toString()]) {
-      matchedCompetencyCoverd.push(this.competencyNotMatchedByCategory[i][categoryType][0])
+    
+    // Get matched competencies for this category from courses
+    let matchedCompetencies = [];
+    for(let i = 0; i < this.competencyNotMatchedByCategory.length; i++) {
+      if(this.competencyNotMatchedByCategory[i][categoryType?.toLowerCase()]) {
+        // Extract matched themes from course competencies
+        this.competencyNotMatchedByCategory[i][categoryType?.toLowerCase()].forEach(theme => {
+          if(theme) {
+            matchedCompetencies.push(theme.toLowerCase().trim());
+          }
+        });
+      }
     }
-   }
-   return this.compareStringArrays(categoryData, matchedCompetencyCoverd)
-  //console.log('common--', )
-
-//  return this.compareStringArrays(categoryData, matchedCompetencyCoverd)
-  console.log('common--', )
+    
+    // Enhanced matching: check both theme and subtheme from courses against FRAC competencies
+    this.filterdCourses.forEach(course => {
+      if(course.competencies) {
+        course.competencies.forEach((comp: any) => {
+          let secType = comp?.competencyAreaName?.toLowerCase().trim();
+          if(secType === 'behavioural') secType = 'behavioral';
+          
+          if(secType === categoryType?.toLowerCase()) {
+            const courseTheme = comp.competencyThemeName?.toLowerCase().trim();
+            const courseSubTheme = comp.competencySubThemeName?.toLowerCase().trim();
+            
+            // Check if any FRAC competency matches this course competency
+            for(let i = 0; i < this.planData.competencies.length; i++) {
+              const fracComp = this.planData.competencies[i];
+              if(fracComp['type']?.toLowerCase() === categoryType?.toLowerCase()) {
+                const fracTheme = fracComp['theme']?.toLowerCase().trim();
+                const fracSubTheme = fracComp['sub_theme']?.toLowerCase().trim();
+                
+                // Enhanced matching: allow cross-matching between theme and subtheme
+                if(courseTheme === fracTheme || 
+                   courseSubTheme === fracSubTheme || 
+                   courseTheme === fracSubTheme || 
+                   courseSubTheme === fracTheme) {
+                  matchedCompetencies.push(fracTheme);
+                  break; // Found a match, move to next course competency
+                }
+              }
+            }
+          }
+        });
+      }
+    });
+    
+    // Remove duplicates from matched competencies
+    matchedCompetencies = [...new Set(matchedCompetencies)];
+    
+    console.log(`\n=== ${categoryType.toUpperCase()} COMPETENCY MATCHING ===`);
+    console.log(`${categoryType} - All FRAC competencies:`, allCategoryCompetencies);
+    console.log(`${categoryType} - Matched from courses:`, matchedCompetencies);
+    console.log(`${categoryType} - Match rate: ${matchedCompetencies.length}/${allCategoryCompetencies.length} (${Math.round((matchedCompetencies.length/allCategoryCompetencies.length)*100)}%)`);
+    
+    // Return unmatched competencies (those in role mapping but not covered by courses)
+    return this.compareStringArrays(allCategoryCompetencies, matchedCompetencies);
   }
 
   compareStringArrays(arr1: string[], arr2: string[]) {
-    console.log('arr1--', arr1)
-    console.log('arr2--', arr2)
-    // return {
-    //   onlyInArr1: arr1.filter(item => !arr2.includes(item)),
-    //   onlyInArr2: arr2.filter(item => !arr1.includes(item)),
-    //   common: arr1.filter(item => !arr2.includes(item)),
-    // };
-    return arr1.filter(item => !arr2.includes(item))
+    console.log('All competencies in category:', arr1);
+    console.log('Matched competencies from courses:', arr2);
+    
+    // Return items in arr1 that are NOT in arr2 (unmatched competencies)
+    const unmatched = arr1.filter(item => !arr2.includes(item));
+    console.log('Unmatched competencies:', unmatched);
+    
+    return unmatched;
   }
   
   addCourse() {

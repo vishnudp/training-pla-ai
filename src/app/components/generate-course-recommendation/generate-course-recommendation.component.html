@@ -194,7 +194,7 @@
                                         <ul class="competency-list mt-1">
                                             <li class="behavioural-pill"
                                                 *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">
-                                                <span class="competency-text"> {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
                                             </li>
                                             <li *ngIf="hasMoreThanTwo('Behavioural',i)" class="show-more-competency">
                                                 <span class="show-more-link cursor-pointer"
@@ -210,7 +210,7 @@
                                         <ul class="competency-list mt-1">
                                             <li class="functional-pill"
                                                 *ngFor="let comp of getDisplayedCompetencies('Functional',i)">
-                                                <span class="competency-text"> {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
                                             </li>
                                             <li *ngIf="hasMoreThanTwo('Functional',i)" class="show-more-competency">
                                                 <span class="show-more-link cursor-pointer"
@@ -226,7 +226,7 @@
                                         <ul class="competency-list mt-1">
                                             <li class="domain-pill"
                                                 *ngFor="let comp of getDisplayedCompetencies('Domain',i)">
-                                                <span class="competency-text"> {{ comp.competencySubThemeName }} </span>
+                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
                                             </li>
                                             <li *ngIf="hasMoreThanTwo('Domain',i)" class="show-more-competency">
                                                 <span class="show-more-link cursor-pointer"
