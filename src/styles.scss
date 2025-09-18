@@ -3144,3 +3144,29 @@ input {
 textarea {
     font-size: 16px !important;
 }
+
+.snackbar-success {
+    background-color: #4CAF50 !important;
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+.snackbar-success .mdc-snackbar__surface {
+    background-color: #4CAF50 !important;
+  }
+  
+  .snackbar-success .mdc-snackbar__label {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .snackbar-success .mat-mdc-snack-bar-action  {
+    background-color: transparent !important;
+  }
+
+  .snackbar-success .mdc-button__label {
+    color: white !important;
+  }

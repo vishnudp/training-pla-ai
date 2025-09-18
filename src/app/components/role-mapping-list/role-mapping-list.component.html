@@ -14,7 +14,7 @@
                         <div class="select-map-flex">
                             <div class="selected-mapping-route">
                                 <p>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name">
+                                        *ngIf="sharedService?.cbpPlanFinalObj?.department_name?.name && sharedService?.cbpPlanFinalObj?.ministryType === 'state'">
                                         / {{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span>
                                 </p>
                             </div>
@@ -77,13 +77,13 @@
                             </mat-form-field>
                         </div>
                     </div> -->
-                    <!-- <div class="btn-group">
+                    <div class="btn-group">
                         <div>
                             <input class="btn-active" type="button" value="Add More Designation"
                                 (click)="addMoreDesignation()" />
                         </div>
 
-                    </div> -->
+                    </div>
                 </div>
             </div>
 
@@ -375,4 +375,8 @@
             </div>
         </mat-card>
     </div>
+</div>
+
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
 </div>

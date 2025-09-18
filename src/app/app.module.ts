@@ -44,7 +44,11 @@ import { ListPopupComponent } from './components/list-popup/list-popup.component
 import { SuggestMoreCoursesComponent } from './components/suggest-more-courses/suggest-more-courses.component';
 import { AddDesignationComponent } from './components/add-designation/add-designation.component';
 import { AddPersonalisationComponent } from './components/add-personalisation/add-personalisation.component';
-
+import { LoginComponent } from './components/login/login.component';
+import { DeleteRoleMappingPopupComponent } from './components/delete-role-mapping-popup/delete-role-mapping-popup.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AddCourseComponent } from './components/add-course/add-course.component';
 const appInitializer = (initSvc: InitService) => async () => {
   try {
     await initSvc.init()
@@ -67,7 +71,10 @@ const appInitializer = (initSvc: InitService) => async () => {
     ListPopupComponent,
     SuggestMoreCoursesComponent,
     AddDesignationComponent,
-    AddPersonalisationComponent
+    AddPersonalisationComponent,
+    LoginComponent,
+    DeleteRoleMappingPopupComponent,
+    AddCourseComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +97,9 @@ const appInitializer = (initSvc: InitService) => async () => {
     MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule,
+    MatTabsModule
   ],
   providers: [
     {

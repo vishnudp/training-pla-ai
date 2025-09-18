@@ -123,7 +123,7 @@ export class EditCbpPlanComponent implements OnInit{
         console.log('Success:', res);
         this.loading = false
         this.dialogRef.close('saved')
-        this.snackBar.open('Role Mapping Saved Successfully', 'Close', {
+        this.snackBar.open('Role Mapping Saved Successfully', 'X', {
           duration: 3000,
           panelClass: ['snackbar-success']
         });
@@ -136,7 +136,7 @@ export class EditCbpPlanComponent implements OnInit{
           // alert('Conflict detected: The resource already exists or action conflicts.');
           //this.get
           // Or you can set a UI error message variable
-          this.snackBar.open(error?.error?.detail, 'Close', {
+          this.snackBar.open(error?.error?.detail, 'X', {
             duration: 3000,
             panelClass: ['snackbar-error']
           });

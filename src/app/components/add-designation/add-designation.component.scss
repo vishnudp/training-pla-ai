@@ -745,3 +745,51 @@ border: none;
 :host ::ng-deep .mat-select-arrow-wrapper {
     height: 6px !important;
 }
+
+.file-upload-wrapper {
+    position: relative;
+    margin: 16px 0;
+  }
+  
+  .file-upload-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    background-color: #1B4CA1;
+    color: white;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    user-select: none;
+    border-radius: 8px;
+  }
+  
+  .file-upload-label:hover {
+    background-color: #1B4CA1;
+  }
+  
+  .file-upload-icon {
+    margin-right: 8px;
+    font-size: 18px;
+  }
+  
+  .file-upload-input {
+    display: none;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 6px;
+    font-size: 0.875rem;
+  }
+
+  .file-upload-hint {
+    display: block;
+    font-size: 1rem;
+    color: #000;
+    font-family: 'Lato';
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
