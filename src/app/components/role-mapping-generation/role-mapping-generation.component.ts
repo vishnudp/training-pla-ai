@@ -467,7 +467,6 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       // Submit logic here
       let req = {
         "state_center_id":formData.ministry,
-        //"sector_name": "Urban development",
         "instruction": formData.additionalDetails
       }
       if(this.selectedMinistryType === 'state') { 
@@ -484,7 +483,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
       
       if(req) {
-        this.sharedService.generateRoleMapping(formUploadData).subscribe({
+
+        // Pass the uploaded file along with the request
+        this.sharedService.generateRoleMapping(req, this.uploadedFile).subscribe({
           next: (res) => {
             // Success handling
             console.log('Success:', res);

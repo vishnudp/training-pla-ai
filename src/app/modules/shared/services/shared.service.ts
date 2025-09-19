@@ -258,9 +258,39 @@ export class SharedService {
       }))
   }
 
-    generateRoleMapping(reqBody) {
-      const headers = this.headers
-      return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING}`, reqBody, { headers })
+    generateRoleMapping(reqBody, file?: File) {
+      // Create FormData for multipart/form-data request
+      const formData = new FormData();
+      
+      // Add required fields
+      if (reqBody.state_center_id) {
+        formData.append('state_center_id', reqBody.state_center_id);
+      }
+      
+      if (reqBody.department_id) {
+        formData.append('department_id', reqBody.department_id);
+      }
+      
+      // sector_name removed as it's not required
+      
+      if (reqBody.instruction) {
+        formData.append('instruction', reqBody.instruction);
+      }
+      
+      // Add file if provided
+      if (file) {
+        formData.append('additional_document', file);
+      }
+      
+      // Follow the exact same pattern as other API methods
+      // The only difference is we don't set Content-Type for multipart/form-data
+      const headers = this.headers;
+      
+      console.log('generateRoleMapping FormData:', formData);
+      console.log('generateRoleMapping reqBody:', reqBody);
+      console.log('Using headers:', headers);
+      
+      return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING}`, formData, { headers })
         .pipe(map((response: any) => {
           return response
         }))
