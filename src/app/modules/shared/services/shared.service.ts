@@ -30,7 +30,8 @@ const API_END_POINTS = {
   ADD_DESIGNATION:'cbp-tpc-ai/role-mapping/add-designation',
   LOGIN:'cbp-tpc-ai/auth/login',
   LOGOUT:'cbp-tpc-ai/auth/logout',
-  DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping'
+  DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping',
+  ADD_COURSES: 'cbp-tpc-ai/user-added-courses'
 }
 
 
@@ -296,6 +297,10 @@ export class SharedService {
 
 
   getDepartmentList(ministryId) {
+    const storageData:any = JSON.parse(localStorage.getItem('loginData'))
+    this.headers = new HttpHeaders({
+      'Authorization': `Bearer ${storageData?.access_token}`
+    });
     const headers = this.headers
     return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_DEPARTMENT}/${ministryId}`, {headers})
     .pipe(map((response: any) => {
@@ -470,6 +475,14 @@ export class SharedService {
     .pipe(map((response: any) => {
       return response
     }))
+  }
+
+  addUserCourse(reqBody){
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_COURSES}`, reqBody, {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
   }
 
 }

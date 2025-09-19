@@ -36,6 +36,7 @@ export class GenerateCourseRecommendationComponent {
   competencyCoveredCount = 0
   overallCoverage:any = 0
   competencyNotMatchedByCategory = []
+  competencyMatchedByCategory = []
   menuItems = [
     { key: 'all', label: 'All Categories' },
     { key: 'behavioral', label: 'Behavioral' },
@@ -380,21 +381,26 @@ export class GenerateCourseRecommendationComponent {
     console.log('Inner Tab Index:', event.index);
     console.log('Inner Tab Label:', event.tab.textLabel);
     let tabIndex = event.index
+    this.competencyMatchedByCategory = []
     switch (tabIndex) {
       case 0: // All
         this.filterdCourses = this.originalData;
         break;
       case 1: // Behavioral
         this.filterdCourses = this.behavioralFilter(this.originalData);
+        this.competencyMatchedByCategory = this.behavioralCompetencyFilter(this.originalData);
         break;
       case 2: // Functional
         this.filterdCourses = this.functionalFilter(this.originalData);
+        this.competencyMatchedByCategory = this.functionalCompetencyFilter(this.originalData);
         break;
       case 3: // Domain
         this.filterdCourses = this.domainFilter(this.originalData);
+        this.competencyMatchedByCategory = this.domainCompetencyFilter(this.originalData);
         break;
     }
     console.log('this.filterdCourses',this.filterdCourses)
+    console.log('this.competencyMatchedByCategory',this.competencyMatchedByCategory)
   }
 
   behavioralFilter(data: any[]): any[] {
@@ -402,6 +408,59 @@ export class GenerateCourseRecommendationComponent {
       item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural'))
     );
   }
+
+  behavioralCompetencyFilter(data:any[]):any {
+    const behavioralThemes = (data as any[])
+    .map(item => item.competencies || [])
+    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
+    .filter(c =>
+      c.competencyAreaName?.toLowerCase() === 'behavioral' ||
+      c.competencyAreaName?.toLowerCase() === 'behavioural'
+    )
+    .map(c => c.competencyThemeName);
+  
+  const uniqueBehavioralThemes = Array.from(new Set(behavioralThemes));
+  
+  console.log(uniqueBehavioralThemes);
+  return uniqueBehavioralThemes
+    
+    // console.log(uniqueCompetencyAreaNames);
+  }
+
+  functionalCompetencyFilter(data:any[]):any {
+    const funtionalThemes = (data as any[])
+    .map(item => item.competencies || [])
+    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
+    .filter(c =>
+      c.competencyAreaName?.toLowerCase() === 'functional' 
+    )
+    .map(c => c.competencyThemeName);
+  
+  const uniqueFunctionalThemes = Array.from(new Set(funtionalThemes));
+  
+  console.log(uniqueFunctionalThemes);
+  return uniqueFunctionalThemes
+    
+    // console.log(uniqueCompetencyAreaNames);
+  }
+
+  domainCompetencyFilter(data:any[]):any {
+    const domainThemes = (data as any[])
+    .map(item => item.competencies || [])
+    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
+    .filter(c =>
+      c.competencyAreaName?.toLowerCase() === 'domain' 
+    )
+    .map(c => c.competencyThemeName);
+  
+  const uniqueDomainThemes = Array.from(new Set(domainThemes));
+  
+  console.log(uniqueDomainThemes);
+  return uniqueDomainThemes
+    
+    // console.log(uniqueCompetencyAreaNames);
+  }
+
 
   functionalFilter(data: any[]): any[] {
     return data.filter(item =>
@@ -534,7 +593,6 @@ export class GenerateCourseRecommendationComponent {
     
     return counts;
   }
-
   getCompetencyByCategoryNotMatching(categoryType) {
     // Get all competencies for the given category from role mapping
     let allCategoryCompetencies = [];
@@ -616,7 +674,7 @@ export class GenerateCourseRecommendationComponent {
   addCourse() {
     const dialogRef = this.dialog.open(AddCourseComponent, {
       width: '800px',
-      data: {state_center_id:''},
+      data: this.planData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '400px',          // Set minimum height
       maxHeight: '90vh',           // Prevent it from going beyond viewport
@@ -631,6 +689,24 @@ export class GenerateCourseRecommendationComponent {
         
       }
     });
+  }
+
+  filterOnCompetencyTheme(themeName) {
+    if(this.innerTabActiveIndex === 1) {
+      this.filterdCourses = this.originalData.filter(item =>
+        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural') && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
+      );
+    }
+    if(this.innerTabActiveIndex === 2) {
+      this.filterdCourses = this.originalData.filter(item =>
+        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'functional') ) && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
+      );
+    }
+    if(this.innerTabActiveIndex === 3) {
+      this.filterdCourses = this.originalData.filter(item =>
+        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'domain') ) && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
+      );
+    }
   }
 
   

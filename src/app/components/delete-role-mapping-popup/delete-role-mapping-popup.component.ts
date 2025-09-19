@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
 export class DeleteRoleMappingPopupComponent {
   planData:any
   constructor( public dialogRef: MatDialogRef<DeleteRoleMappingPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private sharedService: SharedService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService) {
       this.planData = data
     }
 

@@ -2,7 +2,7 @@
     <div class="popup-container">
         <div class="popup-header">
             <div>
-                <div class="heading">Regenerate Role Mapping</div>
+                <div class="heading">Regenerate CBP</div>
             </div>
             <div class="cursor-pointer" (click)="cancel()">
                 <mat-icon>close</mat-icon>
@@ -12,11 +12,11 @@
             <div class="progress-icon">
                 <img src="assets/icons/info.svg" style="scale: 2;margin: 10px;">
             </div>
-            <div class="heading">
-                <div>Regenerate Role Mapping</div>
-            </div>
-            <div class="">
-                <div>Are You Sure to Regenerate Role Mapping</div>
+            <!-- <div class="heading">
+                <div>Regenerate CBP</div>
+            </div> -->
+            <div class="mt-2">
+                <div>CBP is already available for <b>{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</b>, Do you want to Regenerate the Capacity building plan ?</div>
             </div>
 
         </div>

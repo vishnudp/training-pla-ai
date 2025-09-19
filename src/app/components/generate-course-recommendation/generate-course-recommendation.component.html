@@ -1,6 +1,6 @@
 <div class="view-cbp-plan">
     <div class="popup-container">
-        
+
         <div class="popup-header">
             <div>
                 <div class="heading">Save Courses (<span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
@@ -17,26 +17,27 @@
                     <!-- Nested Tabs -->
                     <mat-tab-group (selectedTabChange)="onInnerTabChange($event)">
                         <mat-tab label="all">
-                           
+
                         </mat-tab>
                         <mat-tab label="behavioural">
-                            
+
                         </mat-tab>
                         <mat-tab label="functional">
-                            
+
                         </mat-tab>
                         <mat-tab label="domain">
-                            
+
                         </mat-tab>
                     </mat-tab-group>
                 </mat-tab>
-    
+
                 <!-- Second Main Tab -->
                 <mat-tab label="gap analysis">
                     <!-- <p>Gap analysis content goes here</p> -->
                 </mat-tab>
             </mat-tab-group>
-            <div class="role-mapping-container" *ngIf="outerTabActiveIndex === 0 && (innerTabActiveIndex === 0 || innerTabActiveIndex === 1 || innerTabActiveIndex === 2 || innerTabActiveIndex === 3 )">
+            <div class="role-mapping-container"
+                *ngIf="outerTabActiveIndex === 0 && (innerTabActiveIndex === 0 || innerTabActiveIndex === 1 || innerTabActiveIndex === 2 || innerTabActiveIndex === 3 )">
                 <div class="container">
                     <div class="section-header mt-3">
                         <div class="sub-heading">
@@ -86,29 +87,60 @@
                     <div class="my-4">
 
                         <div class="course-list-container">
-                            <div class="course-list-item" *ngFor="let item of filterdCourses;let i=index">
+                            <div [ngClass]="innerTabActiveIndex > 0 ? 'course-list-container-flex':'course-list-container-right-flex' ">
+                                <div *ngIf="innerTabActiveIndex > 0" [ngClass]="innerTabActiveIndex > 0 ? 'left-panel':''">
+                                    <ng-container *ngIf="innerTabActiveIndex === 1">
+                                        <div class="sub-heading">
+                                            <p>Competencies in Behavioural
+                                            </p>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                            {{item}}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="innerTabActiveIndex === 2">
+                                        <div class="sub-heading">
+                                            <p>Competencies in Functional
+                                            </p>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                            {{item}}
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="innerTabActiveIndex === 3">
+                                        <div class="sub-heading">
+                                            <p>Competencies in Domain
+                                            </p>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                            {{item}}
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div  [ngClass]="innerTabActiveIndex > 0 ? 'right-panel':'right-panel-flex'">
+                                    <div class="course-list-item" *ngFor="let item of filterdCourses;let i=index">
 
-                                <div class="course-content">
-                                    <div class="course-header">
-                                        <div class="checked-course-container">
-                                            <div>
-                                                <mat-checkbox [checked]="checkIfCourseExists(item)"
-                                                    (change)="selectedFilterCourses($event, item)"></mat-checkbox>
-                                            </div>
-                                            <div class="ml-2">
-                                                <div class="course-pill-container">
-                                                    <div class="course-pill">
-                                                        <div class="course-pill-text">
-                                                            <span><img
-                                                                    src="assets/icons/course.svg"></span>&nbsp;<span>Course</span>
+                                        <div class="course-content">
+                                            <div class="course-header">
+                                                <div class="checked-course-container">
+                                                    <div>
+                                                        <mat-checkbox [checked]="checkIfCourseExists(item)"
+                                                            (change)="selectedFilterCourses($event, item)"></mat-checkbox>
+                                                    </div>
+                                                    <div class="ml-2">
+                                                        <div class="course-pill-container">
+                                                            <div class="course-pill">
+                                                                <div class="course-pill-text">
+                                                                    <span><img
+                                                                            src="assets/icons/course.svg"></span>&nbsp;<span>Course</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
+
                                                 </div>
-                                            </div>
 
-                                        </div>
-
-                                        <!-- <div>
+                                                <!-- <div>
                                         <div class="ai-recommened-pill">
                                             <div class="ai-recommened-pill-text">
                                                 <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
@@ -122,60 +154,153 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                        <div *ngIf="item?.rationale && !item?.is_public">
-                                            <div class="ai-recommened-pill-green">
-                                                <div class="ai-recommened-pill-green-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
+                                                <div *ngIf="item?.rationale && !item?.is_public">
+                                                    <div class="ai-recommened-pill-green">
+                                                        <div class="ai-recommened-pill-green-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
 
-                                                    <span>AI Recommended - iGOT </span>
+                                                            <span>AI Recommended - iGOT </span>
 
+                                                        </div>
+                                                    </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <a class="cursor-pointer" [href]="item?.public_link"
+                                                                target="_blank"><span>Platform -
+                                                                    {{item?.platform}}</span></a>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
-                                                <div class="ai-recommened-pill-orange-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
-                                                    <a class="cursor-pointer" [href]="item?.public_link"
-                                                        target="_blank"><span>Platform - {{item?.platform}}</span></a>
+                                                <div *ngIf="item?.rationale && item?.is_public">
+                                                    <div class="ai-recommened-pill-public">
+                                                        <div class="ai-recommened-pill-public-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+
+                                                            <span>AI Recommended - Public </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <a class="cursor-pointer" [href]="item?.public_link"
+                                                                target="_blank"><span>Platform -
+                                                                    {{item?.platform}}</span></a>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <div *ngIf="!item?.rationale">
+                                                    <div class="ai-recommened-pill-gray">
+                                                        <div class="ai-recommened-pill-gray-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+
+                                                            <span>Manually Suggested - iGOT </span>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <a class="cursor-pointer" [href]="item?.public_link"
+                                                                target="_blank"><span>Platform -
+                                                                    {{item?.platform}}</span></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
+                                            <div class="course-title mt-3">
+                                                <span *ngIf="item?.course">{{item?.course}}</span>
+                                                <span *ngIf="item?.name">{{item?.name}}</span>
+                                            </div>
+                                            <div class="course-desc mt-2">
+                                                <span *ngIf="item?.rationale">{{item?.rationale}}</span>
+                                                <span *ngIf="item?.description">{{item?.description}}</span>
+                                            </div>
+                                            <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">
+                                                <div class="competency-sub-heading">Behavioral Competencies</div>
+                                                <ul class="competency-list mt-1">
+                                                    <li class="behavioural-pill"
+                                                        *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">
+                                                        <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                            {{
+                                                            comp.competencySubThemeName }} </span>
+                                                    </li>
+                                                    <li *ngIf="hasMoreThanTwo('Behavioural',i)"
+                                                        class="show-more-competency">
+                                                        <span class="show-more-link cursor-pointer"
+                                                            (click)="toggleCompetencies('Behavioural',i)">
+                                                            {{ isExpanded('Behavioural',i) ? 'Show Less' : '+' +
+                                                            getRemainingCount('Behavioural',i) + ' More' }}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="mt-2" *ngIf="getCompetenciesByType('Functional',i)?.length">
+                                                <div class="competency-sub-heading">Functional Competencies</div>
+                                                <ul class="competency-list mt-1">
+                                                    <li class="functional-pill"
+                                                        *ngFor="let comp of getDisplayedCompetencies('Functional',i)">
+                                                        <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                            {{
+                                                            comp.competencySubThemeName }} </span>
+                                                    </li>
+                                                    <li *ngIf="hasMoreThanTwo('Functional',i)"
+                                                        class="show-more-competency">
+                                                        <span class="show-more-link cursor-pointer"
+                                                            (click)="toggleCompetencies('Functional',i)">
+                                                            {{ isExpanded('Functional',i) ? 'Show Less' : '+' +
+                                                            getRemainingCount('Functional',i) + ' More' }}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="mt-2" *ngIf="getCompetenciesByType('Domain',i)?.length">
+                                                <div class="competency-sub-heading">Domain Competencies</div>
+                                                <ul class="competency-list mt-1">
+                                                    <li class="domain-pill"
+                                                        *ngFor="let comp of getDisplayedCompetencies('Domain',i)">
+                                                        <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                            {{
+                                                            comp.competencySubThemeName }} </span>
+                                                    </li>
+                                                    <li *ngIf="hasMoreThanTwo('Domain',i)" class="show-more-competency">
+                                                        <span class="show-more-link cursor-pointer"
+                                                            (click)="toggleCompetencies('Domain',i)">
+                                                            {{ isExpanded('Domain',i) ? 'Show Less' : '+' +
+                                                            getRemainingCount('Domain',i) + ' More' }}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+
                                         </div>
-                                        <div *ngIf="item?.rationale && item?.is_public">
-                                            <div class="ai-recommened-pill-public">
-                                                <div class="ai-recommened-pill-public-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
 
-                                                    <span>AI Recommended - Public </span>
-
+                                        <!-- Relevancy section always at bottom -->
+                                        <div class="course-footer" *ngIf="item?.relevancy">
+                                            <div class="relevancy-pill-green">
+                                                <div class="relevancy-container">
+                                                    <div class="relevancy">Relevancy</div>
+                                                    <div class="dash">-</div>
+                                                    <div class="percentage">{{item?.relevancy}}%</div>
                                                 </div>
                                             </div>
-                                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
-                                                <div class="ai-recommened-pill-orange-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
-                                                    <a class="cursor-pointer" [href]="item?.public_link"
-                                                        target="_blank"><span>Platform - {{item?.platform}}</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="!item?.rationale">
-                                            <div class="ai-recommened-pill-gray">
-                                                <div class="ai-recommened-pill-gray-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
-
-                                                    <span>Manually Suggested - iGOT </span>
-
-                                                </div>
-                                            </div>
-                                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
-                                                <div class="ai-recommened-pill-orange-text">
-                                                    <span class="ai-loader-icon"><img
-                                                            src="assets/icons/ai-loader.gif"></span>
-                                                    <a class="cursor-pointer" [href]="item?.public_link"
-                                                        target="_blank"><span>Platform - {{item?.platform}}</span></a>
+                                            <div class="relevancy-pill-green">
+                                                <div class="relevancy-container">
+                                                    <div class="relevancy">Duration</div>
+                                                    <div class="dash">-</div>
+                                                    <div class="percentage">
+                                                        <span *ngIf="item?.duration">{{item?.duration}}</span>
+                                                        <span *ngIf="!(item?.duration)">N/A</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -252,6 +377,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- <div class="course-list-item">
                                 <div class="course-header">
                                     <div>
@@ -309,130 +435,137 @@
                     <div class="d-flex vh-100">
                         <!-- Sidebar -->
                         <div class="d-flex flex-column p-3 bg-light border-end" style="width: 250px;">
-                          <h5 class="mb-4">Analyze by Category</h5>
-                          <button 
-                            *ngFor="let item of menuItems"
-                            class="btn btn-outline-primary mb-2 text-start menu-list-item"
-                            [class.active]="selectedCategory === item.key"
-                            (click)="selectCategory(item.key)"
-                          >
-                            {{ item.label }}
-                          </button>
+                            <h5 class="mb-4">Analyze by Category</h5>
+                            <button *ngFor="let item of menuItems"
+                                class="btn btn-outline-primary mb-2 text-start menu-list-item"
+                                [class.active]="selectedCategory === item.key" (click)="selectCategory(item.key)">
+                                {{ item.label }}
+                            </button>
                         </div>
-                      
+
                         <!-- Main Content -->
                         <div class="flex-grow-1 p-4">
                             <div class="d-flex justify-content-between gap-3">
                                 <div class="p-3 gray-bg">
-                                    <div class="div-label sub-heading"><p>Competencies Covered</p></div>
+                                    <div class="div-label sub-heading">
+                                        <p>Competencies Covered</p>
+                                    </div>
                                     <div class="div-count">{{competencyCoveredCount}}</div>
                                 </div>
                                 <div class="p-3 gray-bg">
-                                    <div class="div-label sub-heading"><p>Total Competencies</p></div>
+                                    <div class="div-label sub-heading">
+                                        <p>Total Competencies</p>
+                                    </div>
                                     <div class="div-count">{{this.planData?.competencies?.length}}</div>
                                 </div>
                                 <div class="p-3 green-bg">
                                     <div class="div-green-label">Overall Coverage</div>
                                     <div class="div-green-count">{{overallCoverage}}</div>
                                 </div>
-                              </div>
-                          <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
-                            <div *ngSwitchCase="'all'">
-                              <h4>All Categories</h4>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Behavioral</p>
-                                  </div>
-                                    <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
-                                        <div class="list-flex">
-                                            <div><span>{{item}}</span></div>
-                                            <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                            </div>
+                            <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
+                                <div *ngSwitchCase="'all'">
+                                    <h4>All Categories</h4>
+                                    <div class="mt-4">
+                                        <div class="sub-heading">
+                                            <p>Behavioral</p>
                                         </div>
-                                        
-                                        
+                                        <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
-                              </div>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Functional</p>
-                                  </div>
-                                  <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
-                                    <div class="list-flex">
-                                        <div><span>{{item}}</span></div>
-                                        <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                    <div class="mt-4">
+                                        <div class="sub-heading">
+                                            <p>Functional</p>
+                                        </div>
+                                        <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
+
+
+                                        </div>
                                     </div>
-                                    
-                                    
+                                    <div class="mt-4">
+                                        <div class="sub-heading">
+                                            <p>Domain</p>
+                                        </div>
+                                        <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
-                              </div>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Domain</p>
-                                  </div>
-                                    <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
-                                        <div class="list-flex">
-                                            <div><span>{{item}}</span></div>
-                                            <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+
+                                <div *ngSwitchCase="'behavioral'">
+                                    <h4>Behavioral</h4>
+                                    <div class="mt-4">
+                                        <!-- <div class="sub-heading">
+                                            <p>Behavioral</p>
+                                        </div> -->
+                                        <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
                                         </div>
                                     </div>
-                              </div>
-                             
-                            </div>
-                      
-                            <div *ngSwitchCase="'behavioral'">
-                              <h4>Behavioral</h4>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Behavioral</p>
-                                  </div>
-                                    <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
-                                        <div class="list-flex">
-                                            <div><span>{{item}}</span></div>
-                                            <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                </div>
+
+                                <div *ngSwitchCase="'functional'">
+                                    <h4>Functional</h4>
+                                    <div class="mt-4">
+                                        <!-- <div class="sub-heading">
+                                            <p>Functional</p>
+                                        </div> -->
+                                        <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
                                         </div>
                                     </div>
-                              </div>
-                            </div>
-                      
-                            <div *ngSwitchCase="'functional'">
-                              <h4>Functional</h4>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Functional</p>
-                                  </div>
-                                    <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
-                                        <div class="list-flex">
-                                            <div><span>{{item}}</span></div>
-                                            <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                </div>
+
+                                <div *ngSwitchCase="'domain'">
+                                    <h4>Domain</h4>
+                                    <div class="mt-4">
+                                        <!-- <div class="sub-heading">
+                                            <p>Domain</p>
+                                        </div> -->
+                                        <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
+                                            <div class="list-flex">
+                                                <div><span>{{item}}</span></div>
+                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
                                         </div>
                                     </div>
-                              </div>
+                                </div>
+
+                                <div *ngSwitchDefault>
+                                    <p>Please select a category.</p>
+                                </div>
                             </div>
-                      
-                            <div *ngSwitchCase="'domain'">
-                              <h4>Domain</h4>
-                              <div class="mt-4">
-                                <div class="sub-heading">
-                                    <p>Domain</p>
-                                  </div>
-                                    <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
-                                        <div class="list-flex">
-                                            <div><span>{{item}}</span></div>
-                                            <div class="cursor-pointer" (click)="addCourse()"><span class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
-                                        </div>
-                                    </div>
-                              </div>
-                            </div>
-                      
-                            <div *ngSwitchDefault>
-                              <p>Please select a category.</p>
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                      
-                </div> 
-                  
+                    </div>
+
+                </div>
+
             </div>
         </div>
 

@@ -10,82 +10,86 @@
         </div>
     </div>
     <div class="section-container" [formGroup]="courseForm">
-        
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Course Name</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Course Name" formControlName="courseName" [value]=""
+
+        <div class="mt-2 section">
+            <div class="sub-heading">
+                <p>Course Name</p>
+            </div>
+            <div class="mt-4 additional-details">
+                <input type="text" placeholder="Enter Course Name" formControlName="courseName" [value]=""
                     style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+            </div>
+        </div>
+        <div class="mt-2 section">
+            <div class="sub-heading">
+                <p>Summary / Rationale:</p>
+            </div>
+            <div class="mt-4 additional-details">
+                <textarea class="custom-textarea" formControlName="summary" rows="5" placeholder="Enter Summary"
+                    [value]=""></textarea>
+            </div>
+        </div>
+        <div class="mt-2 section">
+            <div class="sub-heading">
+                <p>Platform Name</p>
+            </div>
+            <div class="mt-4 additional-details">
+                <input type="text" placeholder="Enter Platform Name" formControlName="platformName" [value]=""
+                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+            </div>
+        </div>
+        <div class="mt-2 section">
+            <div class="sub-heading">
+                <p>Course URL</p>
+            </div>
+            <div class="mt-4 additional-details">
+                <input type="text" placeholder="Enter Course Url" formControlName="courseUrl" [value]=""
+                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+            </div>
+        </div>
+
+
+
+
+
+        <fieldset formGroupName="competencies">
+            <div class="sub-heading mt-2">
+                <p>Competencies</p>
+
+                <div class="mt-2 section">
+                    <div class="sub-heading">
+                        <p>Behavioral</p>
+                    </div>
+                    <div class="mt-4 additional-details">
+                        <input type="text" placeholder="Enter Behavioral Competency" formControlName="behavioral"
+                            [value]=""
+                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    </div>
                 </div>
-            </div> 
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Summary / Rationale:</p>
+
+                <div class="mt-2 section">
+                    <div class="sub-heading">
+                        <p>Functional</p>
+                    </div>
+                    <div class="mt-4 additional-details">
+                        <input type="text" placeholder="Enter Functioanl Competency" formControlName="functional"
+                            [value]=""
+                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    </div>
                 </div>
-                <div class="mt-4 additional-details">
-                    <textarea class="custom-textarea" formControlName="summary" rows="5"
-                        placeholder="Enter Summary" [value]=""></textarea>
+
+                <div class="mt-2 section">
+                    <div class="sub-heading">
+                        <p>Domain</p>
+                    </div>
+                    <div class="mt-4 additional-details">
+                        <input type="text" placeholder="Enter Domain Competency" formControlName="domain" [value]=""
+                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    </div>
                 </div>
             </div>
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Platform Name</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Platform Name" formControlName="platformName" [value]=""
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
-                </div>
-            </div> 
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Course URL</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Course Url" formControlName="courseUrl" [value]=""
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
-                </div>
-            </div> 
-         
-        
-        
-         
-        
-          <fieldset formGroupName="competencies">
-            <legend>Competencies</legend>
-        
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Behavioral</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Behavioral Competency" formControlName="behavioral" [value]=""
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
-                </div>
-            </div> 
-            
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Functional</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Functioanl Competency" formControlName="functional" [value]=""
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
-                </div>
-            </div> 
 
-            <div class="mt-2 section">
-                <div class="sub-heading">
-                    <p>Domain</p>
-                </div>
-                <div class="mt-4 additional-details">
-                    <input type="text" placeholder="Enter Domain Competency" formControlName="domain" [value]=""
-                    style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
-                </div>
-            </div> 
-            
-          </fieldset>
+        </fieldset>
     </div>
     <div class="popup-footer">
         <div>
@@ -95,4 +99,7 @@
             <input class="btn-active" type="button" value="Save" (click)="saveCourse()" />
         </div>
     </div>
+</div>
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
 </div>
