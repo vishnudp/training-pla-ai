@@ -31,7 +31,8 @@ const API_END_POINTS = {
   LOGIN:'cbp-tpc-ai/auth/login',
   LOGOUT:'cbp-tpc-ai/auth/logout',
   DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping',
-  ADD_COURSES: 'cbp-tpc-ai/user-added-courses'
+  ADD_USER_COURSES: 'cbp-tpc-ai/user-added-courses',
+  GET_USER_COURSES:'cbp-tpc-ai/user-added-courses/role-mapping'
 }
 
 
@@ -479,10 +480,17 @@ export class SharedService {
 
   addUserCourse(reqBody){
     const headers = this.headers
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_COURSES}`, reqBody, {headers})
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.ADD_USER_COURSES}`, reqBody, {headers})
       .pipe(map((response: any) => {
         return response
       }))
   }
 
+  getUserCourse(role_mapping_id) {
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_USER_COURSES}/${role_mapping_id}`,  {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
 }
