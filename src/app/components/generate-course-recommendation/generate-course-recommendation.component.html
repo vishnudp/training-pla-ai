@@ -478,7 +478,9 @@
                             <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
                                 <div *ngSwitchCase="'all'">
                                     <h4>All Categories</h4>
-                                    <div class="mt-4">
+                                    
+                                    <!-- Show Behavioral section only if there are unmatched behavioral competencies -->
+                                    <div class="mt-4" *ngIf="behaviouralNotMatched && behaviouralNotMatched.length > 0">
                                         <div class="sub-heading">
                                             <p>Behavioral</p>
                                         </div>
@@ -488,11 +490,11 @@
                                                 <div class="cursor-pointer" (click)="addCourse()"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
-
-
                                         </div>
                                     </div>
-                                    <div class="mt-4">
+                                    
+                                    <!-- Show Functional section only if there are unmatched functional competencies -->
+                                    <div class="mt-4" *ngIf="functionalNotMatched && functionalNotMatched.length > 0">
                                         <div class="sub-heading">
                                             <p>Functional</p>
                                         </div>
@@ -502,11 +504,11 @@
                                                 <div class="cursor-pointer" (click)="addCourse()"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
-
-
                                         </div>
                                     </div>
-                                    <div class="mt-4">
+                                    
+                                    <!-- Show Domain section only if there are unmatched domain competencies -->
+                                    <div class="mt-4" *ngIf="domainNotMatched && domainNotMatched.length > 0">
                                         <div class="sub-heading">
                                             <p>Domain</p>
                                         </div>
@@ -516,6 +518,17 @@
                                                 <div class="cursor-pointer" (click)="addCourse()"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Show message when all competencies are covered -->
+                                    <div class="mt-4 text-center" *ngIf="(!behaviouralNotMatched || behaviouralNotMatched.length === 0) && 
+                                                                           (!functionalNotMatched || functionalNotMatched.length === 0) && 
+                                                                           (!domainNotMatched || domainNotMatched.length === 0)">
+                                        <div class="no-gaps-message">
+                                            <mat-icon class="success-icon">check_circle</mat-icon>
+                                            <h4>Excellent! All competencies are covered</h4>
+                                            <p>All required competencies have been addressed by the selected courses.</p>
                                         </div>
                                     </div>
 

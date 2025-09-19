@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-edit-cbp-plan',
   templateUrl: './edit-cbp-plan.component.html',
@@ -16,13 +17,28 @@ export class EditCbpPlanComponent implements OnInit{
   competenciesCount = {total:0, behavioral:0, functional:0, domain:0}
   cbpForm: FormGroup;
   loading= false
+  
+  // Enhanced competency selection properties
+  competenciesData: any[] = [];
+  availableThemes: any[] = [];
+  availableSubThemes: any[] = [];
+  filteredThemes: any[] = [];
+  filteredSubThemes: string[] = [];
+  selectedCompetencyType = '';
+  selectedTheme = '';
+  selectedSubTheme = '';
+  manualTheme = '';
+  manualSubTheme = '';
+  themeSearchText = '';
+  subThemeSearchText = '';
   constructor(
     public dialogRef: MatDialogRef<EditCbpPlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private cdRef: ChangeDetectorRef,
     private sharedService:SharedService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private http: HttpClient
   ) {
     this.planData = data
     console.log('Received data:', data);
@@ -42,8 +58,21 @@ export class EditCbpPlanComponent implements OnInit{
 
 
   ngOnInit() {
+    this.loadCompetenciesData();
     this.initializeForm();
     this.updateCompetencyCounts()
+  }
+
+  loadCompetenciesData() {
+    this.http.get<any[]>('/assets/jsonfiles/competencies.json').subscribe({
+      next: (data) => {
+        this.competenciesData = data;
+        console.log('Competencies data loaded:', this.competenciesData);
+      },
+      error: (error) => {
+        console.error('Error loading competencies data:', error);
+      }
+    });
   }
 
   updateCompetencyCounts() {
@@ -65,6 +94,12 @@ export class EditCbpPlanComponent implements OnInit{
       activities_text: [this.planData?.activities?.join('\n') || ''],
       competencySearchText: [''],
       competencyType: [''],
+      competencyTheme: [''],
+      competencySubTheme: [''],
+      manualThemeInput: [''],
+      manualSubThemeInput: [''],
+      themeSearch: [''],
+      subThemeSearch: [''],
       competencies: this.fb.array(this.planData?.competencies || []), // optional customization
     });
   }
@@ -172,33 +207,165 @@ export class EditCbpPlanComponent implements OnInit{
     return this.cbpForm.get('competencies') as FormArray;
   }
 
-  addCompetency() {
-      const type = this.cbpForm.value.competencyType;
-      const theme = this.cbpForm.value.competencySearchText;
+  onCompetencyTypeChange(type: string) {
+    this.selectedCompetencyType = type;
+    this.selectedTheme = '';
+    this.selectedSubTheme = '';
+    this.manualTheme = '';
+    this.manualSubTheme = '';
+    this.availableThemes = [];
+    this.availableSubThemes = [];
+    this.filteredThemes = [];
+    this.filteredSubThemes = [];
+    this.themeSearchText = '';
+    this.subThemeSearchText = '';
     
-      if (type && theme) {
-        const exists = this.competenciesArray.value.some(c => c.theme === theme && c.type === type);
-        if (!exists) {
-          const newComp = this.fb.group({
-            type: [type],
-            theme: [theme],
-            sub_theme: ['']
-          });
-          this.competenciesArray.push(newComp);
-        }
+    // Reset form controls
+    this.cbpForm.patchValue({
+      competencyTheme: '',
+      competencySubTheme: '',
+      manualThemeInput: '',
+      manualSubThemeInput: '',
+      themeSearch: '',
+      subThemeSearch: ''
+    });
     
-        // Optional: Clear input fields after adding
-        this.cbpForm.patchValue({
-          competencySearchText: '',
-          competencyType: ''
-        });
+    if (type === 'Behavioral' || type === 'Functional') {
+      // Load themes from JSON for Behavioral and Functional
+      const competencyCategory = this.competenciesData.find(cat => 
+        cat.name.toLowerCase() === type.toLowerCase() || 
+        (type === 'Behavioral' && cat.name === 'Behavioural')
+      );
+      
+      if (competencyCategory) {
+        this.availableThemes = competencyCategory.competency_theme || [];
+        this.filteredThemes = [...this.availableThemes];
       }
-      const currentValues = this.competenciesArray.value;
-      this.cbpForm.patchValue({ competencies: [...currentValues] });
-
-      this.updateCompetencyCounts();
+    }
+    // For Domain, no themes are loaded - user will enter manually
+  }
+  
+  onThemeChange(themeName: string) {
+    this.selectedTheme = themeName;
+    this.selectedSubTheme = '';
+    this.availableSubThemes = [];
+    this.filteredSubThemes = [];
+    this.subThemeSearchText = '';
+    
+    this.cbpForm.patchValue({
+      competencySubTheme: '',
+      subThemeSearch: ''
+    });
+    
+    // Find the selected theme and load its sub-themes
+    const selectedThemeObj = this.availableThemes.find(theme => theme.name === themeName);
+    if (selectedThemeObj) {
+      this.availableSubThemes = selectedThemeObj.competency_sub_theme || [];
+      this.filteredSubThemes = [...this.availableSubThemes];
+    }
+  }
+  
+  onSubThemeChange(subThemeName: string) {
+    this.selectedSubTheme = subThemeName;
+  }
+  
+  addCompetency() {
+    let type = this.selectedCompetencyType;
+    let theme = '';
+    let subTheme = '';
+    
+    if (type === 'Domain') {
+      // For Domain, use manual input
+      theme = this.cbpForm.value.manualThemeInput?.trim();
+      subTheme = this.cbpForm.value.manualSubThemeInput?.trim();
+    } else {
+      // For Behavioral/Functional, use dropdown selections
+      theme = this.selectedTheme;
+      subTheme = this.selectedSubTheme;
+    }
+    
+    if (type && theme && subTheme) {
+      const exists = this.competenciesArray.value.some(c => 
+        c.theme === theme && c.sub_theme === subTheme && c.type === type
+      );
+      
+      if (!exists) {
+        const newComp = this.fb.group({
+          type: [type],
+          theme: [theme],
+          sub_theme: [subTheme]
+        });
+        this.competenciesArray.push(newComp);
+      }
+      
+      // Clear input fields after adding
+      this.resetCompetencyForm();
+    }
+    
+    const currentValues = this.competenciesArray.value;
+    this.cbpForm.patchValue({ competencies: [...currentValues] });
+    
+    this.updateCompetencyCounts();
     this.cdRef.detectChanges();
-      console.log(this.cbpForm?.get('competencies')?.value )
+    console.log(this.cbpForm?.get('competencies')?.value);
+  }
+  
+  resetCompetencyForm() {
+    this.selectedCompetencyType = '';
+    this.selectedTheme = '';
+    this.selectedSubTheme = '';
+    this.manualTheme = '';
+    this.manualSubTheme = '';
+    this.availableThemes = [];
+    this.availableSubThemes = [];
+    this.filteredThemes = [];
+    this.filteredSubThemes = [];
+    this.themeSearchText = '';
+    this.subThemeSearchText = '';
+    
+    this.cbpForm.patchValue({
+      competencyType: '',
+      competencyTheme: '',
+      competencySubTheme: '',
+      manualThemeInput: '',
+      manualSubThemeInput: '',
+      themeSearch: '',
+      subThemeSearch: ''
+    });
+  }
+  
+  filterThemes(searchText: string) {
+    this.themeSearchText = searchText;
+    if (!searchText.trim()) {
+      this.filteredThemes = [...this.availableThemes];
+    } else {
+      this.filteredThemes = this.availableThemes.filter(theme => 
+        theme.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+  }
+  
+  filterSubThemes(searchText: string) {
+    this.subThemeSearchText = searchText;
+    if (!searchText.trim()) {
+      this.filteredSubThemes = [...this.availableSubThemes];
+    } else {
+      this.filteredSubThemes = this.availableSubThemes.filter(subTheme => 
+        subTheme.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+  }
+  
+  canAddCompetency(): boolean {
+    if (!this.selectedCompetencyType) return false;
+    
+    if (this.selectedCompetencyType === 'Domain') {
+      const theme = this.cbpForm.value.manualThemeInput?.trim();
+      const subTheme = this.cbpForm.value.manualSubThemeInput?.trim();
+      return !!(theme && subTheme);
+    } else {
+      return !!(this.selectedTheme && this.selectedSubTheme);
+    }
   }
 
   deleteCompetency(comp) {

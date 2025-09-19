@@ -47,7 +47,7 @@ font-weight: 700;
 line-height: 150%; /* 21px */
 }
 
-::ng-deep mat-form-field {
+::ng-deep .legacy-form-field {
     background-color: white !important;
     border-radius: 25px !important;
     padding-left: 12px;
@@ -55,27 +55,27 @@ line-height: 150%; /* 21px */
     height: 42px;
     width: 100%;
   }
-  
+
   ::ng-deep mat-select {
     border-radius: 25px !important;
     background-color: white !important;
   }
-  
+
   ::ng-deep .mat-select-panel {
     background-color: white !important;
     // border-radius: 25px !important;
   }
-  
+
   ::ng-deep .mat-select-panel .mat-option {
     border-radius: 0 !important;  /* Options with no border-radius */
   }
-  
+
   ::ng-deep mat-form-field .mat-form-field-underline {
     display: none !important;
   }
-  
 
-  
+
+
   ::ng-deep mat-select .mat-select-placeholder {
     color: rgba(0, 0, 0, 0.40);
     font-family: Lato;
@@ -87,7 +87,7 @@ line-height: 150%; /* 21px */
 
   ::ng-deep mat-select .mat-select-value-text {
     color: rgba(0, 0, 0, 1);
-    
+
     font-family: Lato;
     font-size: 14px;
     font-style: normal;
@@ -120,7 +120,7 @@ color: #000;
     line-height: normal;
 resize: none;
   }
- 
+
 
   .section-header {
     display: flex;
@@ -155,7 +155,7 @@ border: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
   }
 
   .pl-2 {
@@ -166,6 +166,11 @@ border: none;
     display: flex;
     flex-direction: row;
     gap:10px;
+  }
+
+  // Legacy search filter section - hidden when using enhanced UI
+  .legacy-search-filter {
+    display: none;
   }
 
   .search {
@@ -328,7 +333,7 @@ line-height: normal;
     flex-direction: row;
     align-items: center;
 }
- 
+
 .competencies-matched-container {
     display: flex;
     flex-direction: row;
@@ -348,7 +353,7 @@ line-height: normal;
     flex-wrap: wrap;
     gap: 16px; /* Optional spacing between cards */
   }
-  
+
   .course-list-item {
     flex: 0 0 48%; /* Two items per row with space for gap */
     box-sizing: border-box;
@@ -622,7 +627,7 @@ margin: 5px 0;
 }
 
 
-  
+
   .view-cbp-plan-popup {
     padding: 24px;
     max-height: 70vh;
@@ -640,7 +645,7 @@ margin: 5px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  
+
     border-bottom: 1px solid #ddd;
     font-weight: bold;
     flex-shrink: 0;
@@ -772,7 +777,7 @@ border: none;
 }
 
 ::ng-deep .filter-section .mat-form-field-appearance-fill .mat-form-field-flex {
-    padding: .5em .75em 0 .75em !important; 
+    padding: .5em .75em 0 .75em !important;
 }
 
 .competency-grid {
@@ -780,7 +785,7 @@ border: none;
     flex-wrap: wrap;
     gap: 12px; /* optional: spacing between items */
   }
-  
+
   .competency-item {
     flex: 0 0 calc(33.333% - 12px); /* 3 per row, accounting for gap */
     box-sizing: border-box;
@@ -798,4 +803,387 @@ border: none;
     font-weight: 500;
     font-size: 14px;
     border-radius: 4px;
+  }
+
+  // Enhanced Competency Selection Styles
+  .enhanced-competency-section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(27, 76, 161, 0.02) 0%, rgba(27, 76, 161, 0.06) 100%);
+    border-radius: 12px;
+    border: 1px solid rgba(27, 76, 161, 0.15);
+    box-shadow: 0 2px 8px rgba(27, 76, 161, 0.08);
+  }
+
+  .competency-step {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .step-label {
+    color: #1B4CA1;
+    font-family: Lato;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: #1B4CA1;
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+  }
+
+  .competency-dropdown-container {
+    width: 100%;
+    position: relative;
+  }
+
+  .manual-input-container {
+    width: 100%;
+    position: relative;
+  }
+
+  .competency-dropdown {
+    width: 100%;
+
+    // Reset all default Material styles
+    ::ng-deep .mat-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    ::ng-deep .mat-form-field-flex {
+      background: white;
+      border-radius: 25px;
+      border: 2px solid #e0e0e0;
+      padding: 0 16px 0 20px;
+      height: 48px;
+      align-items: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+
+      &:hover {
+        border-color: #1B4CA1;
+        box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
+      }
+    }
+
+    ::ng-deep .mat-form-field-outline,
+    ::ng-deep .mat-form-field-outline-start,
+    ::ng-deep .mat-form-field-outline-gap,
+    ::ng-deep .mat-form-field-outline-end {
+      display: none;
+    }
+
+    ::ng-deep .mat-form-field-infix {
+      padding: 0;
+      border: none;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      flex: 1;
+      width: auto;
+    }
+
+    ::ng-deep .mat-select {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      font-family: Lato;
+      font-size: 14px;
+      color: #333;
+      width: 100%;
+      flex: 1;
+    }
+
+    ::ng-deep .mat-select-value {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      color: #333;
+      font-weight: 400;
+      flex: 1;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    ::ng-deep .mat-select-placeholder {
+      color: rgba(0, 0, 0, 0.5);
+      font-style: italic;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    ::ng-deep .mat-select-value-text {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      font-weight: 400;
+    }
+
+    ::ng-deep .mat-select-arrow-wrapper {
+      height: 20px;
+      display: flex;
+      align-items: center;
+      margin-left: 8px;
+      flex-shrink: 0;
+
+      .mat-select-arrow {
+        color: #1B4CA1;
+        border-top-color: #1B4CA1;
+        margin: 0;
+      }
+    }
+
+    ::ng-deep .mat-form-field-label {
+      display: none;
+    }
+
+    // Focus state
+    ::ng-deep.mat-focused .mat-form-field-flex {
+      border-color: #1B4CA1;
+      box-shadow: 0 0 0 3px rgba(27, 76, 161, 0.1);
+    }
+
+    // Ensure no extra spacing or line height issues
+    ::ng-deep .mat-select-min-line {
+      line-height: normal;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+      padding: 0;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  // Search field inside dropdown
+  .search-option {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+
+    ::ng-deep .mat-option-text {
+      width: 100%;
+      padding: 0;
+    }
+  }
+
+  .search-field {
+    width: 100%;
+    margin: 0;
+
+    ::ng-deep .mat-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    ::ng-deep .mat-form-field-flex {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      height: 36px;
+      padding: 0 12px;
+      align-items: center;
+    }
+
+    ::ng-deep .mat-form-field-infix {
+      padding: 0;
+      border: none;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    ::ng-deep .mat-form-field-underline,
+    ::ng-deep .mat-form-field-outline {
+      display: none;
+    }
+
+    ::ng-deep input {
+      font-family: Lato;
+      font-size: 13px;
+      color: #495057;
+
+      &::placeholder {
+        color: #6c757d;
+        font-style: italic;
+      }
+    }
+  }
+
+  // Dropdown panel styling
+  ::ng-deep .mat-select-panel {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
+    max-height: 320px;
+    margin-top: 4px;
+
+    .mat-option {
+      font-family: Lato;
+      font-size: 14px;
+      padding: 14px 16px;
+      line-height: 1.4;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: rgba(27, 76, 161, 0.06);
+        color: #1B4CA1;
+      }
+
+      &.mat-selected {
+        background-color: rgba(27, 76, 161, 0.1);
+        color: #1B4CA1;
+        font-weight: 500;
+        position: relative;
+
+        &::after {
+          content: '✓';
+          position: absolute;
+          right: 16px;
+          color: #1B4CA1;
+          font-weight: bold;
+        }
+      }
+
+      &.search-option {
+        padding: 12px;
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+
+        &:hover {
+          background-color: #f8f9fa;
+        }
+      }
+    }
+  }
+
+  // Override any conflicting global styles for competency dropdowns
+  .enhanced-competency-section {
+    ::ng-deep mat-select {
+      border-radius: 0 !important;
+      background-color: transparent !important;
+    }
+
+    ::ng-deep mat-form-field .mat-form-field-underline {
+      display: none !important;
+    }
+
+    // Ensure proper spacing in select trigger
+    ::ng-deep .mat-select-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: auto;
+    }
+
+    // Remove any extra margins or paddings
+    ::ng-deep .mat-form-field-suffix {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .manual-input {
+    border-radius: 25px;
+    border: 2px solid #e0e0e0;
+    padding: 12px 16px;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Lato';
+    background: white;
+    height: 48px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+      font-family: Lato;
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #1B4CA1;
+      box-shadow: 0 0 0 3px rgba(27, 76, 161, 0.1);
+    }
+
+    &:hover {
+      border-color: #1B4CA1;
+      box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
+    }
+  }
+
+  .add-button-section {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(27, 76, 161, 0.1);
+  }
+
+  .add-competency-btn {
+    border-radius: 25px;
+    padding: 12px 24px;
+    font-family: Lato;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 140px;
+
+    &.btn-active {
+      background: linear-gradient(135deg, #1B4CA1 0%, #164080 100%);
+      color: white;
+
+      &:hover {
+        background: linear-gradient(135deg, #164080 0%, #0f2f5f 100%);
+        box-shadow: 0 4px 16px rgba(27, 76, 161, 0.3);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(27, 76, 161, 0.2);
+      }
+    }
+
+    &.btn-disable {
+      background: #e9ecef;
+      color: #6c757d;
+      cursor: not-allowed;
+      opacity: 0.7;
+      box-shadow: none;
+    }
   }
