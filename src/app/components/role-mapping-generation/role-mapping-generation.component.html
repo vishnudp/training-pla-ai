@@ -116,7 +116,7 @@
                     <p>Disclaimer: Please do not upload any confidential documents </p>
                 </div>
             </div>
-            <div class="mt-4">
+            <div class="mt-4" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <input [disabled]="roleMappingForm?.invalid"
                     [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
                     (click)="onGenerateRoleMapping()" />

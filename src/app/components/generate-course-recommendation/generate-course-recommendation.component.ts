@@ -416,6 +416,11 @@ export class GenerateCourseRecommendationComponent {
     if(event.index === 1) {
       this.gapAnalysisStats()
     }
+    if(event.index === 0) {
+      // this.getCourses()
+      // this.getSuggestedCourse()
+      this.getUserCourse()
+    }
   }
 
   onInnerTabChange(event: MatTabChangeEvent): void {
