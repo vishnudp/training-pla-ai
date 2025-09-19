@@ -55,27 +55,27 @@ line-height: 150%; /* 21px */
     height: 42px;
     width: 100%;
   }
-  
+
   ::ng-deep mat-select {
     border-radius: 25px !important;
     background-color: white !important;
   }
-  
+
   ::ng-deep .mat-select-panel {
     background-color: white !important;
     // border-radius: 25px !important;
   }
-  
+
   ::ng-deep .mat-select-panel .mat-option {
     border-radius: 0 !important;  /* Options with no border-radius */
   }
-  
+
   ::ng-deep mat-form-field .mat-form-field-underline {
     display: none !important;
   }
-  
 
-  
+
+
   ::ng-deep mat-select .mat-select-placeholder {
     color: rgba(0, 0, 0, 0.40);
     font-family: Lato;
@@ -87,7 +87,7 @@ line-height: 150%; /* 21px */
 
   ::ng-deep mat-select .mat-select-value-text {
     color: rgba(0, 0, 0, 1);
-    
+
     font-family: Lato;
     font-size: 14px;
     font-style: normal;
@@ -120,7 +120,7 @@ font-weight: 400;
 line-height: normal;
 resize: none;
   }
- 
+
 
   .section-header {
     display: flex;
@@ -155,7 +155,7 @@ border: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
   }
 
   .pl-2 {
@@ -328,7 +328,7 @@ line-height: normal;
     flex-direction: row;
     align-items: center;
 }
- 
+
 .competencies-matched-container {
     display: flex;
     flex-direction: row;
@@ -348,7 +348,7 @@ line-height: normal;
     flex-wrap: wrap;
     gap: 16px; /* Optional spacing between cards */
   }
-  
+
   .course-list-item {
     flex: 0 0 48%; /* Two items per row with space for gap */
     box-sizing: border-box;
@@ -526,8 +526,8 @@ line-height: normal;
     flex-direction: row;
     justify-content: space-between;
     height: 85px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+    //margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     background: #fff;
 }
 
