@@ -364,6 +364,44 @@ export class GenerateCourseRecommendationComponent {
       if (result === 'saved') {
         console.log('Changes saved!');
         // Refresh data or show a toast here
+      }  else {
+        this.generateCourseRecommendation(this.planData)
+      }
+    });
+  }
+
+  generateCourseRecommendation(element: any) {
+    console.log('Generate Course Recommendation clicked', element);
+    // this.activeRowElement = element
+    console.log('Edit Role Mapping clicked', element);
+    // Navigate or open modal
+    console.log('View CBP Plan clicked', element);
+    const dialogRef = this.dialog.open(GenerateCourseRecommendationComponent, {
+      width: '1000px',
+      data: element,
+       panelClass: 'view-cbp-plan-popup',
+      minHeight: '400px',          // Set minimum height
+      maxHeight: '90vh',           // Prevent it from going beyond viewport
+      disableClose: true // Optional: prevent closing with outside click
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        console.log('Changes saved!');
+        // Refresh data or show a toast here
+        console.log(this.sharedService.cbpPlanFinalObj)
+        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
+          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
+            console.log('res', res)
+            // this.dataSource.data = res
+            // this.dataSource.paginator = this.paginator;
+            this.originalData = res;
+          //  console.log('this.dataSource',this.dataSource)
+            })
+        } else {
+          
+        }
+        
       }
     });
   }
@@ -490,15 +528,15 @@ export class GenerateCourseRecommendationComponent {
         break;
       case 1: // Behavioral
         this.filterdCourses = this.behavioralFilter(this.originalData);
-        this.competencyMatchedByCategory = this.behavioralCompetencyFilter(this.originalData);
+        this.competencyMatchedByCategory = this.behavioralCompetencyFilter(this.planData.competencies);
         break;
       case 2: // Functional
         this.filterdCourses = this.functionalFilter(this.originalData);
-        this.competencyMatchedByCategory = this.functionalCompetencyFilter(this.originalData);
+        this.competencyMatchedByCategory = this.functionalCompetencyFilter(this.planData.competencies);
         break;
       case 3: // Domain
         this.filterdCourses = this.domainFilter(this.originalData);
-        this.competencyMatchedByCategory = this.domainCompetencyFilter(this.originalData);
+        this.competencyMatchedByCategory = this.domainCompetencyFilter(this.planData.competencies);
         break;
     }
     console.log('this.filterdCourses',this.filterdCourses)
@@ -521,87 +559,52 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
-  behavioralCompetencyFilter(data:any[]):any {
-    const behavioralThemes = (data as any[])
-    .map(item => {
-      // Handle different competency property names
-      let competencies = [];
-      if (item && item.competencies && Array.isArray(item.competencies)) {
-        competencies = item.competencies;
-      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-        competencies = item.competencies_v6;
-      }
-      return competencies;
-    })
-    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
-    .filter(c =>
-      c && c.competencyAreaName &&
-      (c.competencyAreaName?.toLowerCase() === 'behavioral' ||
-       c.competencyAreaName?.toLowerCase() === 'behavioural')
-    )
-    .map(c => c.competencyThemeName)
-    .filter(theme => theme); // Remove undefined/null themes
+  behavioralCompetencyFilter(data: any[]): string[] {
+    console.log('data--', data)
+    const behavioralThemes = data
+      .filter(item =>
+        item?.type &&
+        ['behavioral', 'behavioural'].includes(item.type.toLowerCase())
+      )
+      .map(item => `${item.theme}-${item.sub_theme}`)
+      .filter((theme): theme is string => Boolean(theme)); // Ensures type safety
   
-  const uniqueBehavioralThemes = Array.from(new Set(behavioralThemes));
-  
-  console.log(uniqueBehavioralThemes);
-  return uniqueBehavioralThemes
+    const uniqueBehavioralThemes = Array.from(new Set(behavioralThemes));
     
-    // console.log(uniqueCompetencyAreaNames);
+    console.log(uniqueBehavioralThemes);
+    return uniqueBehavioralThemes;
   }
 
   functionalCompetencyFilter(data:any[]):any {
-    const funtionalThemes = (data as any[])
-    .map(item => {
-      // Handle different competency property names
-      let competencies = [];
-      if (item && item.competencies && Array.isArray(item.competencies)) {
-        competencies = item.competencies;
-      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-        competencies = item.competencies_v6;
-      }
-      return competencies;
-    })
-    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
-    .filter(c =>
-      c && c.competencyAreaName &&
-      c.competencyAreaName?.toLowerCase() === 'functional' 
-    )
-    .map(c => c.competencyThemeName)
-    .filter(theme => theme); // Remove undefined/null themes
+    const functionalThemes = data
+      .filter(item =>
+        item?.type &&
+        ['functional'].includes(item.type.toLowerCase())
+      )
+      .map(item => `${item.theme}-${item.sub_theme}`)
+      .filter((theme): theme is string => Boolean(theme)); // Ensures type safety
   
-  const uniqueFunctionalThemes = Array.from(new Set(funtionalThemes));
-  
-  console.log(uniqueFunctionalThemes);
-  return uniqueFunctionalThemes
+    const uniqueFunctionalThemes = Array.from(new Set(functionalThemes));
+    
+    console.log(uniqueFunctionalThemes);
+    return uniqueFunctionalThemes;
     
     // console.log(uniqueCompetencyAreaNames);
   }
 
   domainCompetencyFilter(data:any[]):any {
-    const domainThemes = (data as any[])
-    .map(item => {
-      // Handle different competency property names
-      let competencies = [];
-      if (item && item.competencies && Array.isArray(item.competencies)) {
-        competencies = item.competencies;
-      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-        competencies = item.competencies_v6;
-      }
-      return competencies;
-    })
-    .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
-    .filter(c =>
-      c && c.competencyAreaName &&
-      c.competencyAreaName?.toLowerCase() === 'domain' 
+    const domainThemes = data
+    .filter(item =>
+      item?.type &&
+      ['domain'].includes(item.type.toLowerCase())
     )
-    .map(c => c.competencyThemeName)
-    .filter(theme => theme); // Remove undefined/null themes
-  
+    .map(item => `${item.theme}-${item.sub_theme}`)
+    .filter((theme): theme is string => Boolean(theme)); // Ensures type safety
+
   const uniqueDomainThemes = Array.from(new Set(domainThemes));
   
   console.log(uniqueDomainThemes);
-  return uniqueDomainThemes
+  return uniqueDomainThemes;
     
     // console.log(uniqueCompetencyAreaNames);
   }
@@ -1014,7 +1017,9 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
-  filterOnCompetencyTheme(themeName) {
+  filterOnCompetencyTheme(item) {
+    let themeName = item?.split("-")[0]
+    let subThemeName = item?.split("-")[1]
     if(this.innerTabActiveIndex === 1) {
       this.filterdCourses = this.originalData.filter(item => {
         if (!item) return false;
@@ -1029,7 +1034,11 @@ export class GenerateCourseRecommendationComponent {
         
         return competencies.some(c => c && 
           ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
+          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase() 
+          
+          ));
+
       });
     }
     if(this.innerTabActiveIndex === 2) {
@@ -1046,7 +1055,8 @@ export class GenerateCourseRecommendationComponent {
         
         return competencies.some(c => c && 
           (c?.competencyAreaName?.toLowerCase() === 'functional') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
+          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase() ));
       });
     }
     if(this.innerTabActiveIndex === 3) {
@@ -1063,7 +1073,8 @@ export class GenerateCourseRecommendationComponent {
         
         return competencies.some(c => c && 
           (c?.competencyAreaName?.toLowerCase() === 'domain') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
+          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase()));
       });
     }
   }

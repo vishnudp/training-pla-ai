@@ -51,7 +51,7 @@
                             <div class="pl-2">
                                 <input [disabled]="selectFilterCourses?.length > 0 ? false : true"
                                     [ngClass]="selectFilterCourses?.length > 0 ? 'btn-active' : 'btn-disable'"
-                                    type="button" [value]="mode === 'add' ? 'Add Courses' : 'Update Courses'"
+                                    type="button" [value]="mode === 'add' ? 'Save Courses' : 'Update Courses'"
                                     (click)="saveCourses()" />
                             </div>
                         </div>

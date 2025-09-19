@@ -319,45 +319,63 @@ export class ViewFinalCbpPlanComponent {
 
   //   html2pdf().from(element).set(options).save();
   // });
+  //const element = this.pdfContent.nativeElement;
+
+  this.loading = true;
   const element = this.pdfContent.nativeElement;
-
-    html2canvas(element, {
-      scale: 2, // improves quality
-      useCORS: true, // if loading images from different origin
-      logging: true,
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgProps = pdf.getImageProperties(imgData);
-
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      let position = 0;
-
-      if (pdfHeight <= pageHeight) {
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      } else {
-        let heightLeft = pdfHeight;
-
-        while (heightLeft > 0) {
-          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, pdfHeight);
-          heightLeft -= pageHeight;
-          position -= pageHeight;
-
-          if (heightLeft > 0) {
-            pdf.addPage();
-          }
-        }
+  
+  html2canvas(element, {
+    scale: 1.5,
+    useCORS: true,
+    logging: true,
+  }).then((canvas) => {
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+  
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+  
+    const pageHeightPx = Math.floor((pdfHeight * imgWidth) / pdfWidth); // page height in canvas pixels
+    let position = 0;
+  
+    const totalPages = Math.ceil(imgHeight / pageHeightPx);
+  
+    for (let page = 0; page < totalPages; page++) {
+      const canvasPage = document.createElement('canvas');
+      canvasPage.width = imgWidth;
+      canvasPage.height = pageHeightPx;
+  
+      const context = canvasPage.getContext('2d');
+      if (context) {
+        context.drawImage(
+          canvas,
+          0, page * pageHeightPx,
+          imgWidth, pageHeightPx,
+          0, 0,
+          imgWidth, pageHeightPx
+        );
       }
+  
+      const imgData = canvasPage.toDataURL('image/png');
+      if (page > 0) pdf.addPage();
+      pdf.addImage(
+        imgData,
+        'PNG',
+        0,
+        0,
+        pdfWidth,
+        pdfHeight
+      );
+    }
+  
+    pdf.save('Final CBP.pdf');
+    this.loading = false;
+  }).catch((error) => {
+    console.error('PDF generation error:', error);
+    this.loading = false;
+  });
+  
 
-      pdf.save('Final CBP.pdf');
-      this.loading = false
-    }).catch((error) => {
-      console.error('PDF generation error:', error);
-      this.loading = false; // Stop loader on error
-    });
 }
 }
