@@ -515,6 +515,7 @@ export class GenerateCourseRecommendationComponent {
     }
     const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
     this.competencyCoveredCount = result['total']
+    // Fix: Use masterList.length instead of total competencies when category is selected
     let totalCompetencies = (this.selectedCategory === 'all') ? this.planData.competencies.length : masterList.length;
     let mathRound = Math.round((this.competencyCoveredCount/totalCompetencies)*100)
     this.overallCoverage = `${mathRound}%`
