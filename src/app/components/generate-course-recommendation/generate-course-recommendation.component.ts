@@ -80,6 +80,9 @@ export class GenerateCourseRecommendationComponent {
       console.log('this.filterdCourses', this.filterdCourses)
       this.getCourses()
       this.getSuggestedCourse()
+      
+      // Initialize gap analysis stats after courses are loaded
+      this.initializeGapAnalysisStats()
     })
   }
 
@@ -231,6 +234,9 @@ export class GenerateCourseRecommendationComponent {
         for (let i = 0; i < res.length; i++) {
           this.filterdCourses.push(res[i])
         }
+        
+        // Update gap analysis stats after suggested courses are added
+        this.updateGapAnalysisAfterCoursesUpdate()
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
@@ -329,18 +335,66 @@ export class GenerateCourseRecommendationComponent {
   }
 
   getCompetenciesByType(type: string, index): any[] {
-    return (this.filterdCourses[index].competencies || [])
-      .filter(c => c.competencyAreaName === type);
+    const course = this.filterdCourses[index];
+    if (!course) {
+      return [];
+    }
+    
+    // Handle different competency property names
+    // AI Recommended & Public courses use 'competencies'
+    // Manually Suggested - iGOT courses use 'competencies_v6'
+    let competencies = [];
+    if (course.competencies && Array.isArray(course.competencies)) {
+      competencies = course.competencies;
+    } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+      competencies = course.competencies_v6;
+    }
+    
+    if (competencies.length === 0) {
+      return [];
+    }
+    
+    // Normalize the type for comparison (case-insensitive + handle spelling variations)
+    const normalizedType = type.toLowerCase().trim();
+    
+    const matchedCompetencies = competencies.filter(c => {
+      if (!c || !c.competencyAreaName) return false;
+      
+      const competencyArea = c.competencyAreaName.toLowerCase().trim();
+      
+      // Handle both "behavioral" and "behavioural" spellings
+      if (normalizedType === 'behavioural' || normalizedType === 'behavioral') {
+        return competencyArea === 'behavioral' || competencyArea === 'behavioural';
+      }
+      
+      // For other types, do case-insensitive comparison
+      return competencyArea === normalizedType;
+    });
+    
+    return matchedCompetencies;
   }
 
   getCompetenciesByBehviouralType(index): string {
-    return (this.filterdCourses[index].competencies || [])
-      .filter(
-        c => c.competencyAreaName === 'Behavioral' || c.competencyAreaName === 'Behavioural'
-      )
-      .map(
-        c => `${c.competencyThemeName} - ${c.competencySubThemeName}`
-      )
+    const course = this.filterdCourses[index];
+    if (!course) {
+      return '';
+    }
+    
+    // Handle different competency property names
+    let competencies = [];
+    if (course.competencies && Array.isArray(course.competencies)) {
+      competencies = course.competencies;
+    } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+      competencies = course.competencies_v6;
+    }
+    
+    if (competencies.length === 0) {
+      return '';
+    }
+    
+    return competencies
+      .filter(c => c && (c.competencyAreaName === 'Behavioral' || c.competencyAreaName === 'Behavioural'))
+      .map(c => `${c.competencyThemeName || ''} - ${c.competencySubThemeName || ''}`)
       .join(', ');
   }
 
@@ -413,20 +467,41 @@ export class GenerateCourseRecommendationComponent {
   }
 
   behavioralFilter(data: any[]): any[] {
-    return data.filter(item =>
-      item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural'))
-    );
+    return data.filter(item => {
+      if (!item) return false;
+      
+      // Handle different competency property names
+      let competencies = [];
+      if (item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      
+      return competencies.some(c => c && ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural'));
+    });
   }
 
   behavioralCompetencyFilter(data:any[]):any {
     const behavioralThemes = (data as any[])
-    .map(item => item.competencies || [])
+    .map(item => {
+      // Handle different competency property names
+      let competencies = [];
+      if (item && item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      return competencies;
+    })
     .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
     .filter(c =>
-      c.competencyAreaName?.toLowerCase() === 'behavioral' ||
-      c.competencyAreaName?.toLowerCase() === 'behavioural'
+      c && c.competencyAreaName &&
+      (c.competencyAreaName?.toLowerCase() === 'behavioral' ||
+       c.competencyAreaName?.toLowerCase() === 'behavioural')
     )
-    .map(c => c.competencyThemeName);
+    .map(c => c.competencyThemeName)
+    .filter(theme => theme); // Remove undefined/null themes
   
   const uniqueBehavioralThemes = Array.from(new Set(behavioralThemes));
   
@@ -438,12 +513,23 @@ export class GenerateCourseRecommendationComponent {
 
   functionalCompetencyFilter(data:any[]):any {
     const funtionalThemes = (data as any[])
-    .map(item => item.competencies || [])
+    .map(item => {
+      // Handle different competency property names
+      let competencies = [];
+      if (item && item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      return competencies;
+    })
     .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
     .filter(c =>
+      c && c.competencyAreaName &&
       c.competencyAreaName?.toLowerCase() === 'functional' 
     )
-    .map(c => c.competencyThemeName);
+    .map(c => c.competencyThemeName)
+    .filter(theme => theme); // Remove undefined/null themes
   
   const uniqueFunctionalThemes = Array.from(new Set(funtionalThemes));
   
@@ -455,12 +541,23 @@ export class GenerateCourseRecommendationComponent {
 
   domainCompetencyFilter(data:any[]):any {
     const domainThemes = (data as any[])
-    .map(item => item.competencies || [])
+    .map(item => {
+      // Handle different competency property names
+      let competencies = [];
+      if (item && item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item && item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      return competencies;
+    })
     .reduce((acc, curr) => acc.concat(curr), []) // manually flatten
     .filter(c =>
+      c && c.competencyAreaName &&
       c.competencyAreaName?.toLowerCase() === 'domain' 
     )
-    .map(c => c.competencyThemeName);
+    .map(c => c.competencyThemeName)
+    .filter(theme => theme); // Remove undefined/null themes
   
   const uniqueDomainThemes = Array.from(new Set(domainThemes));
   
@@ -472,48 +569,105 @@ export class GenerateCourseRecommendationComponent {
 
 
   functionalFilter(data: any[]): any[] {
-    return data.filter(item =>
-      item.competencies?.some(c => c?.competencyAreaName?.toLowerCase() === 'functional')
-    );
+    return data.filter(item => {
+      if (!item) return false;
+      
+      // Handle different competency property names
+      let competencies = [];
+      if (item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      
+      return competencies.some(c => c && c?.competencyAreaName?.toLowerCase() === 'functional');
+    });
   }
 
   domainFilter(data: any[]): any[] {
-    return data.filter(item =>
-      item.competencies?.some(c => c?.competencyAreaName?.toLowerCase() === 'domain')
-    );
+    return data.filter(item => {
+      if (!item) return false;
+      
+      // Handle different competency property names
+      let competencies = [];
+      if (item.competencies && Array.isArray(item.competencies)) {
+        competencies = item.competencies;
+      } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+        competencies = item.competencies_v6;
+      }
+      
+      return competencies.some(c => c && c?.competencyAreaName?.toLowerCase() === 'domain');
+    });
   }
 
   gapAnalysisStats () {
     console.log('this.planData',this.planData)
-    let masterList:any = this.planData.competencies;
+    
+    // Always use ALL competencies for calculating overall stats
+    const allCompetencies = this.planData.competencies;
+    
+    // Filter for category-specific calculations
+    let categorySpecificCompetencies:any = this.planData.competencies;
     if(this.selectedCategory === 'all') {
-      masterList = this.planData.competencies
+      categorySpecificCompetencies = this.planData.competencies
     } else if(this.selectedCategory === 'behavioral') {
-      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+      categorySpecificCompetencies = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
     } else if(this.selectedCategory === 'functional') {
-      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+      categorySpecificCompetencies = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
     } 
     else if(this.selectedCategory === 'domain') {
-      masterList = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
+      categorySpecificCompetencies = this.planData.competencies.filter(item => item.type?.toLowerCase() === this.selectedCategory);
     } 
 
-    const masterListByCategory = {total: masterList.length, behavioural: 0, functional:0, domain:0}
-    const matchCompetencyByCategory = {total:0,  behavioural: 0, functional:0, domain:0}
+    // Count ALL competencies by category (not just filtered ones)
+    const masterListByCategory = {total: allCompetencies.length, behavioural: 0, functional:0, domain:0}
+    
+    // IMPORTANT: Always use originalData (all courses) for overall coverage calculation
+    // Don't use filterdCourses as it changes based on competency filters
     const allCourseCompetencies = []
-    this.filterdCourses.forEach(course => {
-      course.competencies.forEach((list:any) => {
+    this.originalData.forEach(course => {
+      // Handle different competency property names
+      let competencies = [];
+      if (course && course.competencies && Array.isArray(course.competencies)) {
+        competencies = course.competencies;
+      } else if (course && course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+        competencies = course.competencies_v6;
+      }
+      
+      competencies.forEach((list:any) => {
          allCourseCompetencies.push(list)
       });
     });
-    console.log('masterList', (masterList))
-    console.log('allCourseCompetencies', (allCourseCompetencies))
-    console.log('masterList', JSON.stringify(masterList))
-    console.log('allCourseCompetencies', JSON.stringify(allCourseCompetencies))
-    console.log('masterListByCategory before counting:', masterListByCategory)
     
-    for(let i=0; i<masterList.length;i++) {
-      const competencyType = masterList[i]['type']?.toLowerCase();
-      console.log(`Competency ${i}: type="${competencyType}", data:`, masterList[i]);
+    // Also include suggested courses that might not be in originalData
+    this.filterdCourses.forEach(course => {
+      // Only add if it's not already in originalData (to avoid duplicates)
+      const isInOriginal = this.originalData.some(origCourse => 
+        origCourse.identifier === course.identifier
+      );
+      if (!isInOriginal) {
+        // Handle different competency property names
+        let competencies = [];
+        if (course && course.competencies && Array.isArray(course.competencies)) {
+          competencies = course.competencies;
+        } else if (course && course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+          competencies = course.competencies_v6;
+        }
+        
+        competencies.forEach((list:any) => {
+           allCourseCompetencies.push(list)
+        });
+      }
+    });
+    
+    console.log('allCompetencies', allCompetencies)
+    console.log('categorySpecificCompetencies', categorySpecificCompetencies)
+    console.log('allCourseCompetencies', allCourseCompetencies)
+    
+    // Count all competencies by type for proper totals
+    for(let i=0; i<allCompetencies.length;i++) {
+      const competencyType = allCompetencies[i]['type']?.toLowerCase();
+      console.log(`Competency ${i}: type="${competencyType}", data:`, allCompetencies[i]);
       if(competencyType === 'behavioural' || competencyType === 'behavioral') {
         masterListByCategory['behavioural'] = masterListByCategory['behavioural'] + 1
       }
@@ -525,41 +679,66 @@ export class GenerateCourseRecommendationComponent {
       }
     }
     console.log('masterListByCategory after counting:', masterListByCategory)
-    const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
-    this.competencyCoveredCount = result['total']
-    // Fix: Use masterList.length instead of total competencies when category is selected
-    let totalCompetencies = (this.selectedCategory === 'all') ? this.planData.competencies.length : masterList.length;
-    let mathRound = Math.round((this.competencyCoveredCount/totalCompetencies)*100)
+    
+    // Get matching results for ALL competencies (for overall coverage)
+    const overallResult = this.getMatchedCompetencyStats(allCompetencies, allCourseCompetencies);
+    
+    // Get matching results for category-specific competencies (for filtered view)
+    const categoryResult = this.getMatchedCompetencyStats(categorySpecificCompetencies, allCourseCompetencies);
+    
+    // Set competencyCoveredCount based on selected category (for the filtered numbers)
+    if(this.selectedCategory === 'all') {
+      this.competencyCoveredCount = overallResult['total'];
+    } else if(this.selectedCategory === 'behavioral') {
+      this.competencyCoveredCount = categoryResult['behavioral'] || 0;
+    } else if(this.selectedCategory === 'functional') {
+      this.competencyCoveredCount = categoryResult['functional'] || 0;
+    } else if(this.selectedCategory === 'domain') {
+      this.competencyCoveredCount = categoryResult['domain'] || 0;
+    }
+    
+    // IMPORTANT: Overall Coverage should ALWAYS be based on ALL competencies, not filtered
+    let totalCompetencies = this.planData.competencies.length; // Always use total count
+    let overallCoveredCount = overallResult['total']; // Always use overall results
+    let mathRound = Math.round((overallCoveredCount/totalCompetencies)*100)
     this.overallCoverage = `${mathRound}%`
     
-    // Calculate category-specific metrics
-    if(this.selectedCategory === 'behavioral') {
-      this.behavioralCompetencyCoveredCount = result['behavioral'] || 0;
-      this.behavioralTotalCompetencies = masterListByCategory['behavioural'];
-      let behavioralMathRound = this.behavioralTotalCompetencies > 0 ? Math.round((this.behavioralCompetencyCoveredCount/this.behavioralTotalCompetencies)*100) : 0;
-      this.behavioralCoverage = `${behavioralMathRound}%`;
-      console.log('Behavioral metrics:', {
-        covered: this.behavioralCompetencyCoveredCount,
-        total: this.behavioralTotalCompetencies,
-        coverage: this.behavioralCoverage,
-        resultBehavioral: result['behavioral']
-      });
-    }
+    console.log('Overall Coverage Calculation:', {
+      totalCompetencies: totalCompetencies,
+      overallCoveredCount: overallCoveredCount,
+      overallCoverage: this.overallCoverage,
+      selectedCategory: this.selectedCategory,
+      competencyCoveredCount: this.competencyCoveredCount
+    });
     
-    if(this.selectedCategory === 'functional') {
-      this.functionalCompetencyCoveredCount = result['functional'] || 0;
-      this.functionalTotalCompetencies = masterListByCategory['functional'];
-      let functionalMathRound = this.functionalTotalCompetencies > 0 ? Math.round((this.functionalCompetencyCoveredCount/this.functionalTotalCompetencies)*100) : 0;
-      this.functionalCoverage = `${functionalMathRound}%`;
-    }
+    // Always calculate all category-specific metrics regardless of selected category
+    // This ensures the data is available when switching between categories
+    // Use overallResult for consistent calculations across all categories
+    this.behavioralCompetencyCoveredCount = overallResult['behavioral'] || 0;
+    this.behavioralTotalCompetencies = masterListByCategory['behavioural'];
+    let behavioralMathRound = this.behavioralTotalCompetencies > 0 ? Math.round((this.behavioralCompetencyCoveredCount/this.behavioralTotalCompetencies)*100) : 0;
+    this.behavioralCoverage = `${behavioralMathRound}%`;
     
-    if(this.selectedCategory === 'domain') {
-      this.domainCompetencyCoveredCount = result['domain'] || 0;
-      this.domainTotalCompetencies = masterListByCategory['domain'];
-      let domainMathRound = this.domainTotalCompetencies > 0 ? Math.round((this.domainCompetencyCoveredCount/this.domainTotalCompetencies)*100) : 0;
-      this.domainCoverage = `${domainMathRound}%`;
-    }
-    console.log(result);
+    this.functionalCompetencyCoveredCount = overallResult['functional'] || 0;
+    this.functionalTotalCompetencies = masterListByCategory['functional'];
+    let functionalMathRound = this.functionalTotalCompetencies > 0 ? Math.round((this.functionalCompetencyCoveredCount/this.functionalTotalCompetencies)*100) : 0;
+    this.functionalCoverage = `${functionalMathRound}%`;
+    
+    this.domainCompetencyCoveredCount = overallResult['domain'] || 0;
+    this.domainTotalCompetencies = masterListByCategory['domain'];
+    let domainMathRound = this.domainTotalCompetencies > 0 ? Math.round((this.domainCompetencyCoveredCount/this.domainTotalCompetencies)*100) : 0;
+    this.domainCoverage = `${domainMathRound}%`;
+    
+    console.log('All category metrics calculated:', {
+      behavioral: { covered: this.behavioralCompetencyCoveredCount, total: this.behavioralTotalCompetencies, coverage: this.behavioralCoverage },
+      functional: { covered: this.functionalCompetencyCoveredCount, total: this.functionalTotalCompetencies, coverage: this.functionalCoverage },
+      domain: { covered: this.domainCompetencyCoveredCount, total: this.domainTotalCompetencies, coverage: this.domainCoverage },
+      overall: { covered: overallCoveredCount, total: totalCompetencies, coverage: this.overallCoverage },
+      selectedCategory: this.selectedCategory,
+      competencyCoveredCountForCategory: this.competencyCoveredCount
+    });
+    console.log('Overall Result:', overallResult);
+    console.log('Category Result:', categoryResult);
     console.log('this.competencyNotMatchedByCategory',this.competencyNotMatchedByCategory)
     this.behaviouralNotMatched = this.getCompetencyByCategoryNotMatching('behavioral')
     this.functionalNotMatched = this.getCompetencyByCategoryNotMatching('functional')
@@ -601,16 +780,42 @@ export class GenerateCourseRecommendationComponent {
         // Create unique match key for primary competency
         const matchKey = `${typeKey}|${themeKey}|${subThemeKey}`;
     
-        // Enhanced matching: type must match AND any cross-matching between theme/subtheme
-        // This allows: theme vs theme, subtheme vs subtheme, theme vs subtheme, subtheme vs theme
-        if (
-          typeKey === secType &&
-          (themeKey === secTheme || 
-           subThemeKey === secSubTheme || 
-           themeKey === secSubTheme || 
-           subThemeKey === secTheme) &&
-          !seen.has(matchKey)
-        ) {
+        // Enhanced cross-matching logic as requested:
+        // 1. Role mapping Theme vs Course Theme
+        // 2. Role mapping Sub Theme vs Course Sub Theme  
+        // 3. Role mapping Theme vs Course Sub Theme
+        // 4. Role mapping Sub Theme vs Course Theme
+        const themeToThemeMatch = themeKey === secTheme;
+        const subThemeToSubThemeMatch = subThemeKey === secSubTheme;
+        const themeToSubThemeMatch = themeKey === secSubTheme;
+        const subThemeToThemeMatch = subThemeKey === secTheme;
+        
+        let matchType = '';
+        let isMatch = false;
+        
+        if (typeKey === secType && !seen.has(matchKey)) {
+          if (themeToThemeMatch) {
+            matchType = 'Theme-to-Theme';
+            isMatch = true;
+          } else if (subThemeToSubThemeMatch) {
+            matchType = 'SubTheme-to-SubTheme';
+            isMatch = true;
+          } else if (themeToSubThemeMatch) {
+            matchType = 'Theme-to-SubTheme';
+            isMatch = true;
+          } else if (subThemeToThemeMatch) {
+            matchType = 'SubTheme-to-Theme';
+            isMatch = true;
+          }
+        }
+
+        if (isMatch) {
+          console.log(`✅ MATCH FOUND [${matchType}]:`, {
+            roleMapping: { type: typeKey, theme: themeKey, subTheme: subThemeKey },
+            course: { type: secType, theme: secTheme, subTheme: secSubTheme },
+            matchType: matchType
+          });
+          
           // Store matched competency info for later use
           let obj = {};
           obj[typeKey] = [themeKey]; // Store the original theme, not the course theme
@@ -656,36 +861,75 @@ export class GenerateCourseRecommendationComponent {
     }
     
     // Enhanced matching: check both theme and subtheme from courses against FRAC competencies
+    // IMPORTANT: Use originalData + any additional courses for consistent overall coverage
+    const allCoursesForMatching = [...this.originalData];
+    
+    // Add any additional courses from filterdCourses that aren't in originalData
     this.filterdCourses.forEach(course => {
-      if(course.competencies) {
-        course.competencies.forEach((comp: any) => {
-          let secType = comp?.competencyAreaName?.toLowerCase().trim();
-          if(secType === 'behavioural') secType = 'behavioral';
+      const isInOriginal = this.originalData.some(origCourse => 
+        origCourse.identifier === course.identifier
+      );
+      if (!isInOriginal) {
+        allCoursesForMatching.push(course);
+      }
+    });
+    
+    allCoursesForMatching.forEach(course => {
+      // Handle different competency property names
+      let competencies = [];
+      if (course && course.competencies && Array.isArray(course.competencies)) {
+        competencies = course.competencies;
+      } else if (course && course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+        competencies = course.competencies_v6;
+      }
+      
+      competencies.forEach((comp: any) => {
+        let secType = comp?.competencyAreaName?.toLowerCase().trim();
+        if(secType === 'behavioural') secType = 'behavioral';
+        
+        if(secType === categoryType?.toLowerCase()) {
+          const courseTheme = comp.competencyThemeName?.toLowerCase().trim();
+          const courseSubTheme = comp.competencySubThemeName?.toLowerCase().trim();
           
-          if(secType === categoryType?.toLowerCase()) {
-            const courseTheme = comp.competencyThemeName?.toLowerCase().trim();
-            const courseSubTheme = comp.competencySubThemeName?.toLowerCase().trim();
-            
-            // Check if any FRAC competency matches this course competency
-            for(let i = 0; i < this.planData.competencies.length; i++) {
-              const fracComp = this.planData.competencies[i];
-              if(fracComp['type']?.toLowerCase() === categoryType?.toLowerCase()) {
-                const fracTheme = fracComp['theme']?.toLowerCase().trim();
-                const fracSubTheme = fracComp['sub_theme']?.toLowerCase().trim();
+          // Check if any FRAC competency matches this course competency
+          for(let i = 0; i < this.planData.competencies.length; i++) {
+            const fracComp = this.planData.competencies[i];
+            if(fracComp['type']?.toLowerCase() === categoryType?.toLowerCase()) {
+              const fracTheme = fracComp['theme']?.toLowerCase().trim();
+              const fracSubTheme = fracComp['sub_theme']?.toLowerCase().trim();
+              
+              // Enhanced cross-matching logic (same as in getMatchedCompetencyStats):
+              // 1. Course Theme vs FRAC Theme
+              // 2. Course Sub Theme vs FRAC Sub Theme  
+              // 3. Course Theme vs FRAC Sub Theme
+              // 4. Course Sub Theme vs FRAC Theme
+              const courseThemeToFracTheme = courseTheme === fracTheme;
+              const courseSubThemeToFracSubTheme = courseSubTheme === fracSubTheme;
+              const courseThemeToFracSubTheme = courseTheme === fracSubTheme;
+              const courseSubThemeToFracTheme = courseSubTheme === fracTheme;
+              
+              if(courseThemeToFracTheme || courseSubThemeToFracSubTheme || 
+                 courseThemeToFracSubTheme || courseSubThemeToFracTheme) {
                 
-                // Enhanced matching: allow cross-matching between theme and subtheme
-                if(courseTheme === fracTheme || 
-                   courseSubTheme === fracSubTheme || 
-                   courseTheme === fracSubTheme || 
-                   courseSubTheme === fracTheme) {
-                  matchedCompetencies.push(fracTheme);
-                  break; // Found a match, move to next course competency
-                }
+                let matchType = '';
+                if (courseThemeToFracTheme) matchType = 'CourseTheme-to-FRACTheme';
+                else if (courseSubThemeToFracSubTheme) matchType = 'CourseSubTheme-to-FRACSubTheme';
+                else if (courseThemeToFracSubTheme) matchType = 'CourseTheme-to-FRACSubTheme';
+                else if (courseSubThemeToFracTheme) matchType = 'CourseSubTheme-to-FRACTheme';
+                
+                console.log(`✅ COMPETENCY MATCH FOUND [${matchType}] for ${categoryType}:`, {
+                  course: { theme: courseTheme, subTheme: courseSubTheme },
+                  frac: { theme: fracTheme, subTheme: fracSubTheme },
+                  matchType: matchType
+                });
+                
+                matchedCompetencies.push(fracTheme);
+                break; // Found a match, move to next course competency
               }
             }
           }
-        });
-      }
+        }
+      });
     });
     
     // Remove duplicates from matched competencies
@@ -733,20 +977,79 @@ export class GenerateCourseRecommendationComponent {
 
   filterOnCompetencyTheme(themeName) {
     if(this.innerTabActiveIndex === 1) {
-      this.filterdCourses = this.originalData.filter(item =>
-        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural') && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
-      );
+      this.filterdCourses = this.originalData.filter(item => {
+        if (!item) return false;
+        
+        // Handle different competency property names
+        let competencies = [];
+        if (item.competencies && Array.isArray(item.competencies)) {
+          competencies = item.competencies;
+        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+          competencies = item.competencies_v6;
+        }
+        
+        return competencies.some(c => c && 
+          ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural') && 
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+      });
     }
     if(this.innerTabActiveIndex === 2) {
-      this.filterdCourses = this.originalData.filter(item =>
-        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'functional') ) && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
-      );
+      this.filterdCourses = this.originalData.filter(item => {
+        if (!item) return false;
+        
+        // Handle different competency property names
+        let competencies = [];
+        if (item.competencies && Array.isArray(item.competencies)) {
+          competencies = item.competencies;
+        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+          competencies = item.competencies_v6;
+        }
+        
+        return competencies.some(c => c && 
+          (c?.competencyAreaName?.toLowerCase() === 'functional') && 
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+      });
     }
     if(this.innerTabActiveIndex === 3) {
-      this.filterdCourses = this.originalData.filter(item =>
-        item.competencies?.some(c => ((c?.competencyAreaName?.toLowerCase() === 'domain') ) && (c?.competencyThemeName.toLowerCase() === themeName?.toLowerCase()))
-      );
+      this.filterdCourses = this.originalData.filter(item => {
+        if (!item) return false;
+        
+        // Handle different competency property names
+        let competencies = [];
+        if (item.competencies && Array.isArray(item.competencies)) {
+          competencies = item.competencies;
+        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
+          competencies = item.competencies_v6;
+        }
+        
+        return competencies.some(c => c && 
+          (c?.competencyAreaName?.toLowerCase() === 'domain') && 
+          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase()));
+      });
     }
+  }
+
+  /**
+   * Initialize gap analysis stats after initial data load
+   */
+  initializeGapAnalysisStats() {
+    // Set a small timeout to ensure all async operations complete
+    setTimeout(() => {
+      if (this.filterdCourses && this.filterdCourses.length > 0) {
+        this.gapAnalysisStats();
+      }
+    }, 100);
+  }
+
+  /**
+   * Update gap analysis stats after courses are updated (like suggested courses added)
+   */
+  updateGapAnalysisAfterCoursesUpdate() {
+    // Update the original data to include all courses
+    this.originalData = [...this.filterdCourses];
+    
+    // Recalculate gap analysis stats
+    this.gapAnalysisStats();
   }
 
   
