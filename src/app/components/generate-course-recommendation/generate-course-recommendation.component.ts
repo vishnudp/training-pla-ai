@@ -35,6 +35,15 @@ export class GenerateCourseRecommendationComponent {
   selectedCategory = 'all';
   competencyCoveredCount = 0
   overallCoverage:any = 0
+  behavioralCompetencyCoveredCount = 0
+  behavioralTotalCompetencies = 0
+  behavioralCoverage: any = 0
+  functionalCompetencyCoveredCount = 0
+  functionalTotalCompetencies = 0
+  functionalCoverage: any = 0
+  domainCompetencyCoveredCount = 0
+  domainTotalCompetencies = 0
+  domainCoverage: any = 0
   competencyNotMatchedByCategory = []
   competencyMatchedByCategory = []
   menuItems = [
@@ -500,25 +509,56 @@ export class GenerateCourseRecommendationComponent {
     console.log('allCourseCompetencies', (allCourseCompetencies))
     console.log('masterList', JSON.stringify(masterList))
     console.log('allCourseCompetencies', JSON.stringify(allCourseCompetencies))
+    console.log('masterListByCategory before counting:', masterListByCategory)
     
     for(let i=0; i<masterList.length;i++) {
-      if(masterList[i]['type'].toLowerCase() === 'behavioural' || masterList[i]['type'].toLowerCase() === 'Behavioral') {
+      const competencyType = masterList[i]['type']?.toLowerCase();
+      console.log(`Competency ${i}: type="${competencyType}", data:`, masterList[i]);
+      if(competencyType === 'behavioural' || competencyType === 'behavioral') {
         masterListByCategory['behavioural'] = masterListByCategory['behavioural'] + 1
       }
-      if(masterList[i]['type'].toLowerCase() === 'functional') {
+      if(competencyType === 'functional') {
         masterListByCategory['functional'] = masterListByCategory['functional'] + 1
       }
-      if(masterList[i]['type'].toLowerCase() === 'domain') {
+      if(competencyType === 'domain') {
         masterListByCategory['domain'] = masterListByCategory['domain'] + 1
       }
-      
     }
+    console.log('masterListByCategory after counting:', masterListByCategory)
     const result = this.getMatchedCompetencyStats(masterList, allCourseCompetencies);
     this.competencyCoveredCount = result['total']
     // Fix: Use masterList.length instead of total competencies when category is selected
     let totalCompetencies = (this.selectedCategory === 'all') ? this.planData.competencies.length : masterList.length;
     let mathRound = Math.round((this.competencyCoveredCount/totalCompetencies)*100)
     this.overallCoverage = `${mathRound}%`
+    
+    // Calculate category-specific metrics
+    if(this.selectedCategory === 'behavioral') {
+      this.behavioralCompetencyCoveredCount = result['behavioral'] || 0;
+      this.behavioralTotalCompetencies = masterListByCategory['behavioural'];
+      let behavioralMathRound = this.behavioralTotalCompetencies > 0 ? Math.round((this.behavioralCompetencyCoveredCount/this.behavioralTotalCompetencies)*100) : 0;
+      this.behavioralCoverage = `${behavioralMathRound}%`;
+      console.log('Behavioral metrics:', {
+        covered: this.behavioralCompetencyCoveredCount,
+        total: this.behavioralTotalCompetencies,
+        coverage: this.behavioralCoverage,
+        resultBehavioral: result['behavioral']
+      });
+    }
+    
+    if(this.selectedCategory === 'functional') {
+      this.functionalCompetencyCoveredCount = result['functional'] || 0;
+      this.functionalTotalCompetencies = masterListByCategory['functional'];
+      let functionalMathRound = this.functionalTotalCompetencies > 0 ? Math.round((this.functionalCompetencyCoveredCount/this.functionalTotalCompetencies)*100) : 0;
+      this.functionalCoverage = `${functionalMathRound}%`;
+    }
+    
+    if(this.selectedCategory === 'domain') {
+      this.domainCompetencyCoveredCount = result['domain'] || 0;
+      this.domainTotalCompetencies = masterListByCategory['domain'];
+      let domainMathRound = this.domainTotalCompetencies > 0 ? Math.round((this.domainCompetencyCoveredCount/this.domainTotalCompetencies)*100) : 0;
+      this.domainCoverage = `${domainMathRound}%`;
+    }
     console.log(result);
     console.log('this.competencyNotMatchedByCategory',this.competencyNotMatchedByCategory)
     this.behaviouralNotMatched = this.getCompetencyByCategoryNotMatching('behavioral')

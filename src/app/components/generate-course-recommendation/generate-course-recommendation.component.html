@@ -306,75 +306,75 @@
                                         </div>
 
                                     </div>
-                                    <div class="course-title mt-3">
-                                        <span *ngIf="item?.course">{{item?.course}}</span>
-                                        <span *ngIf="item?.name">{{item?.name}}</span>
-                                    </div>
-                                    <div class="course-desc mt-2">
-                                        <span *ngIf="item?.rationale">{{item?.rationale}}</span>
-                                        <span *ngIf="item?.description">{{item?.description}}</span>
-                                    </div>
-                                    <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">
-                                        <div class="competency-sub-heading">Behavioral Competencies</div>
-                                        <ul class="competency-list mt-1">
-                                            <li class="behavioural-pill"
-                                                *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
-                                            </li>
-                                            <li *ngIf="hasMoreThanTwo('Behavioural',i)" class="show-more-competency">
-                                                <span class="show-more-link cursor-pointer"
-                                                    (click)="toggleCompetencies('Behavioural',i)">
-                                                    {{ isExpanded('Behavioural',i) ? 'Show Less' : '+' +
-                                                    getRemainingCount('Behavioural',i) + ' More' }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="mt-2" *ngIf="getCompetenciesByType('Functional',i)?.length">
-                                        <div class="competency-sub-heading">Functional Competencies</div>
-                                        <ul class="competency-list mt-1">
-                                            <li class="functional-pill"
-                                                *ngFor="let comp of getDisplayedCompetencies('Functional',i)">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
-                                            </li>
-                                            <li *ngIf="hasMoreThanTwo('Functional',i)" class="show-more-competency">
-                                                <span class="show-more-link cursor-pointer"
-                                                    (click)="toggleCompetencies('Functional',i)">
-                                                    {{ isExpanded('Functional',i) ? 'Show Less' : '+' +
-                                                    getRemainingCount('Functional',i) + ' More' }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="mt-2" *ngIf="getCompetenciesByType('Domain',i)?.length">
-                                        <div class="competency-sub-heading">Domain Competencies</div>
-                                        <ul class="competency-list mt-1">
-                                            <li class="domain-pill"
-                                                *ngFor="let comp of getDisplayedCompetencies('Domain',i)">
-                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>
-                                            </li>
-                                            <li *ngIf="hasMoreThanTwo('Domain',i)" class="show-more-competency">
-                                                <span class="show-more-link cursor-pointer"
-                                                    (click)="toggleCompetencies('Domain',i)">
-                                                    {{ isExpanded('Domain',i) ? 'Show Less' : '+' +
-                                                    getRemainingCount('Domain',i) + ' More' }}
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
+<!--                                    <div class="course-title mt-3">-->
+<!--                                        <span *ngIf="item?.course">{{item?.course}}</span>-->
+<!--                                        <span *ngIf="item?.name">{{item?.name}}</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="course-desc mt-2">-->
+<!--                                        <span *ngIf="item?.rationale">{{item?.rationale}}</span>-->
+<!--                                        <span *ngIf="item?.description">{{item?.description}}</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">-->
+<!--                                        <div class="competency-sub-heading">Behavioral Competencies</div>-->
+<!--                                        <ul class="competency-list mt-1">-->
+<!--                                            <li class="behavioural-pill"-->
+<!--                                                *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">-->
+<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
+<!--                                            </li>-->
+<!--                                            <li *ngIf="hasMoreThanTwo('Behavioural',i)" class="show-more-competency">-->
+<!--                                                <span class="show-more-link cursor-pointer"-->
+<!--                                                    (click)="toggleCompetencies('Behavioural',i)">-->
+<!--                                                    {{ isExpanded('Behavioural',i) ? 'Show Less' : '+' +-->
+<!--                                                    getRemainingCount('Behavioural',i) + ' More' }}-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="mt-2" *ngIf="getCompetenciesByType('Functional',i)?.length">-->
+<!--                                        <div class="competency-sub-heading">Functional Competencies</div>-->
+<!--                                        <ul class="competency-list mt-1">-->
+<!--                                            <li class="functional-pill"-->
+<!--                                                *ngFor="let comp of getDisplayedCompetencies('Functional',i)">-->
+<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
+<!--                                            </li>-->
+<!--                                            <li *ngIf="hasMoreThanTwo('Functional',i)" class="show-more-competency">-->
+<!--                                                <span class="show-more-link cursor-pointer"-->
+<!--                                                    (click)="toggleCompetencies('Functional',i)">-->
+<!--                                                    {{ isExpanded('Functional',i) ? 'Show Less' : '+' +-->
+<!--                                                    getRemainingCount('Functional',i) + ' More' }}-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="mt-2" *ngIf="getCompetenciesByType('Domain',i)?.length">-->
+<!--                                        <div class="competency-sub-heading">Domain Competencies</div>-->
+<!--                                        <ul class="competency-list mt-1">-->
+<!--                                            <li class="domain-pill"-->
+<!--                                                *ngFor="let comp of getDisplayedCompetencies('Domain',i)">-->
+<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
+<!--                                            </li>-->
+<!--                                            <li *ngIf="hasMoreThanTwo('Domain',i)" class="show-more-competency">-->
+<!--                                                <span class="show-more-link cursor-pointer"-->
+<!--                                                    (click)="toggleCompetencies('Domain',i)">-->
+<!--                                                    {{ isExpanded('Domain',i) ? 'Show Less' : '+' +-->
+<!--                                                    getRemainingCount('Domain',i) + ' More' }}-->
+<!--                                                </span>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
 
 
-                                </div>
+<!--                                </div>-->
 
-                                <!-- Relevancy section always at bottom -->
-                                <div class="course-footer" *ngIf="item?.relevancy">
-                                    <div class="relevancy-pill-green">
-                                        <div class="relevancy-container">
-                                            <div class="relevancy">Relevancy</div>
-                                            <div class="dash">-</div>
-                                            <div class="percentage">{{item?.relevancy}}%</div>
-                                        </div>
-                                    </div>
+<!--                                &lt;!&ndash; Relevancy section always at bottom &ndash;&gt;-->
+<!--                                <div class="course-footer" *ngIf="item?.relevancy">-->
+<!--                                    <div class="relevancy-pill-green">-->
+<!--                                        <div class="relevancy-container">-->
+<!--                                            <div class="relevancy">Relevancy</div>-->
+<!--                                            <div class="dash">-</div>-->
+<!--                                            <div class="percentage">{{item?.relevancy}}%</div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
 
@@ -454,13 +454,25 @@
                                 </div>
                                 <div class="p-3 gray-bg">
                                     <div class="div-label sub-heading">
-                                        <p>Total Competencies</p>
+                                        <p *ngIf="selectedCategory === 'all'">Total Competencies</p>
+                                        <p *ngIf="selectedCategory === 'behavioral'">Total Behavioral Competencies</p>
+                                        <p *ngIf="selectedCategory === 'functional'">Total Functional Competencies</p>
+                                        <p *ngIf="selectedCategory === 'domain'">Total Domain Competencies</p>
                                     </div>
-                                    <div class="div-count">{{this.planData?.competencies?.length}}</div>
+                                    <div class="div-count" *ngIf="selectedCategory === 'all'">{{this.planData?.competencies?.length}}</div>
+                                    <div class="div-count" *ngIf="selectedCategory === 'behavioral'">{{behavioralTotalCompetencies}}</div>
+                                    <div class="div-count" *ngIf="selectedCategory === 'functional'">{{functionalTotalCompetencies}}</div>
+                                    <div class="div-count" *ngIf="selectedCategory === 'domain'">{{domainTotalCompetencies}}</div>
                                 </div>
                                 <div class="p-3 green-bg">
-                                    <div class="div-green-label">Overall Coverage</div>
-                                    <div class="div-green-count">{{overallCoverage}}</div>
+                                    <div class="div-green-label" *ngIf="selectedCategory === 'all'">Overall Coverage</div>
+                                    <div class="div-green-label" *ngIf="selectedCategory === 'behavioral'">Behavioral Coverage</div>
+                                    <div class="div-green-label" *ngIf="selectedCategory === 'functional'">Functional Coverage</div>
+                                    <div class="div-green-label" *ngIf="selectedCategory === 'domain'">Domain Coverage</div>
+                                    <div class="div-green-count" *ngIf="selectedCategory === 'all'">{{overallCoverage}}</div>
+                                    <div class="div-green-count" *ngIf="selectedCategory === 'behavioral'">{{behavioralCoverage}}</div>
+                                    <div class="div-green-count" *ngIf="selectedCategory === 'functional'">{{functionalCoverage}}</div>
+                                    <div class="div-green-count" *ngIf="selectedCategory === 'domain'">{{domainCoverage}}</div>
                                 </div>
                             </div>
                             <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
@@ -511,7 +523,7 @@
 
                                 <div *ngSwitchCase="'behavioral'">
                                     <h4>Behavioral</h4>
-                                    <div class="mt-4">
+                                    <div class="mt-4" *ngIf="behavioralCoverage !== '100%'">
                                         <!-- <div class="sub-heading">
                                             <p>Behavioral</p>
                                         </div> -->
@@ -523,11 +535,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="mt-4" *ngIf="behavioralCoverage === '100%'">
+                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                🎉 Excellent! All behavioral competencies are covered by the selected courses.
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div *ngSwitchCase="'functional'">
                                     <h4>Functional</h4>
-                                    <div class="mt-4">
+                                    <div class="mt-4" *ngIf="functionalCoverage !== '100%'">
                                         <!-- <div class="sub-heading">
                                             <p>Functional</p>
                                         </div> -->
@@ -539,11 +558,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="mt-4" *ngIf="functionalCoverage === '100%'">
+                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                🎉 Excellent! All functional competencies are covered by the selected courses.
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div *ngSwitchCase="'domain'">
                                     <h4>Domain</h4>
-                                    <div class="mt-4">
+                                    <div class="mt-4" *ngIf="domainCoverage !== '100%'">
                                         <!-- <div class="sub-heading">
                                             <p>Domain</p>
                                         </div> -->
@@ -552,6 +578,13 @@
                                                 <div><span>{{item}}</span></div>
                                                 <div class="cursor-pointer" (click)="addCourse()"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4" *ngIf="domainCoverage === '100%'">
+                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                🎉 Excellent! All domain competencies are covered by the selected courses.
                                             </div>
                                         </div>
                                     </div>

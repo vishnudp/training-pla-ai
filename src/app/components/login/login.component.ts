@@ -40,17 +40,27 @@ export class LoginComponent {
       password: password
     }
 
-    this.sharedService.performLogin(req).subscribe((_res)=>{
-      this.loading = false
-      if(_res && _res.access_token) {
-        localStorage.setItem('loginData', JSON.stringify(_res))
-        localStorage.setItem('userEmail',username)
-        this.success.emit(true)
-        this.snackBar.open('Login Successful!', 'X', {
-          duration: 3000,
-          panelClass: ['snackbar-success']
-        });
-      } else {
+    this.sharedService.performLogin(req).subscribe({
+      next: (_res) => {
+        this.loading = false
+        if(_res && _res.access_token) {
+          localStorage.setItem('loginData', JSON.stringify(_res))
+          localStorage.setItem('userEmail',username)
+          this.success.emit(true)
+          this.snackBar.open('Login Successful!', 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        } else {
+          this.snackBar.open('Invalid username or password', 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+        }
+      },
+      error: (error) => {
+        this.loading = false
+        console.error('Login error:', error);
         this.snackBar.open('Invalid username or password', 'X', {
           duration: 3000,
           panelClass: ['snackbar-error']
