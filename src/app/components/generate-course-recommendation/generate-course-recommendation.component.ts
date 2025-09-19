@@ -71,6 +71,7 @@ export class GenerateCourseRecommendationComponent {
       console.log('this.filterdCourses', this.filterdCourses)
       this.getCourses()
       this.getSuggestedCourse()
+      this.getUserCourse()
     })
   }
 
@@ -211,6 +212,39 @@ export class GenerateCourseRecommendationComponent {
     let role_mapping_id = this.planData.id
     this.loading = true
     this.sharedService.getSuggestedCourses(role_mapping_id).subscribe({
+      next: (res) => {
+        // Success handling
+        this.loading = false
+        console.log('res', res)
+        this.cbp_plan_id = res?.id
+        this.loading = false
+        console.log('res', res)
+        console.log('this.filterdCourses', this.filterdCourses)
+        for (let i = 0; i < res.length; i++) {
+          this.filterdCourses.push(res[i])
+        }
+        //this.successRoleMapping.emit(this.roleMappingForm)
+      },
+      error: (error) => {
+        console.log('error', error)
+        this.loading = false
+        // Handle 409 Conflict here
+        // alert('Conflict detected: The resource already exists or action conflicts.');
+        //this.get
+        // Or you can set a UI error message variable
+
+        this.loading = false
+        //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+      }
+
+
+    })
+  }
+
+  getUserCourse() {
+    let role_mapping_id = this.planData.id
+    this.loading = true
+    this.sharedService.getUserCourse(role_mapping_id).subscribe({
       next: (res) => {
         // Success handling
         this.loading = false
