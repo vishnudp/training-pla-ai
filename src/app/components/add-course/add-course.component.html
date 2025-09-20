@@ -98,12 +98,19 @@
                         <mat-form-field appearance="outline" class="competency-dropdown">
                             <mat-select formControlName="competencyType"
                                     placeholder="Select Competency Type"
+                                    [disabled]="isCompetencyPrefilled"
                                     (selectionChange)="onCompetencyTypeChange($event.value)">
                                 <mat-option value="Behavioral">Behavioral</mat-option>
                                 <mat-option value="Functional">Functional</mat-option>
                                 <mat-option value="Domain">Domain</mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <div *ngIf="isCompetencyPrefilled" class="prefill-info">
+                            <small class="text-muted">
+                                <mat-icon class="info-icon">info</mat-icon>
+                                Core competency type is pre-selected based on gap analysis
+                            </small>
+                        </div>
                     </div>
                 </div>
 
@@ -117,6 +124,7 @@
                         <mat-form-field appearance="outline" class="competency-dropdown">
                             <mat-select formControlName="competencyTheme"
                                     placeholder="Search and select theme"
+                                    [disabled]="isCompetencyPrefilled"
                                     (selectionChange)="onThemeChange($event.value)">
                                 <!-- Search input inside dropdown -->
                                 <mat-option class="search-option" disabled>
@@ -141,6 +149,12 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <div *ngIf="isCompetencyPrefilled" class="prefill-info">
+                            <small class="text-muted">
+                                <mat-icon class="info-icon">info</mat-icon>
+                                Theme is pre-selected based on gap analysis
+                            </small>
+                        </div>
                     </div>
 
                     <!-- For Domain: Manual input -->
@@ -148,7 +162,14 @@
                         <input type="text"
                                formControlName="manualThemeInput"
                                placeholder="Enter Theme manually"
+                               [disabled]="isCompetencyPrefilled"
                                class="manual-input" />
+                        <div *ngIf="isCompetencyPrefilled" class="prefill-info">
+                            <small class="text-muted">
+                                <mat-icon class="info-icon">info</mat-icon>
+                                Theme is pre-selected based on gap analysis
+                            </small>
+                        </div>
                     </div>
                 </div>
 
@@ -162,6 +183,7 @@
                         <mat-form-field appearance="outline" class="competency-dropdown">
                             <mat-select formControlName="competencySubTheme"
                                     placeholder="Search and select sub-theme"
+                                    [disabled]="isCompetencyPrefilled"
                                     (selectionChange)="onSubThemeChange($event.value)">
                                 <!-- Search input inside dropdown -->
                                 <mat-option class="search-option" disabled>
@@ -186,6 +208,12 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <div *ngIf="isCompetencyPrefilled" class="prefill-info">
+                            <small class="text-muted">
+                                <mat-icon class="info-icon">info</mat-icon>
+                                Sub-theme is pre-selected based on gap analysis
+                            </small>
+                        </div>
                     </div>
 
                     <!-- For Domain: Manual input -->
@@ -193,7 +221,14 @@
                         <input type="text"
                                formControlName="manualSubThemeInput"
                                placeholder="Enter Sub-theme manually"
+                               [disabled]="isCompetencyPrefilled"
                                class="manual-input" />
+                        <div *ngIf="isCompetencyPrefilled" class="prefill-info">
+                            <small class="text-muted">
+                                <mat-icon class="info-icon">info</mat-icon>
+                                Sub-theme is pre-selected based on gap analysis
+                            </small>
+                        </div>
                     </div>
                 </div>
 

@@ -29,6 +29,12 @@ export class AddCourseComponent implements OnInit {
   themeSearchText = '';
   subThemeSearchText = '';
   competenciesCount = {total:0, behavioral:0, functional:0, domain:0};
+  
+  // Prefill properties
+  isCompetencyPrefilled = false;
+  prefilledCompetencyType = '';
+  prefilledTheme = '';
+  prefilledSubTheme = '';
   constructor(public dialogRef: MatDialogRef<AddCourseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public sharedService: SharedService,
@@ -43,6 +49,62 @@ export class AddCourseComponent implements OnInit {
   ngOnInit() {
     this.loadCompetenciesData();
     this.updateCompetencyCounts();
+    this.checkForPrefilledData();
+  }
+  
+  checkForPrefilledData() {
+    console.log('=== CheckForPrefilledData ===');
+    console.log('Full data object:', this.data);
+    
+    if (this.data && this.data.prefillCompetency) {
+      console.log('✅ Prefill competency data found:', this.data.prefillCompetency);
+      
+      this.isCompetencyPrefilled = true;
+      this.prefilledCompetencyType = this.data.prefillCompetency.type;
+      this.prefilledTheme = this.data.prefillCompetency.theme;
+      this.prefilledSubTheme = this.data.prefillCompetency.subTheme || '';
+      
+      console.log('Processed prefill data:', {
+        isCompetencyPrefilled: this.isCompetencyPrefilled,
+        prefilledCompetencyType: this.prefilledCompetencyType,
+        prefilledTheme: this.prefilledTheme,
+        prefilledSubTheme: this.prefilledSubTheme
+      });
+      
+      // Set the competency type and trigger the theme loading
+      this.selectedCompetencyType = this.prefilledCompetencyType;
+      this.courseForm.patchValue({
+        competencyType: this.prefilledCompetencyType
+      });
+      
+      console.log('Form updated with competency type:', this.prefilledCompetencyType);
+      
+      // For Domain competencies, set manual theme and subtheme inputs and auto-add
+      if (this.prefilledCompetencyType === 'Domain') {
+        console.log('Setting Domain manual inputs...');
+        this.courseForm.patchValue({
+          manualThemeInput: this.prefilledTheme,
+          manualSubThemeInput: this.prefilledSubTheme
+        });
+        console.log('Domain form values set:', {
+          manualThemeInput: this.prefilledTheme,
+          manualSubThemeInput: this.prefilledSubTheme
+        });
+        
+        // Auto-add the domain competency
+        setTimeout(() => {
+          console.log('Adding prefilled Domain competency...');
+          this.addPrefilledCompetency();
+        }, 100);
+      } else {
+        console.log('Will handle Behavioral/Functional after competencies data loads...');
+        // For Behavioral/Functional, wait for competencies data to load
+        // The theme and subtheme will be set in loadCompetenciesData after data is available
+      }
+    } else {
+      console.log('❌ No prefill competency data found');
+      console.log('data.prefillCompetency:', this.data?.prefillCompetency);
+    }
   }
   
   loadCompetenciesData() {
@@ -50,11 +112,109 @@ export class AddCourseComponent implements OnInit {
       next: (data) => {
         this.competenciesData = data;
         console.log('Competencies data loaded:', this.competenciesData);
+        
+        // Handle prefilled data after competencies are loaded
+        if (this.isCompetencyPrefilled && this.prefilledCompetencyType !== 'Domain') {
+          this.handlePrefilledBehavioralFunctional();
+        }
       },
       error: (error) => {
         console.error('Error loading competencies data:', error);
       }
     });
+  }
+  
+  handlePrefilledBehavioralFunctional() {
+    console.log('=== HandlePrefilledBehavioralFunctional ===');
+    console.log('Prefilled competency type:', this.prefilledCompetencyType);
+    console.log('Prefilled theme:', this.prefilledTheme);
+    console.log('Prefilled subTheme:', this.prefilledSubTheme);
+    
+    // Load themes for the prefilled competency type
+    this.onCompetencyTypeChange(this.prefilledCompetencyType);
+    
+    // Find and set the theme if it exists in the data
+    setTimeout(() => {
+      console.log('Available themes:', this.availableThemes);
+      
+      const matchingTheme = this.availableThemes.find(theme => 
+        theme.name.toLowerCase() === this.prefilledTheme.toLowerCase()
+      );
+      
+      console.log('Matching theme found:', matchingTheme);
+      
+      if (matchingTheme) {
+        this.selectedTheme = matchingTheme.name;
+        this.courseForm.patchValue({
+          competencyTheme: matchingTheme.name
+        });
+        this.onThemeChange(matchingTheme.name);
+        
+        console.log('Theme set successfully:', matchingTheme.name);
+        
+        // If subTheme is provided, try to set it after themes are loaded
+        if (this.prefilledSubTheme) {
+          setTimeout(() => {
+            console.log('Available subThemes:', this.availableSubThemes);
+            
+            const matchingSubTheme = this.availableSubThemes.find(subTheme => 
+              subTheme.toLowerCase() === this.prefilledSubTheme.toLowerCase()
+            );
+            
+            console.log('Matching subTheme found:', matchingSubTheme);
+            
+            if (matchingSubTheme) {
+              this.selectedSubTheme = matchingSubTheme;
+              this.courseForm.patchValue({
+                competencySubTheme: matchingSubTheme
+              });
+              console.log('SubTheme set successfully:', matchingSubTheme);
+            } else {
+              console.log('⚠️ SubTheme not found in available options');
+            }
+            
+            // Add the prefilled competency with the specified theme and sub-theme
+            setTimeout(() => {
+              console.log('Adding prefilled competency with theme and subtheme...');
+              this.addPrefilledCompetency();
+            }, 100);
+          }, 300);
+        } else {
+          // Automatically add the prefilled competency with just the theme
+          setTimeout(() => {
+            console.log('Adding prefilled competency with theme only...');
+            this.addPrefilledCompetency();
+          }, 200);
+        }
+      } else {
+        console.log('⚠️ Theme not found in available options');
+      }
+    }, 100);
+  }
+  
+  addPrefilledCompetency() {
+    // For prefilled competencies, use the theme name as the sub-theme
+    // This ensures the competency gap is addressed
+    const exists = this.competenciesArray.value.some(c => 
+      c.theme === this.prefilledTheme && c.type === this.prefilledCompetencyType
+    );
+    
+    if (!exists) {
+      const newComp = this.fb.group({
+        type: [this.prefilledCompetencyType],
+        theme: [this.prefilledTheme],
+        sub_theme: [this.prefilledTheme] // Use theme as sub_theme for gap filling
+      });
+      this.competenciesArray.push(newComp);
+      this.updateCompetencyCounts();
+      this.cdRef.detectChanges();
+      
+      console.log('Auto-added prefilled competency:', {
+        type: this.prefilledCompetencyType,
+        theme: this.prefilledTheme,
+        sub_theme: this.prefilledTheme
+      });
+    }
   }
   
   initializeForm() {

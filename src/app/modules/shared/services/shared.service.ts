@@ -352,6 +352,14 @@ export class SharedService {
     }))
   }
 
+  deleteCourseRecommendations(roleMapId: string) {
+    const headers = this.headers
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.GET_RECOMMENDED_COURSE}/course-recommendations/role-mapping/${roleMapId}`, {headers})
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
   saveCourse(reqBody){
     const headers = this.headers
     return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SAVE_COURSES}`, reqBody, {headers})
