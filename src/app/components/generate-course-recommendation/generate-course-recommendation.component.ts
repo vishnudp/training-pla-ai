@@ -263,14 +263,30 @@ export class GenerateCourseRecommendationComponent {
       next: (res) => {
         // Success handling
         this.loading = false
-        console.log('res', res)
+        console.log('getUserCourse API response:', res)
         this.cbp_plan_id = res?.id
         this.loading = false
-        console.log('res', res)
-        console.log('this.filterdCourses', this.filterdCourses)
+        console.log('Current filterdCourses before adding user courses:', this.filterdCourses)
+        
+        // Process and add user-added courses
         for (let i = 0; i < res.length; i++) {
-          this.filterdCourses.push(res[i])
+          const userCourse = res[i];
+          console.log(`User course ${i} competencies:`, userCourse.competencies);
+          
+          // Ensure user-added courses have the expected structure for display
+          if (userCourse && !userCourse.course_type) {
+            userCourse.course_type = 'User Added';
+          }
+          
+          // Add identifier if missing (needed for course selection logic)
+          if (userCourse && !userCourse.identifier) {
+            userCourse.identifier = userCourse.id || `user_course_${i}_${Date.now()}`;
+          }
+          
+          this.filterdCourses.push(userCourse);
         }
+        
+        console.log('filterdCourses after adding user courses:', this.filterdCourses);
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
@@ -409,20 +425,33 @@ export class GenerateCourseRecommendationComponent {
   getCompetenciesByType(type: string, index): any[] {
     const course = this.filterdCourses[index];
     if (!course) {
+      console.log(`No course found at index ${index}`);
       return [];
     }
     
     // Handle different competency property names
     // AI Recommended & Public courses use 'competencies'
     // Manually Suggested - iGOT courses use 'competencies_v6'
+    // User Added courses use 'competencies'
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+    } else {
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+        hasCompetencies: !!course.competencies,
+        competenciesType: typeof course.competencies,
+        hasCompetenciesV6: !!course.competencies_v6,
+        competenciesV6Type: typeof course.competencies_v6,
+        courseKeys: Object.keys(course)
+      });
     }
     
     if (competencies.length === 0) {
+      console.log(`No competencies found for course ${index} and type ${type}`);
       return [];
     }
     
@@ -430,7 +459,10 @@ export class GenerateCourseRecommendationComponent {
     const normalizedType = type.toLowerCase().trim();
     
     const matchedCompetencies = competencies.filter(c => {
-      if (!c || !c.competencyAreaName) return false;
+      if (!c || !c.competencyAreaName) {
+        console.log(`Invalid competency structure in course ${index}:`, c);
+        return false;
+      }
       
       const competencyArea = c.competencyAreaName.toLowerCase().trim();
       
@@ -443,6 +475,7 @@ export class GenerateCourseRecommendationComponent {
       return competencyArea === normalizedType;
     });
     
+    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 
@@ -1009,10 +1042,16 @@ export class GenerateCourseRecommendationComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
-        // Refresh data or show a toast here
-       
+        console.log('Course added successfully! Refreshing data...');
         
+        // Refresh user courses to include the newly added course
+        this.getUserCourse();
+        
+        // Refresh gap analysis with the latest data
+        setTimeout(() => {
+          this.updateGapAnalysisAfterCoursesUpdate();
+          console.log('Gap analysis refreshed after course addition');
+        }, 500); // Small delay to ensure data is loaded
       }
     });
   }
