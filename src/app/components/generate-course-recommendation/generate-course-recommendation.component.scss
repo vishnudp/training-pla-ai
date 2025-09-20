@@ -55,27 +55,27 @@ line-height: 150%; /* 21px */
     height: 42px;
     width: 100%;
   }
-  
+
   ::ng-deep mat-select {
     border-radius: 25px !important;
     background-color: white !important;
   }
-  
+
   ::ng-deep .mat-select-panel {
     background-color: white !important;
     // border-radius: 25px !important;
   }
-  
+
   ::ng-deep .mat-select-panel .mat-option {
     border-radius: 0 !important;  /* Options with no border-radius */
   }
-  
+
   ::ng-deep mat-form-field .mat-form-field-underline {
     display: none !important;
   }
-  
 
-  
+
+
   ::ng-deep mat-select .mat-select-placeholder {
     color: rgba(0, 0, 0, 0.40);
     font-family: Lato;
@@ -87,7 +87,7 @@ line-height: 150%; /* 21px */
 
   ::ng-deep mat-select .mat-select-value-text {
     color: rgba(0, 0, 0, 1);
-    
+
     font-family: Lato;
     font-size: 14px;
     font-style: normal;
@@ -120,7 +120,7 @@ color: #000;
     line-height: normal;
 resize: none;
   }
- 
+
 
   .section-header {
     display: flex;
@@ -155,7 +155,7 @@ border: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
   }
 
   .pl-2 {
@@ -411,7 +411,7 @@ line-height: normal;
     flex-direction: row;
     align-items: center;
 }
- 
+
 .competencies-matched-container {
     display: flex;
     flex-direction: row;
@@ -439,7 +439,7 @@ line-height: normal;
   //   gap: 2rem;
   //   flex-wrap: wrap;
   // }
-  
+
   .course-list-item {
     flex: 1 1 calc(50% - 10px); /* Flexible width - two cards per row with gap */
     min-width: 350px; /* Minimum width for readability */
@@ -665,18 +665,18 @@ margin: 10px 0;
     font-size: 14px;
     font-weight: 500;
     min-width: auto;
-    
+
     .mat-icon {
         margin: 0;
         font-size: 18px;
         width: 18px;
         height: 18px;
     }
-    
+
     .mat-spinner {
         margin: 0;
     }
-    
+
     &:disabled {
         opacity: 0.7;
         cursor: not-allowed;
@@ -687,11 +687,11 @@ margin: 10px 0;
     padding: 8px;
     border-radius: 4px;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
         background-color: #f5f5f5;
     }
-    
+
     .mat-icon {
         font-size: 20px;
         width: 20px;
@@ -785,7 +785,7 @@ font-size: 12px;
 }
 
 
-  
+
   .view-cbp-plan-popup {
     padding: 24px;
     max-height: 70vh;
@@ -803,7 +803,7 @@ font-size: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  
+
     border-bottom: 1px solid #ddd;
     font-weight: bold;
     flex-shrink: 0;
@@ -1023,7 +1023,7 @@ background: #f8f9fa;
     color: #000 !important;
     text-transform: capitalize;
   }
- 
+
 
   .competency-tag {
     display: inline-block;
@@ -1034,7 +1034,7 @@ background: #f8f9fa;
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
   }
- 
+
 
   .menu-list-item.active {
     background-color: #1B4CA1;
@@ -1160,13 +1160,13 @@ background: #f8f9fa;
   border: 2px solid #4CAF50;
   border-radius: 16px;
   margin: 16px 0;
-  
+
   .success-icon {
-    font-size: 48px;
+    font-size: 25px;
     color: #4CAF50;
     margin-bottom: 16px;
   }
-  
+
   h4 {
     color: #2E7D32;
     font-family: Montserrat;
@@ -1175,7 +1175,7 @@ background: #f8f9fa;
     margin: 0 0 8px 0;
     text-align: center;
   }
-  
+
   p {
     color: #388E3C;
     font-family: Lato;
@@ -1205,7 +1205,7 @@ background: #f8f9fa;
 .search-container-compact {
   flex: 0 0 auto;
   min-width: 280px;
-  
+
   .rsearch {
     position: relative;
     display: flex;
@@ -1259,18 +1259,18 @@ background: #f8f9fa;
   font-family: Lato;
   font-size: 14px !important;
   font-weight: normal !important;
-  
+
   &:hover {
     background: rgba(27, 76, 161, 0.05);
     border-color: rgba(27, 76, 161, 0.2);
   }
-  
+
   &.selected-theme {
     background: rgba(27, 76, 161, 0.1);
     border-color: #1B4CA1;
     color: #1B4CA1;
     font-weight: 600 !important;
-    
+
     &::before {
       content: '✓ ';
       color: #1B4CA1;
@@ -1295,12 +1295,12 @@ background: #f8f9fa;
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
   &:hover {
     background: #e9ecef;
     border-color: #adb5bd;
   }
-  
+
   mat-icon {
     font-size: 16px;
     width: 16px;
@@ -1325,10 +1325,10 @@ background: #f8f9fa;
   text-align: center;
   max-width: 500px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  
+
   .no-course-icon {
     margin-bottom: 20px;
-    
+
     mat-icon {
       font-size: 48px;
       width: 48px;
@@ -1336,7 +1336,7 @@ background: #f8f9fa;
       color: #6c757d;
     }
   }
-  
+
   .no-course-content {
     h4 {
       color: #495057;
@@ -1345,21 +1345,21 @@ background: #f8f9fa;
       font-weight: 600;
       margin-bottom: 12px;
     }
-    
+
     p {
       color: #6c757d;
       font-family: Lato;
       font-size: 16px;
       line-height: 1.5;
       margin-bottom: 12px;
-      
+
       strong {
         color: #1B4CA1;
         font-weight: 600;
       }
     }
   }
-  
+
   .suggest-course-btn {
     background: linear-gradient(135deg, #1B4CA1 0%, #164080 100%);
     color: white;
@@ -1376,17 +1376,17 @@ background: #f8f9fa;
     margin: 20px auto 0;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(27, 76, 161, 0.3);
-    
+
     &:hover {
       background: linear-gradient(135deg, #164080 0%, #0f2f5f 100%);
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(27, 76, 161, 0.4);
     }
-    
+
     &:active {
       transform: translateY(0);
     }
-    
+
     mat-icon {
       font-size: 18px;
       width: 18px;
@@ -1413,12 +1413,12 @@ background: #f8f9fa;
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .search-container-compact {
     min-width: auto;
     width: 100%;
   }
-  
+
   .btn-group-compact {
     justify-content: center;
     flex-wrap: wrap;
@@ -1437,24 +1437,24 @@ background: #f8f9fa;
   .course-list-container-flex {
     flex-direction: column;
   }
-  
+
   .left-panel {
     flex: none !important;
     max-height: 300px;
   }
-  
+
   .course-list-item {
     flex: 0 0 100%; /* Full width on mobile */
     max-width: 100%;
   }
-  
+
   .no-course-card {
     padding: 20px;
-    
+
     .no-course-content h4 {
       font-size: 20px;
     }
-    
+
     .no-course-content p {
       font-size: 14px;
     }
@@ -1466,7 +1466,7 @@ background: #f8f9fa;
   background-color: #f44336 !important;
   color: white !important;
   font-weight: 500;
-  
+
   .mat-simple-snackbar-action {
     color: white !important;
   }
@@ -1477,7 +1477,7 @@ background: #f8f9fa;
   background-color: #ff9800 !important;
   color: white !important;
   font-weight: 600;
-  
+
   .mat-simple-snackbar-action {
     color: white !important;
     font-weight: bold;
