@@ -23,6 +23,7 @@ export class ViewFinalCbpPlanComponent {
   loading = false
   designationData:any = []
   totalCompetencieObj = {total:0, behavioral:0, functional:0, domain:0}
+  pdfTrigger = false
   // designationData = [
   //   {
   //     designation: "Secretary (WCD)",
@@ -287,6 +288,7 @@ export class ViewFinalCbpPlanComponent {
   }
 
   downloadPDF() {
+    this.pdfTrigger = true
     this.loading = true;
   //   const element = this.pdfContent.nativeElement;
 
@@ -325,56 +327,58 @@ export class ViewFinalCbpPlanComponent {
   const element = this.pdfContent.nativeElement;
   
   html2canvas(element, {
-    scale: 1.5,
+    scale: 2,             // higher scale for better quality
     useCORS: true,
+    scrollY: 0,
     logging: true,
   }).then((canvas) => {
     const pdf = new jsPDF('p', 'mm', 'a4');
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
   
-    const imgWidth = canvas.width;
-    const imgHeight = canvas.height;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
   
-    const pageHeightPx = Math.floor((pdfHeight * imgWidth) / pdfWidth); // page height in canvas pixels
-    let position = 0;
+    // Compute height of one PDF page in canvas pixels
+    const ratio = canvasWidth / pdfWidth;
+    const pageHeightPx = pdfHeight * ratio;
   
-    const totalPages = Math.ceil(imgHeight / pageHeightPx);
+    const totalPages = Math.ceil(canvasHeight / pageHeightPx);
   
     for (let page = 0; page < totalPages; page++) {
       const canvasPage = document.createElement('canvas');
-      canvasPage.width = imgWidth;
-      canvasPage.height = pageHeightPx;
+      canvasPage.width = canvasWidth;
+      canvasPage.height = Math.min(pageHeightPx, canvasHeight - page * pageHeightPx);
   
-      const context = canvasPage.getContext('2d');
-      if (context) {
-        context.drawImage(
+      const ctx = canvasPage.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvasPage.width, canvasPage.height);
+  
+        ctx.drawImage(
           canvas,
-          0, page * pageHeightPx,
-          imgWidth, pageHeightPx,
-          0, 0,
-          imgWidth, pageHeightPx
+          0, page * pageHeightPx,                        // source x, y
+          canvasWidth, canvasPage.height,               // source width, height
+          0, 0,                                          // target x, y
+          canvasWidth, canvasPage.height                // target width, height
         );
       }
   
       const imgData = canvasPage.toDataURL('image/png');
       if (page > 0) pdf.addPage();
-      pdf.addImage(
-        imgData,
-        'PNG',
-        0,
-        0,
-        pdfWidth,
-        pdfHeight
-      );
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, (canvasPage.height / ratio));
     }
   
-    pdf.save('Final CBP.pdf');
+    pdf.save('Final_CBP.pdf');
     this.loading = false;
   }).catch((error) => {
     console.error('PDF generation error:', error);
     this.loading = false;
   });
+  
+  
+  
+  
   
 
 }
