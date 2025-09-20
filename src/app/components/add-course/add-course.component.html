@@ -52,51 +52,220 @@
 
 
 
-        <fieldset formGroupName="competencies">
-            <div class="sub-heading mt-2">
-                <p>Competencies</p>
-
-                <div class="mt-2 section">
-                    <div class="sub-heading">
-                        <p>Behavioral</p>
+        <div class="mt-2 section">
+            <div class="competency-container mt-4">
+                <div class="outside-layer-total">
+                    <div class="inside-layer">
+                        Total Competencies
                     </div>
-                    <div class="mt-4 additional-details">
-                        <input type="text" placeholder="Enter Behavioral Competency" formControlName="behavioral"
-                            [value]=""
-                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    <div class="count">
+                        {{competenciesCount?.total}}
                     </div>
                 </div>
-
-                <div class="mt-2 section">
-                    <div class="sub-heading">
-                        <p>Functional</p>
+                <div class="outside-layer-behavioral">
+                    <div class="inside-layer">
+                        Behavioural Competencies
                     </div>
-                    <div class="mt-4 additional-details">
-                        <input type="text" placeholder="Enter Functioanl Competency" formControlName="functional"
-                            [value]=""
-                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    <div class="count">
+                        {{competenciesCount?.behavioral}}
                     </div>
                 </div>
-
-                <div class="mt-2 section">
-                    <div class="sub-heading">
-                        <p>Domain</p>
+                <div class="outside-layer-functional">
+                    <div class="inside-layer">
+                        Functional Competencies
                     </div>
-                    <div class="mt-4 additional-details">
-                        <input type="text" placeholder="Enter Domain Competency" formControlName="domain" [value]=""
-                            style="border-radius: 25px; border: 1px solid #ccc; padding: 8px 12px; width: 100%;font-size: 14px;font-family: 'Lato';">
+                    <div class="count">
+                        {{competenciesCount?.functional}}
+                    </div>
+                </div>
+                <div class="outside-layer-domain">
+                    <div class="inside-layer">
+                        Domain Competencies
+                    </div>
+                    <div class="count">
+                        {{competenciesCount?.domain}}
                     </div>
                 </div>
             </div>
+            <div class="sub-heading">
+                <p>Competency</p>
+            </div>
+            <div class="enhanced-competency-section mt-2">
+                <!-- Step 1: Select Competency Type -->
+                <div class="competency-step">
+                    <label class="step-label">1. Select Core Competency Type</label>
+                    <div class="competency-dropdown-container">
+                        <mat-form-field appearance="outline" class="competency-dropdown">
+                            <mat-select formControlName="competencyType"
+                                    placeholder="Select Competency Type"
+                                    (selectionChange)="onCompetencyTypeChange($event.value)">
+                                <mat-option value="Behavioral">Behavioral</mat-option>
+                                <mat-option value="Functional">Functional</mat-option>
+                                <mat-option value="Domain">Domain</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        </fieldset>
+                <!-- Step 2: Theme Selection (Behavioral/Functional from JSON, Domain manual) -->
+                <div class="competency-step" *ngIf="selectedCompetencyType">
+                    <label class="step-label">2. Select/Enter Theme</label>
+
+                    <!-- For Behavioral and Functional: Searchable Dropdown from JSON -->
+                    <div class="competency-dropdown-container"
+                         *ngIf="selectedCompetencyType === 'Behavioral' || selectedCompetencyType === 'Functional'">
+                        <mat-form-field appearance="outline" class="competency-dropdown">
+                            <mat-select formControlName="competencyTheme"
+                                    placeholder="Search and select theme"
+                                    (selectionChange)="onThemeChange($event.value)">
+                                <!-- Search input inside dropdown -->
+                                <mat-option class="search-option" disabled>
+                                    <mat-form-field appearance="outline" class="search-field">
+                                        <input matInput
+                                               placeholder="Search themes..."
+                                               formControlName="themeSearch"
+                                               (input)="filterThemes($event.target.value)"
+                                               (click)="$event.stopPropagation()"
+                                               (keydown)="$event.stopPropagation()">
+                                    </mat-form-field>
+                                </mat-option>
+
+                                <!-- Theme options -->
+                                <mat-option *ngFor="let theme of filteredThemes" [value]="theme.name">
+                                    {{theme.name}}
+                                </mat-option>
+
+                                <!-- No results message -->
+                                <mat-option *ngIf="filteredThemes.length === 0 && themeSearchText" disabled>
+                                    No themes found matching "{{themeSearchText}}"
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- For Domain: Manual input -->
+                    <div class="manual-input-container" *ngIf="selectedCompetencyType === 'Domain'">
+                        <input type="text"
+                               formControlName="manualThemeInput"
+                               placeholder="Enter Theme manually"
+                               class="manual-input" />
+                    </div>
+                </div>
+
+                <!-- Step 3: Sub-theme Selection -->
+                <div class="competency-step" *ngIf="selectedTheme || (selectedCompetencyType === 'Domain')">
+                    <label class="step-label">3. Select/Enter Sub-theme</label>
+
+                    <!-- For Behavioral and Functional: Searchable Dropdown based on selected theme -->
+                    <div class="competency-dropdown-container"
+                         *ngIf="selectedCompetencyType === 'Behavioral' || selectedCompetencyType === 'Functional'">
+                        <mat-form-field appearance="outline" class="competency-dropdown">
+                            <mat-select formControlName="competencySubTheme"
+                                    placeholder="Search and select sub-theme"
+                                    (selectionChange)="onSubThemeChange($event.value)">
+                                <!-- Search input inside dropdown -->
+                                <mat-option class="search-option" disabled>
+                                    <mat-form-field appearance="outline" class="search-field">
+                                        <input matInput
+                                               placeholder="Search sub-themes..."
+                                               formControlName="subThemeSearch"
+                                               (input)="filterSubThemes($event.target.value)"
+                                               (click)="$event.stopPropagation()"
+                                               (keydown)="$event.stopPropagation()">
+                                    </mat-form-field>
+                                </mat-option>
+
+                                <!-- Sub-theme options -->
+                                <mat-option *ngFor="let subTheme of filteredSubThemes" [value]="subTheme">
+                                    {{subTheme}}
+                                </mat-option>
+
+                                <!-- No results message -->
+                                <mat-option *ngIf="filteredSubThemes.length === 0 && subThemeSearchText" disabled>
+                                    No sub-themes found matching "{{subThemeSearchText}}"
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- For Domain: Manual input -->
+                    <div class="manual-input-container" *ngIf="selectedCompetencyType === 'Domain'">
+                        <input type="text"
+                               formControlName="manualSubThemeInput"
+                               placeholder="Enter Sub-theme manually"
+                               class="manual-input" />
+                    </div>
+                </div>
+
+                <!-- Add Button -->
+                <div class="add-button-section" *ngIf="selectedCompetencyType">
+                    <button type="button"
+                            class="add-competency-btn"
+                            [disabled]="!canAddCompetency()"
+                            [ngClass]="canAddCompetency() ? 'btn-active' : 'btn-disable'"
+                            (click)="addCompetency()">
+                        Add Competency
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Behavioral')?.length">
+                    Behavioural Competencies
+                </div>
+
+                <div class="competency-grid mt-2">
+                    <div class="competency-item behavioural-pill"
+                        *ngFor="let comp of getCompetenciesByType('Behavioral')">
+                        <span class="competency-text-behavioral">
+                            {{ comp.theme }} - {{ comp.sub_theme }}
+                        </span>
+                        <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                            <mat-icon>close</mat-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Functional')?.length">
+                    Functional Competencies</div>
+                    <div class="competency-grid mt-2">
+                        <div class="competency-item functional-pill"
+                            *ngFor="let comp of getCompetenciesByType('Functional')">
+                            <span class="competency-text-functional">
+                                {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                                <mat-icon>close</mat-icon>
+                            </span>
+                        </div>
+                    </div>
+            </div>
+            <div class="mt-4">
+                <div class="competency-sub-heading mt-2" *ngIf="getCompetenciesByType('Domain')?.length">Domain Competencies</div>
+                <div class="competency-grid mt-2">
+                    <div class="competency-item domain-pill"
+                        *ngFor="let comp of getCompetenciesByType('Domain')">
+                        <span class="competency-text-domain">
+                            {{ comp.theme }} - {{ comp.sub_theme }}
+                        </span>
+                        <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
+                            <mat-icon>close</mat-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="popup-footer">
         <div>
             <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
         </div>
         <div>
-            <input class="btn-active" type="button" value="Save" (click)="saveCourse()" />
+            <input [class]="canSaveCourse() ? 'btn-active' : 'btn-disable'" 
+                   type="button" 
+                   value="Save" 
+                   [disabled]="!canSaveCourse()"
+                   (click)="canSaveCourse() && saveCourse()" />
         </div>
     </div>
 </div>
