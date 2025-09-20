@@ -4,7 +4,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedService } from './modules/shared/services/shared.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectiveModule } from './modules/shared/directives/directive.module';
 import { SharedModule } from './modules/shared/shared/shared.module';
@@ -35,7 +36,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { ViewCbpPlanComponent } from './components/view-cbp-plan/view-cbp-plan.component';
 import { EditCbpPlanComponent } from './components/edit-cbp-plan/edit-cbp-plan.component';
-import { GenerateCourseRecommendationComponent } from './components/generate-course-recommendation/generate-course-recommendation.component';
+import { GenerateCourseRecommendationComponent, RegenerateConfirmationDialog } from './components/generate-course-recommendation/generate-course-recommendation.component';
 import { ViewCourseRecommendationComponent } from './components/view-course-recommendation/view-course-recommendation.component';
 import { DeleteRoleMappingComponent } from './components/delete-role-mapping/delete-role-mapping.component';
 import { ViewFinalCbpPlanComponent } from './components/view-final-cbp-plan/view-final-cbp-plan.component';
@@ -65,6 +66,7 @@ const appInitializer = (initSvc: InitService) => async () => {
     ViewCbpPlanComponent,
     EditCbpPlanComponent,
     GenerateCourseRecommendationComponent,
+    RegenerateConfirmationDialog,
     ViewCourseRecommendationComponent,
     DeleteRoleMappingComponent,
     ViewFinalCbpPlanComponent,
@@ -107,6 +109,11 @@ const appInitializer = (initSvc: InitService) => async () => {
       multi: true,
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
     },
     SharedService
   ],

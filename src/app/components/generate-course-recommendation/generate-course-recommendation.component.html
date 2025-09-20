@@ -2,12 +2,21 @@
     <div class="popup-container">
 
         <div class="popup-header">
-            <div>
+            <div class="header-left">
                 <div class="heading">Save Courses (<span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
                             *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span></span>)</div>
             </div>
-            <div class="cursor-pointer" (click)="closeDialog()">
-                <mat-icon>close</mat-icon>
+            <div class="header-actions">
+                <button class="regenerate-btn" (click)="regenerateCourseRecommendations()" 
+                        [disabled]="isRegenerating"
+                        mat-raised-button color="primary">
+                    <mat-icon *ngIf="!isRegenerating">refresh</mat-icon>
+                    <mat-spinner *ngIf="isRegenerating" diameter="20"></mat-spinner>
+                    <span>{{isRegenerating ? 'Regenerating...' : 'Regenerate Recommendations'}}</span>
+                </button>
+                <div class="cursor-pointer close-btn" (click)="closeDialog()">
+                    <mat-icon>close</mat-icon>
+                </div>
             </div>
         </div>
         <div class="section-container mt-4">
@@ -39,42 +48,27 @@
             <div class="role-mapping-container"
                 *ngIf="outerTabActiveIndex === 0 && (innerTabActiveIndex === 0 || innerTabActiveIndex === 1 || innerTabActiveIndex === 2 || innerTabActiveIndex === 3 )">
                 <div class="container">
-                    <div class="section-header mt-3">
-                        <div class="sub-heading">
-                            <!-- <p>Save Courses</p> -->
-                        </div>
-                        <div class="btn-group">
-                            <div>
-                                <input class="btn-active" type="button" value="Suggest More Course From iGOT"
-                                    (click)="suggestMoreCourses()" />
-                            </div>
-                            <div class="pl-2">
-                                <input [disabled]="selectFilterCourses?.length > 0 ? false : true"
-                                    [ngClass]="selectFilterCourses?.length > 0 ? 'btn-active' : 'btn-disable'"
-                                    type="button" [value]="mode === 'add' ? 'Save Courses' : 'Update Courses'"
-                                    (click)="saveCourses()" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="search-filter-section mt-2">
-                        <div class="search flex margin-right-m">
-                            <label class="label">Search</label>
-                            <div>
-                                <div class="search-container mt-2">
-                                    <div class="rsearch">
-                                        <mat-icon
-                                            class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
-                                        <input class="sinput color-60 w-full" [(ngModel)]="searchText" label=""
-                                            (input)="applyFilter();$event.preventDefault();"
-                                            placeholder="Search Courses" type="Standard">
-                                    </div>
-                                    <!-- <div class="pl-2 mt-2">
-                                        <input class="btn-disable" type="button" value="Search" />
-                                    </div> -->
+                    <div class="section-header-improved mt-3">
+                        <div class="search-and-buttons-container">
+                            <div class="search-container-compact">
+                                <div class="rsearch">
+                                    <mat-icon class="search-icon">search</mat-icon>
+                                    <input class="sinput-compact" [(ngModel)]="searchText" 
+                                           (input)="applyFilter();$event.preventDefault();"
+                                           placeholder="Search Courses" type="text">
                                 </div>
-
-
+                            </div>
+                            <div class="btn-group-compact">
+                                <div>
+                                    <input class="btn-active" type="button" value="Suggest More Course From iGOT"
+                                        (click)="suggestMoreCourses()" />
+                                </div>
+                                <div class="pl-2">
+                                    <input [disabled]="selectFilterCourses?.length > 0 ? false : true"
+                                        [ngClass]="selectFilterCourses?.length > 0 ? 'btn-active' : 'btn-disable'"
+                                        type="button" [value]="mode === 'add' ? 'Save Courses' : 'Update Courses'"
+                                        (click)="saveCourses()" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,33 +85,73 @@
                                 <div *ngIf="innerTabActiveIndex > 0" [ngClass]="innerTabActiveIndex > 0 ? 'left-panel':''">
                                     <ng-container *ngIf="innerTabActiveIndex === 1">
                                         <div class="sub-heading">
-                                            <p>Competencies in Behavioural
-                                            </p>
+                                            <p>Competencies in Behavioural</p>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                        <div class="theme-filter-controls mb-2" *ngIf="selectedThemeFilter">
+                                            <button class="clear-filter-btn" (click)="clearThemeFilter()">
+                                                <mat-icon>clear</mat-icon> Clear Filter
+                                            </button>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" 
+                                             class="category-list-item cursor-pointer mt-2" 
+                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                             *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="innerTabActiveIndex === 2">
                                         <div class="sub-heading">
-                                            <p>Competencies in Functional
-                                            </p>
+                                            <p>Competencies in Functional</p>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                        <div class="theme-filter-controls mb-2" *ngIf="selectedThemeFilter">
+                                            <button class="clear-filter-btn" (click)="clearThemeFilter()">
+                                                <mat-icon>clear</mat-icon> Clear Filter
+                                            </button>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" 
+                                             class="category-list-item cursor-pointer mt-2" 
+                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                             *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="innerTabActiveIndex === 3">
                                         <div class="sub-heading">
-                                            <p>Competencies in Domain
-                                            </p>
+                                            <p>Competencies in Domain</p>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" class="category-list-item cursor-pointer mt-2" *ngFor="let item of competencyMatchedByCategory">
+                                        <div class="theme-filter-controls mb-2" *ngIf="selectedThemeFilter">
+                                            <button class="clear-filter-btn" (click)="clearThemeFilter()">
+                                                <mat-icon>clear</mat-icon> Clear Filter
+                                            </button>
+                                        </div>
+                                        <div (click)="filterOnCompetencyTheme(item)" 
+                                             class="category-list-item cursor-pointer mt-2" 
+                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                             *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
                                 </div>
                                 <div  [ngClass]="innerTabActiveIndex > 0 ? 'right-panel':'right-panel-flex'">
+                                    <!-- No Course Found Message in Right Panel -->
+                                    <div class="no-course-found-container" *ngIf="filterdCourses?.length === 0 && selectedThemeFilter">
+                                        <div class="no-course-card">
+                                            <div class="no-course-icon">
+                                                <mat-icon>search_off</mat-icon>
+                                            </div>
+                                            <div class="no-course-content">
+                                                <h4>No Courses Found</h4>
+                                                <p>No courses found for the selected theme: <strong>{{selectedThemeFilter}}</strong></p>
+                                                <p>Would you like to add a course for this competency?</p>
+                                                <button class="suggest-course-btn" (click)="addCourseForSelectedTheme()">
+                                                    <mat-icon>add_circle</mat-icon>
+                                                    Add Course
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Courses List -->
                                     <div class="course-list-item" *ngFor="let item of filterdCourses;let i=index">
 
                                         <div class="course-content">
@@ -306,127 +340,14 @@
                                         </div>
 
                                     </div>
-<!--                                    <div class="course-title mt-3">-->
-<!--                                        <span *ngIf="item?.course">{{item?.course}}</span>-->
-<!--                                        <span *ngIf="item?.name">{{item?.name}}</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="course-desc mt-2">-->
-<!--                                        <span *ngIf="item?.rationale">{{item?.rationale}}</span>-->
-<!--                                        <span *ngIf="item?.description">{{item?.description}}</span>-->
-<!--                                    </div>-->
-<!--                                    <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">-->
-<!--                                        <div class="competency-sub-heading">Behavioral Competencies</div>-->
-<!--                                        <ul class="competency-list mt-1">-->
-<!--                                            <li class="behavioural-pill"-->
-<!--                                                *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">-->
-<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
-<!--                                            </li>-->
-<!--                                            <li *ngIf="hasMoreThanTwo('Behavioural',i)" class="show-more-competency">-->
-<!--                                                <span class="show-more-link cursor-pointer"-->
-<!--                                                    (click)="toggleCompetencies('Behavioural',i)">-->
-<!--                                                    {{ isExpanded('Behavioural',i) ? 'Show Less' : '+' +-->
-<!--                                                    getRemainingCount('Behavioural',i) + ' More' }}-->
-<!--                                                </span>-->
-<!--                                            </li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
-<!--                                    <div class="mt-2" *ngIf="getCompetenciesByType('Functional',i)?.length">-->
-<!--                                        <div class="competency-sub-heading">Functional Competencies</div>-->
-<!--                                        <ul class="competency-list mt-1">-->
-<!--                                            <li class="functional-pill"-->
-<!--                                                *ngFor="let comp of getDisplayedCompetencies('Functional',i)">-->
-<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
-<!--                                            </li>-->
-<!--                                            <li *ngIf="hasMoreThanTwo('Functional',i)" class="show-more-competency">-->
-<!--                                                <span class="show-more-link cursor-pointer"-->
-<!--                                                    (click)="toggleCompetencies('Functional',i)">-->
-<!--                                                    {{ isExpanded('Functional',i) ? 'Show Less' : '+' +-->
-<!--                                                    getRemainingCount('Functional',i) + ' More' }}-->
-<!--                                                </span>-->
-<!--                                            </li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
-<!--                                    <div class="mt-2" *ngIf="getCompetenciesByType('Domain',i)?.length">-->
-<!--                                        <div class="competency-sub-heading">Domain Competencies</div>-->
-<!--                                        <ul class="competency-list mt-1">-->
-<!--                                            <li class="domain-pill"-->
-<!--                                                *ngFor="let comp of getDisplayedCompetencies('Domain',i)">-->
-<!--                                                <span class="competency-text"> {{ comp.competencyThemeName }} - {{ comp.competencySubThemeName }} </span>-->
-<!--                                            </li>-->
-<!--                                            <li *ngIf="hasMoreThanTwo('Domain',i)" class="show-more-competency">-->
-<!--                                                <span class="show-more-link cursor-pointer"-->
-<!--                                                    (click)="toggleCompetencies('Domain',i)">-->
-<!--                                                    {{ isExpanded('Domain',i) ? 'Show Less' : '+' +-->
-<!--                                                    getRemainingCount('Domain',i) + ' More' }}-->
-<!--                                                </span>-->
-<!--                                            </li>-->
-<!--                                        </ul>-->
-<!--                                    </div>-->
-
-
-<!--                                </div>-->
-
-<!--                                &lt;!&ndash; Relevancy section always at bottom &ndash;&gt;-->
-<!--                                <div class="course-footer" *ngIf="item?.relevancy">-->
-<!--                                    <div class="relevancy-pill-green">-->
-<!--                                        <div class="relevancy-container">-->
-<!--                                            <div class="relevancy">Relevancy</div>-->
-<!--                                            <div class="dash">-</div>-->
-<!--                                            <div class="percentage">{{item?.relevancy}}%</div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
                                 </div>
                             </div>
-
-                            <!-- <div class="course-list-item">
-                                <div class="course-header">
-                                    <div>
-                                        <div class="course-pill">
-                                            <div class="course-pill-text">Course</div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="ai-recommened-pill">
-                                            <div class="ai-recommened-pill-text">
-                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
-                                                <span>AI Recommended</span>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="course-title">
-                                    <div>
-                                        <div>Maternal, Infant And Young Child Nutrition</div>
-                                    </div>
-                                </div>
-                                <div class="course-desc">
-                                    <div>
-                                        <div>This Course directly addresses a primary responsibility of Anganwandi Care takers,
-                                            which is
-                                            to provide and educate on nutrition for mother and young children</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="relevancy-container">
-                                        <div class="relevancy">Relevancy</div>
-                                        <div class="dash">-</div>
-                                        <div class="percentage">90%</div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="competencies-matched-container">
-                                        <div class="competencies-matched">Competencies Matched</div>
-                                        <div class="dash">-</div>
-                                        <div class="percentage">80%</div>
-                                    </div>
-                                </div>
-                            </div> -->
-
                         </div>
                     </div>
-                    <div class="mt-2 sub-heading" *ngIf="filterdCourses?.length === 0">
-                        <p> No Data Found</p>
+                    
+                    <!-- General No Data Message (only when no theme filter is active) -->
+                    <div class="mt-2 sub-heading" *ngIf="filterdCourses?.length === 0 && !selectedThemeFilter">
+                        <p>No Data Found</p>
                     </div>
                 </div>
             </div>
@@ -487,7 +408,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>
@@ -501,7 +422,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Functional')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>
@@ -515,7 +436,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Domain')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>
@@ -543,7 +464,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>
@@ -566,7 +487,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Functional')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>
@@ -589,7 +510,7 @@
                                         <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse()"><span
+                                                <div class="cursor-pointer" (click)="addCourse(item, 'Domain')"><span
                                                         class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
                                             </div>
                                         </div>

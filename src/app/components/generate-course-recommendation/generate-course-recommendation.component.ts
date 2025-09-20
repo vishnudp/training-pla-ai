@@ -55,6 +55,9 @@ export class GenerateCourseRecommendationComponent {
   behaviouralNotMatched = []
   functionalNotMatched = []
   domainNotMatched = []
+  selectedThemeFilter = ''
+  originalFilteredCourses = []
+  isRegenerating = false
 
   selectCategory(category: string) {
     this.selectedCategory = category;
@@ -62,28 +65,40 @@ export class GenerateCourseRecommendationComponent {
   }
   ngOnInit() {
     this.loading = true
-    this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res) => {
-      this.loading = false
-      console.log('res', res)
-      this.recommended_course_id = res.id
-      let allCoures = []
-      if (res && res.filtered_courses && res.filtered_courses.length) {
-        res?.filtered_courses.forEach((item) => {
-          if (item?.relevancy >= 85) {
-            allCoures.push(item)
-          }
-        })
-        this.originalData = allCoures
-        this.filterdCourses = allCoures
-      }
+    this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
+      next: (res) => {
+        this.loading = false
+        console.log('res', res)
+        this.recommended_course_id = res.id
+        let allCoures = []
+        if (res && res.filtered_courses && res.filtered_courses.length) {
+          res?.filtered_courses.forEach((item) => {
+            if (item?.relevancy >= 85) {
+              allCoures.push(item)
+            }
+          })
+          this.originalData = allCoures
+          this.filterdCourses = allCoures
+        }
 
-      console.log('this.filterdCourses', this.filterdCourses)
-      this.getCourses()
-      this.getSuggestedCourse()
-      
-      // Initialize gap analysis stats after courses are loaded
-      this.initializeGapAnalysisStats()
-      this.getUserCourse()
+        console.log('this.filterdCourses', this.filterdCourses)
+        this.getCourses()
+        this.getSuggestedCourse()
+        
+        // Initialize gap analysis stats after courses are loaded
+        this.initializeGapAnalysisStats()
+        this.getUserCourse()
+      },
+      error: (error) => {
+        this.loading = false
+        console.error('Error getting recommended courses:', error);
+        if (error.status === 401) {
+          console.log('Unauthorized access - user will be redirected to login');
+        } else {
+          // Handle other errors gracefully
+          console.error('Failed to load course recommendations');
+        }
+      }
     })
   }
 
@@ -243,9 +258,12 @@ export class GenerateCourseRecommendationComponent {
       error: (error) => {
         console.log('error', error)
         this.loading = false
-        // Handle 409 Conflict here
-        // alert('Conflict detected: The resource already exists or action conflicts.');
-        //this.get
+        if (error.status === 401) {
+          console.log('Unauthorized access - user will be redirected to login');
+        } else {
+          // Handle other errors gracefully
+          console.error('Failed to load suggested courses');
+        }
         // Or you can set a UI error message variable
 
         this.loading = false
@@ -551,29 +569,59 @@ export class GenerateCourseRecommendationComponent {
   onInnerTabChange(event: MatTabChangeEvent): void {
     this.innerTabActiveIndex = event.index
     this.innerTabActiveText = event.tab.textLabel
+    this.selectedThemeFilter = ''; // Reset theme filter when switching tabs
     console.log('Inner Tab Index:', event.index);
     console.log('Inner Tab Label:', event.tab.textLabel);
     let tabIndex = event.index
     this.competencyMatchedByCategory = []
+    
+    // Get all available courses (original + suggested + user added)
+    const allAvailableCourses = this.getAllAvailableCourses();
+    
     switch (tabIndex) {
       case 0: // All
-        this.filterdCourses = this.originalData;
+        this.filterdCourses = allAvailableCourses;
         break;
       case 1: // Behavioral
-        this.filterdCourses = this.behavioralFilter(this.originalData);
+        this.filterdCourses = this.behavioralFilter(allAvailableCourses);
         this.competencyMatchedByCategory = this.behavioralCompetencyFilter(this.planData.competencies);
         break;
       case 2: // Functional
-        this.filterdCourses = this.functionalFilter(this.originalData);
+        this.filterdCourses = this.functionalFilter(allAvailableCourses);
         this.competencyMatchedByCategory = this.functionalCompetencyFilter(this.planData.competencies);
         break;
       case 3: // Domain
-        this.filterdCourses = this.domainFilter(this.originalData);
+        this.filterdCourses = this.domainFilter(allAvailableCourses);
         this.competencyMatchedByCategory = this.domainCompetencyFilter(this.planData.competencies);
         break;
     }
     console.log('this.filterdCourses',this.filterdCourses)
     console.log('this.competencyMatchedByCategory',this.competencyMatchedByCategory)
+  }
+  
+  getAllAvailableCourses() {
+    // Start with original data
+    const allCourses = [...this.originalData];
+    const seenIdentifiers = new Set();
+    
+    // Track original course identifiers
+    this.originalData.forEach(course => {
+      if (course.identifier) seenIdentifiers.add(course.identifier);
+      if (course.id) seenIdentifiers.add(course.id);
+    });
+    
+    // Add any additional courses from filterdCourses that aren't in originalData
+    // This could include suggested courses and user-added courses
+    this.filterdCourses.forEach(course => {
+      const courseId = course.identifier || course.id;
+      if (courseId && !seenIdentifiers.has(courseId)) {
+        allCourses.push(course);
+        seenIdentifiers.add(courseId);
+      }
+    });
+    
+    console.log('Total available courses:', allCourses.length);
+    return allCourses;
   }
 
   behavioralFilter(data: any[]): any[] {
@@ -1030,10 +1078,23 @@ export class GenerateCourseRecommendationComponent {
     return unmatched;
   }
   
-  addCourse() {
+  addCourse(missingCompetency?: string, competencyType?: string) {
+    let dialogData = { ...this.planData };
+    
+    // If competency parameters are provided, add them to the dialog data
+    if (missingCompetency && competencyType) {
+      // Parse the theme from the missing competency string (assumes format "theme-subtheme" or just "theme")
+      const theme = missingCompetency.trim();
+      
+      dialogData.prefillCompetency = {
+        type: competencyType,
+        theme: theme
+      };
+    }
+    
     const dialogRef = this.dialog.open(AddCourseComponent, {
       width: '800px',
-      data: this.planData,
+      data: dialogData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '400px',          // Set minimum height
       maxHeight: '90vh',           // Prevent it from going beyond viewport
@@ -1056,66 +1117,170 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
-  filterOnCompetencyTheme(item) {
-    let themeName = item?.split("-")[0]
-    let subThemeName = item?.split("-")[1]
+  filterOnCompetencyTheme(themeItem) {
+    this.selectedThemeFilter = themeItem;
+    let themeName = themeItem?.split("-")[0]?.trim();
+    let subThemeName = themeItem?.split("-")[1]?.trim();
+    
+    console.log('Filtering by theme:', themeName, 'subTheme:', subThemeName, 'Tab index:', this.innerTabActiveIndex);
+    
+    // Get the current competency type based on the active tab
+    let competencyType = '';
     if(this.innerTabActiveIndex === 1) {
-      this.filterdCourses = this.originalData.filter(item => {
-        if (!item) return false;
+      competencyType = 'behavioral';
+    } else if(this.innerTabActiveIndex === 2) {
+      competencyType = 'functional';
+    } else if(this.innerTabActiveIndex === 3) {
+      competencyType = 'domain';
+    }
+    
+    // Get all available courses using the helper method
+    const allAvailableCourses = this.getAllAvailableCourses();
+    console.log('Total courses to filter from:', allAvailableCourses.length);
+    
+    this.filterdCourses = allAvailableCourses.filter(course => {
+      if (!course) return false;
+      
+      // Handle different competency property names
+      let competencies = [];
+      if (course.competencies && Array.isArray(course.competencies)) {
+        competencies = course.competencies;
+      } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+        competencies = course.competencies_v6;
+      }
+      
+      if (competencies.length === 0) return false;
+      
+      // Filter by competency type and theme/subtheme
+      return competencies.some(comp => {
+        if (!comp) return false;
         
-        // Handle different competency property names
-        let competencies = [];
-        if (item.competencies && Array.isArray(item.competencies)) {
-          competencies = item.competencies;
-        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-          competencies = item.competencies_v6;
-        }
+        // Check competency type matches current tab
+        let compType = comp?.competencyAreaName?.toLowerCase();
+        if (compType === 'behavioural') compType = 'behavioral'; // Normalize spelling
         
-        return competencies.some(c => c && 
-          ((c?.competencyAreaName?.toLowerCase() === 'behavioral') || c?.competencyAreaName?.toLowerCase() === 'behavioural') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
-          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase() 
+        if (compType !== competencyType) return false;
+        
+        // Check cross-matching like gap analysis: theme vs subtheme and subtheme vs theme
+        const compTheme = comp?.competencyThemeName?.toLowerCase()?.trim();
+        const compSubTheme = comp?.competencySubThemeName?.toLowerCase()?.trim();
+        const searchTheme = themeName?.toLowerCase();
+        const searchSubTheme = subThemeName?.toLowerCase();
+        
+        // Enhanced cross-matching logic like gap analysis:
+        // 1. Selected Theme vs Course Theme
+        // 2. Selected Sub Theme vs Course Sub Theme  
+        // 3. Selected Theme vs Course Sub Theme
+        // 4. Selected Sub Theme vs Course Theme
+        const themeToThemeMatch = searchTheme && compTheme === searchTheme;
+        const subThemeToSubThemeMatch = searchSubTheme && compSubTheme === searchSubTheme;
+        const themeToSubThemeMatch = searchTheme && compSubTheme === searchTheme;
+        const subThemeToThemeMatch = searchSubTheme && compTheme === searchSubTheme;
+        
+        const isMatch = themeToThemeMatch || subThemeToSubThemeMatch || themeToSubThemeMatch || subThemeToThemeMatch;
+        
+        // Log matches for debugging (similar to gap analysis)
+        if (isMatch) {
+          let matchType = '';
+          if (themeToThemeMatch) matchType = 'Theme-to-Theme';
+          else if (subThemeToSubThemeMatch) matchType = 'SubTheme-to-SubTheme';
+          else if (themeToSubThemeMatch) matchType = 'Theme-to-SubTheme';
+          else if (subThemeToThemeMatch) matchType = 'SubTheme-to-Theme';
           
-          ));
+          console.log(`✅ FILTER MATCH FOUND [${matchType}]:`, {
+            selected: { theme: searchTheme, subTheme: searchSubTheme },
+            course: { type: compType, theme: compTheme, subTheme: compSubTheme },
+            matchType: matchType
+          });
+        }
+        
+        // Match if any of the cross-matching conditions are met
+        return isMatch;
+      });
+    });
+    
+    console.log('Filtered courses for theme:', themeName, 'Count:', this.filterdCourses.length);
+    console.log('Filtered courses:', this.filterdCourses.map(c => c.name || c.course));
+  }
+  
+  clearThemeFilter() {
+    this.selectedThemeFilter = '';
+    // Reset to category filtered courses by calling the tab change method
+    this.onInnerTabChange({ 
+      index: this.innerTabActiveIndex, 
+      tab: { textLabel: this.innerTabActiveText } 
+    } as any);
+    console.log('Theme filter cleared, showing all courses for category:', this.innerTabActiveText);
+  }
+  
+  isThemeSelected(theme: string): boolean {
+    return this.selectedThemeFilter === theme;
+  }
 
-      });
+  /**
+   * Add course for the currently selected theme filter with prefilled competency data
+   */
+  addCourseForSelectedTheme() {
+    if (!this.selectedThemeFilter) {
+      console.warn('No theme selected for adding course');
+      return;
     }
-    if(this.innerTabActiveIndex === 2) {
-      this.filterdCourses = this.originalData.filter(item => {
-        if (!item) return false;
-        
-        // Handle different competency property names
-        let competencies = [];
-        if (item.competencies && Array.isArray(item.competencies)) {
-          competencies = item.competencies;
-        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-          competencies = item.competencies_v6;
-        }
-        
-        return competencies.some(c => c && 
-          (c?.competencyAreaName?.toLowerCase() === 'functional') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
-          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase() ));
-      });
+
+    // Parse theme and sub-theme from selectedThemeFilter (format: "Theme - SubTheme")
+    const themeParts = this.selectedThemeFilter.split('-');
+    const theme = themeParts[0]?.trim();
+    const subTheme = themeParts[1]?.trim();
+
+    // Get the current competency type based on the active tab
+    // Map the tab labels to the format expected by AddCourseComponent
+    let competencyType = '';
+    if (this.innerTabActiveIndex === 1) {
+      competencyType = 'Behavioral'; // Tab label is "behavioural"
+    } else if (this.innerTabActiveIndex === 2) {
+      competencyType = 'Functional'; // Tab label is "functional"
+    } else if (this.innerTabActiveIndex === 3) {
+      competencyType = 'Domain'; // Tab label is "domain"
     }
-    if(this.innerTabActiveIndex === 3) {
-      this.filterdCourses = this.originalData.filter(item => {
-        if (!item) return false;
+
+    console.log('Tab mapping - innerTabActiveIndex:', this.innerTabActiveIndex, 
+                'innerTabActiveText:', this.innerTabActiveText, 
+                'mapped competencyType:', competencyType);
+
+    console.log('Adding course for missing competency:', {
+      competencyType,
+      theme,
+      subTheme,
+      selectedThemeFilter: this.selectedThemeFilter
+    });
+
+    // Create dialog data with prefilled competency information
+    let dialogData = { ...this.planData };
+    dialogData.prefillCompetency = {
+      type: competencyType,
+      theme: theme,
+      subTheme: subTheme || '' // Include sub-theme if available
+    };
+
+    const dialogRef = this.dialog.open(AddCourseComponent, {
+      width: '800px',
+      data: dialogData,
+      panelClass: 'view-cbp-plan-popup',
+      minHeight: '400px',
+      maxHeight: '90vh',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        console.log('Course added successfully for competency! Refreshing data...');
         
-        // Handle different competency property names
-        let competencies = [];
-        if (item.competencies && Array.isArray(item.competencies)) {
-          competencies = item.competencies;
-        } else if (item.competencies_v6 && Array.isArray(item.competencies_v6)) {
-          competencies = item.competencies_v6;
-        }
+        // Refresh user courses to include the newly added course
+        this.getUserCourse();
         
-        return competencies.some(c => c && 
-          (c?.competencyAreaName?.toLowerCase() === 'domain') && 
-          (c?.competencyThemeName?.toLowerCase() === themeName?.toLowerCase() || 
-          c?.competencySubThemeName?.toLowerCase() === subThemeName?.toLowerCase()));
-      });
-    }
+        // Update gap analysis after course addition
+        this.updateGapAnalysisAfterCoursesUpdate();
+      }
+    });
   }
 
   /**
@@ -1141,21 +1306,252 @@ export class GenerateCourseRecommendationComponent {
     this.gapAnalysisStats();
   }
 
-  
+  /**
+   * Regenerate course recommendations by deleting existing recommendations and generating new ones
+   */
+  async regenerateCourseRecommendations() {
+    if (this.isRegenerating) {
+      return; // Prevent multiple simultaneous regenerations
+    }
 
-    // const byCategory = masterList.map(([type, list]) => {
-    //     const total = list.length;
-    //     const covered = list.filter(c => allCourseCompetencies.has(c)).length;
-    //     return { type, total, covered };
-    // });
+    try {
+      this.isRegenerating = true;
+      
+      // Show confirmation dialog
+      const confirmed = await this.showConfirmationDialog();
+      
+      if (!confirmed) {
+        this.isRegenerating = false;
+        return;
+      }
 
-    // const totalMaster = byCategory.reduce((sum, cat) => sum + cat.total, 0);
-    // const totalCovered = byCategory.reduce((sum, cat) => sum + cat.covered, 0);
-    // console.log('totalMaster', totalMaster)
-    // console.log('totalCovered', totalCovered)
-    // console.log('byCategory', byCategory)
-    //return { totalMaster, totalCovered, byCategory };
-  } 
-   
-  
+      console.log('Starting course recommendation regeneration...');
+      
+      // Step 1: Delete existing course recommendations
+      await this.deleteCourseRecommendations();
+      
+      // Step 2: Generate new course recommendations
+      await this.generateNewCourseRecommendations();
+      
+      // Step 3: Refresh the current data
+      this.refreshComponent();
+      
+      console.log('Course recommendation regeneration completed successfully');
+      
+      // Show success message
+      this.snackBar.open('Course recommendations regenerated successfully!', 'Close', {
+        duration: 5000,
+        panelClass: ['success-snackbar']
+      });
+      
+    } catch (error) {
+      console.error('Error during course recommendation regeneration:', error);
+      
+      // Show error message
+      this.snackBar.open('Failed to regenerate course recommendations. Please try again.', 'Close', {
+        duration: 5000,
+        panelClass: ['error-snackbar']
+      });
+    } finally {
+      this.isRegenerating = false;
+    }
+  }
 
+  /**
+   * Show confirmation dialog for regenerate action
+   */
+  private showConfirmationDialog(): Promise<boolean> {
+    return new Promise((resolve) => {
+      // Create a custom confirmation dialog
+      const dialogRef = this.dialog.open(RegenerateConfirmationDialog, {
+        width: '450px',
+        panelClass: 'regenerate-confirmation-dialog',
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        resolve(result === true);
+      });
+    });
+  }
+
+  /**
+   * Delete existing course recommendations for the current role mapping
+   */
+  private deleteCourseRecommendations(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const roleMapId = this.planData?.id;
+      
+      if (!roleMapId) {
+        reject(new Error('Role mapping ID not found'));
+        return;
+      }
+
+      console.log('Deleting course recommendations for role mapping:', roleMapId);
+      
+      this.sharedService.deleteCourseRecommendations(roleMapId).subscribe({
+        next: (response) => {
+          console.log('Course recommendations deleted successfully:', response);
+          resolve(response);
+        },
+        error: (error) => {
+          console.error('Error deleting course recommendations:', error);
+          reject(error);
+        }
+      });
+    });
+  }
+
+  /**
+   * Generate new course recommendations
+   */
+  private generateNewCourseRecommendations(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      console.log('Generating new course recommendations...');
+      
+      this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
+        next: (response) => {
+          console.log('New course recommendations generated successfully:', response);
+          resolve(response);
+        },
+        error: (error) => {
+          console.error('Error generating course recommendations:', error);
+          reject(error);
+        }
+      });
+    });
+  }
+
+  /**
+   * Refresh the component data after regeneration
+   */
+  private refreshComponent() {
+    console.log('Refreshing component data...');
+    
+    // Reset all filters and selections
+    this.selectedThemeFilter = '';
+    this.selectFilterCourses = [];
+    this.filterdCourses = [];
+    this.originalFilteredCourses = [];
+    
+    // Reset tab states
+    this.innerTabActiveIndex = 0;
+    this.outerTabActiveIndex = 0;
+    
+    // Reload the data
+    this.ngOnInit();
+  }
+}
+
+// Confirmation Dialog Component
+@Component({
+  selector: 'regenerate-confirmation-dialog',
+  template: `
+    <div class="confirmation-dialog-container">
+      <div class="dialog-header">
+        <mat-icon class="warning-icon">refresh</mat-icon>
+        <h2 mat-dialog-title>Regenerate Course Recommendations</h2>
+      </div>
+      
+      <mat-dialog-content class="dialog-content">
+        <p class="main-message">
+          This will delete all current course recommendations and generate new ones based on the latest role mapping.
+        </p>
+        <p class="sub-message">
+          Are you sure you want to continue?
+        </p>
+      </mat-dialog-content>
+      
+      <mat-dialog-actions class="dialog-actions">
+        <button mat-button (click)="onCancel()" class="cancel-btn">
+          Cancel
+        </button>
+        <button mat-raised-button color="primary" (click)="onConfirm()" class="confirm-btn">
+          <mat-icon>refresh</mat-icon>
+          Yes, Regenerate
+        </button>
+      </mat-dialog-actions>
+    </div>
+  `,
+  styles: [`
+    .confirmation-dialog-container {
+      padding: 0;
+    }
+    
+    .dialog-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 24px 16px 24px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .warning-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      color: #ff9800;
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .dialog-content {
+      padding: 24px;
+    }
+    
+    .main-message {
+      font-size: 16px;
+      color: #333;
+      margin: 0 0 12px 0;
+      line-height: 1.5;
+    }
+    
+    .sub-message {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+      font-weight: 500;
+    }
+    
+    .dialog-actions {
+      padding: 16px 24px 24px 24px;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    
+    .cancel-btn {
+      color: #666;
+    }
+    
+    .confirm-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      .mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        margin: 0;
+      }
+    }
+  `]
+})
+export class RegenerateConfirmationDialog {
+  constructor(
+    public dialogRef: MatDialogRef<RegenerateConfirmationDialog>
+  ) {}
+
+  onCancel(): void {
+    this.dialogRef.close(false);
+  }
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+}
