@@ -25,6 +25,8 @@ export class GenerateCourseRecommendationComponent {
   filterdCourses: any = []
   originalData: any = []
   selectFilterCourses: any = []
+  suggestedCourses: any = [] // Track iGOT suggested courses separately
+  userAddedCourses: any = [] // Track user-added courses separately
   mode = 'add'
   cbp_plan_id = ''
   expandedCompetencies: any = {}; // Track expanded state for each course and competency type
@@ -247,9 +249,11 @@ export class GenerateCourseRecommendationComponent {
         this.loading = false
         console.log('res', res)
         console.log('this.filterdCourses', this.filterdCourses)
-        for (let i = 0; i < res.length; i++) {
-          this.filterdCourses.push(res[i])
-        }
+        // Store suggested courses separately
+        this.suggestedCourses = [...res];
+        
+        // Rebuild filterdCourses to include all course types
+        this.rebuildFilteredCourses();
         
         // Update gap analysis stats after suggested courses are added
         this.updateGapAnalysisAfterCoursesUpdate()
@@ -286,7 +290,10 @@ export class GenerateCourseRecommendationComponent {
         this.loading = false
         console.log('Current filterdCourses before adding user courses:', this.filterdCourses)
         
-        // Process and add user-added courses
+        // Store user-added courses separately (reset to avoid duplicates)
+        this.userAddedCourses = [...res];
+        
+        // Process user-added courses to ensure proper structure
         for (let i = 0; i < res.length; i++) {
           const userCourse = res[i];
           console.log(`User course ${i} competencies:`, userCourse.competencies);
@@ -300,9 +307,10 @@ export class GenerateCourseRecommendationComponent {
           if (userCourse && !userCourse.identifier) {
             userCourse.identifier = userCourse.id || `user_course_${i}_${Date.now()}`;
           }
-          
-          this.filterdCourses.push(userCourse);
         }
+        
+        // Rebuild filterdCourses to include all course types
+        this.rebuildFilteredCourses();
         
         console.log('filterdCourses after adding user courses:', this.filterdCourses);
         //this.successRoleMapping.emit(this.roleMappingForm)
@@ -600,7 +608,7 @@ export class GenerateCourseRecommendationComponent {
   }
   
   getAllAvailableCourses() {
-    // Start with original data
+    // Start with original data (AI recommended courses)
     const allCourses = [...this.originalData];
     const seenIdentifiers = new Set();
     
@@ -610,9 +618,8 @@ export class GenerateCourseRecommendationComponent {
       if (course.id) seenIdentifiers.add(course.id);
     });
     
-    // Add any additional courses from filterdCourses that aren't in originalData
-    // This could include suggested courses and user-added courses
-    this.filterdCourses.forEach(course => {
+    // Add suggested courses (iGOT platform courses)
+    this.suggestedCourses.forEach(course => {
       const courseId = course.identifier || course.id;
       if (courseId && !seenIdentifiers.has(courseId)) {
         allCourses.push(course);
@@ -620,8 +627,46 @@ export class GenerateCourseRecommendationComponent {
       }
     });
     
-    console.log('Total available courses:', allCourses.length);
+    // Add user-added courses
+    this.userAddedCourses.forEach(course => {
+      const courseId = course.identifier || course.id;
+      if (courseId && !seenIdentifiers.has(courseId)) {
+        // Ensure user-added courses have proper structure
+        if (!course.course_type) {
+          course.course_type = 'User Added';
+        }
+        if (!course.identifier && course.id) {
+          course.identifier = course.id;
+        }
+        allCourses.push(course);
+        seenIdentifiers.add(courseId);
+      }
+    });
+    
+    console.log('getAllAvailableCourses breakdown:', {
+      originalData: this.originalData.length,
+      suggestedCourses: this.suggestedCourses.length,
+      userAddedCourses: this.userAddedCourses.length,
+      totalAvailable: allCourses.length
+    });
+    
     return allCourses;
+  }
+
+  /**
+   * Rebuild filterdCourses array with all available course types
+   * This ensures consistency across the application
+   */
+  rebuildFilteredCourses() {
+    this.filterdCourses = this.getAllAvailableCourses();
+    console.log('Rebuilt filterdCourses with all course types:', {
+      total: this.filterdCourses.length,
+      breakdown: {
+        original: this.originalData.length,
+        suggested: this.suggestedCourses.length,
+        userAdded: this.userAddedCourses.length
+      }
+    });
   }
 
   behavioralFilter(data: any[]): any[] {
@@ -745,10 +790,12 @@ export class GenerateCourseRecommendationComponent {
     // Count ALL competencies by category (not just filtered ones)
     const masterListByCategory = {total: allCompetencies.length, behavioural: 0, functional:0, domain:0}
     
-    // IMPORTANT: Always use originalData (all courses) for overall coverage calculation
-    // Don't use filterdCourses as it changes based on competency filters
+    // IMPORTANT: Use all available courses for consistent coverage calculation
+    // This should match what's available in the Filter By Competency section
     const allCourseCompetencies = []
-    this.originalData.forEach(course => {
+    const allAvailableCoursesForStats = this.getAllAvailableCourses();
+    
+    allAvailableCoursesForStats.forEach(course => {
       // Handle different competency property names
       let competencies = [];
       if (course && course.competencies && Array.isArray(course.competencies)) {
@@ -760,27 +807,6 @@ export class GenerateCourseRecommendationComponent {
       competencies.forEach((list:any) => {
          allCourseCompetencies.push(list)
       });
-    });
-    
-    // Also include suggested courses that might not be in originalData
-    this.filterdCourses.forEach(course => {
-      // Only add if it's not already in originalData (to avoid duplicates)
-      const isInOriginal = this.originalData.some(origCourse => 
-        origCourse.identifier === course.identifier
-      );
-      if (!isInOriginal) {
-        // Handle different competency property names
-        let competencies = [];
-        if (course && course.competencies && Array.isArray(course.competencies)) {
-          competencies = course.competencies;
-        } else if (course && course.competencies_v6 && Array.isArray(course.competencies_v6)) {
-          competencies = course.competencies_v6;
-        }
-        
-        competencies.forEach((list:any) => {
-           allCourseCompetencies.push(list)
-        });
-      }
     });
     
     console.log('allCompetencies', allCompetencies)
@@ -984,18 +1010,8 @@ export class GenerateCourseRecommendationComponent {
     }
     
     // Enhanced matching: check both theme and subtheme from courses against FRAC competencies
-    // IMPORTANT: Use originalData + any additional courses for consistent overall coverage
-    const allCoursesForMatching = [...this.originalData];
-    
-    // Add any additional courses from filterdCourses that aren't in originalData
-    this.filterdCourses.forEach(course => {
-      const isInOriginal = this.originalData.some(origCourse => 
-        origCourse.identifier === course.identifier
-      );
-      if (!isInOriginal) {
-        allCoursesForMatching.push(course);
-      }
-    });
+    // IMPORTANT: Use all available courses for consistent coverage calculation
+    const allCoursesForMatching = this.getAllAvailableCourses();
     
     allCoursesForMatching.forEach(course => {
       // Handle different competency property names
@@ -1299,8 +1315,8 @@ export class GenerateCourseRecommendationComponent {
    * Update gap analysis stats after courses are updated (like suggested courses added)
    */
   updateGapAnalysisAfterCoursesUpdate() {
-    // Update the original data to include all courses
-    this.originalData = [...this.filterdCourses];
+    // Don't modify originalData - it should remain as AI recommended courses only
+    // The gap analysis already properly includes all course types
     
     // Recalculate gap analysis stats
     this.gapAnalysisStats();
@@ -1433,6 +1449,8 @@ export class GenerateCourseRecommendationComponent {
     this.selectFilterCourses = [];
     this.filterdCourses = [];
     this.originalFilteredCourses = [];
+    this.suggestedCourses = [];
+    this.userAddedCourses = [];
     
     // Reset tab states
     this.innerTabActiveIndex = 0;

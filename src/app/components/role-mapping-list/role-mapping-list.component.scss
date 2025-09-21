@@ -5,7 +5,11 @@
     // background: rgba(27, 76, 161, 0.12);
     margin: 10px auto;
 }
-
+.searchinput
+{
+    border-radius: 20px;
+    width: 400px;
+}
 .sub-heading p{
     color: #000;
     font-family: Montserrat;
@@ -55,27 +59,27 @@ line-height: 150%; /* 21px */
     height: 42px;
     width: 100%;
   }
-  
+
   ::ng-deep mat-select {
     border-radius: 25px !important;
     background-color: white !important;
   }
-  
+
   ::ng-deep .mat-select-panel {
     background-color: white !important;
     // border-radius: 25px !important;
   }
-  
+
   ::ng-deep .mat-select-panel .mat-option {
     border-radius: 0 !important;  /* Options with no border-radius */
   }
-  
+
   ::ng-deep mat-form-field .mat-form-field-underline {
     display: none !important;
   }
-  
 
-  
+
+
   ::ng-deep mat-select .mat-select-placeholder {
     color: rgba(0, 0, 0, 0.40);
     font-family: Lato;
@@ -87,7 +91,7 @@ line-height: 150%; /* 21px */
 
   ::ng-deep mat-select .mat-select-value-text {
     color: rgba(0, 0, 0, 1);
-    
+
     font-family: Lato;
     font-size: 14px;
     font-style: normal;
@@ -120,7 +124,7 @@ font-weight: 400;
 line-height: normal;
 resize: none;
   }
- 
+
 
   .section-header {
     display: flex;
@@ -155,7 +159,7 @@ border: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    align-items: center;
   }
 
   .pl-2 {
@@ -168,37 +172,64 @@ border: none;
     justify-content: space-between;
   }
 
+  .search-filter-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .search-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .search-input-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-button-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .add-designation-section {
+    display: flex;
+    align-items: center;
+  }
+
   .search {
     .rsearch {
         position: relative;
     }
 
-    .search-icon {
-        position: absolute;
-        top: 15px;
-        font-size: 20px;
-        left: 10px;
-    }
 
     .clear-icon {
         position: absolute;
-        top: 15px;
+        top: 6px;
         font-size: 20px;
-        right: 10px;
+        right: 8px;
         color: #666;
-        
+
         &:hover {
             color: #333;
         }
     }
 
     .sinput {
-        border-radius: 32px;
+        border-radius: 20px;
         border: 1px solid #d5d0d0;
-        padding: 15px 36px;
+        padding: 8px 30px 8px 16px;
         /* stylelint-disable */
         font: 400 14px Lato;
-        width:800px
+        width: 500px;
+        height: 32px;
+        box-sizing: border-box;
         /* stylelint-enable */
     }
 }
@@ -243,6 +274,7 @@ margin-left: 10px;
 .search-container {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .course-container {
@@ -341,7 +373,7 @@ line-height: normal;
     flex-direction: row;
     align-items: center;
 }
- 
+
 .competencies-matched-container {
     display: flex;
     flex-direction: row;
@@ -361,7 +393,7 @@ line-height: normal;
     flex-wrap: wrap;
     gap: 16px; /* Optional spacing between cards */
   }
-  
+
   .course-list-item {
     flex: 0 0 48%; /* Two items per row with space for gap */
     box-sizing: border-box;
@@ -635,11 +667,11 @@ line-height: 1.75; /* 171.429% */
 
 .view-final-cbp-plan {
     display: flex;
-    
+
     justify-content: end;
     align-items: center;
     gap: 8px;
-    
+
 }
 
 .view-final-cbp-plan-text {
@@ -714,7 +746,7 @@ border: none;
     position: relative; /* required for positioning ::after */
     border-right: none; /* remove default full height border */
   }
-  
+
   :host ::ng-deep th.mat-mdc-header-cell:not(:last-child)::after {
     content: "";
     position: absolute;
@@ -742,7 +774,7 @@ border: none;
   .select-map-flex {
     display: flex;
   }
-  
+
 
   .search-container-flex {
     display: flex;
