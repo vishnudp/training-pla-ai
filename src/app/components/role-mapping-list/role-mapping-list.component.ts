@@ -32,6 +32,7 @@ export class RoleMappingListComponent {
   dataSource = new MatTableDataSource<any>([]);
   filteredData = [];
   originalData: any[] = [];
+  searchResults: any[] = []; // Store search results for pagination
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   expandedResponsibilityRows: { [id: string]: boolean } = {};
   expandedActivityRows: { [id: string]: boolean } = {};
@@ -76,7 +77,7 @@ export class RoleMappingListComponent {
           this.loading = false
          console.log('res', res)
          this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource.data = res
+         this.dataSource = new MatTableDataSource(res)
          setTimeout(()=>{
           this.dataSource.paginator = this.paginator;
          },1000)
@@ -94,7 +95,7 @@ export class RoleMappingListComponent {
           this.loading = false
          console.log('res', res)
          this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource.data = res
+         this.dataSource = new MatTableDataSource(res)
          setTimeout(()=>{
           this.dataSource.paginator = this.paginator;
          },1000)
@@ -127,22 +128,35 @@ export class RoleMappingListComponent {
 
   applyFilter() {
     if (this.searchText.trim()) {
-      this.filteredData = this.filterData(this.searchText);
-      this.dataSource.data = this.filteredData;
+      // Search only in designation names
+      this.searchResults = this.filterByDesignationName(this.searchText);
+      this.dataSource = new MatTableDataSource(this.searchResults);
     } else {
       // If search is cleared, restore original data
-      this.dataSource.data = this.originalData;
+      this.searchResults = [];
+      this.dataSource = new MatTableDataSource(this.originalData);
     }
     
-    // Reset paginator to first page after filtering
-    if (this.paginator) {
-      this.paginator.firstPage();
-    }
+    // Set up pagination for filtered results
+    setTimeout(() => {
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
+      }
+    }, 100);
   }
 
   clearSearch() {
     this.searchText = '';
-    this.applyFilter();
+    this.searchResults = [];
+    this.dataSource = new MatTableDataSource(this.originalData);
+    
+    setTimeout(() => {
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator;
+        this.paginator.firstPage();
+      }
+    }, 100);
   }
 
   refreshRoleMappingData() {
@@ -184,8 +198,10 @@ export class RoleMappingListComponent {
 
   private updateDataSource(res: any[]) {
     this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
-    this.dataSource.data = res;
+    this.dataSource = new MatTableDataSource(res);
     this.originalData = res;
+    this.searchResults = []; // Clear search results when data is updated
+    
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
     }, 100);
@@ -258,7 +274,7 @@ export class RoleMappingListComponent {
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
             console.log('res', res)
-            this.dataSource.data = res
+            this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
             console.log('this.dataSource',this.dataSource)
@@ -294,7 +310,7 @@ export class RoleMappingListComponent {
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
             console.log('res', res)
-            this.dataSource.data = res
+            this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
             console.log('this.dataSource',this.dataSource)
@@ -307,12 +323,18 @@ export class RoleMappingListComponent {
     });
   }
 
-  filterData(searchText: string): any[] {
-    const filter = searchText.trim().toLowerCase();
-  
+  /**
+   * Filter data by designation name only
+   * Supports single and multiple word searches
+   */
+  filterByDesignationName(searchText: string): any[] {
+    const searchTerms = searchText.trim().toLowerCase().split(/\s+/);
+    
     return this.originalData.filter(item => {
-      const stringified = this.flattenObjectToString(item).toLowerCase();
-      return stringified.includes(filter);
+      const designationName = (item.designation_name || '').toLowerCase();
+      
+      // Check if all search terms are found in the designation name
+      return searchTerms.every(term => designationName.includes(term));
     });
   }
   
@@ -421,7 +443,7 @@ export class RoleMappingListComponent {
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
             console.log('res', res)
-            this.dataSource.data = res
+            this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
             console.log('this.dataSource',this.dataSource)
