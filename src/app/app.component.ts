@@ -103,14 +103,21 @@ export class AppComponent {
   logout() {
     this.loginSuccess = false
     this.nextStep = 'initial'
-    localStorage.clear()
-    this.sharedService.logout().subscribe((res)=>{
-      console.log('res', res)
-      this.snackBar.open('You are logout successfully', 'X', {
-        duration: 3000,
-        panelClass: ['snackbar-success']
-      });
-    })
+    localStorage.clear()    
+    this.sharedService.logout().subscribe({
+      next: (res) => {
+        this.snackBar.open('You are logout successfully', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: (error) => {
+        this.snackBar.open(error?.error?.detail, 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
   }
 
   

@@ -1,4 +1,4 @@
-<div class="view-cbp-plan">
+<div class="view-cbp-plan" #dialogContent style="max-height: 80vh; overflow: auto;">
     <div class="popup-container">
         <div class="popup-header">
             <div>
@@ -10,8 +10,8 @@
         </div>
         <div class="section-container" #pdfContent>
             <header class="bg-white header-border">
-                <div class="header-flex justify-between">
-                    <div class="flex items-center space-x-4">
+                <div class="header-flex justify-between" style="width:100%">
+                    <div class="flex items-center space-x-4" style="width:50%">
                         <div class="image-container">
                             <div>
                                 <img src="assets/icons/dopt-logo.png" 
@@ -22,12 +22,12 @@
                                     alt="Capacity Building Commission Logo" class="h-10" />
                             </div>
                             <div>
-                                <img src="assets/icons/karmayogiLogo-2.png"
+                                <img src="assets/icons/karmayogiLogo-min.png"
                                     alt="Karmayogi Bharat Logo" class="h-10" />
                             </div>
                         </div>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right" style="width:50%">
                         <h1 class="text-2xl font-bold text-gray-900">
                             {{sharedService?.cbpPlanFinalObj?.ministry?.name}} - Capacity Building Plan
                         </h1>
@@ -336,11 +336,11 @@
             </div>
             <footer class="org-footer">
                 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-                  <div class="flex items-center space-x-4 mb-4 mt-4 md:mb-0">
-                    <div>
-                        <img src="assets/icons/karmayogiLogo-2.png" alt="Karmayogi Bharat Logo" class="h-10" style="margin-left:20px"/>
+                  <div class="flex items-center space-x-4 mb-4 mt-4 md:mb-0 footer-container">
+                    <div class="footer-logo-container">
+                        <img src="assets/icons/karmayogiLogo-min.png" alt="Karmayogi Bharat Logo" class="h-10" style="margin-left:20px"/>
                     </div>
-                    <div>
+                    <div style="margin-left: 100px;">
                         <a href="https://karmayogibharat.gov.in" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold transition-colors">
                             karmayogibharat.gov.in
                           </a>
@@ -348,7 +348,7 @@
                     
                    
                   </div>
-                  <div class="text-sm text-center md:text-right">
+                  <div class="text-sm text-center md:text-right mb-4" style="margin-left: 100px;">
                     <p>&copy; 2025 All Rights Reserved.</p>
                   </div>
                 </div>

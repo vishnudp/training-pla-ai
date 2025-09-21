@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="section-container mt-2">
+    <div class="section-container mt-2" #pdfContent>
         <div class="ministry-heading mt-2">
             {{cbpPlanData?.ministry.name}} / {{planData?.designation_name}}
         </div>
@@ -118,7 +118,8 @@
                     </div>
                     <div class="course-title mt-4">
                         <div>
-                            <div>{{item?.course}}</div>
+                            <div *ngIf="item?.course">{{item?.course}}</div>
+                            <div *ngIf="item?.name">{{item?.name}}</div>
                         </div>
                     </div>
                     <div class="course-desc mt-2">
@@ -130,7 +131,8 @@
                         <div class="relevancy-container">
                             <div class="relevancy">Relevancy</div>
                             <div class="dash">-</div>
-                            <div class="percentage">{{item?.relevancy}}%</div>
+                            <div class="percentage" *ngIf="item?.relevancy">{{item?.relevancy}}%</div>
+                            <div class="percentage" *ngIf="!item?.relevancy">N/A</div>
                         </div>
                     </div>
                     <!-- <div>
@@ -190,6 +192,9 @@
         </div>
     </div>
     <div class="popup-footer">
+        <div>
+            <input class="btn-active" type="button" value="Download" (click)="downloadPDF()"/>
+        </div>
         <div>
             <input class="btn-active" type="button" value="Add Personalisation" (click)="addPersonilisation()"/>
         </div>

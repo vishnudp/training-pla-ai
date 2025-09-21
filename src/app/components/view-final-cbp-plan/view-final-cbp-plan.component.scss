@@ -674,7 +674,7 @@ margin: 5px 0;
     background-color: #fff;
     flex-shrink: 0;
     position: sticky;
-    bottom: 0;
+    bottom: -15px;
   }
 
   .section-container {
@@ -1055,7 +1055,7 @@ line-height: normal;
   }
   .image-container .h-10 {
     height: 50px;;
-    // width:100px
+    // width:400px
   }
   .image-container .h-15 {
     height: 50px;;
@@ -1077,6 +1077,7 @@ line-height: normal;
     justify-content: center;
     align-items: center;
     border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
   }
 
   .dialog-scrollable-content {
@@ -1106,4 +1107,19 @@ line-height: normal;
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: white;
+  }
+
+  .footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .footer-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 30%;
   }

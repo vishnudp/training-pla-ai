@@ -4,6 +4,7 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
 // import html2pdf from 'html2pdf.js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -15,15 +16,17 @@ export class ViewFinalCbpPlanComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    public sharedService: SharedService
+    public sharedService: SharedService,
+    private snackBar: MatSnackBar
   ) {
     this.getMappingData()
   }
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   loading = false
-  designationData:any = []
-  totalCompetencieObj = {total:0, behavioral:0, functional:0, domain:0}
+  designationData: any = []
+  totalCompetencieObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
   pdfTrigger = false
+  @ViewChild('dialogContent') dialogContent!: ElementRef;
   // designationData = [
   //   {
   //     designation: "Secretary (WCD)",
@@ -58,7 +61,7 @@ export class ViewFinalCbpPlanComponent {
   //     completionRate: { behavioral: 85, functional: 78, domain: 92 }
   //   }
   // ];
-  
+
   // // Calculate the totals dynamically
   // private behavioralTotal = this.designationData.reduce((acc, item) => acc + item.behavioralCompetencies.length, 0);
   // private functionalTotal = this.designationData.reduce((acc, item) => acc + item.functionalCompetencies.length, 0);
@@ -68,7 +71,7 @@ export class ViewFinalCbpPlanComponent {
   // private behavioralAvg = Math.round(this.designationData.reduce((acc, item) => acc + item.completionRate.behavioral, 0) / this.designationData.length);
   // private functionalAvg = Math.round(this.designationData.reduce((acc, item) => acc + item.completionRate.functional, 0) / this.designationData.length);
   // private domainAvg = Math.round(this.designationData.reduce((acc, item) => acc + item.completionRate.domain, 0) / this.designationData.length);
-  
+
   // overallKPIs = [
   //   {
   //     name: 'Behavioral Competencies',
@@ -114,168 +117,278 @@ export class ViewFinalCbpPlanComponent {
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
+
     setTimeout(() => {
       this.scrollToTop();
     });
+
+    if (this.dialogContent) {
+      setTimeout(() => {
+        this.dialogContent.nativeElement.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 500)
+
+    }
   }
 
   getMappingData() {
-    console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
-    if(this.sharedService?.cbpPlanFinalObj.ministry.type === 'central') {
-      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
-      this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
-       console.log('res', res)
-       let behavioralCompetencies =[]
-       let functionalCompetencies =[]
-       let domainCompetencies =[]
-       for(let i=0; i<res.length;i++) {
-        behavioralCompetencies = []
-        functionalCompetencies =[]
-        domainCompetencies =[]
-        let competenciesObj = {total:0, behavioral:0, functional:0, domain:0}
-       res[i].competencies.forEach(c => {
-        competenciesObj.total++;
-        this.totalCompetencieObj.total++
-         if (c.type.toLowerCase() === 'behavioral') { 
-          
-          behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-          competenciesObj.behavioral++;
-          this.totalCompetencieObj.behavioral++
-         }
-         if (c.type.toLowerCase() === 'functional') {
-          functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-          competenciesObj.functional++;
-          this.totalCompetencieObj.functional++
-         }
-         if (c.type.toLowerCase() === 'domain') { 
-          domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-          competenciesObj.domain++;
-          this.totalCompetencieObj.domain++
 
-         }
-       });
-        let obj:any =  {
-          designation: res[i].designation_name,
-          wing: res[i].wing_division_section,
-          updated: res[i].updated_at,
-          rolesResponsibilities: res[i].role_responsibilities,
-          activities:res[i].activities,
-          competenciesObj: competenciesObj,
-          behavioralCompetencies: behavioralCompetencies,
-          functionalCompetencies: functionalCompetencies,
-          domainCompetencies: domainCompetencies
-          // behavioralCompetencies: [
-          //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
-          //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
-          //   "Accountability", "Conflict Management"
-          // ],
-          // functionalCompetencies: [
-          //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
-          //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
-          //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
-          //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
-          // ],
-          // domainCompetencies: [
-          //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
-          //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
-          //   "National Programme Strategic Direction"
-          // ],
-          // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+    console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+    if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'central') {
+      this.loading = true
+      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
+      // this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
+
+      //  })
+
+      this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe({
+        next: (res) => {
+          this.loading = false
+          console.log('res', res)
+          let behavioralCompetencies = []
+          let functionalCompetencies = []
+          let domainCompetencies = []
+          for (let i = 0; i < res.length; i++) {
+            behavioralCompetencies = []
+            functionalCompetencies = []
+            domainCompetencies = []
+            let competenciesObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
+            res[i].competencies.forEach(c => {
+              competenciesObj.total++;
+              this.totalCompetencieObj.total++
+              if (c.type.toLowerCase() === 'behavioral') {
+
+                behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.behavioral++;
+                this.totalCompetencieObj.behavioral++
+              }
+              if (c.type.toLowerCase() === 'functional') {
+                functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.functional++;
+                this.totalCompetencieObj.functional++
+              }
+              if (c.type.toLowerCase() === 'domain') {
+                domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.domain++;
+                this.totalCompetencieObj.domain++
+
+              }
+            });
+            let obj: any = {
+              designation: res[i].designation_name,
+              wing: res[i].wing_division_section,
+              updated: res[i].updated_at,
+              rolesResponsibilities: res[i].role_responsibilities,
+              activities: res[i].activities,
+              competenciesObj: competenciesObj,
+              behavioralCompetencies: behavioralCompetencies,
+              functionalCompetencies: functionalCompetencies,
+              domainCompetencies: domainCompetencies
+              // behavioralCompetencies: [
+              //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+              //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+              //   "Accountability", "Conflict Management"
+              // ],
+              // functionalCompetencies: [
+              //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+              //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+              //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+              //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+              // ],
+              // domainCompetencies: [
+              //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+              //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+              //   "National Programme Strategic Direction"
+              // ],
+              // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+            }
+
+
+            this.designationData.push(obj)
+          }
+          console.log('this.designationData', this.designationData)
+          console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+          this.cdr.detectChanges();
+          setTimeout(() => {
+            this.scrollToTop()
+          }, 1000);
+
+        },
+
+        error: (error) => {
+          this.loading = false
+          this.snackBar.open(error?.error?.detail, 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
         }
-       
-        
-       this.designationData.push(obj)
-       }
-       console.log('this.designationData', this.designationData)
-       console.log('this.totalCompetencieObj', this.totalCompetencieObj )
-       this.cdr.detectChanges();
-       setTimeout(() => {
-        this.scrollToTop()
-      }, 1000);
-       })
+      });
     }
-    if(this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
-      console.log('this.sharedService?.cbpPlanFinalObj',this.sharedService?.cbpPlanFinalObj)
+    if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
+      this.loading = true
+      console.log('this.sharedService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
       let department_id = this.sharedService?.cbpPlanFinalObj.departments
-      this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
-        console.log('res', res)
-        let behavioralCompetencies =[]
-        let functionalCompetencies =[]
-        let domainCompetencies =[]
-        for(let i=0; i<res.length;i++) {
-         behavioralCompetencies = []
-         functionalCompetencies =[]
-         domainCompetencies =[]
-         let competenciesObj = {total:0, behavioral:0, functional:0, domain:0}
-        res[i].competencies.forEach(c => {
-         competenciesObj.total++;
-         this.totalCompetencieObj.total++
-          if (c.type.toLowerCase() === 'behavioral') { 
-           
-           behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-           competenciesObj.behavioral++;
-           this.totalCompetencieObj.behavioral++
+      // this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
+      //   console.log('res', res)
+      //   let behavioralCompetencies =[]
+      //   let functionalCompetencies =[]
+      //   let domainCompetencies =[]
+      //   for(let i=0; i<res.length;i++) {
+      //    behavioralCompetencies = []
+      //    functionalCompetencies =[]
+      //    domainCompetencies =[]
+      //    let competenciesObj = {total:0, behavioral:0, functional:0, domain:0}
+      //   res[i].competencies.forEach(c => {
+      //    competenciesObj.total++;
+      //    this.totalCompetencieObj.total++
+      //     if (c.type.toLowerCase() === 'behavioral') { 
+
+      //      behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+      //      competenciesObj.behavioral++;
+      //      this.totalCompetencieObj.behavioral++
+      //     }
+      //     if (c.type.toLowerCase() === 'functional') {
+      //      functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+      //      competenciesObj.functional++;
+      //      this.totalCompetencieObj.functional++
+      //     }
+      //     if (c.type.toLowerCase() === 'domain') { 
+      //      domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+      //      competenciesObj.domain++;
+      //      this.totalCompetencieObj.domain++
+
+      //     }
+      //   });
+      //    let obj:any =  {
+      //      designation: res[i].designation_name,
+      //      wing: res[i].wing_division_section,
+      //      updated: res[i].updated_at,
+      //      rolesResponsibilities: res[i].role_responsibilities,
+      //      activities:res[i].activities,
+      //      competenciesObj: competenciesObj,
+      //      behavioralCompetencies: behavioralCompetencies,
+      //      functionalCompetencies: functionalCompetencies,
+      //      domainCompetencies: domainCompetencies
+      //      // behavioralCompetencies: [
+      //      //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+      //      //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+      //      //   "Accountability", "Conflict Management"
+      //      // ],
+      //      // functionalCompetencies: [
+      //      //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+      //      //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+      //      //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+      //      //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+      //      // ],
+      //      // domainCompetencies: [
+      //      //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+      //      //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+      //      //   "National Programme Strategic Direction"
+      //      // ],
+      //      // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+      //    }
+
+
+      //   this.designationData.push(obj)
+      //   }
+      //   this.cdr.detectChanges();
+      //   setTimeout(() => {
+      //    this.scrollToTop()
+      //   }, 1000);
+      //   console.log('this.designationData', this.designationData)
+      //   console.log('this.totalCompetencieObj', this.totalCompetencieObj )
+
+      //  })
+
+      this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
+        next: (res) => {
+          console.log('res', res)
+          let behavioralCompetencies = []
+          let functionalCompetencies = []
+          let domainCompetencies = []
+          for (let i = 0; i < res.length; i++) {
+            behavioralCompetencies = []
+            functionalCompetencies = []
+            domainCompetencies = []
+            let competenciesObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
+            res[i].competencies.forEach(c => {
+              competenciesObj.total++;
+              this.totalCompetencieObj.total++
+              if (c.type.toLowerCase() === 'behavioral') {
+
+                behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.behavioral++;
+                this.totalCompetencieObj.behavioral++
+              }
+              if (c.type.toLowerCase() === 'functional') {
+                functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.functional++;
+                this.totalCompetencieObj.functional++
+              }
+              if (c.type.toLowerCase() === 'domain') {
+                domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                competenciesObj.domain++;
+                this.totalCompetencieObj.domain++
+
+              }
+            });
+            let obj: any = {
+              designation: res[i].designation_name,
+              wing: res[i].wing_division_section,
+              updated: res[i].updated_at,
+              rolesResponsibilities: res[i].role_responsibilities,
+              activities: res[i].activities,
+              competenciesObj: competenciesObj,
+              behavioralCompetencies: behavioralCompetencies,
+              functionalCompetencies: functionalCompetencies,
+              domainCompetencies: domainCompetencies
+              // behavioralCompetencies: [
+              //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+              //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+              //   "Accountability", "Conflict Management"
+              // ],
+              // functionalCompetencies: [
+              //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+              //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+              //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+              //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+              // ],
+              // domainCompetencies: [
+              //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+              //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+              //   "National Programme Strategic Direction"
+              // ],
+              // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+            }
+
+
+            this.designationData.push(obj)
           }
-          if (c.type.toLowerCase() === 'functional') {
-           functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-           competenciesObj.functional++;
-           this.totalCompetencieObj.functional++
-          }
-          if (c.type.toLowerCase() === 'domain') { 
-           domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-           competenciesObj.domain++;
-           this.totalCompetencieObj.domain++
- 
-          }
-        });
-         let obj:any =  {
-           designation: res[i].designation_name,
-           wing: res[i].wing_division_section,
-           updated: res[i].updated_at,
-           rolesResponsibilities: res[i].role_responsibilities,
-           activities:res[i].activities,
-           competenciesObj: competenciesObj,
-           behavioralCompetencies: behavioralCompetencies,
-           functionalCompetencies: functionalCompetencies,
-           domainCompetencies: domainCompetencies
-           // behavioralCompetencies: [
-           //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
-           //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
-           //   "Accountability", "Conflict Management"
-           // ],
-           // functionalCompetencies: [
-           //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
-           //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
-           //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
-           //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
-           // ],
-           // domainCompetencies: [
-           //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
-           //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
-           //   "National Programme Strategic Direction"
-           // ],
-           // completionRate: { behavioral: 85, functional: 78, domain: 92 }
-         }
-        
-         
-        this.designationData.push(obj)
+          this.cdr.detectChanges();
+          setTimeout(() => {
+            this.scrollToTop()
+          }, 1000);
+          console.log('this.designationData', this.designationData)
+          console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+        },
+        error: (error) => {
+          this.loading = false
+          this.snackBar.open(error?.error?.detail, 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
         }
-        this.cdr.detectChanges();
-        setTimeout(() => {
-         this.scrollToTop()
-        }, 1000);
-        console.log('this.designationData', this.designationData)
-        console.log('this.totalCompetencieObj', this.totalCompetencieObj )
-      
-       })
+      });
     }
 
-    
-    
+
+
   }
   scrollToTop(): void {
-    
+
     // if (this.pdfContent && this.pdfContent.nativeElement && this.pdfContent.nativeElement.scrollTop !== undefined) {
     //   this.pdfContent.nativeElement.scrollTop = 0;
     // } else {
@@ -290,96 +403,105 @@ export class ViewFinalCbpPlanComponent {
   downloadPDF() {
     this.pdfTrigger = true
     this.loading = true;
-  //   const element = this.pdfContent.nativeElement;
+    //   const element = this.pdfContent.nativeElement;
 
-  // // Wait for images to load
-  // const images = element.querySelectorAll('img');
-  // const promises = Array.from(images).map((img: HTMLImageElement) => {
-  //   if (img.complete) return Promise.resolve();
-  //   return new Promise(resolve => img.onload = resolve);
-  // });
+    // // Wait for images to load
+    // const images = element.querySelectorAll('img');
+    // const promises = Array.from(images).map((img: HTMLImageElement) => {
+    //   if (img.complete) return Promise.resolve();
+    //   return new Promise(resolve => img.onload = resolve);
+    // });
 
-  // Promise.all(promises).then(() => {
-  //   const options = {
-  //     margin: 0.5,
-  //     filename: 'Final CBP Plan.pdf',
-  //     image: { type: 'jpeg', quality: 0.98 },
-  //     html2canvas: {
-  //       scale: 2,
-  //       useCORS: true,
-  //       scrollY: 0,
-  //     },
-  //     jsPDF: {
-  //       unit: 'in',
-  //       format: 'a4',
-  //       orientation: 'portrait'
-  //     },
-  //     pagebreak: {
-  //       mode: ['css', 'legacy', 'avoid-all']
-  //     }
-  //   };
+    // Promise.all(promises).then(() => {
+    //   const options = {
+    //     margin: 0.5,
+    //     filename: 'Final CBP Plan.pdf',
+    //     image: { type: 'jpeg', quality: 0.98 },
+    //     html2canvas: {
+    //       scale: 2,
+    //       useCORS: true,
+    //       scrollY: 0,
+    //     },
+    //     jsPDF: {
+    //       unit: 'in',
+    //       format: 'a4',
+    //       orientation: 'portrait'
+    //     },
+    //     pagebreak: {
+    //       mode: ['css', 'legacy', 'avoid-all']
+    //     }
+    //   };
 
-  //   html2pdf().from(element).set(options).save();
-  // });
-  //const element = this.pdfContent.nativeElement;
+    //   html2pdf().from(element).set(options).save();
+    // });
+    //const element = this.pdfContent.nativeElement;
 
-  this.loading = true;
-  const element = this.pdfContent.nativeElement;
-  
-  html2canvas(element, {
-    scale: 2,             // higher scale for better quality
-    useCORS: true,
-    scrollY: 0,
-    logging: true,
-  }).then((canvas) => {
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-  
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-  
-    // Compute height of one PDF page in canvas pixels
-    const ratio = canvasWidth / pdfWidth;
-    const pageHeightPx = pdfHeight * ratio;
-  
-    const totalPages = Math.ceil(canvasHeight / pageHeightPx);
-  
-    for (let page = 0; page < totalPages; page++) {
-      const canvasPage = document.createElement('canvas');
-      canvasPage.width = canvasWidth;
-      canvasPage.height = Math.min(pageHeightPx, canvasHeight - page * pageHeightPx);
-  
-      const ctx = canvasPage.getContext('2d');
-      if (ctx) {
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvasPage.width, canvasPage.height);
-  
-        ctx.drawImage(
-          canvas,
-          0, page * pageHeightPx,                        // source x, y
-          canvasWidth, canvasPage.height,               // source width, height
-          0, 0,                                          // target x, y
-          canvasWidth, canvasPage.height                // target width, height
-        );
+    this.loading = true;
+    const element = this.pdfContent.nativeElement;
+    html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0,
+      logging: true,
+    }).then((canvas) => {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      // Margins
+      const marginLeft = 5;
+      const marginTop = 15;
+      const marginRight = 5;
+      const marginBottom = 15;
+
+      const usableWidth = pdfWidth - marginLeft - marginRight;
+      const usableHeight = pdfHeight - marginTop - marginBottom;
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+
+      const ratio = canvasWidth / usableWidth;
+      const pageHeightPx = usableHeight * ratio;
+
+      const totalPages = Math.ceil(canvasHeight / pageHeightPx);
+
+      for (let page = 0; page < totalPages; page++) {
+        const canvasPage = document.createElement('canvas');
+        canvasPage.width = canvasWidth;
+        canvasPage.height = Math.min(pageHeightPx, canvasHeight - page * pageHeightPx);
+
+        const ctx = canvasPage.getContext('2d');
+        if (ctx) {
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvasPage.width, canvasPage.height);
+
+          ctx.drawImage(
+            canvas,
+            0, page * pageHeightPx,
+            canvasWidth, canvasPage.height,
+            0, 0,
+            canvasWidth, canvasPage.height
+          );
+        }
+
+        const imgData = canvasPage.toDataURL('image/png');
+        if (page > 0) pdf.addPage();
+        const imgHeightMM = canvasPage.height / ratio;
+        pdf.addImage(imgData, 'PNG', marginLeft, marginTop, usableWidth, imgHeightMM);
       }
-  
-      const imgData = canvasPage.toDataURL('image/png');
-      if (page > 0) pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, (canvasPage.height / ratio));
-    }
-  
-    pdf.save('Final_CBP.pdf');
-    this.loading = false;
-  }).catch((error) => {
-    console.error('PDF generation error:', error);
-    this.loading = false;
-  });
-  
-  
-  
-  
-  
 
-}
+      pdf.save('Final_CBP.pdf');
+      this.loading = false;
+    }).catch((error) => {
+      console.error('PDF generation error:', error);
+      this.loading = false;
+    });
+
+
+
+
+
+
+
+  }
 }

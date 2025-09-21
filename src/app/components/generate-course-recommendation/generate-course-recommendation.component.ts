@@ -1,18 +1,19 @@
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuggestMoreCoursesComponent } from '../suggest-more-courses/suggest-more-courses.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AddCourseComponent } from '../add-course/add-course.component';
-
+import html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-generate-course-recommendation',
   templateUrl: './generate-course-recommendation.component.html',
   styleUrls: ['./generate-course-recommendation.component.scss']
 })
 export class GenerateCourseRecommendationComponent {
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   planData: any
   loading = false
   recommended_course_id = ''
@@ -60,7 +61,7 @@ export class GenerateCourseRecommendationComponent {
   selectedThemeFilter = ''
   originalFilteredCourses = []
   isRegenerating = false
-
+  
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.gapAnalysisStats()
@@ -1299,6 +1300,44 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
+  downloadPDF() {
+    this.loading = true
+    const element = this.pdfContent.nativeElement;
+
+  // Wait for images to load
+  const images = element.querySelectorAll('img');
+  const promises = Array.from(images).map((img: HTMLImageElement) => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => img.onload = resolve);
+  });
+
+  Promise.all(promises).then(() => {
+    const options = {
+      margin: 0.5,
+      filename: 'Gap Analysis.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+      },
+      jsPDF: {
+        unit: 'in',
+        format: 'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: {
+        mode: ['css', 'legacy', 'avoid-all']
+      }
+    };
+
+    html2pdf().from(element).set(options).save()
+    setTimeout(() => {
+      this.loading = false;
+    }, 3000); 
+  });
+  }
+
   /**
    * Initialize gap analysis stats after initial data load
    */
@@ -1572,4 +1611,6 @@ export class RegenerateConfirmationDialog {
   onConfirm(): void {
     this.dialogRef.close(true);
   }
+
+ 
 }

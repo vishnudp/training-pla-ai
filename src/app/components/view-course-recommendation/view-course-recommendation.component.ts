@@ -1,10 +1,11 @@
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenerateCourseRecommendationComponent } from '../generate-course-recommendation/generate-course-recommendation.component';
 import { AddPersonalisationComponent } from '../add-personalisation/add-personalisation.component';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-view-course-recommendation',
@@ -12,12 +13,13 @@ import { AddPersonalisationComponent } from '../add-personalisation/add-personal
   styleUrls: ['./view-course-recommendation.component.scss']
 })
 export class ViewCourseRecommendationComponent {
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   planData:any
   loading=false
   recommended_course_id=''
   cbpPlanData:any
   constructor( public dialogRef: MatDialogRef<ViewCourseRecommendationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private sharedService: SharedService, private dialog: MatDialog) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private sharedService: SharedService, private dialog: MatDialog, private snackBar: MatSnackBar) {
       this.planData = data
     }
   searchText = ''
@@ -27,22 +29,50 @@ export class ViewCourseRecommendationComponent {
   ngOnInit() {
     this.loading = true
     this.cbpPlanData = this.sharedService.cbpPlanFinalObj
-    this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
-      this.loading = false
-      console.log('res', res)
-      this.recommended_course_id = res.id
-      let allCourses = []
-      if(res && res.filtered_courses && res.filtered_courses.length) {
-        res.filtered_courses.forEach((item)=>{
-          if(item?.relevancy > 85) {
-            allCourses.push(item)
-          }
-        })
+    // this.sharedService.getRecommendedCourse(this.planData.id).subscribe((res)=>{
+    //   this.loading = false
+    //   console.log('res', res)
+    //   this.recommended_course_id = res.id
+    //   let allCourses = []
+    //   if(res && res.filtered_courses && res.filtered_courses.length) {
+    //     res.filtered_courses.forEach((item)=>{
+    //       if(item?.relevancy > 85) {
+    //         allCourses.push(item)
+    //       }
+    //     })
+    //   }
+    //   this.filterdCourses = allCourses
+    //   console.log('this.filterdCourses', this.filterdCourses)
+    //   this.updateCompetencyCounts()
+    //   this.getUserCourse()
+    // })
+
+    this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
+      next: (res) => {
+        this.loading = false
+        console.log('res', res)
+        this.recommended_course_id = res.id
+        let allCourses = []
+        if(res && res.filtered_courses && res.filtered_courses.length) {
+          res.filtered_courses.forEach((item)=>{
+            if(item?.relevancy > 85) {
+              allCourses.push(item)
+            }
+          })
+        }
+        this.filterdCourses = allCourses
+        console.log('this.filterdCourses', this.filterdCourses)
+        this.updateCompetencyCounts()
+        this.getUserCourse()
+      },
+      error: (error) => {
+        this.loading = false
+        this.snackBar.open(error?.error?.detail, 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
       }
-      this.filterdCourses = allCourses
-      console.log('this.filterdCourses', this.filterdCourses)
-      this.updateCompetencyCounts()
-    })
+    });
   }
 
   updateCompetencyCounts() {
@@ -110,4 +140,77 @@ export class ViewCourseRecommendationComponent {
       }
     });
   }
+
+  getUserCourse() {
+    let role_mapping_id = this.planData.id
+    this.loading = true
+    this.sharedService.getUserCourse(role_mapping_id).subscribe({
+      next: (res) => {
+        // Success handling
+        this.loading = false
+        
+        // Process user-added courses to ensure proper structure
+        for (let i = 0; i < res.length; i++) {
+          this.filterdCourses.push(res[i])
+        }
+        
+        // Rebuild filterdCourses to include all course types
+        
+        
+        console.log('filterdCourses after adding user courses:', this.filterdCourses);
+        //this.successRoleMapping.emit(this.roleMappingForm)
+      },
+      error: (error) => {
+        console.log('error', error)
+        this.loading = false
+        // Handle 409 Conflict here
+        // alert('Conflict detected: The resource already exists or action conflicts.');
+        //this.get
+        // Or you can set a UI error message variable
+
+        this.loading = false
+        //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+      }
+
+
+    })
+  }
+
+  downloadPDF() {
+    this.loading = true
+    const element = this.pdfContent.nativeElement;
+
+  // Wait for images to load
+  const images = element.querySelectorAll('img');
+  const promises = Array.from(images).map((img: HTMLImageElement) => {
+    if (img.complete) return Promise.resolve();
+    return new Promise(resolve => img.onload = resolve);
+  });
+
+  Promise.all(promises).then(() => {
+    const options = {
+      margin: 0.5,
+      filename: 'Recommended Coureses.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: {
+        scale: 2,
+        useCORS: true,
+        scrollY: 0,
+      },
+      jsPDF: {
+        unit: 'in',
+        format: 'a4',
+        orientation: 'portrait'
+      },
+      pagebreak: {
+        mode: ['css', 'legacy', 'avoid-all']
+      }
+    };
+
+    html2pdf().from(element).set(options).save()
+    setTimeout(() => {
+      this.loading = false;
+    }, 3000); 
+  });
+}
 }
