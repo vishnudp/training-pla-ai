@@ -18,6 +18,7 @@ export class ViewCourseRecommendationComponent {
   loading=false
   recommended_course_id=''
   cbpPlanData:any
+  suggestedCourses: any = []
   constructor( public dialogRef: MatDialogRef<ViewCourseRecommendationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private sharedService: SharedService, private dialog: MatDialog, private snackBar: MatSnackBar) {
       this.planData = data
@@ -64,6 +65,7 @@ export class ViewCourseRecommendationComponent {
         this.filterdCourses = allCourses
         console.log('this.filterdCourses', this.filterdCourses)
         this.updateCompetencyCounts()
+        this.getSuggestedCourse()
         this.getUserCourse()
       },
       error: (error) => {
@@ -142,6 +144,40 @@ export class ViewCourseRecommendationComponent {
     });
   }
 
+  getSuggestedCourse() {
+    let role_mapping_id = this.planData.id
+    this.loading = true
+    this.sharedService.getSuggestedCourses(role_mapping_id).subscribe({
+      next: (res) => {
+        // Success handling
+        this.loading = false
+        console.log('getSuggestedCourses res', res)
+        
+        // Store suggested courses separately
+        this.suggestedCourses = [...res];
+        
+        // Add suggested courses to filtered courses
+        for (let i = 0; i < res.length; i++) {
+          this.filterdCourses.push(res[i])
+        }
+        
+        // Update competency counts after adding suggested courses
+        this.updateCompetencyCounts()
+        
+        console.log('filterdCourses after adding suggested courses:', this.filterdCourses);
+      },
+      error: (error) => {
+        console.log('getSuggestedCourse error', error)
+        this.loading = false
+        if (error.status === 401) {
+          console.log('Unauthorized access - user will be redirected to login');
+        } else {
+          console.error('Failed to load suggested courses');
+        }
+      }
+    })
+  }
+
   getUserCourse() {
     let role_mapping_id = this.planData.id
     this.loading = true
@@ -155,8 +191,8 @@ export class ViewCourseRecommendationComponent {
           this.filterdCourses.push(res[i])
         }
         
-        // Rebuild filterdCourses to include all course types
-        
+        // Update competency counts after adding user courses
+        this.updateCompetencyCounts()
         
         console.log('filterdCourses after adding user courses:', this.filterdCourses);
         //this.successRoleMapping.emit(this.roleMappingForm)
