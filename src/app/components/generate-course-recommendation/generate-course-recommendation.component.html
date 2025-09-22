@@ -253,7 +253,7 @@
                                             <div class="course-title mt-3 cursor-pointer" (click)="redirectToToc(item)">
                                                 <span *ngIf="item?.course">{{item?.course}}</span>
                                                 <span *ngIf="item?.name">{{item?.name}}</span>
-                                                <span style="margin-left:10px;" (click)="redirectToToc(item)"><img height="18px" width="18px" src="assets/icons/redirect.jpeg"/></span>
+                                                <span style="margin-left:10px;" (click)="redirectToToc(item)"><img height="18px" width="18px" src="assets/icons/redirect.png"/></span>
                                             </div>
                                             <div class="course-desc mt-2">
                                                 <span *ngIf="item?.rationale">{{item?.rationale}}</span>
@@ -333,7 +333,7 @@
                                                     <div class="relevancy">Duration</div>
                                                     <div class="dash">-</div>
                                                     <div class="percentage">
-                                                        <span *ngIf="item?.duration">{{item?.duration}}</span>
+                                                        <span *ngIf="item?.duration">{{getDuration(item?.duration)}}</span>
                                                         <span *ngIf="!(item?.duration)">N/A</span>
                                                     </div>
                                                 </div>

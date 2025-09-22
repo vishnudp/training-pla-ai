@@ -1300,6 +1300,10 @@ export class GenerateCourseRecommendationComponent {
     });
   }
 
+  getDuration(time:any) {
+    return this.sharedService.convert(time);
+  }
+
   downloadPDF() {
     this.isPDFDownload = true
     this.loading = true

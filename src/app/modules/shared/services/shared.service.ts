@@ -501,4 +501,28 @@ export class SharedService {
         return response
       }))
   }
+
+  convert(seconds: number): string {
+    if (seconds < 60) {
+      return `${seconds} seconds`;
+    }
+
+    const minutes = seconds / 60;
+    if (minutes < 60) {
+      return `${minutes.toFixed(2)} minutes`;
+    }
+
+    const hours = seconds / 3600;
+    if (hours < 24) {
+      return `${hours.toFixed(2)} hours`;
+    }
+
+    const days = seconds / 86400;
+    if (days < 7) {
+      return `${days.toFixed(2)} days`;
+    }
+
+    const weeks = seconds / 604800;
+    return `${weeks.toFixed(2)} weeks`;
+  }
 }

@@ -568,6 +568,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     if (input) {
       input.value = '';
     }
+    this.roleMappingForm.get('additional_document').setValue([])
+    this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
   }
 }
 
