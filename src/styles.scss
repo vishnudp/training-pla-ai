@@ -3176,3 +3176,29 @@ textarea {
     justify-content: center;
     align-items: center;
   }
+
+  .snackbar-error {
+    background-color: #ff0000 !important;
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+.snackbar-error .mdc-snackbar__surface {
+    background-color: #ff0000 !important;
+  }
+  
+  .snackbar-error .mdc-snackbar__label {
+    color: #fff !important;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .snackbar-error .mat-mdc-snack-bar-action  {
+    background-color: transparent !important;
+  }
+
+  .snackbar-error .mdc-button__label {
+    color: white !important;
+  }

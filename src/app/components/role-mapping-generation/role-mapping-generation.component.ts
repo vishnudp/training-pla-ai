@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import html2pdf from 'html2pdf.js';
 import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { RoleMappingService } from 'src/app/modules/shared/services/role-mapping.service';
 @Component({
   selector: 'app-role-mapping-generation',
   templateUrl: './role-mapping-generation.component.html',
@@ -67,6 +68,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   cbpFinalObj:any = {}
   selectedMinistryId= ''
   originalFormValues:any
+  chunks: string[] = [];
+  fullJson: string = '';
+  parsedData: any;
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
@@ -75,7 +79,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     public sharedService: SharedService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public roleMappingService: RoleMappingService
   ) {
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
@@ -483,7 +488,21 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
       
       if(req) {
+        // this.chunks = [];
+        // this.fullJson = '';
+        // this.parsedData = null;
+        // this.roleMappingService.generateRoleMapping(
+        //   req,
+        //   this.uploadedFile || null,
+        //   (chunk) =>  {
 
+        //     this.chunks.push(chunk)
+        //     console.log('this.chunks', this.chunks)
+        //   },
+        //   () => console.log('Stream started'),
+        //   () => this.onStreamEnd(),
+        //   (err) => console.error('Stream failed:', err)
+        // );
         // Pass the uploaded file along with the request
         this.sharedService.generateRoleMapping(req, this.uploadedFile).subscribe({
           next: (res) => {
@@ -503,7 +522,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
               // Or you can set a UI error message variable
               this.snackBar.open(error?.error?.detail, 'X', {
                 duration: 3000,
-                panelClass: ['snackbar-error']
+                panelClass: ['snackbar-success']
               });
               this.loading = false
               this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
@@ -526,6 +545,28 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       
     } else {
       this.roleMappingForm.markAllAsTouched();
+    }
+  }
+
+  onStreamEnd() {
+    this.fullJson = this.chunks.join('');
+    const cleaned = this.fullJson.replace(/^```json\n/, '').replace(/```$/, '');
+    try {
+      this.parsedData = JSON.parse(cleaned);
+      console.log('Parsed data:', this.parsedData);
+    } catch (e) {
+      console.error('JSON parse error:', e);
+    }
+  }
+
+  removeFile(): void {
+    this.uploadedFile = null;
+    this.uploadError = '';
+  
+    // Also reset the input element if needed
+    const input = document.getElementById('uploadDoc') as HTMLInputElement;
+    if (input) {
+      input.value = '';
     }
   }
 }

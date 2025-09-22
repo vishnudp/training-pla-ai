@@ -26,6 +26,7 @@ export class ViewCourseRecommendationComponent {
   filterdCourses :any
   selectFilterCourses:any = []
   competenciesCount = {total:0, public_courses:0, igot:0}
+  expandedCompetencies: any = {}; // Track expanded state for each course and competency type
   ngOnInit() {
     this.loading = true
     this.cbpPlanData = this.sharedService.cbpPlanFinalObj
@@ -174,6 +175,93 @@ export class ViewCourseRecommendationComponent {
 
 
     })
+  }
+
+  getCompetenciesByType(type: string, index): any[] {
+    const course = this.filterdCourses[index];
+    if (!course) {
+      console.log(`No course found at index ${index}`);
+      return [];
+    }
+    
+    // Handle different competency property names
+    // AI Recommended & Public courses use 'competencies'
+    // Manually Suggested - iGOT courses use 'competencies_v6'
+    // User Added courses use 'competencies'
+    let competencies = [];
+    if (course.competencies && Array.isArray(course.competencies)) {
+      competencies = course.competencies;
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+    } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
+      competencies = course.competencies_v6;
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+    } else {
+      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+        hasCompetencies: !!course.competencies,
+        competenciesType: typeof course.competencies,
+        hasCompetenciesV6: !!course.competencies_v6,
+        competenciesV6Type: typeof course.competencies_v6,
+        courseKeys: Object.keys(course)
+      });
+    }
+    
+    if (competencies.length === 0) {
+      console.log(`No competencies found for course ${index} and type ${type}`);
+      return [];
+    }
+    
+    // Normalize the type for comparison (case-insensitive + handle spelling variations)
+    const normalizedType = type.toLowerCase().trim();
+    
+    const matchedCompetencies = competencies.filter(c => {
+      if (!c || !c.competencyAreaName) {
+        console.log(`Invalid competency structure in course ${index}:`, c);
+        return false;
+      }
+      
+      const competencyArea = c.competencyAreaName.toLowerCase().trim();
+      
+      // Handle both "behavioral" and "behavioural" spellings
+      if (normalizedType === 'behavioural' || normalizedType === 'behavioral') {
+        return competencyArea === 'behavioral' || competencyArea === 'behavioural';
+      }
+      
+      // For other types, do case-insensitive comparison
+      return competencyArea === normalizedType;
+    });
+    
+    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+    return matchedCompetencies;
+  }
+
+  getDisplayedCompetencies(type: string, index: number): any[] {
+    const competencies = this.getCompetenciesByType(type, index);
+    const key = `${index}-${type}`;
+
+    if (this.expandedCompetencies[key]) {
+      return competencies;
+    }
+
+    return competencies.slice(0, 2);
+  }
+
+  toggleCompetencies(type: string, index: number): void {
+    const key = `${index}-${type}`;
+    this.expandedCompetencies[key] = !this.expandedCompetencies[key];
+  }
+
+  isExpanded(type: string, index: number): boolean {
+    const key = `${index}-${type}`;
+    return this.expandedCompetencies[key] || false;
+  }
+
+  hasMoreThanTwo(type: string, index: number): boolean {
+    return this.getCompetenciesByType(type, index).length > 2;
+  }
+
+  getRemainingCount(type: string, index: number): number {
+    const totalCount = this.getCompetenciesByType(type, index).length;
+    return totalCount - 2;
   }
 
   downloadPDF() {

@@ -305,6 +305,7 @@ export class ViewFinalCbpPlanComponent {
 
       this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
         next: (res) => {
+          this.loading = false
           console.log('res', res)
           let behavioralCompetencies = []
           let functionalCompetencies = []

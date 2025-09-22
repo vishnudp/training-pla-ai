@@ -250,9 +250,10 @@
                                                 </div>
 
                                             </div>
-                                            <div class="course-title mt-3">
+                                            <div class="course-title mt-3 cursor-pointer" (click)="redirectToToc(item)">
                                                 <span *ngIf="item?.course">{{item?.course}}</span>
                                                 <span *ngIf="item?.name">{{item?.name}}</span>
+                                                <span style="margin-left:10px;" (click)="redirectToToc(item)"><img height="18px" width="18px" src="assets/icons/redirect.jpeg"/></span>
                                             </div>
                                             <div class="course-desc mt-2">
                                                 <span *ngIf="item?.rationale">{{item?.rationale}}</span>
@@ -353,13 +354,18 @@
             </div>
             <div class="role-mapping-container" *ngIf="outerTabActiveIndex === 1">
                 <div id="gap-analysis-content">
+                    
                     <div class="download-pdf mt-4 mb-2">
                         <div>
                             <input class="btn-active" type="button" value="Download" (click)="downloadPDF()" />
                         </div>
                     </div>
                     <div #pdfContent>
-                    <div class="d-flex vh-100">
+                        <div *ngIf="isPDFDownload">
+                            <div class="pdf-heading">{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
+                                *ngIf="planData?.designation_name ">_{{planData?.designation_name}}_Gap_Analysis</span></div>
+                        </div>
+                    <div class="d-flex vh-100" [ngClass]="isPDFDownload ? 'mt-4':''">
                         <!-- Sidebar -->
                         <div class="d-flex flex-column p-3 bg-light border-end" style="width: 250px;">
                             <h5 class="mb-4">Analyze by Category</h5>
@@ -415,7 +421,7 @@
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
                                                 <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -429,7 +435,7 @@
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
                                                 <div class="cursor-pointer" (click)="addCourse(item, 'Functional')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -443,7 +449,7 @@
                                             <div class="list-flex">
                                                 <div><span>{{item}}</span></div>
                                                 <div class="cursor-pointer" (click)="addCourse(item, 'Domain')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
                                             </div>
                                         </div>
                                     </div>

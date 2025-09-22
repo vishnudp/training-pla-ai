@@ -61,7 +61,7 @@ export class GenerateCourseRecommendationComponent {
   selectedThemeFilter = ''
   originalFilteredCourses = []
   isRegenerating = false
-  
+  isPDFDownload = false
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.gapAnalysisStats()
@@ -1110,7 +1110,7 @@ export class GenerateCourseRecommendationComponent {
     }
     
     const dialogRef = this.dialog.open(AddCourseComponent, {
-      width: '800px',
+      width: '1000px',
       data: dialogData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '400px',          // Set minimum height
@@ -1301,6 +1301,7 @@ export class GenerateCourseRecommendationComponent {
   }
 
   downloadPDF() {
+    this.isPDFDownload = true
     this.loading = true
     const element = this.pdfContent.nativeElement;
 
@@ -1333,9 +1334,16 @@ export class GenerateCourseRecommendationComponent {
 
     html2pdf().from(element).set(options).save()
     setTimeout(() => {
+      this.isPDFDownload = false
       this.loading = false;
     }, 3000); 
   });
+  }
+
+
+  redirectToToc(item) {
+    let url = `https://portal.igotkarmayogi.gov.in/app/toc/${item?.identifier}/overview?`
+    window.open(url, '_blank')
   }
 
   /**
@@ -1611,6 +1619,9 @@ export class RegenerateConfirmationDialog {
   onConfirm(): void {
     this.dialogRef.close(true);
   }
+
+
+
 
  
 }
