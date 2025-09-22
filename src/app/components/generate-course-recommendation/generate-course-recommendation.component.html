@@ -7,9 +7,8 @@
                             *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span></span>)</div>
             </div>
             <div class="header-actions">
-                <button class="regenerate-btn" (click)="regenerateCourseRecommendations()" 
-                        [disabled]="isRegenerating"
-                        mat-raised-button color="primary">
+                <button class="regenerate-btn" (click)="regenerateCourseRecommendations()" [disabled]="isRegenerating"
+                    mat-raised-button color="primary">
                     <mat-icon *ngIf="!isRegenerating">refresh</mat-icon>
                     <mat-spinner *ngIf="isRegenerating" diameter="20"></mat-spinner>
                     <span>{{isRegenerating ? 'Regenerating...' : 'Regenerate Recommendations'}}</span>
@@ -53,9 +52,9 @@
                             <div class="search-container-compact">
                                 <div class="rsearch">
                                     <mat-icon class="search-icon">search</mat-icon>
-                                    <input class="sinput-compact" [(ngModel)]="searchText" 
-                                           (input)="applyFilter();$event.preventDefault();"
-                                           placeholder="Search Courses" type="text">
+                                    <input class="sinput-compact" [(ngModel)]="searchText"
+                                        (input)="applyFilter();$event.preventDefault();" placeholder="Search Courses"
+                                        type="text">
                                 </div>
                             </div>
                             <div class="btn-group-compact">
@@ -81,8 +80,10 @@
                     <div class="my-4">
 
                         <div class="course-list-container">
-                            <div [ngClass]="innerTabActiveIndex > 0 ? 'course-list-container-flex':'course-list-container-right-flex' ">
-                                <div *ngIf="innerTabActiveIndex > 0" [ngClass]="innerTabActiveIndex > 0 ? 'left-panel':''">
+                            <div
+                                [ngClass]="innerTabActiveIndex > 0 ? 'course-list-container-flex':'course-list-container-right-flex' ">
+                                <div *ngIf="innerTabActiveIndex > 0"
+                                    [ngClass]="innerTabActiveIndex > 0 ? 'left-panel':''">
                                     <ng-container *ngIf="innerTabActiveIndex === 1">
                                         <div class="sub-heading">
                                             <p>Competencies in Behavioural</p>
@@ -92,10 +93,10 @@
                                                 <mat-icon>clear</mat-icon> Clear Filter
                                             </button>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" 
-                                             class="category-list-item cursor-pointer mt-2" 
-                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
-                                             *ngFor="let item of competencyMatchedByCategory">
+                                        <div (click)="filterOnCompetencyTheme(item)"
+                                            class="category-list-item cursor-pointer mt-2"
+                                            [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                            *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
@@ -108,10 +109,10 @@
                                                 <mat-icon>clear</mat-icon> Clear Filter
                                             </button>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" 
-                                             class="category-list-item cursor-pointer mt-2" 
-                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
-                                             *ngFor="let item of competencyMatchedByCategory">
+                                        <div (click)="filterOnCompetencyTheme(item)"
+                                            class="category-list-item cursor-pointer mt-2"
+                                            [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                            *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
@@ -124,33 +125,36 @@
                                                 <mat-icon>clear</mat-icon> Clear Filter
                                             </button>
                                         </div>
-                                        <div (click)="filterOnCompetencyTheme(item)" 
-                                             class="category-list-item cursor-pointer mt-2" 
-                                             [ngClass]="{'selected-theme': isThemeSelected(item)}"
-                                             *ngFor="let item of competencyMatchedByCategory">
+                                        <div (click)="filterOnCompetencyTheme(item)"
+                                            class="category-list-item cursor-pointer mt-2"
+                                            [ngClass]="{'selected-theme': isThemeSelected(item)}"
+                                            *ngFor="let item of competencyMatchedByCategory">
                                             {{item}}
                                         </div>
                                     </ng-container>
                                 </div>
-                                <div  [ngClass]="innerTabActiveIndex > 0 ? 'right-panel':'right-panel-flex'">
+                                <div [ngClass]="innerTabActiveIndex > 0 ? 'right-panel':'right-panel-flex'">
                                     <!-- No Course Found Message in Right Panel -->
-                                    <div class="no-course-found-container" *ngIf="filterdCourses?.length === 0 && selectedThemeFilter">
+                                    <div class="no-course-found-container"
+                                        *ngIf="filterdCourses?.length === 0 && selectedThemeFilter">
                                         <div class="no-course-card">
                                             <div class="no-course-icon">
                                                 <mat-icon>search_off</mat-icon>
                                             </div>
                                             <div class="no-course-content">
                                                 <h4>No Courses Found</h4>
-                                                <p>No courses found for the selected theme: <strong>{{selectedThemeFilter}}</strong></p>
+                                                <p>No courses found for the selected theme:
+                                                    <strong>{{selectedThemeFilter}}</strong></p>
                                                 <p>Would you like to add a course for this competency?</p>
-                                                <button class="suggest-course-btn" (click)="addCourseForSelectedTheme()">
+                                                <button class="suggest-course-btn"
+                                                    (click)="addCourseForSelectedTheme()">
                                                     <mat-icon>add_circle</mat-icon>
                                                     Add Course
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- Courses List -->
                                     <div class="course-list-item" *ngFor="let item of filterdCourses;let i=index">
 
@@ -253,7 +257,9 @@
                                             <div class="course-title mt-3 cursor-pointer" (click)="redirectToToc(item)">
                                                 <span *ngIf="item?.course">{{item?.course}}</span>
                                                 <span *ngIf="item?.name">{{item?.name}}</span>
-                                                <span style="margin-left:10px;" (click)="redirectToToc(item)"><img height="18px" width="18px" src="assets/icons/redirect.png"/></span>
+                                                <span style="margin-left:10px;" (click)="redirectToToc(item)"><img
+                                                        height="18px" width="18px"
+                                                        src="assets/icons/redirect.png" /></span>
                                             </div>
                                             <div class="course-desc mt-2">
                                                 <span *ngIf="item?.rationale">{{item?.rationale}}</span>
@@ -333,7 +339,8 @@
                                                     <div class="relevancy">Duration</div>
                                                     <div class="dash">-</div>
                                                     <div class="percentage">
-                                                        <span *ngIf="item?.duration">{{getDuration(item?.duration)}}</span>
+                                                        <span
+                                                            *ngIf="item?.duration">{{getDuration(item?.duration)}}</span>
                                                         <span *ngIf="!(item?.duration)">N/A</span>
                                                     </div>
                                                 </div>
@@ -345,7 +352,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- General No Data Message (only when no theme filter is active) -->
                     <div class="mt-2 sub-heading" *ngIf="filterdCourses?.length === 0 && !selectedThemeFilter">
                         <p>No Data Found</p>
@@ -354,195 +361,223 @@
             </div>
             <div class="role-mapping-container" *ngIf="outerTabActiveIndex === 1">
                 <div id="gap-analysis-content">
-                    
+
                     <div class="download-pdf mt-4 mb-2">
                         <div>
                             <input class="btn-active" type="button" value="Download" (click)="downloadPDF()" />
                         </div>
                     </div>
-                    <div #pdfContent>
+                    <div>
                         <div *ngIf="isPDFDownload">
                             <div class="pdf-heading">{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-                                *ngIf="planData?.designation_name ">_{{planData?.designation_name}}_Gap_Analysis</span></div>
-                        </div>
-                    <div class="d-flex vh-100" [ngClass]="isPDFDownload ? 'mt-4':''">
-                        <!-- Sidebar -->
-                        <div class="d-flex flex-column p-3 bg-light border-end" style="width: 250px;">
-                            <h5 class="mb-4">Analyze by Category</h5>
-                            <button *ngFor="let item of menuItems"
-                                class="btn btn-outline-primary mb-2 text-start menu-list-item"
-                                [class.active]="selectedCategory === item.key" (click)="selectCategory(item.key)">
-                                {{ item.label }}
-                            </button>
-                        </div>
-
-                        <!-- Main Content -->
-                        <div class="flex-grow-1 p-4">                            
-                            <div class="d-flex justify-content-between gap-3 ">
-                                <div class="p-3 gray-bg">
-                                    <div class="div-label sub-heading">
-                                        <p>Competencies Covered</p>
-                                    </div>
-                                    <div class="div-count">{{competencyCoveredCount}}</div>
-                                </div>
-                                <div class="p-3 gray-bg">
-                                    <div class="div-label sub-heading">
-                                        <p *ngIf="selectedCategory === 'all'">Total Competencies</p>
-                                        <p *ngIf="selectedCategory === 'behavioral'">Total Behavioral Competencies</p>
-                                        <p *ngIf="selectedCategory === 'functional'">Total Functional Competencies</p>
-                                        <p *ngIf="selectedCategory === 'domain'">Total Domain Competencies</p>
-                                    </div>
-                                    <div class="div-count" *ngIf="selectedCategory === 'all'">{{this.planData?.competencies?.length}}</div>
-                                    <div class="div-count" *ngIf="selectedCategory === 'behavioral'">{{behavioralTotalCompetencies}}</div>
-                                    <div class="div-count" *ngIf="selectedCategory === 'functional'">{{functionalTotalCompetencies}}</div>
-                                    <div class="div-count" *ngIf="selectedCategory === 'domain'">{{domainTotalCompetencies}}</div>
-                                </div>
-                                <div class="p-3 green-bg">
-                                    <div class="div-green-label" *ngIf="selectedCategory === 'all'">Overall Coverage</div>
-                                    <div class="div-green-label" *ngIf="selectedCategory === 'behavioral'">Behavioral Coverage</div>
-                                    <div class="div-green-label" *ngIf="selectedCategory === 'functional'">Functional Coverage</div>
-                                    <div class="div-green-label" *ngIf="selectedCategory === 'domain'">Domain Coverage</div>
-                                    <div class="div-green-count" *ngIf="selectedCategory === 'all'">{{overallCoverage}}</div>
-                                    <div class="div-green-count" *ngIf="selectedCategory === 'behavioral'">{{behavioralCoverage}}</div>
-                                    <div class="div-green-count" *ngIf="selectedCategory === 'functional'">{{functionalCoverage}}</div>
-                                    <div class="div-green-count" *ngIf="selectedCategory === 'domain'">{{domainCoverage}}</div>
-                                </div>
+                                    *ngIf="planData?.designation_name ">_{{planData?.designation_name}}_Gap_Analysis</span>
                             </div>
-                            <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
-                                <div *ngSwitchCase="'all'">
-                                    <h4>All Categories</h4>
-                                    
-                                    <!-- Show Behavioral section only if there are unmatched behavioral competencies -->
-                                    <div class="mt-4" *ngIf="behaviouralNotMatched && behaviouralNotMatched.length > 0">
-                                        <div class="sub-heading">
-                                            <p>Behavioral</p>
+                        </div>
+                        <div class="d-flex vh-100" [ngClass]="isPDFDownload ? 'mt-4':''">
+                            <!-- Sidebar -->
+                            <div class="d-flex flex-column p-3 bg-light border-end" style="width: 250px;">
+                                <h5 class="mb-4">Analyze by Category</h5>
+                                <button *ngFor="let item of menuItems"
+                                    class="btn btn-outline-primary mb-2 text-start menu-list-item"
+                                    [class.active]="selectedCategory === item.key" (click)="selectCategory(item.key)">
+                                    {{ item.label }}
+                                </button>
+                            </div>
+
+                            <!-- Main Content -->
+                            <div class="flex-grow-1 p-4">
+                                <div class="d-flex justify-content-between gap-3 ">
+                                    <div class="p-3 gray-bg">
+                                        <div class="div-label sub-heading">
+                                            <p>Competencies Covered</p>
                                         </div>
-                                        <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
+                                        <div class="div-count">{{competencyCoveredCount}}</div>
+                                    </div>
+                                    <div class="p-3 gray-bg">
+                                        <div class="div-label sub-heading">
+                                            <p *ngIf="selectedCategory === 'all'">Total Competencies</p>
+                                            <p *ngIf="selectedCategory === 'behavioral'">Total Behavioral Competencies
+                                            </p>
+                                            <p *ngIf="selectedCategory === 'functional'">Total Functional Competencies
+                                            </p>
+                                            <p *ngIf="selectedCategory === 'domain'">Total Domain Competencies</p>
+                                        </div>
+                                        <div class="div-count" *ngIf="selectedCategory === 'all'">
+                                            {{this.planData?.competencies?.length}}</div>
+                                        <div class="div-count" *ngIf="selectedCategory === 'behavioral'">
+                                            {{behavioralTotalCompetencies}}</div>
+                                        <div class="div-count" *ngIf="selectedCategory === 'functional'">
+                                            {{functionalTotalCompetencies}}</div>
+                                        <div class="div-count" *ngIf="selectedCategory === 'domain'">
+                                            {{domainTotalCompetencies}}</div>
+                                    </div>
+                                    <div class="p-3 green-bg">
+                                        <div class="div-green-label" *ngIf="selectedCategory === 'all'">Overall Coverage
+                                        </div>
+                                        <div class="div-green-label" *ngIf="selectedCategory === 'behavioral'">
+                                            Behavioral Coverage</div>
+                                        <div class="div-green-label" *ngIf="selectedCategory === 'functional'">
+                                            Functional Coverage</div>
+                                        <div class="div-green-label" *ngIf="selectedCategory === 'domain'">Domain
+                                            Coverage</div>
+                                        <div class="div-green-count" *ngIf="selectedCategory === 'all'">
+                                            {{overallCoverage}}</div>
+                                        <div class="div-green-count" *ngIf="selectedCategory === 'behavioral'">
+                                            {{behavioralCoverage}}</div>
+                                        <div class="div-green-count" *ngIf="selectedCategory === 'functional'">
+                                            {{functionalCoverage}}</div>
+                                        <div class="div-green-count" *ngIf="selectedCategory === 'domain'">
+                                            {{domainCoverage}}</div>
+                                    </div>
+                                </div>
+                                <div class="mt-4 all-category-list" [ngSwitch]="selectedCategory">
+                                    <div *ngSwitchCase="'all'">
+                                        <h4>All Categories</h4>
+
+                                        <!-- Show Behavioral section only if there are unmatched behavioral competencies -->
+                                        <div class="mt-4"
+                                            *ngIf="behaviouralNotMatched && behaviouralNotMatched.length > 0">
+                                            <div class="sub-heading">
+                                                <p>Behavioral</p>
+                                            </div>
+                                            <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item | titlecase}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New
+                                                            Course</span></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Show Functional section only if there are unmatched functional competencies -->
-                                    <div class="mt-4" *ngIf="functionalNotMatched && functionalNotMatched.length > 0">
-                                        <div class="sub-heading">
-                                            <p>Functional</p>
-                                        </div>
-                                        <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Functional')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
+
+                                        <!-- Show Functional section only if there are unmatched functional competencies -->
+                                        <div class="mt-4"
+                                            *ngIf="functionalNotMatched && functionalNotMatched.length > 0">
+                                            <div class="sub-heading">
+                                                <p>Functional</p>
+                                            </div>
+                                            <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item | titlecase}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Functional')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New
+                                                            Course</span></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Show Domain section only if there are unmatched domain competencies -->
-                                    <div class="mt-4" *ngIf="domainNotMatched && domainNotMatched.length > 0">
-                                        <div class="sub-heading">
-                                            <p>Domain</p>
-                                        </div>
-                                        <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Domain')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
+
+                                        <!-- Show Domain section only if there are unmatched domain competencies -->
+                                        <div class="mt-4" *ngIf="domainNotMatched && domainNotMatched.length > 0">
+                                            <div class="sub-heading">
+                                                <p>Domain</p>
+                                            </div>
+                                            <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item | titlecase}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Domain')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New
+                                                            Course</span></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Show message when all competencies are covered -->
-                                    <div class="mt-4 text-center" *ngIf="(!behaviouralNotMatched || behaviouralNotMatched.length === 0) && 
+
+                                        <!-- Show message when all competencies are covered -->
+                                        <div class="mt-4 text-center"
+                                            *ngIf="(!behaviouralNotMatched || behaviouralNotMatched.length === 0) && 
                                                                            (!functionalNotMatched || functionalNotMatched.length === 0) && 
                                                                            (!domainNotMatched || domainNotMatched.length === 0)">
-                                        <div class="no-gaps-message">
-                                            <mat-icon class="success-icon">check_circle</mat-icon>
-                                            <h4>Excellent! All competencies are covered</h4>
-                                            <p>All required competencies have been addressed by the selected courses.</p>
+                                            <div class="no-gaps-message">
+                                                <mat-icon class="success-icon">check_circle</mat-icon>
+                                                <h4>Excellent! All competencies are covered</h4>
+                                                <p>All required competencies have been addressed by the selected
+                                                    courses.</p>
+                                            </div>
                                         </div>
+
                                     </div>
 
-                                </div>
-
-                                <div *ngSwitchCase="'behavioral'">
-                                    <h4>Behavioral</h4>
-                                    <div class="mt-4" *ngIf="behavioralCoverage !== '100%'">
-                                        <!-- <div class="sub-heading">
+                                    <div *ngSwitchCase="'behavioral'">
+                                        <h4>Behavioral</h4>
+                                        <div class="mt-4" *ngIf="behavioralCoverage !== '100%'">
+                                            <!-- <div class="sub-heading">
                                             <p>Behavioral</p>
                                         </div> -->
-                                        <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Behavioral')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New Course </span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4" *ngIf="behavioralCoverage === '100%'">
+                                            <div class="p-3"
+                                                style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                                <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                    🎉 Excellent! All behavioral competencies are covered by the
+                                                    selected courses.
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-4" *ngIf="behavioralCoverage === '100%'">
-                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
-                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
-                                                🎉 Excellent! All behavioral competencies are covered by the selected courses.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div *ngSwitchCase="'functional'">
-                                    <h4>Functional</h4>
-                                    <div class="mt-4" *ngIf="functionalCoverage !== '100%'">
-                                        <!-- <div class="sub-heading">
+                                    <div *ngSwitchCase="'functional'">
+                                        <h4>Functional</h4>
+                                        <div class="mt-4" *ngIf="functionalCoverage !== '100%'">
+                                            <!-- <div class="sub-heading">
                                             <p>Functional</p>
                                         </div> -->
-                                        <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Functional')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            <div class="gray-bg-item" *ngFor="let item of functionalNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Functional')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New Course</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4" *ngIf="functionalCoverage === '100%'">
+                                            <div class="p-3"
+                                                style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                                <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                    🎉 Excellent! All functional competencies are covered by the
+                                                    selected courses.
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-4" *ngIf="functionalCoverage === '100%'">
-                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
-                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
-                                                🎉 Excellent! All functional competencies are covered by the selected courses.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div *ngSwitchCase="'domain'">
-                                    <h4>Domain</h4>
-                                    <div class="mt-4" *ngIf="domainCoverage !== '100%'">
-                                        <!-- <div class="sub-heading">
+                                    <div *ngSwitchCase="'domain'">
+                                        <h4>Domain</h4>
+                                        <div class="mt-4" *ngIf="domainCoverage !== '100%'">
+                                            <!-- <div class="sub-heading">
                                             <p>Domain</p>
                                         </div> -->
-                                        <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
-                                            <div class="list-flex">
-                                                <div><span>{{item}}</span></div>
-                                                <div class="cursor-pointer" (click)="addCourse(item, 'Domain')"><span
-                                                        class="add-btn"><mat-icon>add</mat-icon> Add </span></div>
+                                            <div class="gray-bg-item" *ngFor="let item of domainNotMatched">
+                                                <div class="list-flex">
+                                                    <div><span>{{item}}</span></div>
+                                                    <div class="cursor-pointer" (click)="addCourse(item, 'Domain')">
+                                                        <span class="add-btn"><mat-icon>add</mat-icon> Add New Course </span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4" *ngIf="domainCoverage === '100%'">
+                                            <div class="p-3"
+                                                style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
+                                                <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
+                                                    🎉 Excellent! All domain competencies are covered by the selected
+                                                    courses.
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-4" *ngIf="domainCoverage === '100%'">
-                                        <div class="p-3" style="background-color: #e8f5e8; border: 1px solid #4caf50; border-radius: 8px; text-align: center;">
-                                            <div style="color: #2e7d32; font-weight: 600; font-size: 16px;">
-                                                🎉 Excellent! All domain competencies are covered by the selected courses.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div *ngSwitchDefault>
-                                    <p>Please select a category.</p>
+                                    <div *ngSwitchDefault>
+                                        <p>Please select a category.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
 
             </div>
@@ -550,6 +585,148 @@
 
     </div>
 </div>
+
+
+<div [hidden]="!isPDFDownload" class="gap-analysis-pdf-container" #pdfContent>
+    <div class="gap-analysis-pdf-header">
+      <img src="assets/icons/karmayogiLogo-min.png" alt="Karmayogi Bharat Logo" class="logo" />
+      <h1><span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
+        *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span></span></h1>
+      <p class="subtitle">A detailed breakdown of competencies Gap Analysis</p>
+     
+    </div>
+  
+    <div class="competency-snapshot">
+      <h2>Competency Snapshot</h2>
+      <div class="snapshot-content">
+        <div class="circle-wrapper">
+          <svg class="progress-ring" width="120" height="120">
+            <circle class="progress-ring-bg" cx="60" cy="60" r="52" />
+            <circle class="progress-ring-circle" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="percentage-text">{{overallCoverage}}<br /><span>Overall Coverage</span></div>
+        </div>
+  
+        <div class="competency-container">
+            <!-- Total Competencies Box -->
+            <div class="total-box">
+              <div class="title">Total Competencies</div>
+              <div class="count">{{this.planData?.competencies?.length}}</div>
+            </div>
+          
+            <!-- Progress Bars -->
+            <div class="progress-group">
+              <div class="progress-label">
+                <span class="label-text behavioral">Behavioral</span>
+                <span class="covered-text">{{behavioralCompetencyCoveredCount}} / {{behavioralTotalCompetencies}} Covered</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill behavioral" [style.width.%]="(behavioralCompetencyCoveredCount / behavioralTotalCompetencies) * 100"></div>
+              </div>
+            </div>
+          
+            <div class="progress-group">
+              <div class="progress-label">
+                <span class="label-text functional">Functional</span>
+                <span class="covered-text">{{functionalCompetencyCoveredCount}} / {{functionalTotalCompetencies}} Covered</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill functional" [style.width.%]="(functionalCompetencyCoveredCount / functionalTotalCompetencies) * 100"></div>
+              </div>
+            </div>
+          
+            <div class="progress-group">
+              <div class="progress-label">
+                <span class="label-text domain">Domain</span>
+                <span class="covered-text">{{domainCompetencyCoveredCount}} / {{domainTotalCompetencies}} Covered</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill domain" [style.width.%]="(domainCompetencyCoveredCount / domainTotalCompetencies) * 100"></div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  
+    <div class="gap-section mb-4">
+      <h2>Detailed Competency Analysis</h2>
+      <div class="gap-box">
+        Bridge Your Competencies Gap
+        <p class="subtitle">Here are {{this.planData?.competencies?.length - (behavioralCompetencyCoveredCount + functionalCompetencyCoveredCount + domainCompetencyCoveredCount)}} key areas for development.</p>
+    </div>
+    </div>
+    <div class="sub-heading mb-4">
+        <p>Gap to Address <span *ngIf="(this.planData?.competencies?.length - (behavioralCompetencyCoveredCount + functionalCompetencyCoveredCount + domainCompetencyCoveredCount)) > 0">({{this.planData?.competencies?.length - (behavioralCompetencyCoveredCount + functionalCompetencyCoveredCount + domainCompetencyCoveredCount)}})</span></p>
+        
+    </div>
+    <div class="competency-card behavioral" *ngFor="let item of behaviouralNotMatched">
+        <div class="title">{{item | titlecase}}</div>
+        <div class="subtitle">
+          &nbsp; • &nbsp;
+          <span class="tag behavioral">Behavioral</span>
+        </div>
+    </div>
+      
+      <div class="competency-card functional" *ngFor="let item of functionalNotMatched">
+        <div class="title">{{item | titlecase}}</div>
+        <div class="subtitle">
+           &nbsp; • &nbsp;
+          <span class="tag functional">Functional</span>
+        </div>
+      </div>
+      
+      <div class="competency-card domain" *ngFor="let item of domainNotMatched">
+        <div class="title">{{item | titlecase}}</div>
+        <div class="subtitle">
+          <!-- Project Management  -->
+          &nbsp; • &nbsp;
+          <span class="tag domain">Domain</span>
+        </div>
+      </div>
+      <div class="sub-heading mb-4">
+        <p>Covered Competencies <span>({{this.planData?.competencies?.length - (behaviouralNotMatched?.length + functionalNotMatched?.length + domainNotMatched?.length)}})</span></p>        
+     </div>
+     <div class="gap-section mb-4">
+        
+        <div class="green-bg">
+            <div class="div-green-label mb-2">
+                Congratulations!
+            </div>            
+            <p>You have successfully covered </p>
+          <p class="subtitle">{{this.planData?.competencies?.length - (behaviouralNotMatched?.length + functionalNotMatched?.length + domainNotMatched?.length)}} key competencies, forming a strong professional foundation.</p>
+      </div>
+      </div>
+      <div class="competency-card behavioral" *ngFor="let item of behaviouralMatched">
+        <div class="title">{{item?.theme | titlecase}}</div>
+        <div class="subtitle">
+          {{item?.sub_theme}}&nbsp; • &nbsp;
+          <span class="tag behavioral">Behavioral</span>
+        </div>
+    </div>
+      
+      <div class="competency-card functional" *ngFor="let item of functionalMatched">
+        <div class="title">{{item?.theme | titlecase}}</div>
+        <div class="subtitle">
+            {{item?.sub_theme}}&nbsp; • &nbsp;
+          <span class="tag functional">Functional</span>
+        </div>
+      </div>
+      
+      <div class="competency-card domain" *ngFor="let item of domainMatched">
+        <div class="title">{{item?.theme | titlecase}}</div>
+        <div class="subtitle">
+          <!-- Project Management  -->
+          {{item?.sub_theme}}&nbsp; • &nbsp;
+          <span class="tag domain">Domain</span>
+        </div>
+      </div>
+      <div class="gap-section mb-4">
+        <h2>Recommended Courses</h2>
+      </div>
+      <app-gap-analysis-recommended-course [planData]="planData"></app-gap-analysis-recommended-course>
+</div>
+  
+
 
 <div class="overlay-loader" *ngIf="loading">
     <mat-spinner diameter="50"></mat-spinner>

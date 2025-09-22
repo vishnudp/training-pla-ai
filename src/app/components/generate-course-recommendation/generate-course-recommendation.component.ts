@@ -62,6 +62,9 @@ export class GenerateCourseRecommendationComponent {
   originalFilteredCourses = []
   isRegenerating = false
   isPDFDownload = false
+  behaviouralMatched = []
+  functionalMatched = []
+  domainMatched = []
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.gapAnalysisStats()
@@ -103,6 +106,7 @@ export class GenerateCourseRecommendationComponent {
         }
       }
     })
+   
   }
 
   applyFilter() {
@@ -893,6 +897,10 @@ export class GenerateCourseRecommendationComponent {
     this.behaviouralNotMatched = this.getCompetencyByCategoryNotMatching('behavioral')
     this.functionalNotMatched = this.getCompetencyByCategoryNotMatching('functional')
     this.domainNotMatched = this.getCompetencyByCategoryNotMatching('domain')
+
+    this.getBehaviouralMatched()
+    this.getFunctionalMatched()
+    this.getDomainMatched()
   }
 
   getMatchedCompetencyStats(primaryArray: any[], secondaryArray: any[]) {
@@ -1304,6 +1312,40 @@ export class GenerateCourseRecommendationComponent {
     return this.sharedService.convert(time);
   }
 
+
+  getBehaviouralMatched() {
+    this.behaviouralMatched = []
+    console.log('this.planData.competencies', this.planData)
+    console.log('this.behaviouralNotMatched', this.behaviouralNotMatched)
+    this.planData.competencies.map((item)=>{
+      if(item && item?.type === 'Behavioral' && this.behaviouralNotMatched.indexOf(item?.theme?.toLowerCase()) < 0) {
+        this.behaviouralMatched.push(item)
+      }
+    })
+
+    console.log('this.behaviouralMatched--', this.behaviouralMatched)
+  }
+
+  getFunctionalMatched() {
+    this.functionalMatched = []
+    this.planData.competencies.map((item)=>{
+      if(item && item?.type === 'Functional' && this.functionalNotMatched.indexOf(item?.theme?.toLowerCase()) < 0) {
+        this.functionalMatched.push(item)
+      }
+    })
+    return this.functionalMatched
+  }
+
+  getDomainMatched() {
+    this.domainMatched = []
+    this.planData.competencies.map((item)=>{
+      if(item && item?.type === 'Domain' && this.domainNotMatched.indexOf(item?.theme?.toLowerCase()) < 0) {
+        this.domainMatched.push(item)
+      }
+    })
+    console.log('this.domainMatched--', this.domainMatched)
+  }
+
   downloadPDF() {
     this.isPDFDownload = true
     this.loading = true
@@ -1318,7 +1360,7 @@ export class GenerateCourseRecommendationComponent {
 
   Promise.all(promises).then(() => {
     const options = {
-      margin: 0.5,
+      margin: 0.20,
       filename: 'Gap Analysis.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
@@ -1332,7 +1374,9 @@ export class GenerateCourseRecommendationComponent {
         orientation: 'portrait'
       },
       pagebreak: {
-        mode: ['css', 'legacy', 'avoid-all']
+        mode: ['css', 'legacy'],
+        before: '.page-break',
+        avoid: ['.no-break']
       }
     };
 

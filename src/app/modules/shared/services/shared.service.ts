@@ -502,6 +502,15 @@ export class SharedService {
       }))
   }
 
+  getCompetencyJson() {
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}/training-pla-ai/assets/jsonfiles/competencies.json`,  {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
+   // this.http.get<any[]>('/assets/jsonfiles/competencies.json')
+  }
+
   convert(seconds: number): string {
     if (seconds < 60) {
       return `${seconds} seconds`;

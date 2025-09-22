@@ -19,6 +19,17 @@
 
 }
 
+
+.ministry-heading {
+    color: #1b4ca1;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
 .radio-label {
     color: #000;
 
@@ -513,11 +524,12 @@ flex-shrink: 0;
 height: 15.714px;
 flex-shrink: 0;
 }
-
 .competency-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: normal;
+    gap:16px;
     flex-direction: row;
+    margin-left: 20px;
 }
 
 .outside-layer-total {
@@ -570,7 +582,7 @@ width:132px
 .inside-layer {
     color: #1B4CA1;
 font-family: Lato;
-font-size: 12px;
+font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
@@ -579,7 +591,7 @@ line-height: normal;
 .count  {
     color: #1B4CA1;
 font-family: Montserrat;
-font-size: 16px;
+font-size: 18px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -1500,300 +1512,5 @@ background: #f8f9fa;
   justify-content: end;
   display: flex;
   flex-direction: row;
-}
-
-
-/*** PDF generator **/
-.gap-analysis-pdf-container {
-  font-family: "Lato";
-  // padding: 1rem;
-  max-width: 900px;
-  margin: auto;
-  color: #212121;
-}
-
-.gap-analysis-pdf-header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  .logo {
-    height: 60px;
-    margin-bottom: 0.5rem;
-  }
-
-  h1 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin: 0.5rem 0;
-  }
-
-  .subtitle {
-    color: #555;
-    font-size: 0.95rem;
-  }
-
-  .download-btn {
-    background: #5e00ff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    margin-top: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
-}
-
-.competency-snapshot {
-  background: #fafafa;
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-
-  h2 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-  }
-
-  .snapshot-content {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-    justify-content: space-between;
-
-    .circle-wrapper {
-      position: relative;
-      width: 120px;
-      height: 120px;
-
-      .progress-ring-bg {
-        fill: none;
-        stroke: #eee;
-        stroke-width: 10;
-      }
-
-      .progress-ring-circle {
-        fill: none;
-        stroke: #6c63ff;
-        stroke-width: 10;
-        stroke-linecap: round;
-        stroke-dasharray: 326.72;
-        stroke-dashoffset: calc(326.72 * (1 - 0.64)); // 64%
-        transform: rotate(-90deg);
-        transform-origin: center;
-        transition: stroke-dashoffset 0.35s;
-      }
-
-      .percentage-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-weight: 600;
-        font-size: 1.4rem;
-        text-align: center;
-
-        span {
-          display: block;
-          font-size: 0.75rem;
-          font-weight: normal;
-          color: #555;
-        }
-      }
-    }
-
-    .details {
-      flex-grow: 1;
-
-      .total-competencies {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-      }
-
-      .bar {
-        margin: 0.5rem 0;
-        padding: 0.6rem 1rem;
-        border-radius: 6px;
-        font-weight: 500;
-        display: flex;
-        justify-content: space-between;
-        color: #fff;
-
-        &.behavioral {
-          background: #7b1fa2;
-        }
-
-        &.functional {
-          background: #0288d1;
-        }
-
-        &.domain {
-          background: #f57c00;
-        }
-      }
-    }
-  }
-}
-
-.gap-section {
-  margin-top: 2rem;
-
-  h2 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
-  }
-
-  .gap-box {
-    background: #eef1ff;
-    border-left: 5px solid #6c63ff;
-    padding: 1rem;
-    border-radius: 6px;
-    font-weight: 500;
-    color: #333;
-  }
-
-  .green-bg {
-  
-    background-color: #0080001c;
-    // border: 1px solid #006400;
-    border-left: 5px solid #2d9b2d;
-    padding: 1rem;
-    border-radius: 6px;
-    font-weight: 500;
-    color: #006400;
-  }
-}
-
-.competency-container {
-  width: 100%;
-  margin: 0 auto;
-  font-family: "Segoe UI", sans-serif;
-  color: #212121;
-  display: flex;
-  flex-direction: column;
-}
-
-.total-box {
-  background: #f8f9fc;
-  border-radius: 10px;
-  padding: 1.5rem;
-  text-align: center;
-  border: 1px solid #e0e0e0;
-  margin-bottom: 1.5rem;
-
-  .title {
-    font-size: 1rem;
-    color: #666;
-  }
-
-  .count {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #111;
-    margin-top: 0.5rem;
-  }
-}
-
-.progress-group {
-  margin-bottom: 1.5rem;
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-
-    .label-text {
-      font-weight: 600;
-    }
-
-    .covered-text {
-      font-size: 0.9rem;
-      color: #444;
-    }
-
-    .behavioral {
-      color: #9c27b0; /* purple */
-    }
-
-    .functional {
-      color: #039be5; /* blue */
-    }
-
-    .domain {
-      color: #fb8c00; /* orange */
-    }
-  }
-
-  .progress-bar {
-    height: 10px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    overflow: hidden;
-
-    .progress-fill {
-      height: 100%;
-      border-radius: 5px;
-      transition: width 0.5s ease-in-out;
-
-      &.behavioral {
-        background: linear-gradient(to right, #a700ff, #d633ff); /* purple gradient */
-      }
-
-      &.functional {
-        background: linear-gradient(to right, #00c6ff, #0072ff); /* blue gradient */
-      }
-
-      &.domain {
-        background: linear-gradient(to right, #ffa726, #fb8c00); /* orange gradient */
-      }
-    }
-  }
-}
-.competency-card {
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-
-  .title {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #222;
-    margin-bottom: 0.4rem;
-  }
-
-  .subtitle {
-    font-size: 0.95rem;
-    color: #555;
-
-    .tag {
-      font-weight: 500;
-    }
-
-    .behavioral {
-      color: #6a1b9a; /* purple */
-    }
-
-    .domain {
-      color: #e65100; /* dark orange */
-    }
-  }
-
-  &.behavioral {
-    background: #f0efff; /* very light purple */
-    border-color: #dcd5f8;
-  }
-
-  &.functional {
-    background: #f0f8ff;
-    border-color: #cfe2f3;
-  }
-
-  &.domain {
-    background: #fffdee; /* very light yellow */
-    border-color: #fceea2;
-   
-  }
 }
 
