@@ -108,7 +108,7 @@ export class AddCourseComponent implements OnInit {
   }
   
   loadCompetenciesData() {
-    this.http.get<any[]>('/assets/jsonfiles/competencies.json').subscribe({
+    this.http.get<any[]>('assets/jsonfiles/competencies.json').subscribe({
       next: (data) => {
         this.competenciesData = data;
         console.log('Competencies data loaded:', this.competenciesData);

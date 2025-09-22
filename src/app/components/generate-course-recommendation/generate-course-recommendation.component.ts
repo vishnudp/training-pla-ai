@@ -200,6 +200,14 @@ export class GenerateCourseRecommendationComponent {
             //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
           }
         });
+      } else {
+        // Handle case when cbp_plan_id is not available
+        this.loading = false
+        console.error('cbp_plan_id is not available for update operation');
+        this.snackBar.open('Unable to update courses: missing plan ID', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
       }
 
     }
@@ -245,10 +253,7 @@ export class GenerateCourseRecommendationComponent {
       next: (res) => {
         // Success handling
         this.loading = false
-        console.log('res', res)
-        this.cbp_plan_id = res?.id
-        this.loading = false
-        console.log('res', res)
+        console.log('getSuggestedCourses res', res)
         console.log('this.filterdCourses', this.filterdCourses)
         // Store suggested courses separately
         this.suggestedCourses = [...res];
@@ -287,8 +292,6 @@ export class GenerateCourseRecommendationComponent {
         // Success handling
         this.loading = false
         console.log('getUserCourse API response:', res)
-        this.cbp_plan_id = res?.id
-        this.loading = false
         console.log('Current filterdCourses before adding user courses:', this.filterdCourses)
         
         // Store user-added courses separately (reset to avoid duplicates)
