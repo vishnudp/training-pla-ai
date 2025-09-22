@@ -78,7 +78,12 @@
                                 Courses</mat-checkbox>
                         </div>
                     </div>
-                    <div class="my-4">
+                    <div class="disclaimer-container" *ngIf="filterdCourses?.length">
+                        <div class="disclaimer-message">
+                            <strong>Disclaimer:</strong> Please verify the public course URL before adding it to the plan.
+                        </div>
+                    </div>
+                    <div class="mt-2">
 
                         <div class="course-list-container">
                             <div [ngClass]="innerTabActiveIndex > 0 ? 'course-list-container-flex':'course-list-container-right-flex' ">
@@ -207,6 +212,13 @@
                                                                     {{item?.platform}}</span></a>
                                                         </div>
                                                     </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <span>Provider - {{item?.organisation[0]}}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div *ngIf="item?.rationale && item?.is_public">
                                                     <div class="ai-recommened-pill-public">
@@ -227,6 +239,13 @@
                                                                     {{item?.platform}}</span></a>
                                                         </div>
                                                     </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <span>Provider - {{item?.organisation[0]}}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div *ngIf="!item?.rationale">
                                                     <div class="ai-recommened-pill-gray">
@@ -245,6 +264,13 @@
                                                             <a class="cursor-pointer" [href]="item?.public_link"
                                                                 target="_blank"><span>Platform -
                                                                     {{item?.platform}}</span></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                        <div class="ai-recommened-pill-orange-text">
+                                                            <span class="ai-loader-icon"><img
+                                                                    src="assets/icons/ai-loader.gif"></span>
+                                                            <span>Provider - {{item?.organisation[0]}}</span>
                                                         </div>
                                                     </div>
                                                 </div>
