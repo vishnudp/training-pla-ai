@@ -637,6 +637,18 @@ line-height: normal;
 margin: 10px 0;
 }
 
+.pdf-heading {
+  color: #000;
+/* Heading 2 - Reduced font size for better space utilization */
+font-family: Montserrat;
+font-size: 18px; /* Reduced from 20px to 16px */
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+margin: 10px 0;
+text-align: center;
+}
+
 /* Enhanced header layout */
 .popup-header {
     display: flex;
@@ -1482,5 +1494,11 @@ background: #f8f9fa;
     color: white !important;
     font-weight: bold;
   }
+}
+
+.download-pdf {
+  justify-content: end;
+  display: flex;
+  flex-direction: row;
 }
 

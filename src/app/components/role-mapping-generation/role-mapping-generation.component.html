@@ -100,7 +100,11 @@
                 <div class="file-upload-wrapper">
                     <label for="uploadDoc" class="file-upload-label">
                         <span class="file-upload-icon">📎</span>
-                        <span>{{ uploadedFile?.name || 'Choose a file (PDF)' }}</span>
+                        <span>{{ uploadedFile?.name || 'Choose a file (PDF)' }}
+                            <span *ngIf="uploadedFile" class="remove-file-icon" (click)="removeFile()">
+                                <mat-icon style="vertical-align: middle;margin-left: 5px;">close</mat-icon>
+                            </span>
+                        </span>
                     </label>
 
                     <small class="file-upload-hint">Max file size: 25MB</small>
@@ -117,8 +121,8 @@
                 </div>
             </div>
             <div class="mt-4" >
-                <input [disabled]="roleMappingForm?.invalid"
-                    [ngClass]="roleMappingForm?.invalid ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
+                <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) "
+                    [ngClass]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
                     (click)="onGenerateRoleMapping()" />
             </div>
         </div>

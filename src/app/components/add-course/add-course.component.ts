@@ -467,13 +467,30 @@ export class AddCourseComponent implements OnInit {
     
     console.log('Request body:', reqBody);
     
-    this.sharedService.addUserCourse(reqBody).subscribe(()=>{
-      this.loading = false
-      this.snackBar.open('Course Added Successfully', 'X', {
-        duration: 3000,
-        panelClass: ['snackbar-success']
-      });
-    })
+    // this.sharedService.addUserCourse(reqBody).subscribe(()=>{
+    //   this.loading = false
+    //   this.snackBar.open('Course Added Successfully', 'X', {
+    //     duration: 3000,
+    //     panelClass: ['snackbar-success']
+    //   });
+    // })
+
+    this.sharedService.addUserCourse(reqBody).subscribe({
+      next: () => {
+        this.loading = false
+        this.snackBar.open('Course Added Successfully', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: (error) => {
+        this.loading = false
+        this.snackBar.open(error?.error?.detail, 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
     this.dialogRef.close('saved')
   }
 

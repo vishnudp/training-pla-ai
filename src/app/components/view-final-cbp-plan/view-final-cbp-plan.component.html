@@ -1,4 +1,4 @@
-<div class="view-cbp-plan">
+<div class="view-cbp-plan" #dialogContent style="max-height: 80vh; overflow: auto;">
     <div class="popup-container">
         <div class="popup-header">
             <div>
@@ -10,24 +10,24 @@
         </div>
         <div class="section-container" #pdfContent>
             <header class="bg-white header-border">
-                <div class="header-flex justify-between">
-                    <div class="flex items-center space-x-4">
+                <div class="header-flex justify-between" style="width:100%">
+                    <div class="flex items-center space-x-4" style="width:50%">
                         <div class="image-container">
                             <div>
                                 <img src="assets/icons/dopt-logo.png" 
-                                    alt="Department of Personnel & Training" class="h-10" />
+                                    alt="Department of Personnel & Training" class="h-15" />
                             </div>
                             <div>
                                 <img src="assets/icons/CBC_logo.svg" 
                                     alt="Capacity Building Commission Logo" class="h-10" />
                             </div>
                             <div>
-                                <img src="https://igotkarmayogi.gov.in/assets/img/karmayogiLogo.svg"
+                                <img src="assets/icons/karmayogiLogo-min.png"
                                     alt="Karmayogi Bharat Logo" class="h-10" />
                             </div>
                         </div>
                     </div>
-                    <div class="text-right">
+                    <div class="text-right" style="width:50%">
                         <h1 class="text-2xl font-bold text-gray-900">
                             {{sharedService?.cbpPlanFinalObj?.ministry?.name}} - Capacity Building Plan
                         </h1>
@@ -336,24 +336,29 @@
             </div>
             <footer class="org-footer">
                 <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between">
-                  <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                    <img src="https://igotkarmayogi.gov.in/assets/img/karmayogiLogo.svg" alt="Karmayogi Bharat Logo" class="h-10" />
-                    <a href="https://karmayogibharat.gov.in" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold hover:text-white transition-colors">
-                      karmayogibharat.gov.in
-                    </a>
+                  <div class="flex items-center space-x-4 mb-4 mt-4 md:mb-0 footer-container">
+                    <div class="footer-logo-container">
+                        <img src="assets/icons/karmayogiLogo-min.png" alt="Karmayogi Bharat Logo" class="h-10" style="margin-left:20px"/>
+                    </div>
+                    <div style="margin-left: 100px;">
+                        <a href="https://karmayogibharat.gov.in" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold transition-colors">
+                            karmayogibharat.gov.in
+                          </a>
+                    </div>
+                    
+                   
                   </div>
-                  <div class="text-sm text-center md:text-right">
+                  <div class="text-sm text-center md:text-right mb-4" style="margin-left: 100px;">
                     <p>&copy; 2025 All Rights Reserved.</p>
-                    <!-- <p class="text-xs">Disclaimer: This is a sample report.</p> -->
                   </div>
                 </div>
               </footer>
         </div>
         <div class="popup-footer">
             
-            <!-- <div>
+            <div>
                 <input class="btn-active" type="button" value="Download" (click)="downloadPDF()" />
-            </div> -->
+            </div>
             <div>
                 <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />
             </div>

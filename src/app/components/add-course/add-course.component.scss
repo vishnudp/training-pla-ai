@@ -417,7 +417,7 @@ flex-shrink: 0;
     justify-content: flex-start; /* Changed from space-between to flex-start */
     flex-direction: row;
     flex-wrap: wrap; /* Allow wrapping if needed */
-    gap: 8px; /* Add consistent gap between items */
+    gap: 32px; /* Add consistent gap between items */
     width: 100%; /* Ensure full width usage */
     overflow-x: auto; /* Add horizontal scroll if needed */
 }
@@ -473,6 +473,7 @@ border-right: 2px solid #1B4CA1;
 background: #EDF1F8;
 margin: 0; /* Removed margin as we're using gap in parent */
 flex-shrink: 0; /* Prevent shrinking */
+width: 20%;
 }
 
 .outside-layer-functional {
@@ -487,6 +488,7 @@ border-right: 2px solid #E24577;
 background: #F8D2DE;
 margin: 0; /* Removed margin as we're using gap in parent */
 flex-shrink: 0; /* Prevent shrinking */
+width: 20%;
 }
 
 .outside-layer-domain {
@@ -501,6 +503,7 @@ border-right: 2px solid #7B47A4;
 background: #DFD3E9;
 margin: 0; /* Removed margin as we're using gap in parent */
 flex-shrink: 0; /* Prevent shrinking */
+width: 20%;
 }
 .outside-layer-behavioral {
     display: flex;
@@ -514,6 +517,7 @@ border-right: 2px solid #F8B861;
 background: #FDE8CC;
 margin: 0; /* Removed margin as we're using gap in parent */
 flex-shrink: 0; /* Prevent shrinking */
+width: 20%;
 }
 
 .inside-layer {
@@ -904,21 +908,21 @@ border: none;
     }
 
     ::ng-deep .mat-form-field-flex {
-      background: white;
-      border-radius: 25px;
-      border: 2px solid #e0e0e0;
+      // background: white;
+      // border-radius: 25px;
+      // border: 2px solid #e0e0e0;
       padding: 0 16px 0 20px;
       height: 48px;
       align-items: center;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       display: flex;
       justify-content: space-between;
 
-      &:hover {
-        border-color: #1B4CA1;
-        box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
-      }
+      // &:hover {
+      //   border-color: #1B4CA1;
+      //   box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
+      // }
     }
 
     ::ng-deep .mat-form-field-outline,
@@ -962,7 +966,7 @@ border: none;
 
     ::ng-deep .mat-select-placeholder {
       color: rgba(0, 0, 0, 0.5);
-      font-style: italic;
+      // font-style: italic;
       width: 100%;
       display: flex;
       align-items: center;
@@ -1035,9 +1039,9 @@ border: none;
     }
 
     ::ng-deep .mat-form-field-flex {
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 8px;
+      // background: #f8f9fa;
+      // border: 1px solid #e9ecef;
+      // border-radius: 8px;
       height: 36px;
       padding: 0 12px;
       align-items: center;
@@ -1063,7 +1067,7 @@ border: none;
 
       &::placeholder {
         color: #6c757d;
-        font-style: italic;
+        // font-style: italic;
       }
     }
   }
@@ -1170,7 +1174,7 @@ border: none;
       color: rgba(0, 0, 0, 0.5);
       font-family: Lato;
       font-size: 14px;
-      font-style: italic;
+      // font-style: italic;
     }
 
     &:focus {
@@ -1224,6 +1228,7 @@ border: none;
     &.btn-disable {
       background: #e9ecef;
       color: #6c757d;
+      border:1px solid #ccc;
       cursor: not-allowed;
       opacity: 0.7;
       box-shadow: none;
@@ -1257,8 +1262,8 @@ border: none;
   .competency-dropdown {
     &[disabled] {
       ::ng-deep .mat-form-field-flex {
-        background: #f8f9fa !important;
-        border-color: #e9ecef !important;
+        // background: #f8f9fa !important;
+        // border-color: #e9ecef !important;
         opacity: 0.7;
       }
       

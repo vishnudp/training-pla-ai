@@ -862,20 +862,20 @@ border: none;
     }
 
     ::ng-deep .mat-form-field-flex {
-      background: white;
-      border-radius: 25px;
-      border: 2px solid #e0e0e0;
+      // background: white;
+      // border-radius: 25px;
+      // border: 2px solid #e0e0e0;
       padding: 0 16px 0 20px;
       height: 48px;
       align-items: center;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       display: flex;
       justify-content: space-between;
 
       &:hover {
         border-color: #1B4CA1;
-        box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
+        //box-shadow: 0 4px 8px rgba(27, 76, 161, 0.1);
       }
     }
 
@@ -920,7 +920,7 @@ border: none;
 
     ::ng-deep .mat-select-placeholder {
       color: rgba(0, 0, 0, 0.5);
-      font-style: italic;
+      // font-style: italic;
       width: 100%;
       display: flex;
       align-items: center;
@@ -993,9 +993,9 @@ border: none;
     }
 
     ::ng-deep .mat-form-field-flex {
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 8px;
+      // background: #f8f9fa;
+      // border: 1px solid #e9ecef;
+      // border-radius: 8px;
       height: 36px;
       padding: 0 12px;
       align-items: center;
@@ -1021,7 +1021,7 @@ border: none;
 
       &::placeholder {
         color: #6c757d;
-        font-style: italic;
+        // font-style: italic;
       }
     }
   }
@@ -1128,7 +1128,7 @@ border: none;
       color: rgba(0, 0, 0, 0.5);
       font-family: Lato;
       font-size: 14px;
-      font-style: italic;
+      // font-style: italic;
     }
 
     &:focus {
@@ -1185,5 +1185,6 @@ border: none;
       cursor: not-allowed;
       opacity: 0.7;
       box-shadow: none;
+      border: 1px solid #ccc;
     }
   }

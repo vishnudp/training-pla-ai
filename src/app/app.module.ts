@@ -50,6 +50,7 @@ import { DeleteRoleMappingPopupComponent } from './components/delete-role-mappin
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCourseComponent } from './components/add-course/add-course.component';
+import { RoleMappingService } from './modules/shared/services/role-mapping.service';
 const appInitializer = (initSvc: InitService) => async () => {
   try {
     await initSvc.init()
@@ -115,7 +116,8 @@ const appInitializer = (initSvc: InitService) => async () => {
       useClass: AuthInterceptor,
       multi: true,
     },
-    SharedService
+    SharedService,
+    RoleMappingService
   ],
   bootstrap: [AppComponent]
 })
