@@ -1,6 +1,31 @@
 <div class="view-cbp-plan">
     <div class="popup-container">
+        
+        <!-- Initial Loading Screen (for initial load and regeneration) -->
+        <div class="initial-loading-container" *ngIf="!dataLoaded || isRegeneratingWithProgress">
+            <div class="loading-content">
+                <mat-spinner diameter="50"></mat-spinner>
+                <div class="loading-text mt-3">
+                    <p class="main-message">{{ currentProcessingStage || (isRegeneratingWithProgress ? 'Regenerating course recommendations...' : 'Loading course recommendations...') }}</p>
+                    <div class="progress-details" *ngIf="progressPercentage > 0">
+                        <div class="progress-indicator">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" 
+                                     [style.width.%]="progressPercentage">
+                                </div>
+                            </div>
+                            <small class="progress-text">{{ progressPercentage }}% Complete</small>
+                        </div>
+                        <small class="time-estimate">
+                            Real-time course generation in progress. This may take 1-2 minutes.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Main Content -->
+        <div class="main-content" *ngIf="dataLoaded && !isRegeneratingWithProgress">
         <div class="popup-header">
             <div class="header-left">
                 <div class="heading">Save Courses (<span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
@@ -609,6 +634,7 @@
 
             </div>
         </div>
+        </div> <!-- Close main-content div -->
 
     </div>
 </div>
@@ -758,6 +784,24 @@
   
 
 
-<div class="overlay-loader" *ngIf="loading">
-    <mat-spinner diameter="50"></mat-spinner>
+<div class="overlay-loader" *ngIf="loading && dataLoaded && !isRegeneratingWithProgress">
+    <div class="loading-content">
+        <mat-spinner diameter="50"></mat-spinner>
+        <div class="loading-text mt-3">
+            <p class="main-message">{{ currentProcessingStage || 'Preparing course recommendation generation...' }}</p>
+            <div class="progress-details">
+                <div class="progress-indicator" *ngIf="progressPercentage > 0">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" 
+                             [style.width.%]="progressPercentage">
+                        </div>
+                    </div>
+                    <small class="progress-text">{{ progressPercentage }}% Complete</small>
+                </div>
+                <small class="time-estimate">
+                    Real-time course generation in progress. This may take 1-2 minutes.
+                </small>
+            </div>
+        </div>
+    </div>
 </div>
