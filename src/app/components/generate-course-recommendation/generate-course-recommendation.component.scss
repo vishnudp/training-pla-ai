@@ -930,6 +930,69 @@ border: none;
     line-height: normal;
   }
 
+  .initial-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    width: 100%;
+    
+    .loading-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 3rem 2rem;
+        
+        .loading-text {
+            color: #1B4CA1;
+            font-family: 'Lato', sans-serif;
+            min-width: 320px;
+            
+            .main-message {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                color: #1B4CA1;
+            }
+            
+            .progress-details {
+                .progress-indicator {
+                    margin-bottom: 0.5rem;
+                    
+                    .progress-bar-container {
+                        width: 300px;
+                        height: 8px;
+                        background-color: #e0e0e0;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        margin-bottom: 0.5rem;
+                        
+                        .progress-bar {
+                            height: 100%;
+                            background: linear-gradient(90deg, #1B4CA1 0%, #4CAF50 100%);
+                            border-radius: 4px;
+                            transition: width 0.3s ease-in-out;
+                        }
+                    }
+                    
+                    .progress-text {
+                        font-size: 12px;
+                        color: #666;
+                        font-weight: 500;
+                    }
+                }
+                
+                .time-estimate {
+                    font-size: 12px;
+                    color: #888;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+  }
+
   .overlay-loader {
     position: fixed;
     top: 0;
@@ -941,6 +1004,72 @@ border: none;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    .loading-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        
+        .loading-text {
+            color: #1B4CA1;
+            font-family: 'Lato', sans-serif;
+            min-width: 320px;
+            
+            .main-message {
+                margin: 0;
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 16px;
+                text-align: center;
+            }
+            
+            .progress-details {
+                margin-top: 16px;
+                
+                .progress-indicator {
+                    margin-bottom: 12px;
+                    
+                    .progress-bar-container {
+                        width: 100%;
+                        height: 8px;
+                        background-color: #e0e0e0;
+                        border-radius: 4px;
+                        overflow: hidden;
+                        margin-bottom: 8px;
+                        
+                        .progress-bar {
+                            height: 100%;
+                            background: linear-gradient(90deg, #1B4CA1 0%, #2563eb 100%);
+                            border-radius: 4px;
+                            transition: width 0.5s ease-in-out;
+                        }
+                    }
+                    
+                    .progress-text {
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: #1B4CA1;
+                        display: block;
+                        text-align: center;
+                    }
+                }
+                
+                .time-estimate {
+                    color: #666;
+                    font-size: 12px;
+                    font-style: italic;
+                    display: block;
+                    text-align: center;
+                    margin-top: 8px;
+                }
+            }
+        }
+    }
 }
 
 .competencis-grid {

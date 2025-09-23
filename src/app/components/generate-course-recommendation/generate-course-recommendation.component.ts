@@ -16,7 +16,22 @@ export class GenerateCourseRecommendationComponent {
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   planData: any
   loading = false
+  dataLoaded = false // Track if initial data has been loaded
+  isRegeneratingWithProgress = false // Track regeneration with progress loading
   recommended_course_id = ''
+  
+  // Progressive loading for course generation
+  currentProcessingStage: string = '';
+  progressPercentage: number = 0;
+  processingStages = [
+    'Analyzing roles and responsibilities...',
+    'Detailing competency requirements...',
+    'Preparing iGOT course recommendations...',
+    'Generating public course suggestions...',
+    'Computing comprehensive gap analysis...',
+    'Finalizing course recommendation plan...'
+  ];
+  stageStartTime: number = 0;
   constructor(public dialogRef: MatDialogRef<GenerateCourseRecommendationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
     private snackBar: MatSnackBar, public dialog: MatDialog) {
@@ -70,43 +85,7 @@ export class GenerateCourseRecommendationComponent {
     this.gapAnalysisStats()
   }
   ngOnInit() {
-    this.loading = true
-    this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
-      next: (res) => {
-        this.loading = false
-        console.log('res', res)
-        this.recommended_course_id = res.id
-        let allCoures = []
-        if (res && res.filtered_courses && res.filtered_courses.length) {
-          res?.filtered_courses.forEach((item) => {
-            if (item?.relevancy >= 85) {
-              allCoures.push(item)
-            }
-          })
-          this.originalData = allCoures
-          this.filterdCourses = allCoures
-        }
-
-        console.log('this.filterdCourses', this.filterdCourses)
-        this.getCourses()
-        this.getSuggestedCourse()
-        
-        // Initialize gap analysis stats after courses are loaded
-        this.initializeGapAnalysisStats()
-        this.getUserCourse()
-      },
-      error: (error) => {
-        this.loading = false
-        console.error('Error getting recommended courses:', error);
-        if (error.status === 401) {
-          console.log('Unauthorized access - user will be redirected to login');
-        } else {
-          // Handle other errors gracefully
-          console.error('Failed to load course recommendations');
-        }
-      }
-    })
-   
+    this.loadComponentData();
   }
 
   applyFilter() {
@@ -1442,6 +1421,10 @@ export class GenerateCourseRecommendationComponent {
 
       console.log('Starting course recommendation regeneration...');
       
+      // Set regeneration progress state
+      this.isRegeneratingWithProgress = true;
+      this.dataLoaded = false; // Hide main content during regeneration
+      
       // Step 1: Delete existing course recommendations
       await this.deleteCourseRecommendations();
       
@@ -1469,6 +1452,8 @@ export class GenerateCourseRecommendationComponent {
       });
     } finally {
       this.isRegenerating = false;
+      this.isRegeneratingWithProgress = false;
+      this.dataLoaded = true; // Ensure main content is shown after regeneration
     }
   }
 
@@ -1518,23 +1503,113 @@ export class GenerateCourseRecommendationComponent {
   }
 
   /**
-   * Generate new course recommendations
+   * Generate new course recommendations during regeneration
    */
   private generateNewCourseRecommendations(): Promise<any> {
+    console.log('Generating new course recommendations...');
+    return this.getRecommendedCourseForRegeneration(this.planData.id);
+  }
+
+  /**
+   * Enhanced course generation specifically for regeneration with progressive loading
+   */
+  private getRecommendedCourseForRegeneration(role_mapping_id: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      console.log('Generating new course recommendations...');
+      // Start the progressive loading simulation for regeneration
+      this.startRegenerativeProgressiveLoading();
       
-      this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
+      // Make the actual API call
+      this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
         next: (response) => {
-          console.log('New course recommendations generated successfully:', response);
-          resolve(response);
+          // Stop progressive loading and show completion
+          this.isRegeneratingWithProgress = false; // This will stop the interval
+          this.progressPercentage = 100;
+          this.currentProcessingStage = 'Course recommendations regenerated successfully!';
+          
+          // Clear the loading state after showing completion
+          setTimeout(() => {
+            this.currentProcessingStage = '';
+            this.progressPercentage = 0;
+            resolve(response);
+          }, 2000);
         },
         error: (error) => {
-          console.error('Error generating course recommendations:', error);
-          reject(error);
+          // Stop progressive loading
+          this.isRegeneratingWithProgress = false;
+          this.currentProcessingStage = '';
+          this.progressPercentage = 0;
+          
+          // Handle specific error cases
+          if (error.status === 409 || error.error?.detail?.includes('already exists')) {
+            // Course recommendations already exist - this is normal
+            console.log('Course recommendations already exist, loading existing data...');
+            
+            this.currentProcessingStage = 'Loading existing course recommendations...';
+            
+            // Try to get existing data
+            this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
+              next: (existingResponse) => {
+                console.log('Successfully loaded existing course recommendations');
+                this.progressPercentage = 100;
+                this.currentProcessingStage = 'Loaded existing course recommendations successfully!';
+                
+                setTimeout(() => {
+                  this.currentProcessingStage = '';
+                  this.progressPercentage = 0;
+                  resolve(existingResponse);
+                }, 2000);
+              },
+              error: (loadError) => {
+                console.error('Failed to load existing course recommendations:', loadError);
+                this.currentProcessingStage = '';
+                this.progressPercentage = 0;
+                reject(loadError);
+              }
+            });
+          } else {
+            console.error('Error during course recommendation regeneration:', error);
+            reject(error);
+          }
         }
       });
     });
+  }
+
+  // Progressive loading methods for regeneration
+  startRegenerativeProgressiveLoading() {
+    this.currentProcessingStage = this.processingStages[0];
+    this.progressPercentage = 0;
+    this.stageStartTime = Date.now();
+    this.simulateRegenerativeProgressiveStages();
+  }
+
+  simulateRegenerativeProgressiveStages() {
+    let currentStageIndex = 0;
+    const totalDuration = 60000; // 60 seconds estimated duration
+    const stageInterval = totalDuration / this.processingStages.length;
+    
+    const progressInterval = setInterval(() => {
+      // Stop if regeneration is complete
+      if (!this.isRegeneratingWithProgress) {
+        clearInterval(progressInterval);
+        return;
+      }
+      
+      const elapsed = Date.now() - this.stageStartTime;
+      const currentStageProgress = (elapsed % stageInterval) / stageInterval;
+      const stageIndex = Math.min(Math.floor(elapsed / stageInterval), this.processingStages.length - 1);
+      
+      // Update stage if needed
+      if (stageIndex !== currentStageIndex && stageIndex < this.processingStages.length) {
+        currentStageIndex = stageIndex;
+        this.currentProcessingStage = this.processingStages[stageIndex];
+      }
+      
+      // Calculate overall progress (each stage is worth ~16.67%)
+      const baseProgress = (stageIndex / this.processingStages.length) * 100;
+      const stageProgress = (currentStageProgress / this.processingStages.length) * 100;
+      this.progressPercentage = Math.min(Math.round(baseProgress + stageProgress), 95);
+    }, 1000);
   }
 
   /**
@@ -1555,8 +1630,131 @@ export class GenerateCourseRecommendationComponent {
     this.innerTabActiveIndex = 0;
     this.outerTabActiveIndex = 0;
     
-    // Reload the data
-    this.ngOnInit();
+    // Call the data loading methods directly to avoid resetting dataLoaded
+    this.loadComponentData();
+  }
+
+  /**
+   * Load component data (separated from ngOnInit for reuse)
+   */
+  private loadComponentData() {
+    this.getRecommendedCourseWithProgress(this.planData.id).then((res) => {
+      console.log('res', res)
+      this.recommended_course_id = res.id
+      let allCoures = []
+      if (res && res.filtered_courses && res.filtered_courses.length) {
+        res?.filtered_courses.forEach((item) => {
+          if (item?.relevancy >= 85) {
+            allCoures.push(item)
+          }
+        })
+        this.originalData = allCoures
+        this.filterdCourses = allCoures
+      }
+
+      console.log('this.filterdCourses', this.filterdCourses)
+      this.getCourses()
+      this.getSuggestedCourse()
+      
+      // Initialize gap analysis stats after courses are loaded
+      this.initializeGapAnalysisStats()
+      this.getUserCourse()
+      
+      // Mark data as loaded after all initial operations
+      this.dataLoaded = true;
+    }).catch((error) => {
+      console.error('Error getting recommended courses:', error);
+      if (error.status === 401) {
+        console.log('Unauthorized access - user will be redirected to login');
+      } else if (error.status !== 409) {
+        // Don't log error for 409 (already exists) as it's handled in the method
+        console.error('Failed to load course recommendations');
+      }
+      // Mark data as loaded even if there's an error to show the dialog content
+      this.dataLoaded = true;
+    });
+  }
+
+  // Progressive loading methods for course generation
+  startProgressiveLoading() {
+    this.currentProcessingStage = this.processingStages[0];
+    this.progressPercentage = 0;
+    this.stageStartTime = Date.now();
+    this.simulateProgressiveStages();
+  }
+
+  simulateProgressiveStages() {
+    let currentStageIndex = 0;
+    const totalDuration = 60000; // 60 seconds estimated duration
+    const stageInterval = totalDuration / this.processingStages.length;
+    
+    const progressInterval = setInterval(() => {
+      const elapsed = Date.now() - this.stageStartTime;
+      const currentStageProgress = (elapsed % stageInterval) / stageInterval;
+      const stageIndex = Math.min(Math.floor(elapsed / stageInterval), this.processingStages.length - 1);
+      
+      // Update stage if needed
+      if (stageIndex !== currentStageIndex && stageIndex < this.processingStages.length) {
+        currentStageIndex = stageIndex;
+        this.currentProcessingStage = this.processingStages[stageIndex];
+      }
+      
+      // Calculate overall progress (each stage is worth ~16.67%)
+      const baseProgress = (stageIndex / this.processingStages.length) * 100;
+      const stageProgress = (currentStageProgress / this.processingStages.length) * 100;
+      this.progressPercentage = Math.min(Math.round(baseProgress + stageProgress), 95);
+      
+      // Clear interval when loading stops
+      if (!this.loading) {
+        clearInterval(progressInterval);
+        this.progressPercentage = 100;
+        this.currentProcessingStage = 'Course recommendations generated successfully!';
+      }
+    }, 1000);
+  }
+
+  // Enhanced course generation with progressive loading
+  getRecommendedCourseWithProgress(role_mapping_id: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.startProgressiveLoading();
+      
+      this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
+        next: (response) => {
+          this.loading = false;
+          this.progressPercentage = 100;
+          this.currentProcessingStage = 'Course recommendations generated successfully!';
+          
+          setTimeout(() => {
+            this.currentProcessingStage = '';
+            this.progressPercentage = 0;
+          }, 2000);
+          
+          resolve(response);
+        },
+        error: (error) => {
+          this.loading = false;
+          this.currentProcessingStage = '';
+          this.progressPercentage = 0;
+          
+          // Handle specific error cases
+          if (error.status === 409 || error.error?.detail?.includes('already exists')) {
+            // Course recommendations already exist - this is normal
+            this.snackBar.open('Course recommendations already exist and have been loaded.', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+          } else {
+            this.snackBar.open('Failed to generate course recommendations. Please try again.', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
+          
+          reject(error);
+        }
+      });
+    });
   }
 }
 
@@ -1671,9 +1869,4 @@ export class RegenerateConfirmationDialog {
   onConfirm(): void {
     this.dialogRef.close(true);
   }
-
-
-
-
- 
 }
