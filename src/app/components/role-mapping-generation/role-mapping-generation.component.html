@@ -121,8 +121,10 @@
                 </div>
             </div>
             <div class="mt-4" >
-                <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) "
-                    [ngClass]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) ? 'btn-disable':'btn-active'" type="button" value="Generate CBP"
+                <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading"
+                    [ngClass]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading ? 'btn-disable':'btn-active'" 
+                    type="button" 
+                    [value]="loading ? 'Generating CBP Plan...' : 'Generate CBP Plan'"
                     (click)="onGenerateRoleMapping()" />
             </div>
         </div>
@@ -134,5 +136,23 @@
 
 
 <div class="overlay-loader" *ngIf="loading">
-    <mat-spinner diameter="50"></mat-spinner>
+    <div class="loading-content">
+        <mat-spinner diameter="50"></mat-spinner>
+        <div class="loading-text mt-3">
+            <p class="main-message">{{ currentProcessingStage || 'Preparing CBP Plan generation...' }}</p>
+            <div class="progress-details">
+                <div class="progress-indicator" *ngIf="chunks.length > 0">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" 
+                             [style.width.%]="getDisplayProgressPercentage()">
+                        </div>
+                    </div>
+                    <small class="progress-text">{{ getDisplayProgressPercentage() }}% Complete</small>
+                </div>
+                <small class="time-estimate">
+                    Real-time streaming in progress. This may take 2-3 minutes.
+                </small>
+            </div>
+        </div>
+    </div>
 </div>
