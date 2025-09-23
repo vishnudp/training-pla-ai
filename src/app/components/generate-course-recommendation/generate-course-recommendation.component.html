@@ -352,8 +352,15 @@
 
                                         </div>
 
-                                        <!-- Duration section -->
-                                        <div class="course-footer">
+                                        <!-- Relevancy and Duration section -->
+                                        <div class="course-footer" *ngIf="item?.relevancy">
+                                            <div class="relevancy-pill-green">
+                                                <div class="relevancy-container">
+                                                    <div class="relevancy">Relevancy</div>
+                                                    <div class="dash">-</div>
+                                                    <div class="percentage">{{item?.relevancy}}%</div>
+                                                </div>
+                                            </div>
                                             <div class="relevancy-pill-green">
                                                 <div class="relevancy-container">
                                                     <div class="relevancy">Duration</div>
