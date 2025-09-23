@@ -28,6 +28,7 @@ export class ViewCourseRecommendationComponent {
   selectFilterCourses:any = []
   competenciesCount = {total:0, public_courses:0, igot:0}
   expandedCompetencies: any = {}; // Track expanded state for each course and competency type
+  isPDFDownload = false
   ngOnInit() {
     this.loading = true
     this.cbpPlanData = this.sharedService.cbpPlanFinalObj
@@ -302,6 +303,7 @@ export class ViewCourseRecommendationComponent {
 
   downloadPDF() {
     this.loading = true
+    this.isPDFDownload = true
     const element = this.pdfContent.nativeElement;
 
   // Wait for images to load
@@ -334,6 +336,7 @@ export class ViewCourseRecommendationComponent {
     html2pdf().from(element).set(options).save()
     setTimeout(() => {
       this.loading = false;
+      this.isPDFDownload = false
     }, 3000); 
   });
 }

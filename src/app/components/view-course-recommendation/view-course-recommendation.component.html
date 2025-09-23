@@ -82,6 +82,13 @@
                                     <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
                                 </div>  
                             </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img
+                                            src="assets/icons/ai-loader.gif"></span>
+                                    <span>Provider - {{item?.organisation[0]}}</span>
+                                </div>
+                            </div>
                         </div>
                         <div *ngIf="item?.rationale && item?.is_public">
                             <div class="ai-recommened-pill-public">
@@ -97,6 +104,13 @@
                                     <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
                                     <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
                                 </div>  
+                            </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img
+                                            src="assets/icons/ai-loader.gif"></span>
+                                    <span>Provider - {{item?.organisation[0]}}</span>
+                                </div>
                             </div>
                         </div>
                         <div *ngIf="!item?.rationale">
@@ -114,6 +128,13 @@
                                     <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform - {{item?.platform}}</span></a>
                                 </div>  
                             </div>
+                            <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                <div class="ai-recommened-pill-orange-text">
+                                    <span class="ai-loader-icon"><img
+                                            src="assets/icons/ai-loader.gif"></span>
+                                    <span>Provider - {{item?.organisation[0]}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="course-title mt-4">
@@ -123,7 +144,7 @@
                         </div>
                     </div>
                     <div class="course-desc mt-2">
-                        <div>
+                        <div *ngIf="isPDFDownload">
                             <div>{{item?.rationale}}</div>
                         </div>
                     </div>
