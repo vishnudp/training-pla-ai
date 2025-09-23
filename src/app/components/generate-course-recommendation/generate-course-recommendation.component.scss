@@ -1713,15 +1713,15 @@ background: #f8f9fa;
     }
 
     .behavioral {
-      color: #9c27b0; /* purple */
+      color: #F8B861; /* purple */
     }
 
     .functional {
-      color: #039be5; /* blue */
+      color: #E24577; /* blue */
     }
 
     .domain {
-      color: #fb8c00; /* orange */
+      color: #7B47A4; /* orange */
     }
   }
 
@@ -1737,15 +1737,15 @@ background: #f8f9fa;
       transition: width 0.5s ease-in-out;
 
       &.behavioral {
-        background: linear-gradient(to right, #a700ff, #d633ff); /* purple gradient */
+        background: #F8B861
       }
 
       &.functional {
-        background: linear-gradient(to right, #00c6ff, #0072ff); /* blue gradient */
+        background: #E24577
       }
 
       &.domain {
-        background: linear-gradient(to right, #ffa726, #fb8c00); /* orange gradient */
+        background: #7B47A4
       }
     }
   }
@@ -1772,27 +1772,30 @@ background: #f8f9fa;
     }
 
     .behavioral {
-      color: #6a1b9a; /* purple */
+      color: #000; /* purple */
     }
 
     .domain {
-      color: #e65100; /* dark orange */
+      color: #000; /* dark orange */
+    }
+    .functional {
+      color: #000;
     }
   }
 
   &.behavioral {
-    background: #f0efff; /* very light purple */
-    border-color: #dcd5f8;
+    background: linear-gradient(0deg,rgba(248,184,97,.32) 0%,rgba(248,184,97,.32) 100%),#FFF; /* very light purple */
+    border-color: #F8B861;
   }
 
   &.functional {
-    background: #f0f8ff;
-    border-color: #cfe2f3;
+    background: linear-gradient(0deg,rgba(226,69,119,.24) 0%,rgba(226,69,119,.24) 100%),#FFF;
+    border-color: #E24577;
   }
 
   &.domain {
-    background: #fffdee; /* very light yellow */
-    border-color: #fceea2;
+    background: linear-gradient(0deg, rgba(123, 71, 164, .24) 0%, rgba(123, 71, 164, .24) 100%), #FFF; /* very light yellow */
+    border-color: #7B47A4;
    
   }
 }

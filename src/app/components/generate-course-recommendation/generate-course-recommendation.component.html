@@ -78,7 +78,7 @@
                                 Courses</mat-checkbox>
                         </div>
                     </div>
-                    <div class="disclaimer-container" *ngIf="filterdCourses?.length">
+                    <div class="disclaimer-container mt-2" *ngIf="filterdCourses?.length">
                         <div class="disclaimer-message">
                             <strong>Disclaimer:</strong> Please verify the public course URL before adding it to the plan.
                         </div>
@@ -289,7 +289,7 @@
                                                         src="assets/icons/redirect.png" /></span>
                                             </div>
                                             <div class="course-desc mt-2">
-                                                <span *ngIf="item?.rationale">{{item?.rationale}}</span>
+                                                <!-- <span *ngIf="item?.rationale">{{item?.rationale}}</span> -->
                                                 <span *ngIf="item?.description">{{item?.description}}</span>
                                             </div>
                                             <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">
@@ -617,8 +617,11 @@
 <div [hidden]="!isPDFDownload" class="gap-analysis-pdf-container" #pdfContent>
     <div class="gap-analysis-pdf-header">
       <img src="assets/icons/karmayogiLogo-min.png" alt="Karmayogi Bharat Logo" class="logo" />
-      <h1><span>{{sharedService?.cbpPlanFinalObj?.ministry?.name}} <span
-        *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span></span></h1>
+      <h1><span>
+        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'state'">{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span> 
+        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'center'">{{sharedService?.cbpPlanFinalObj?.ministry?.name}}</span>   
+        <span *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span>
+        </span></h1>
       <p class="subtitle">A detailed breakdown of competencies Gap Analysis</p>
      
     </div>
