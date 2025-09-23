@@ -71,11 +71,20 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   chunks: string[] = [];
   fullJson: string = '';
   parsedData: any;
+  currentProcessingStage: string = '';
+  processingStages = [
+    'Initializing CBP Plan generation...',
+    'Analyzing departmental competency requirements...',
+    'Processing work order specifications and role definitions...',
+    'Generating detailed roles & resposibilities...',
+    'Generating detailed competencies...',
+    'Validating role mapping  and finalizing the CBP Plan'
+  ];
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
   constructor(
-    private eventSvc: EventService, 
+    private eventSvc: EventService,
     public sharedService: SharedService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -88,11 +97,11 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   ngOnInit() {
     this.login = this.sharedService.checkIfLogin()
-    
+
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
     if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType)) {
-      
-      
+
+
       this.editMinistryForm()
       // this.getMinistryData()
     } else {
@@ -124,19 +133,19 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       });
     }
 
-    
-    
-    
+
+
+
 
   }
 
   async editMinistryForm() {
     if(this.cbpFinalObj?.ministryType === 'center') {
       this.selectedMinistryType = this.cbpFinalObj?.ministryType
-      
+
       await this.getMinistryData()
 
-      
+
       this.roleMappingForm = this.fb.group({
         ministryType: [this.selectedMinistryType, Validators.required],
         ministry: [this.cbpFinalObj?.ministry?.id, Validators.required],
@@ -145,7 +154,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         additionalDetails: ['']
       });
 
-      
+
       // this.roleMappingForm.get('sectors')?.setValue([]);
       // this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {
       //   this.roleMappingForm.reset({
@@ -167,7 +176,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       if(this.ministryData && this.ministryData.length) {
         this.selectedMinistryId = this.cbpFinalObj?.ministry?.id
       }
-      
+
       //this.onGenerateRoleMapping()
     } else if( this.cbpFinalObj?.ministryType === 'state') {
       this.selectedMinistryType = this.cbpFinalObj?.ministryType
@@ -186,7 +195,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         additionalDetails: [this.cbpFinalObj?.additionalDetails]
       });
 
-      
+
       // this.roleMappingForm.get('sectors')?.setValue([]);
       // this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {
       //   this.roleMappingForm.reset({
@@ -214,34 +223,34 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   ngOnChanges() {
     this.login = this.loginStatusFlag
-    
+
   }
 
   getChangedFields(original: any, current: any): string[] {
     const changedKeys: string[] = [];
-  
+
     for (const key in original) {
       if (!original.hasOwnProperty(key)) continue;
-  
+
       const originalValue = original[key];
       const currentValue = current[key];
-  
+
       // For arrays and objects, use JSON.stringify (or lodash isEqual for deep comparison)
       const isEqual =
         typeof originalValue === 'object'
           ? JSON.stringify(originalValue) === JSON.stringify(currentValue)
           : originalValue === currentValue;
-  
+
       if (!isEqual) {
         changedKeys.push(key);
       }
     }
-  
+
     return changedKeys;
   }
 
   onGenerateRoleMapping(): any {
-    
+
     const currentFormValues = this.roleMappingForm.getRawValue();
     const formData :any= new FormData();
 
@@ -249,7 +258,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     formData.append('ministry', currentFormValues.ministry);
     formData.append('sectors', JSON.stringify(currentFormValues.sectors));
     formData.append('departments', JSON.stringify(currentFormValues.departments));
-    formData.append('additionalDetails', currentFormValues.additionalDetails || '');  
+    formData.append('additionalDetails', currentFormValues.additionalDetails || '');
     const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
     console.log('file', file)
     if (file) {
@@ -261,7 +270,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       console.log(`${pair[0]}:`, pair[1]);
     }
 
-    
+
     const changedFields = this.getChangedFields(this.originalFormValues, currentFormValues);
 
       if (changedFields.length > 0 || (file && file.size > 0)) {
@@ -276,7 +285,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
             maxHeight: '80vh',           // Prevent it from going beyond viewport
             disableClose: true // Optional: prevent closing with outside click
           });
-        
+
           dialogRef.afterClosed().subscribe(result => {
             if (result === 'saved') {
               console.log('Changes saved!');
@@ -300,7 +309,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
             } else {
               this.generateFinalRoleMapping()
             }
-          });          
+          });
         } else {
           this.generateFinalRoleMapping()
         }
@@ -308,7 +317,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         this.generateFinalRoleMapping()
         console.log('No changes detected.');
       }
-    
+
   }
 
 
@@ -321,13 +330,13 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         data.forEach((item)=>{
           if(item?.type === 'central') {
             this.ministryData.push(item)
-          } 
+          }
         })
       } else if(this.selectedMinistryType === 'state') {
         data.forEach((item)=>{
           if(item?.type === 'state') {
             this.ministryData.push(item)
-          } 
+          }
         })
       }
     })
@@ -337,20 +346,20 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     console.log('event', event)
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
-    this.ministryData = [] 
+    this.ministryData = []
     if(event?.value === 'state') {
       this.roleMappingForm.get('sectors')?.setValue([]);
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'state') {
           this.ministryData.push(item)
-        } 
+        }
       })
     } else if(event?.value === 'center') {
       this.roleMappingForm.get('sectors')?.setValue([]);
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'central') {
           this.ministryData.push(item)
-        } 
+        }
       })
     }
   }
@@ -375,12 +384,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   applyFilter() {
-   
+
   }
 
   downloadPDF() {
       const element = this.pdfContent.nativeElement;
-  
+
       const options = {
         margin: 0.5,
         filename: 'CBP_Plan.pdf',
@@ -395,9 +404,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           orientation: 'portrait'
         }
       };
-  
+
       html2pdf().from(element).set(options).save();
-    
+
   }
 
   onFileChange(event: any) {
@@ -449,12 +458,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         // formUploadData.append('ministry', currentFormValues.ministry);
         // formUploadData.append('sectors', JSON.stringify(currentFormValues.sectors));
         // formUploadData.append('departments', JSON.stringify(currentFormValues.departments));
-        formUploadData.append('state_center_id', currentFormValues.ministry || '');  
+        formUploadData.append('state_center_id', currentFormValues.ministry || '');
         if(currentFormValues.departments) {
-          formUploadData.append('department_id', currentFormValues.departments || '');  
+          formUploadData.append('department_id', currentFormValues.departments || '');
         }
         if(currentFormValues.additionalDetails) {
-          formUploadData.append('instruction', currentFormValues.additionalDetails || '');  
+          formUploadData.append('instruction', currentFormValues.additionalDetails || '');
         }
         const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
         console.log('file', file)
@@ -474,95 +483,217 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         "state_center_id":formData.ministry,
         "instruction": formData.additionalDetails
       }
-      if(this.selectedMinistryType === 'state') { 
+      if(this.selectedMinistryType === 'state') {
         req['department_id'] = formData.departments ? formData.departments : ''
         this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
-        
-        
+
+
         const departmentName = this.departmentData.find(u => u.id=== formData.departments);
         this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
         this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
-        console.log(departmentName); 
-        
+        console.log(departmentName);
+
       }
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
-      
-      if(req) {
-        // this.chunks = [];
-        // this.fullJson = '';
-        // this.parsedData = null;
-        // this.roleMappingService.generateRoleMapping(
-        //   req,
-        //   this.uploadedFile || null,
-        //   (chunk) =>  {
 
-        //     this.chunks.push(chunk)
-        //     console.log('this.chunks', this.chunks)
-        //   },
-        //   () => console.log('Stream started'),
-        //   () => this.onStreamEnd(),
-        //   (err) => console.error('Stream failed:', err)
-        // );
-        // Pass the uploaded file along with the request
-        this.sharedService.generateRoleMapping(req, this.uploadedFile).subscribe({
-          next: (res) => {
-            // Success handling
-            console.log('Success:', res);
-            this.loading = false
-            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-            this.successRoleMapping.emit(this.roleMappingForm)
+      if(req) {
+        this.chunks = [];
+        this.fullJson = '';
+        this.parsedData = null;
+        this.currentProcessingStage = this.processingStages[0];
+        this.roleMappingService.generateRoleMapping(
+          req,
+          this.uploadedFile || null,
+          (chunk) =>  {
+            this.chunks.push(chunk)
+            console.log('Received chunk:', chunk, 'Total chunks:', this.chunks.length)
+
+            // Update processing stage based on chunk count
+            this.updateProcessingStage();
+
+            // Trigger change detection to update the UI
+            setTimeout(() => {}, 0);
           },
-          error: (error) => {
-            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = []
-            console.log('error', error)
-            if (error.status === 409) {
-              // Handle 409 Conflict here
-              // alert('Conflict detected: The resource already exists or action conflicts.');
-              //this.get
-              // Or you can set a UI error message variable
-              this.snackBar.open(error?.error?.detail, 'X', {
-                duration: 3000,
-                panelClass: ['snackbar-success']
-              });
-              this.loading = false
-              this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
-            } else {
-              // Handle other errors
-              if(error.status === 500) {
-                console.log('error', error)
-                this.snackBar.open(error?.error?.detail, 'X', {
-                  duration: 3000,
-                  panelClass: ['snackbar-error']
-                });
-              }
-             this.loading = false
-            }
+          () => {
+            console.log('Stream started')
+            this.currentProcessingStage = this.processingStages[0];
+          },
+          () => this.onStreamEnd(),
+          (err) => {
+            console.error('Stream failed:', err)
+            this.handleStreamError(err);
           }
-        });
+        );
       }
 
       localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
-      
+
     } else {
       this.roleMappingForm.markAllAsTouched();
     }
   }
 
+  updateProcessingStage() {
+    const chunkCount = this.chunks.length;
+    let stageIndex = 0;
+
+    // Much slower stage progression - stages stay much longer
+    if (chunkCount <= 8) {
+      stageIndex = 0; // Initializing - stays for first 8 chunks
+    } else if (chunkCount <= 20) {
+      stageIndex = 1; // Analyzing competency requirements - 12 chunks
+    } else if (chunkCount <= 35) {
+      stageIndex = 2; // Processing work order - 15 chunks
+    } else if (chunkCount <= 55) {
+      stageIndex = 3; // Generating role mappings - 20 chunks
+    } else if (chunkCount <= 75) {
+      stageIndex = 4; // Computing final recommendations - 20 chunks
+    } else {
+      stageIndex = 5; // Finalizing CBP Plan - 75+ chunks
+    }
+
+    this.currentProcessingStage = this.processingStages[stageIndex];
+  }
+
+  getProgressPercentage(): number {
+    const chunkCount = this.chunks.length;
+    if (chunkCount === 0) return 0;
+
+    // Much slower and smoother progress calculation
+    let percentage = 0;
+
+    if (chunkCount <= 15) {
+      // First 15 chunks = 0-25% (very slow start)
+      percentage = (chunkCount / 15) * 25;
+    } else if (chunkCount <= 35) {
+      // Next 20 chunks = 25-50% (slow early progress)
+      percentage = 25 + ((chunkCount - 15) / 20) * 25;
+    } else if (chunkCount <= 60) {
+      // Next 25 chunks = 50-75% (steady middle progress)
+      percentage = 50 + ((chunkCount - 35) / 25) * 25;
+    } else if (chunkCount <= 100) {
+      // Next 40 chunks = 75-90% (slower final approach)
+      percentage = 75 + ((chunkCount - 60) / 40) * 15;
+    } else {
+      // Beyond 100 chunks = 90-95% (very slow final progression)
+      percentage = 90 + Math.min(((chunkCount - 100) / 50) * 5, 5);
+    }
+
+    return Math.round(percentage);
+  }
+
   onStreamEnd() {
-    this.fullJson = this.chunks.join('');
-    const cleaned = this.fullJson.replace(/^```json\n/, '').replace(/```$/, '');
-    try {
-      this.parsedData = JSON.parse(cleaned);
-      console.log('Parsed data:', this.parsedData);
-    } catch (e) {
-      console.error('JSON parse error:', e);
+    this.currentProcessingStage = 'Completing CBP Plan generation...';
+
+    // Show 100% completion briefly before finishing
+    setTimeout(() => {
+      this.fullJson = this.chunks.join('');
+      const cleaned = this.fullJson.replace(/^```json\n/, '').replace(/```$/, '');
+      try {
+        this.parsedData = JSON.parse(cleaned);
+        console.log('Parsed data:', this.parsedData);
+
+        // Handle successful completion
+        this.loading = false;
+        this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = this.parsedData;
+        this.successRoleMapping.emit(this.roleMappingForm);
+
+        this.snackBar.open('CBP Plan generated successfully!', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      } catch (e) {
+        console.error('JSON parse error:', e);
+        this.loading = false;
+        this.snackBar.open('Failed to generate CBP Plan. Please try again.', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    }, 500);
+  }
+
+  // Helper method to get progress percentage including completion state
+  getDisplayProgressPercentage(): number {
+    if (this.currentProcessingStage === 'Completing CBP Plan generation...') {
+      return 100;
+    }
+    return this.getProgressPercentage();
+  }
+
+  // Handle streaming errors, especially "Role mapping already exists"
+  handleStreamError(err: any) {
+    console.log('Error details:', err);
+    
+    // Check if this is the "Role mapping already exists" error
+    if (err?.isExistingRoleMapping || (err?.detail && err.detail.includes('Role mapping already exists'))) {
+      this.currentProcessingStage = 'Loading existing role mapping...';
+      
+      // Call the appropriate Get role mapping API based on ministry type
+      const formData = this.roleMappingForm.value;
+      const stateCenter = formData.ministry;
+      const departmentId = formData.departments;
+      
+      if (this.selectedMinistryType === 'state' && departmentId) {
+        // Call Get role mapping by state center and department
+        this.sharedService.getRoleMappingByStateCenterAndDepartment(stateCenter, departmentId).subscribe({
+          next: (res) => {
+            console.log('Existing role mapping loaded:', res);
+            this.loading = false;
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
+            this.snackBar.open('Existing role mapping loaded successfully!', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+            this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
+          },
+          error: (error) => {
+            console.error('Failed to load existing role mapping:', error);
+            this.loading = false;
+            this.snackBar.open('Failed to load existing role mapping. Please try again.', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
+        });
+      } else {
+        // Call Get role mapping by state center only
+        this.sharedService.getRoleMappingByStateCenter(stateCenter).subscribe({
+          next: (res) => {
+            console.log('Existing role mapping loaded:', res);
+            this.loading = false;
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
+            this.snackBar.open('Existing role mapping loaded successfully!', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+            this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
+          },
+          error: (error) => {
+            console.error('Failed to load existing role mapping:', error);
+            this.loading = false;
+            this.snackBar.open('Failed to load existing role mapping. Please try again.', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
+        });
+      }
+    } else {
+      // Handle other streaming errors
+      this.loading = false;
+      const errorMessage = err?.detail || 'Stream failed. Please try again.';
+      this.snackBar.open(errorMessage, 'X', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
     }
   }
 
   removeFile(): void {
     this.uploadedFile = null;
     this.uploadError = '';
-  
+
     // Also reset the input element if needed
     const input = document.getElementById('uploadDoc') as HTMLInputElement;
     if (input) {

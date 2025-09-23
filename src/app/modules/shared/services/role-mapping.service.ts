@@ -5,7 +5,7 @@ import { InitService } from './init.service';
 import { Observable } from 'rxjs';
 
 const API_END_POINTS = {
-  GET_ROLE_MAPPING: 'cbp-tpc-ai/role-mapping/generate/stream',
+  GET_ROLE_MAPPING: 'cbp-tpc-ai/role-mapping/generate_stream',
 }
 
 @Injectable({
@@ -95,6 +95,9 @@ export class RoleMappingService {
       formData.append('instruction', reqBody.instruction);
     }
 
+    // Add sector_name parameter as required by the API
+    formData.append('sector_name', 'Government');
+
     if (file) {
       formData.append('additional_document', file);
     }
@@ -106,7 +109,27 @@ export class RoleMappingService {
         headers: headersObj
       });
 
-      if (!response.ok || !response.body) {
+      if (!response.ok) {
+        const errorText = await response.text();
+        let errorDetail = '';
+        
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorDetail = errorJson.detail || `HTTP error! status: ${response.status}`;
+        } catch {
+          errorDetail = errorText || `HTTP error! status: ${response.status}`;
+        }
+        
+        // Pass specific error details to onError callback
+        if (onError) onError({ 
+          status: response.status, 
+          detail: errorDetail,
+          isExistingRoleMapping: errorDetail.includes('Role mapping already exists')
+        });
+        return;
+      }
+
+      if (!response.body) {
         throw new Error(`Server responded with ${response.status}`);
       }
 
