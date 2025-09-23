@@ -266,36 +266,97 @@ export class SuggestMoreCoursesComponent implements OnInit{
   }
 
   addCourses() {
-    let reqBody = {
-      "role_mapping_id": this.planData.role_mapping_id,
-      //"recommended_course_id": this.planData.recommended_course_id,
-      "course_identifiers": this.selectFilterCourses
-    }
-    this.sharedService.saveSuggestedCourse(reqBody).subscribe({
-      next: (res) => {
-        // Success handling
-        // console.log('Success:', res);
-        this.loading = false
-        this.dialogRef.close('saved')
-        this.snackBar.open('Courses Saved Successfully', 'X', {
-          duration: 3000,
-          panelClass: ['snackbar-success']
+    this.loading = true;
+    
+    // First, get existing suggested courses to avoid overwriting
+    this.sharedService.getSuggestedCourses(this.planData.role_mapping_id).subscribe({
+      next: (existingRes) => {
+        // console.log('Existing suggested courses:', existingRes);
+        
+        // Extract existing course identifiers
+        let existingIdentifiers: string[] = [];
+        if (existingRes && Array.isArray(existingRes)) {
+          existingIdentifiers = existingRes.map(course => course.identifier).filter(id => id);
+        }
+        
+        // Merge existing identifiers with new selections (avoiding duplicates)
+        const allIdentifiers = [...new Set([...existingIdentifiers, ...this.selectFilterCourses])];
+        
+        // console.log('Existing identifiers:', existingIdentifiers);
+        // console.log('New selections:', this.selectFilterCourses);
+        // console.log('Combined identifiers:', allIdentifiers);
+        
+        // Prepare request body with combined identifiers
+        let reqBody = {
+          "role_mapping_id": this.planData.role_mapping_id,
+          "course_identifiers": allIdentifiers
+        }
+        
+        // Save the combined list
+        this.sharedService.saveSuggestedCourse(reqBody).subscribe({
+          next: (res) => {
+            // Success handling
+            // console.log('Success:', res);
+            this.loading = false
+            this.dialogRef.close('saved')
+            this.snackBar.open('Courses Added Successfully', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: (error) => {
+            // console.log('Save error', error)
+            this.dialogRef.close()
+            this.snackBar.open(error?.error?.detail || 'Failed to save courses', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+            this.loading = false
+          }
         });
-        //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
-        // console.log('error', error)
-        this.dialogRef.close()
-          // Handle 409 Conflict here
-          // alert('Conflict detected: The resource already exists or action conflicts.');
-          //this.get
-          // Or you can set a UI error message variable
-          this.snackBar.open(error?.error?.detail, 'X', {
+        // console.log('Error fetching existing courses:', error);
+        
+        // If fetching existing courses fails, proceed with just new selections
+        // This could happen if no courses exist yet (404) which is normal
+        if (error.status === 404) {
+          // console.log('No existing suggested courses found, proceeding with new selections only');
+          
+          let reqBody = {
+            "role_mapping_id": this.planData.role_mapping_id,
+            "course_identifiers": this.selectFilterCourses
+          }
+          
+          this.sharedService.saveSuggestedCourse(reqBody).subscribe({
+            next: (res) => {
+              // console.log('Success:', res);
+              this.loading = false
+              this.dialogRef.close('saved')
+              this.snackBar.open('Courses Added Successfully', 'X', {
+                duration: 3000,
+                panelClass: ['snackbar-success']
+              });
+            },
+            error: (saveError) => {
+              // console.log('Save error', saveError)
+              this.dialogRef.close()
+              this.snackBar.open(saveError?.error?.detail || 'Failed to save courses', 'X', {
+                duration: 3000,
+                panelClass: ['snackbar-error']
+              });
+              this.loading = false
+            }
+          });
+        } else {
+          // Other errors - show error message
+          // console.error('Unexpected error fetching existing courses:', error);
+          this.loading = false
+          this.snackBar.open('Failed to load existing courses. Please try again.', 'X', {
             duration: 3000,
             panelClass: ['snackbar-error']
           });
-          this.loading = false
-          //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+        }
       }
     });
   }
