@@ -82,10 +82,15 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   ];
   ministrySearchText: string = '';
   filteredMinistryData:any = []
+  designationData = []
+  selectedDesignationData = []
+  selectedDesignations: any[] = [];
+  selectAllValue = 'ALL';
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
   searchControl: FormControl = new FormControl('');
+
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -145,6 +150,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         
       });
     }
+
 
 
 
@@ -236,9 +242,28 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   ngOnChanges() {
     this.login = this.loginStatusFlag
-    if(!this.ministryData.length && this.loginStatusFlag) [
+    if(!this.ministryData.length && this.loginStatusFlag) {
       this.getMinistryData()
-    ]
+      this.designationData = JSON.parse(localStorage.getItem('allDesignationData'))
+      // this.selectedDesignations =  JSON.parse(localStorage.getItem('designationData'))
+      // this.selectedDesignations = this.designationData.filter(d =>
+      //   savedDesignationIds.includes(d.id)
+      // );
+      setTimeout(()=>{
+        let sDesignationData =  JSON.parse(localStorage.getItem('designationData'))
+        let savedIds = []
+      for(let i=0; i<sDesignationData?.length;i++) {
+        savedIds.push(sDesignationData[i]['id'])
+      }
+
+      this.selectedDesignations = this.designationData.filter(d =>
+        savedIds.includes(d.id)
+      );
+      console.log('this.selectedDesignations',this.selectedDesignations)
+      },1000)
+      
+
+    }
 
   }
 
@@ -361,6 +386,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   onMinistryTypeChange(event) {
+    this.designationData = []
+    localStorage.setItem('designationData',JSON.stringify([]))
+    localStorage.setItem('allDesignationData',JSON.stringify([]))
    // console.log('event', event)
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
@@ -392,7 +420,10 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     const selectedMinistry = this.ministryData.find(item => item.id === selectedMinistryId);
   //  console.log('Selected Ministry:', selectedMinistry);``
     this.sharedService.cbpPlanFinalObj['ministry'] =  selectedMinistry
-    if(selectedMinistryId && this.selectedMinistryType === 'state') {
+    if(this.selectedMinistryType === 'center') {
+      this.onGenerateRoleMapping()
+    }
+    else if(selectedMinistryId && this.selectedMinistryType === 'state') {
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
         this.departmentData = res
       })
@@ -616,7 +647,10 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         // Handle successful completion
         this.loading = false;
         this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = this.parsedData;
-        this.successRoleMapping.emit(this.roleMappingForm);
+        this.designationData = this.parsedData
+        console.log('this.sharedService.cbpPlanFinalObj--', this.sharedService.cbpPlanFinalObj)
+        localStorage.setItem('allDesignationData', JSON.stringify(this.designationData))
+      //  this.successRoleMapping.emit(this.roleMappingForm);
 
         this.snackBar.open('CBP Plan generated successfully!', 'X', {
           duration: 3000,
@@ -661,11 +695,13 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
             //console.log('Existing role mapping loaded:', res);
             this.loading = false;
             this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
+            this.designationData = res
+            localStorage.setItem('allDesignationData', JSON.stringify(this.designationData))
             this.snackBar.open('Existing role mapping loaded successfully!', 'X', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
-            this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
+          //  this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
           },
           error: (error) => {
             console.error('Failed to load existing role mapping:', error);
@@ -687,7 +723,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
               duration: 3000,
               panelClass: ['snackbar-success']
             });
-            this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
+            this.designationData = res
+            localStorage.setItem('allDesignationData', JSON.stringify(this.designationData))
+           // this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
           },
           error: (error) => {
            // console.error('Failed to load existing role mapping:', error);
@@ -735,7 +773,67 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           );
     }
     
+  }
+
+  onCheckboxChange(event, item, i) {
+    if(event.checked) {
+      this.selectedDesignationData.push(item)
+      localStorage.setItem('designationData', JSON.stringify(this.selectedDesignationData))
+    } else {
+      console.log('this.selectedDesignationData', this.selectedDesignationData)
+      this.selectedDesignationData = this.selectedDesignationData.splice(i,1)
+      console.log('this.selectedDesignationData', this.selectedDesignationData)
+      localStorage.setItem('designationData', JSON.stringify(this.selectedDesignationData))
     }
+    
+  }
+
+  onGenerateRoleMappingFromDesignation() {
+    this.successRoleMapping.emit(this.roleMappingForm);
+  }
+
+  isAllSelected(): boolean {
+    return this.selectedDesignations.length === this.designationData.length;
+  }
+
+  toggleSelectAll() {
+    if (this.isAllSelected()) {
+      this.selectedDesignations = [];
+    } else {
+      this.selectedDesignations = [...this.designationData];
+    }
+  }
+
+  onSelectionChange(event: any) {
+    const value = event.value;
+
+    if (value.includes(this.selectAllValue)) {
+      // If select all clicked and not all selected, select all
+      if (!this.isAllSelected()) {
+        this.selectedDesignations = [...this.designationData];
+        this.selectedDesignationData = this.designationData
+        localStorage.setItem('designationData', JSON.stringify(this.selectedDesignationData))
+      } else {
+        // If all were selected, deselect all
+        this.selectedDesignations = [];
+        this.selectedDesignationData = []
+        localStorage.setItem('designationData', JSON.stringify(this.selectedDesignationData))
+      }
+    } else {
+      // Normal selection update
+      console.log('value--', value)
+      this.selectedDesignations = value;
+      this.selectedDesignationData = value
+      localStorage.setItem('designationData', JSON.stringify(this.selectedDesignationData))
+    }
+  }
+
+  get selectedDesignationsText(): string {
+    if (!this.selectedDesignations || this.selectedDesignations.length === 0) {
+      return 'Select Designation';
+    }
+    return this.selectedDesignations.map(d => d.designation_name).join(', ');
+  }
 
   
 }

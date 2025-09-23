@@ -157,6 +157,15 @@ export class EditCbpPlanComponent implements OnInit{
         // Success handling
        // console.log('Success:', res);
         this.loading = false
+        let selectedDesignation:any = JSON.parse(localStorage.getItem('designationData'))
+        for(let i=0; i<selectedDesignation?.length;i++) {
+          if(selectedDesignation[i]['id'] === this.planData.id) {
+            selectedDesignation[i] = res
+          }
+        }
+        
+        localStorage.setItem('designationData', JSON.stringify(selectedDesignation))
+
         this.dialogRef.close('saved')
         this.snackBar.open('Role Mapping Saved Successfully', 'X', {
           duration: 3000,

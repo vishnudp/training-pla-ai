@@ -75,15 +75,63 @@
                 <div class="mt-2">
                     <mat-form-field appearance="fill"
                         style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
-                        <mat-select placeholder="Select Department" formControlName="departments"
+                        <mat-select (selectionChange)="onGenerateRoleMapping()" placeholder="Select Department" formControlName="departments"
                             style="border-radius: 25px; background: white;">
                             <mat-option [value]="item?.id"
-                                *ngFor="let item of departmentData">{{item?.name}}</mat-option>
+                                *ngFor="let item of departmentData" >{{item?.name}}</mat-option>
 
                         </mat-select>
                     </mat-form-field>
                 </div>
 
+            </div>
+            <div class="mt-4" *ngIf="designationData?.length">
+                <div class="sub-heading">
+                    <p>Designation</p>
+                </div>
+                <div class="checkbox-container mt-4">
+                    <!-- <div class="checkbox-item" *ngFor="let item of designationData; let i = index">
+                      <mat-checkbox
+                        [checked]="item.checked"
+                        (change)="onCheckboxChange($event, item, i)">
+                        {{ item?.designation_name }}
+                      </mat-checkbox>
+                    </div> -->
+                    <mat-form-field appearance="fill" class="full-width" style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
+                        <mat-label *ngIf="selectedDesignations?.length === 0">Select Designation</mat-label>
+                        <mat-select
+                          [value]="selectedDesignations"
+                          (selectionChange)="onSelectionChange($event)"
+                          multiple>
+                          <mat-select-trigger>
+                            <ng-container *ngIf="selectedDesignations?.length; else placeholder">
+                              <span
+                                *ngFor="let item of selectedDesignations; let last = last"
+                                style="margin-right: 4px;">
+                                {{ item?.designation_name }}<span *ngIf="!last">,</span>
+                              </span>
+                            </ng-container>
+                            <ng-template #placeholder>Select Designation</ng-template>
+                          </mat-select-trigger>
+                      
+                          <!-- Select All Option -->
+                          <mat-option
+                           
+                            [value]="selectAllValue"
+                            [selected]="isAllSelected()">
+                            {{ isAllSelected() ? 'Deselect All' : 'Select All' }}
+                          </mat-option>
+                      
+                          <!-- Individual Designations -->
+                          <mat-option
+                            *ngFor="let item of designationData"
+                            [value]="item">
+                            {{ item.designation_name }}
+                          </mat-option>
+                      
+                        </mat-select>
+                      </mat-form-field>
+                  </div>
             </div>
             <!-- <div class="mt-4">
             <label class="label">Sector</label>
@@ -130,12 +178,19 @@
                     <p>Disclaimer: Please do not upload any confidential documents. </p>
                 </div>
             </div>
-            <div class="mt-4" >
+            <!-- <div class="mt-4" >
                 <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading"
                     [ngClass]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading ? 'btn-disable':'btn-active'" 
                     type="button" 
                     [value]="loading ? 'Generating CBP Plan...' : 'Generate CBP Plan'"
                     (click)="onGenerateRoleMapping()" />
+            </div> -->
+            <div class="mt-4" >
+                <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading"
+                    [ngClass]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading ? 'btn-disable':'btn-active'" 
+                    type="button" 
+                    [value]="loading ? 'Generating CBP Plan...' : 'Generate CBP Plan'"
+                    (click)="onGenerateRoleMappingFromDesignation()" />
             </div>
         </div>
     </mat-card>

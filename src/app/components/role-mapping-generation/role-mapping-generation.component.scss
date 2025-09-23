@@ -720,3 +720,20 @@ display: inline-block; /* Required in some cases */
     border: none;
     outline: none;
   }
+
+  .checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .checkbox-item {
+    width: 50%; /* Two columns */
+    box-sizing: border-box;
+    padding: 4px 8px; /* Optional: spacing */
+  }
+
+  :host ::ng-deep .mat-checkbox-label {
+    white-space: normal;
+    line-height: 1.4; /* Optional: improve readability */
+    word-break: break-word; /* Helps break long words */
+  }

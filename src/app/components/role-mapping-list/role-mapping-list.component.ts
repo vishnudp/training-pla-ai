@@ -71,37 +71,43 @@ export class RoleMappingListComponent {
     } 
     // console.log('this.formData', this.formData  )
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'center') {
-        let state_center_id = this.formData.value.ministry
-        this.loading = true
-        this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
-          this.loading = false
-        //  console.log('res', res)
-         this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource = new MatTableDataSource(res)
-         setTimeout(()=>{
+       // let state_center_id = this.formData.value.ministry
+       // this.loading = true
+        // this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
+        //   this.loading = false
+        //  this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+        //  this.dataSource = new MatTableDataSource(res)
+        //  setTimeout(()=>{
+        //   this.dataSource.paginator = this.paginator;
+        //  },1000)
+         
+        //  this.originalData = res;
+        //  })
+        let designationData = localStorage.getItem('designationData')
+        this.dataSource = new MatTableDataSource(JSON.parse(designationData))
+          setTimeout(()=>{
           this.dataSource.paginator = this.paginator;
          },1000)
-         
-         this.originalData = res;
-        //  console.log('this.dataSource',this.dataSource)
-         })
       }
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'state') {
-        this.loading = true
-        // console.log('this.formData',this.formData)
-        let state_center_id = this.formData.value.ministry
-        let department_id = this.formData.value.departments
-        this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
-          this.loading = false
-        //  console.log('res', res)
-         this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource = new MatTableDataSource(res)
-         setTimeout(()=>{
+        //this.loading = true
+        // let state_center_id = this.formData.value.ministry
+        // let department_id = this.formData.value.departments
+        // this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
+        //   this.loading = false
+        // //  console.log('res', res)
+        //  this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+        //  this.dataSource = new MatTableDataSource(res)
+        //  setTimeout(()=>{
+        //   this.dataSource.paginator = this.paginator;
+        //  },1000)
+        //  this.originalData = res;
+        //  })
+        let designationData = localStorage.getItem('designationData')
+        this.dataSource = new MatTableDataSource(JSON.parse(designationData))
+          setTimeout(()=>{
           this.dataSource.paginator = this.paginator;
          },1000)
-         this.originalData = res;
-        //  console.log('this.dataSource',this.dataSource)
-         })
       }
       localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
    
@@ -198,7 +204,8 @@ export class RoleMappingListComponent {
 
   private updateDataSource(res: any[]) {
     this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
-    this.dataSource = new MatTableDataSource(res);
+    localStorage.setItem('allDesignationData', JSON.stringify(res))
+    this.dataSource = new MatTableDataSource(JSON.parse(localStorage.getItem('designationData')));
     this.originalData = res;
     this.searchResults = []; // Clear search results when data is updated
     
@@ -226,6 +233,7 @@ export class RoleMappingListComponent {
       if (result === 'saved') {
         // console.log('Changes saved!');
         // Refresh data or show a toast here
+
         this.refreshRoleMappingData();
       }
     });
@@ -421,7 +429,7 @@ export class RoleMappingListComponent {
   }
 
   deleteRoleMapping(element) {
-    // console.log('Generate Course Recommendation clicked', element);
+    console.log('Generate Course Recommendation clicked', element);
      this.activeRowElement = element
     // console.log('Edit Role Mapping clicked', element);
     // Navigate or open modal
@@ -446,7 +454,14 @@ export class RoleMappingListComponent {
 
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
             // console.log('res', res)
-            this.dataSource = new MatTableDataSource(res)
+            let designationData = JSON.parse(localStorage.getItem('designationData'))
+            const index = designationData.findIndex(item => item.id === element.id);
+
+            if (index !== -1) {
+              designationData.splice(index, 1);
+            }
+            localStorage.setItem('allDesignationData', JSON.stringify(res))
+            this.dataSource = new MatTableDataSource(designationData)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
             // console.log('this.dataSource',this.dataSource)
@@ -454,7 +469,14 @@ export class RoleMappingListComponent {
         } else {
           this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
             //console.log('res', res)
-            this.dataSource = new MatTableDataSource(res)
+            let designationData = JSON.parse(localStorage.getItem('designationData'))
+            const index = designationData.findIndex(item => item.id === element.id);
+
+            if (index !== -1) {
+              designationData.splice(index, 1);
+            }
+            localStorage.setItem('allDesignationData', JSON.stringify(res))
+            this.dataSource = new MatTableDataSource(designationData)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
             // console.log('this.dataSource',this.dataSource)

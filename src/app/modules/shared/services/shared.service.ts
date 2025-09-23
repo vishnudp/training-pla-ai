@@ -504,7 +504,7 @@ export class SharedService {
 
   getCompetencyJson() {
     const headers = this.headers
-    return this.http.get<any>(`${this.baseUrl}/training-pla-ai/assets/jsonfiles/competencies.json`,  {headers})
+    return this.http.get<any>(`${this.baseUrl}/training-pla-ai-with-designation/assets/jsonfiles/competencies.json`,  {headers})
       .pipe(map((response: any) => {
         return response
       }))

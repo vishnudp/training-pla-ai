@@ -100,6 +100,9 @@ export class AddDesignationComponent {
    // console.log('req', req)
     this.sharedService.addDesignation(req).subscribe({
       next: (_res) => {
+        let selectedDesignation:any = JSON.parse(localStorage.getItem('designationData'))
+        selectedDesignation.push(_res)
+        localStorage.setItem('designationData', JSON.stringify(selectedDesignation))
         this.loading = false
         this.snackBar.open('Designation Added Successfully', 'X', {
           duration: 3000,
