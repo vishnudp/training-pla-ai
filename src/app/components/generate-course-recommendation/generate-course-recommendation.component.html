@@ -225,13 +225,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
-                                                    <div class="ai-recommened-pill-orange-text">
-                                                        <span class="ai-loader-icon"><img
-                                                                src="assets/icons/ai-loader.gif"></span>
-                                                        <span>Provider - {{item?.organisation[0]}}</span>
-                                                    </div>
-                                                </div>
                                                 <div *ngIf="item?.rationale && item?.is_public">
                                                     <div class="ai-recommened-pill-public">
                                                         <div class="ai-recommened-pill-public-text">
@@ -300,7 +293,7 @@
                                                 <span *ngIf="item?.description">{{item?.description}}</span>
                                             </div>
                                             <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',i)?.length">
-                                                <div class="competency-sub-heading">Behavioral Competencies</div>
+                                                <div class="competency-sub-heading">Behavioural Competencies</div>
                                                 <ul class="competency-list mt-1">
                                                     <li class="behavioural-pill"
                                                         *ngFor="let comp of getDisplayedCompetencies('Behavioural',i)">
@@ -359,15 +352,8 @@
 
                                         </div>
 
-                                        <!-- Relevancy section always at bottom -->
-                                        <div class="course-footer" *ngIf="item?.relevancy">
-                                            <div class="relevancy-pill-green">
-                                                <div class="relevancy-container">
-                                                    <div class="relevancy">Relevancy</div>
-                                                    <div class="dash">-</div>
-                                                    <div class="percentage">{{item?.relevancy}}%</div>
-                                                </div>
-                                            </div>
+                                        <!-- Duration section -->
+                                        <div class="course-footer">
                                             <div class="relevancy-pill-green">
                                                 <div class="relevancy-container">
                                                     <div class="relevancy">Duration</div>
@@ -430,7 +416,7 @@
                                     <div class="p-3 gray-bg">
                                         <div class="div-label sub-heading">
                                             <p *ngIf="selectedCategory === 'all'">Total Competencies</p>
-                                            <p *ngIf="selectedCategory === 'behavioral'">Total Behavioral Competencies
+                                            <p *ngIf="selectedCategory === 'behavioral'">Total Behavioural Competencies
                                             </p>
                                             <p *ngIf="selectedCategory === 'functional'">Total Functional Competencies
                                             </p>
@@ -449,7 +435,7 @@
                                         <div class="div-green-label" *ngIf="selectedCategory === 'all'">Overall Coverage
                                         </div>
                                         <div class="div-green-label" *ngIf="selectedCategory === 'behavioral'">
-                                            Behavioral Coverage</div>
+                                            Behavioural Coverage</div>
                                         <div class="div-green-label" *ngIf="selectedCategory === 'functional'">
                                             Functional Coverage</div>
                                         <div class="div-green-label" *ngIf="selectedCategory === 'domain'">Domain
@@ -468,11 +454,11 @@
                                     <div *ngSwitchCase="'all'">
                                         <h4>All Categories</h4>
 
-                                        <!-- Show Behavioral section only if there are unmatched behavioral competencies -->
+                                        <!-- Show Behavioural section only if there are unmatched behavioural competencies -->
                                         <div class="mt-4"
                                             *ngIf="behaviouralNotMatched && behaviouralNotMatched.length > 0">
                                             <div class="sub-heading">
-                                                <p>Behavioral</p>
+                                                <p>Behavioural</p>
                                             </div>
                                             <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
                                                 <div class="list-flex">
@@ -531,10 +517,10 @@
                                     </div>
 
                                     <div *ngSwitchCase="'behavioral'">
-                                        <h4>Behavioral</h4>
+                                        <h4>Behavioural</h4>
                                         <div class="mt-4" *ngIf="behavioralCoverage !== '100%'">
                                             <!-- <div class="sub-heading">
-                                            <p>Behavioral</p>
+                                            <p>Behavioural</p>
                                         </div> -->
                                             <div class="gray-bg-item" *ngFor="let item of behaviouralNotMatched">
                                                 <div class="list-flex">
@@ -651,7 +637,7 @@
             <!-- Progress Bars -->
             <div class="progress-group">
               <div class="progress-label">
-                <span class="label-text behavioral">Behavioral</span>
+                <span class="label-text behavioral">Behavioural</span>
                 <span class="covered-text">{{behavioralCompetencyCoveredCount}} / {{behavioralTotalCompetencies}} Covered</span>
               </div>
               <div class="progress-bar">
@@ -697,7 +683,7 @@
         <div class="title">{{item | titlecase}}</div>
         <div class="subtitle">
           &nbsp; • &nbsp;
-          <span class="tag behavioral">Behavioral</span>
+          <span class="tag behavioral">Behavioural</span>
         </div>
     </div>
       
@@ -734,7 +720,7 @@
         <div class="title">{{item?.theme | titlecase}}</div>
         <div class="subtitle">
           {{item?.sub_theme}}&nbsp; • &nbsp;
-          <span class="tag behavioral">Behavioral</span>
+          <span class="tag behavioral">Behavioural</span>
         </div>
     </div>
       
