@@ -512,26 +512,32 @@ export class SharedService {
   }
 
   convert(seconds: number): string {
-    if (seconds < 60) {
-      return `${seconds} seconds`;
+    if (!seconds || seconds <= 0) {
+      return 'N/A';
     }
 
-    const minutes = seconds / 60;
-    if (minutes < 60) {
-      return `${minutes.toFixed(2)} minutes`;
-    }
+    const totalSeconds = Math.floor(seconds);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const remainingSeconds = totalSeconds % 60;
 
-    const hours = seconds / 3600;
-    if (hours < 24) {
-      return `${hours.toFixed(2)} hours`;
+    if (hours > 0) {
+      // For durations with hours, show hours and minutes (e.g., "3h 10m")
+      if (minutes > 0) {
+        return `${hours}h ${minutes}m`;
+      } else {
+        return `${hours}h`;
+      }
+    } else if (minutes > 0) {
+      // For durations under an hour, show minutes and seconds (e.g., "58m 3s")
+      if (remainingSeconds > 0) {
+        return `${minutes}m ${remainingSeconds}s`;
+      } else {
+        return `${minutes}m`;
+      }
+    } else {
+      // For durations under a minute, show seconds only
+      return `${remainingSeconds}s`;
     }
-
-    const days = seconds / 86400;
-    if (days < 7) {
-      return `${days.toFixed(2)} days`;
-    }
-
-    const weeks = seconds / 604800;
-    return `${weeks.toFixed(2)} weeks`;
   }
 }
