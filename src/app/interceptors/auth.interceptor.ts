@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401 && this.shouldHandleUnauthorized(req)) {
-          console.log('Session expired - 401 Unauthorized detected for URL:', req.url);
+         // console.log('Session expired - 401 Unauthorized detected for URL:', req.url);
           this.handleSessionExpired();
         }
         
@@ -32,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // Prevent multiple session expired alerts
     if (AuthInterceptor.sessionExpiredCount >= this.MAX_SESSION_EXPIRED_ALERTS) {
       if (currentTime - AuthInterceptor.lastSessionExpiredTime < this.SESSION_EXPIRED_COOLDOWN) {
-        console.log('Session expired alert already shown recently, ignoring 401');
+      //  console.log('Session expired alert already shown recently, ignoring 401');
         return false;
       } else {
         // Reset after cooldown period
@@ -53,7 +53,7 @@ export class AuthInterceptor implements HttpInterceptor {
     
     for (const ignoreUrl of ignoreUrls) {
       if (req.url.includes(ignoreUrl)) {
-        console.log(`Ignoring 401 for URL: ${req.url}`);
+      //  console.log(`Ignoring 401 for URL: ${req.url}`);
         return false;
       }
     }
@@ -68,7 +68,7 @@ export class AuthInterceptor implements HttpInterceptor {
     AuthInterceptor.sessionExpiredCount++;
     AuthInterceptor.lastSessionExpiredTime = currentTime;
     
-    console.log('Handling session expiry... Count:', AuthInterceptor.sessionExpiredCount);
+   // console.log('Handling session expiry... Count:', AuthInterceptor.sessionExpiredCount);
     
     try {
       // Clear stored authentication data immediately and thoroughly
@@ -98,7 +98,7 @@ export class AuthInterceptor implements HttpInterceptor {
       
       // Handle the refresh action
       snackBarRef.onAction().subscribe(() => {
-        console.log('User clicked refresh, reloading page');
+     //   console.log('User clicked refresh, reloading page');
         userActed = true;
         this.performLogoutRefresh();
       });
@@ -106,7 +106,7 @@ export class AuthInterceptor implements HttpInterceptor {
       // Handle when snackbar is dismissed
       snackBarRef.afterDismissed().subscribe(() => {
         if (!userActed) {
-          console.log('Snackbar dismissed, auto-refreshing page');
+        //  console.log('Snackbar dismissed, auto-refreshing page');
           this.performLogoutRefresh();
         }
       });
@@ -114,21 +114,21 @@ export class AuthInterceptor implements HttpInterceptor {
       // Auto-refresh after 10 seconds as fallback
       setTimeout(() => {
         if (!userActed) {
-          console.log('Timeout reached, auto-refreshing page after session expiry');
+        //  console.log('Timeout reached, auto-refreshing page after session expiry');
           snackBarRef.dismiss();
           this.performLogoutRefresh();
         }
       }, 10000);
       
     } catch (error) {
-      console.error('Error in handleSessionExpired:', error);
+     // console.error('Error in handleSessionExpired:', error);
       // Ultimate fallback - reload the page immediately
       this.performLogoutRefresh();
     }
   }
 
   private performLogoutRefresh(): void {
-    console.log('Performing logout refresh...');
+   // console.log('Performing logout refresh...');
     
     // Clear all authentication data again to be absolutely sure
     localStorage.clear();

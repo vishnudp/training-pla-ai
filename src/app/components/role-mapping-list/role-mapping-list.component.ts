@@ -52,7 +52,7 @@ export class RoleMappingListComponent {
   }
 
   ngOnInit() {
-    console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+    // console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
     if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType)) {
       this.sharedService.cbpPlanFinalObj = this.cbpFinalObj
@@ -69,13 +69,13 @@ export class RoleMappingListComponent {
         this.formData['value']['departments'] = this.cbpFinalObj?.departments
       }
     } 
-    console.log('this.formData', this.formData  )
+    // console.log('this.formData', this.formData  )
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'center') {
         let state_center_id = this.formData.value.ministry
         this.loading = true
         this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
           this.loading = false
-         console.log('res', res)
+        //  console.log('res', res)
          this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
          this.dataSource = new MatTableDataSource(res)
          setTimeout(()=>{
@@ -83,24 +83,24 @@ export class RoleMappingListComponent {
          },1000)
          
          this.originalData = res;
-         console.log('this.dataSource',this.dataSource)
+        //  console.log('this.dataSource',this.dataSource)
          })
       }
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'state') {
         this.loading = true
-        console.log('this.formData',this.formData)
+        // console.log('this.formData',this.formData)
         let state_center_id = this.formData.value.ministry
         let department_id = this.formData.value.departments
         this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
           this.loading = false
-         console.log('res', res)
+        //  console.log('res', res)
          this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
          this.dataSource = new MatTableDataSource(res)
          setTimeout(()=>{
           this.dataSource.paginator = this.paginator;
          },1000)
          this.originalData = res;
-         console.log('this.dataSource',this.dataSource)
+        //  console.log('this.dataSource',this.dataSource)
          })
       }
       localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
@@ -112,12 +112,12 @@ export class RoleMappingListComponent {
   }
 
   viewDetails(element: any): void {
-    console.log('View clicked:', element);
+    // console.log('View clicked:', element);
     
   }
 
   deleteItem(element: any): void {
-    console.log('Delete clicked:', element);
+    // console.log('Delete clicked:', element);
     // Optionally remove from dataSource
     this.dataSource.data = this.dataSource.data.filter(item => item.id !== element.id);
   }
@@ -160,7 +160,7 @@ export class RoleMappingListComponent {
   }
 
   refreshRoleMappingData() {
-    console.log('Refreshing role mapping data...');
+   // console.log('Refreshing role mapping data...');
     if (this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
       const ministryType = this.sharedService.cbpPlanFinalObj.ministryType;
       const ministryId = this.sharedService.cbpPlanFinalObj.ministry.id;
@@ -171,7 +171,7 @@ export class RoleMappingListComponent {
         this.sharedService.getRoleMappingByStateCenter(ministryId).subscribe({
           next: (res) => {
             this.loading = false;
-            console.log('Center role mapping data refreshed:', res);
+            //console.log('Center role mapping data refreshed:', res);
             this.updateDataSource(res);
           },
           error: (error) => {
@@ -184,7 +184,7 @@ export class RoleMappingListComponent {
         this.sharedService.getRoleMappingByStateCenterAndDepartment(ministryId, departmentId).subscribe({
           next: (res) => {
             this.loading = false;
-            console.log('State role mapping data refreshed:', res);
+          //  console.log('State role mapping data refreshed:', res);
             this.updateDataSource(res);
           },
           error: (error) => {
@@ -205,14 +205,14 @@ export class RoleMappingListComponent {
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
     }, 100);
-    console.log('DataSource updated:', this.dataSource);
+    // console.log('DataSource updated:', this.dataSource);
   }
 
   editRoleMapping(element: any) {
     this.activeRowElement = element
-    console.log('Edit Role Mapping clicked', element);
+    // console.log('Edit Role Mapping clicked', element);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', element);
+    // console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(EditCbpPlanComponent, {
       width: '1000px',
       data: element,
@@ -224,7 +224,7 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
         this.refreshRoleMappingData();
       }
@@ -233,7 +233,7 @@ export class RoleMappingListComponent {
   
   viewCBPPlan(element: any) {
     this.activeRowElement = element
-    console.log('View CBP Plan clicked', element);
+    // console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(ViewCbpPlanComponent, {
       width: '1000px',
       data: element,
@@ -245,18 +245,18 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+       // console.log('Changes saved!');
         // Refresh data or show a toast here
       }
     });
   }
   
   generateCourseRecommendation(element: any) {
-    console.log('Generate Course Recommendation clicked', element);
+   // console.log('Generate Course Recommendation clicked', element);
      this.activeRowElement = element
-    console.log('Edit Role Mapping clicked', element);
+   // console.log('Edit Role Mapping clicked', element);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', element);
+   // console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(GenerateCourseRecommendationComponent, {
       width: '1000px',
       data: element,
@@ -268,16 +268,16 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
-        console.log(this.sharedService.cbpPlanFinalObj)
+        // console.log(this.sharedService.cbpPlanFinalObj)
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
+           // console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
+           // console.log('this.dataSource',this.dataSource)
             })
         } else {
           
@@ -288,11 +288,11 @@ export class RoleMappingListComponent {
   }
   
   viewCourseRecommendation(element: any) {
-    console.log('View Course Recommendation clicked', element);
+   // console.log('View Course Recommendation clicked', element);
     this.activeRowElement = element
-    console.log('Edit Role Mapping clicked', element);
+   // console.log('Edit Role Mapping clicked', element);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', element);
+    //console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(ViewCourseRecommendationComponent, {
       width: '1000px',
       data: element,
@@ -304,16 +304,16 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
-        console.log(this.sharedService.cbpPlanFinalObj)
+        // console.log(this.sharedService.cbpPlanFinalObj)
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
+            // console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
+            // console.log('this.dataSource',this.dataSource)
             })
         } else {
           
@@ -413,7 +413,7 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
         this.refreshRoleMappingData();
       }
@@ -421,11 +421,11 @@ export class RoleMappingListComponent {
   }
 
   deleteRoleMapping(element) {
-    console.log('Generate Course Recommendation clicked', element);
+    // console.log('Generate Course Recommendation clicked', element);
      this.activeRowElement = element
-    console.log('Edit Role Mapping clicked', element);
+    // console.log('Edit Role Mapping clicked', element);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', element);
+    // console.log('View CBP Plan clicked', element);
     const dialogRef = this.dialog.open(DeleteRoleMappingComponent, {
       width: '600px',
       data: element,
@@ -437,27 +437,27 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
-        console.log(this.sharedService.cbpPlanFinalObj)
+        // console.log(this.sharedService.cbpPlanFinalObj)
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && 
           this.sharedService.cbpPlanFinalObj.ministryType === 'center'
         ) {
 
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
+            // console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
+            // console.log('this.dataSource',this.dataSource)
             })
         } else {
           this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
-            console.log('res', res)
+            //console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
             this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
+            // console.log('this.dataSource',this.dataSource)
             })
         }
         
@@ -477,7 +477,7 @@ export class RoleMappingListComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
         
         

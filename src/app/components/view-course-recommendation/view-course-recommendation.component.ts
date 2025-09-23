@@ -53,7 +53,7 @@ export class ViewCourseRecommendationComponent {
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
       next: (res) => {
         this.loading = false
-        console.log('res', res)
+        // console.log('res', res)
         this.recommended_course_id = res.id
         let allCourses = []
         if(res && res.filtered_courses && res.filtered_courses.length) {
@@ -64,7 +64,7 @@ export class ViewCourseRecommendationComponent {
           })
         }
         this.filterdCourses = allCourses
-        console.log('this.filterdCourses', this.filterdCourses)
+        // console.log('this.filterdCourses', this.filterdCourses)
         this.updateCompetencyCounts()
         this.getSuggestedCourse()
         this.getUserCourse()
@@ -95,11 +95,11 @@ export class ViewCourseRecommendationComponent {
 
   addMoreCourses() {
     this.dialogRef.close();
-    console.log('Generate Course Recommendation clicked', this.planData);
+    // console.log('Generate Course Recommendation clicked', this.planData);
     
-    console.log('Edit Role Mapping clicked', this.planData);
+    // console.log('Edit Role Mapping clicked', this.planData);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', this.planData);
+   // console.log('View CBP Plan clicked', this.planData);
     const dialogRef = this.dialog.open(GenerateCourseRecommendationComponent, {
       width: '1000px',
       data: this.planData,
@@ -111,7 +111,7 @@ export class ViewCourseRecommendationComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
        
         
@@ -121,11 +121,11 @@ export class ViewCourseRecommendationComponent {
 
   addPersonilisation() {
     this.dialogRef.close();
-    console.log('Generate Course Recommendation clicked', this.planData);
+    // console.log('Generate Course Recommendation clicked', this.planData);
     
-    console.log('Edit Role Mapping clicked', this.planData);
+    // console.log('Edit Role Mapping clicked', this.planData);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', this.planData);
+    //console.log('View CBP Plan clicked', this.planData);
     const dialogRef = this.dialog.open(AddPersonalisationComponent, {
       width: '1000px',
       data: this.planData,
@@ -137,7 +137,7 @@ export class ViewCourseRecommendationComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+       // console.log('Changes saved!');
         // Refresh data or show a toast here
        
         
@@ -152,7 +152,7 @@ export class ViewCourseRecommendationComponent {
       next: (res) => {
         // Success handling
         this.loading = false
-        console.log('getSuggestedCourses res', res)
+       // console.log('getSuggestedCourses res', res)
         
         // Store suggested courses separately
         this.suggestedCourses = [...res];
@@ -165,13 +165,13 @@ export class ViewCourseRecommendationComponent {
         // Update competency counts after adding suggested courses
         this.updateCompetencyCounts()
         
-        console.log('filterdCourses after adding suggested courses:', this.filterdCourses);
+       // console.log('filterdCourses after adding suggested courses:', this.filterdCourses);
       },
       error: (error) => {
-        console.log('getSuggestedCourse error', error)
+        //console.log('getSuggestedCourse error', error)
         this.loading = false
         if (error.status === 401) {
-          console.log('Unauthorized access - user will be redirected to login');
+        //  console.log('Unauthorized access - user will be redirected to login');
         } else {
           console.error('Failed to load suggested courses');
         }
@@ -195,11 +195,11 @@ export class ViewCourseRecommendationComponent {
         // Update competency counts after adding user courses
         this.updateCompetencyCounts()
         
-        console.log('filterdCourses after adding user courses:', this.filterdCourses);
+       // console.log('filterdCourses after adding user courses:', this.filterdCourses);
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
-        console.log('error', error)
+      //  console.log('error', error)
         this.loading = false
         // Handle 409 Conflict here
         // alert('Conflict detected: The resource already exists or action conflicts.');
@@ -217,7 +217,7 @@ export class ViewCourseRecommendationComponent {
   getCompetenciesByType(type: string, index): any[] {
     const course = this.filterdCourses[index];
     if (!course) {
-      console.log(`No course found at index ${index}`);
+     // console.log(`No course found at index ${index}`);
       return [];
     }
     
@@ -228,22 +228,22 @@ export class ViewCourseRecommendationComponent {
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+     // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+     // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
     } else {
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
-        hasCompetencies: !!course.competencies,
-        competenciesType: typeof course.competencies,
-        hasCompetenciesV6: !!course.competencies_v6,
-        competenciesV6Type: typeof course.competencies_v6,
-        courseKeys: Object.keys(course)
-      });
+      // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+      //   hasCompetencies: !!course.competencies,
+      //   competenciesType: typeof course.competencies,
+      //   hasCompetenciesV6: !!course.competencies_v6,
+      //   competenciesV6Type: typeof course.competencies_v6,
+      //   courseKeys: Object.keys(course)
+      // });
     }
     
     if (competencies.length === 0) {
-      console.log(`No competencies found for course ${index} and type ${type}`);
+     // console.log(`No competencies found for course ${index} and type ${type}`);
       return [];
     }
     
@@ -252,7 +252,7 @@ export class ViewCourseRecommendationComponent {
     
     const matchedCompetencies = competencies.filter(c => {
       if (!c || !c.competencyAreaName) {
-        console.log(`Invalid competency structure in course ${index}:`, c);
+       // console.log(`Invalid competency structure in course ${index}:`, c);
         return false;
       }
       
@@ -267,7 +267,7 @@ export class ViewCourseRecommendationComponent {
       return competencyArea === normalizedType;
     });
     
-    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+   // console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 

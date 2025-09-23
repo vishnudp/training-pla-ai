@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HEADER_DATA } from 'src/app/modules/shared/constant/app.constant';
 import { EventService } from 'src/app/modules/shared/services/event.service';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import html2pdf from 'html2pdf.js';
 import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
@@ -80,9 +80,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     'Generating detailed competencies...',
     'Validating role mapping  and finalizing the CBP Plan'
   ];
+  ministrySearchText: string = '';
+  filteredMinistryData:any = []
   @Output() successRoleMapping = new EventEmitter<any>()
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
+  searchControl: FormControl = new FormControl('');
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -111,7 +114,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         sectors: [[]],
         departments: [[]], // shown only if ministryType == 'state'
         additionalDetails: [''],
-        additional_document: []
+        additional_document: [],
+        
       });
       this.roleMappingForm.get('sectors')?.setValue([]);
       this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {
@@ -130,6 +134,15 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           this.roleMappingForm.get('departments')?.setValue([]);
         }
         this.roleMappingForm.get('departments')?.updateValueAndValidity();
+      });
+
+      this.searchControl.valueChanges.subscribe(searchText => {
+        if(searchText) {
+          this.filterMinistryData(searchText);
+        } else {
+          this.filteredMinistryData = this.ministryData
+        }
+        
       });
     }
 
@@ -213,7 +226,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       //   }
       //   this.roleMappingForm.get('departments')?.updateValueAndValidity();
       // });
-      console.log('this.ministryData', this.ministryData)
+      // console.log('this.ministryData', this.ministryData)
       if(this.ministryData && this.ministryData.length) {
         this.selectedMinistryId = this.cbpFinalObj?.ministry?.id
       }
@@ -223,6 +236,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   ngOnChanges() {
     this.login = this.loginStatusFlag
+    if(!this.ministryData.length && this.loginStatusFlag) [
+      this.getMinistryData()
+    ]
 
   }
 
@@ -260,22 +276,22 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     formData.append('departments', JSON.stringify(currentFormValues.departments));
     formData.append('additionalDetails', currentFormValues.additionalDetails || '');
     const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
-    console.log('file', file)
+    // console.log('file', file)
     if (file) {
       formData.append('additional_document', file);
     }
-    console.log('this.roleMappingForm', this.roleMappingForm)
-    console.log('formData--', formData)
+    // console.log('this.roleMappingForm', this.roleMappingForm)
+    // console.log('formData--', formData)
     for (const pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
+     // console.log(`${pair[0]}:`, pair[1]);
     }
 
 
     const changedFields = this.getChangedFields(this.originalFormValues, currentFormValues);
 
       if (changedFields.length > 0 || (file && file.size > 0)) {
-        console.log('changedFields', changedFields)
-        console.log('Changed fields:', changedFields);
+        // console.log('changedFields', changedFields)
+        // console.log('Changed fields:', changedFields);
         if(changedFields.includes('additionalDetails') && this.roleMappingForm.value.additionalDetails?.trim() || (file && file.size > 0)) {
           const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
             width: '400px',
@@ -288,12 +304,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
           dialogRef.afterClosed().subscribe(result => {
             if (result === 'saved') {
-              console.log('Changes saved!');
+            //  console.log('Changes saved!');
               this.loading = true
               this.sharedService.deleteRoleMappingByStateAndDepartment(this.roleMappingForm.value.ministry, this.roleMappingForm.value.departments).subscribe({
                 next: (res) => {
                   // Success handling
-                  console.log('Success:', res);
+                 // console.log('Success:', res);
                   this.loading = false
                   this.generateFinalRoleMapping()
                 },
@@ -315,7 +331,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         }
       } else {
         this.generateFinalRoleMapping()
-        console.log('No changes detected.');
+       // console.log('No changes detected.');
       }
 
   }
@@ -323,19 +339,21 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   getMinistryData() {
     this.sharedService.getMinistryData().subscribe((data:any)=>{
-      console.log('data--', data)
+    //  console.log('data--', data)
       this.ministryFullData = data
       this.ministryData = []
       if(this.selectedMinistryType === 'center') {
         data.forEach((item)=>{
           if(item?.type === 'central') {
             this.ministryData.push(item)
+            this.filteredMinistryData = [...this.ministryData];
           }
         })
       } else if(this.selectedMinistryType === 'state') {
         data.forEach((item)=>{
           if(item?.type === 'state') {
             this.ministryData.push(item)
+            this.filteredMinistryData = [...this.ministryData];
           }
         })
       }
@@ -343,7 +361,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   onMinistryTypeChange(event) {
-    console.log('event', event)
+   // console.log('event', event)
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     this.ministryData = []
@@ -352,6 +370,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'state') {
           this.ministryData.push(item)
+          this.filteredMinistryData = [...this.ministryData];
         }
       })
     } else if(event?.value === 'center') {
@@ -359,6 +378,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'central') {
           this.ministryData.push(item)
+          this.filteredMinistryData = [...this.ministryData];
         }
       })
     }
@@ -366,11 +386,11 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   onMinistryChange(event: any) {
     const selectedMinistryId = event.value;
-    console.log('Selected Ministry ID:', selectedMinistryId);
+   // console.log('Selected Ministry ID:', selectedMinistryId);
 
     // You can access the selected object if needed
     const selectedMinistry = this.ministryData.find(item => item.id === selectedMinistryId);
-    console.log('Selected Ministry:', selectedMinistry);``
+  //  console.log('Selected Ministry:', selectedMinistry);``
     this.sharedService.cbpPlanFinalObj['ministry'] =  selectedMinistry
     if(selectedMinistryId && this.selectedMinistryType === 'state') {
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
@@ -466,16 +486,16 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           formUploadData.append('instruction', currentFormValues.additionalDetails || '');
         }
         const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
-        console.log('file', file)
+      //  console.log('file', file)
         if (file) {
           formUploadData.append('additional_document', file);
         }
-        console.log('this.roleMappingForm', this.roleMappingForm)
-        console.log('formUploadData--', formUploadData)
+        // console.log('this.roleMappingForm', this.roleMappingForm)
+        // console.log('formUploadData--', formUploadData)
         for (const pair of formUploadData.entries()) {
-          console.log(`${pair[0]}:`, pair[1]);
+         // console.log(`${pair[0]}:`, pair[1]);
         }
-      console.log('Form submitted:', formData);
+     // console.log('Form submitted:', formData);
       let sectors = Array.isArray(formData.sectors) ? formData.sectors.join(', ') : ''
       this.sharedService.cbpPlanFinalObj['sectors'] = formData.sectors
       // Submit logic here
@@ -491,7 +511,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         const departmentName = this.departmentData.find(u => u.id=== formData.departments);
         this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
         this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
-        console.log(departmentName);
+        //console.log(departmentName);
 
       }
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
@@ -506,7 +526,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           this.uploadedFile || null,
           (chunk) =>  {
             this.chunks.push(chunk)
-            console.log('Received chunk:', chunk, 'Total chunks:', this.chunks.length)
+          //  console.log('Received chunk:', chunk, 'Total chunks:', this.chunks.length)
 
             // Update processing stage based on chunk count
             this.updateProcessingStage();
@@ -515,12 +535,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
             setTimeout(() => {}, 0);
           },
           () => {
-            console.log('Stream started')
+          //  console.log('Stream started')
             this.currentProcessingStage = this.processingStages[0];
           },
           () => this.onStreamEnd(),
           (err) => {
-            console.error('Stream failed:', err)
+           // console.error('Stream failed:', err)
             this.handleStreamError(err);
           }
         );
@@ -591,7 +611,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       const cleaned = this.fullJson.replace(/^```json\n/, '').replace(/```$/, '');
       try {
         this.parsedData = JSON.parse(cleaned);
-        console.log('Parsed data:', this.parsedData);
+       // console.log('Parsed data:', this.parsedData);
 
         // Handle successful completion
         this.loading = false;
@@ -603,7 +623,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           panelClass: ['snackbar-success']
         });
       } catch (e) {
-        console.error('JSON parse error:', e);
+       // console.error('JSON parse error:', e);
         this.loading = false;
         this.snackBar.open('Failed to generate CBP Plan. Please try again.', 'X', {
           duration: 3000,
@@ -623,7 +643,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
   // Handle streaming errors, especially "Role mapping already exists"
   handleStreamError(err: any) {
-    console.log('Error details:', err);
+    //console.log('Error details:', err);
     
     // Check if this is the "Role mapping already exists" error
     if (err?.isExistingRoleMapping || (err?.detail && err.detail.includes('Role mapping already exists'))) {
@@ -638,7 +658,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         // Call Get role mapping by state center and department
         this.sharedService.getRoleMappingByStateCenterAndDepartment(stateCenter, departmentId).subscribe({
           next: (res) => {
-            console.log('Existing role mapping loaded:', res);
+            //console.log('Existing role mapping loaded:', res);
             this.loading = false;
             this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
             this.snackBar.open('Existing role mapping loaded successfully!', 'X', {
@@ -660,7 +680,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
         // Call Get role mapping by state center only
         this.sharedService.getRoleMappingByStateCenter(stateCenter).subscribe({
           next: (res) => {
-            console.log('Existing role mapping loaded:', res);
+            //console.log('Existing role mapping loaded:', res);
             this.loading = false;
             this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res;
             this.snackBar.open('Existing role mapping loaded successfully!', 'X', {
@@ -670,7 +690,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
             this.alreadyAvailableRoleMapping.emit(this.roleMappingForm);
           },
           error: (error) => {
-            console.error('Failed to load existing role mapping:', error);
+           // console.error('Failed to load existing role mapping:', error);
             this.loading = false;
             this.snackBar.open('Failed to load existing role mapping. Please try again.', 'X', {
               duration: 3000,
@@ -702,5 +722,21 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     this.roleMappingForm.get('additional_document').setValue([])
     this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
   }
+
+  filterMinistryData(searchText) {
+    
+    if(searchText) {
+      console.log('searhTect, ', searchText)
+      const search = searchText?.trim().toLowerCase() || '';
+      this.filteredMinistryData = !search
+        ? [...this.ministryData]
+        : this.ministryData.filter(item =>
+            item.name?.trim().toLowerCase().startsWith(search)
+          );
+    }
+    
+    }
+
+  
 }
 

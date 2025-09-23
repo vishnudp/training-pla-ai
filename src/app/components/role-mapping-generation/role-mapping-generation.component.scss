@@ -711,3 +711,12 @@ display: inline-block; /* Required in some cases */
     font-weight: 400;
     
   }
+
+  ::ng-deep .searchable-select-panel .mat-option {
+    height: auto;
+  }
+  
+  ::ng-deep .searchable-select-panel input {
+    border: none;
+    outline: none;
+  }

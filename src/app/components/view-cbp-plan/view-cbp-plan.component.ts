@@ -20,7 +20,7 @@ export class ViewCbpPlanComponent {
     private dialog: MatDialog
   ) {
     this.planData = data
-    console.log('Received data:', data);
+    // console.log('Received data:', data);
     this.planData.competencies.map((competencies:any)=>{
       this.competenciesCount['total'] = this.competenciesCount['total'] + 1 
       if(competencies.type === 'Behavioral') {
@@ -64,7 +64,7 @@ export class ViewCbpPlanComponent {
   
     dialogRefNew.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
       }
     });
@@ -72,11 +72,11 @@ export class ViewCbpPlanComponent {
 
   generateCourseRecommendation() {
     this.dialogRef.close();
-    console.log('Generate Course Recommendation clicked', this.planData);
+    // console.log('Generate Course Recommendation clicked', this.planData);
     
-    console.log('Edit Role Mapping clicked', this.planData);
+    // console.log('Edit Role Mapping clicked', this.planData);
     // Navigate or open modal
-    console.log('View CBP Plan clicked', this.planData);
+    // console.log('View CBP Plan clicked', this.planData);
     const dialogRef = this.dialog.open(GenerateCourseRecommendationComponent, {
       width: '1000px',
       data: this.planData,
@@ -88,7 +88,7 @@ export class ViewCbpPlanComponent {
   
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'saved') {
-        console.log('Changes saved!');
+        // console.log('Changes saved!');
         // Refresh data or show a toast here
        
         

@@ -13,7 +13,7 @@ export class EventService {
   public events$ = this.eventsSubject.asObservable()
 
   dispatchChatbotEvent<T>(event: WsEvents.IWsEvents<T>) {
-    console.log("event ", event)
+    // console.log("event ", event)
     this.eventsChatbotSubject.next(event)
   }
 }

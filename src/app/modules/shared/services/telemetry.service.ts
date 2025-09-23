@@ -139,7 +139,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry start', e)
+    //  console.log('Error in telemetry start', e)
     }
   }
 
@@ -169,7 +169,7 @@ export class TelemetryService {
       )
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry end', e)
+     // console.log('Error in telemetry end', e)
     }
   }
 
@@ -187,7 +187,7 @@ export class TelemetryService {
         ),
       )
       .subscribe(event => {
-        console.log("Event from telemetry ", event)
+       // console.log("Event from telemetry ", event)
         if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
           this.start(
             {
@@ -257,7 +257,7 @@ export class TelemetryService {
           this.impression(event.data)
         } catch (e) {
           // tslint:disable-next-line: no-console
-          console.log('Error in telemetry impression', e)
+        //  console.log('Error in telemetry impression', e)
         }
       })
   }
@@ -307,7 +307,7 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry impression', e)
+      // console.log('Error in telemetry impression', e)
     }
   }
   getPageDetails() {

@@ -40,13 +40,13 @@ export class SuggestMoreCoursesComponent implements OnInit{
   }
 
   searchData() {
-    console.log('searchData called with searchText:', this.searchText);
+    // console.log('searchData called with searchText:', this.searchText);
 
     // Reset to first page when searching
     this.currentPage = 0;
 
     if (!this.searchText.trim()) {
-      console.log('Search text is empty, loading all courses');
+      // console.log('Search text is empty, loading all courses');
       this.loadAllCourses();
       return;
     }
@@ -83,12 +83,12 @@ export class SuggestMoreCoursesComponent implements OnInit{
       }
     };
 
-    console.log('Load all courses request body:', reqBody);
+    // console.log('Load all courses request body:', reqBody);
 
     this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
       next: (res) => {
         this.loading = false;
-        console.log('All courses loaded:', res);
+        // console.log('All courses loaded:', res);
         if (res && res.result) {
           this.suggestedCourses = res.result.content || [];
           this.originalData = res.result.content || [];
@@ -164,12 +164,12 @@ export class SuggestMoreCoursesComponent implements OnInit{
       }
     };
 
-    console.log('Perform search request body:', JSON.stringify(reqBody, null, 2));
+    // console.log('Perform search request body:', JSON.stringify(reqBody, null, 2));
 
     this.sharedService.getIGOTSuggestedCourses(reqBody).subscribe({
       next: (res) => {
         this.loading = false;
-        console.log('Search results:', res);
+        // console.log('Search results:', res);
         if (res && res.result) {
           this.suggestedCourses = res.result.content || [];
           this.originalData = res.result.content || [];
@@ -184,7 +184,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
       },
       error: (error) => {
         this.loading = false;
-        console.error('Search error:', error);
+        // console.error('Search error:', error);
         this.snackBar.open('Search failed. Please try again.', 'X', {
           duration: 3000,
           panelClass: ['snackbar-error']
@@ -274,7 +274,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
     this.sharedService.saveSuggestedCourse(reqBody).subscribe({
       next: (res) => {
         // Success handling
-        console.log('Success:', res);
+        // console.log('Success:', res);
         this.loading = false
         this.dialogRef.close('saved')
         this.snackBar.open('Courses Saved Successfully', 'X', {
@@ -284,7 +284,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
-        console.log('error', error)
+        // console.log('error', error)
         this.dialogRef.close()
           // Handle 409 Conflict here
           // alert('Conflict detected: The resource already exists or action conflicts.');
@@ -308,12 +308,12 @@ export class SuggestMoreCoursesComponent implements OnInit{
     } else {
       this.selectFilterCourses = []
     }
-    console.log('this.selectFilterCourses', this.selectFilterCourses)
+    // console.log('this.selectFilterCourses', this.selectFilterCourses)
   }
 
   selectedFilterCourses(event, item) {
-    console.log('event', event)
-    console.log('item', item)
+    // console.log('event', event)
+    // console.log('item', item)
     if(event.checked) {
       this.selectFilterCourses.push(item?.identifier)
     } else {
@@ -323,7 +323,7 @@ export class SuggestMoreCoursesComponent implements OnInit{
         this.selectFilterCourses.splice(index, 1);
       }
     }
-    console.log('this.selectFilterCourses', this.selectFilterCourses)
+  //  console.log('this.selectFilterCourses', this.selectFilterCourses)
   }
 
   checkIfCourseExists(item) {

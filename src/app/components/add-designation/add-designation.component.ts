@@ -86,7 +86,7 @@ export class AddDesignationComponent {
       formData.append('uploadDoc', this.uploadedFile);
     }
     this.cbpPlanFinalObj = this.sharedService.getCBPPlanLocalStorage()
-    console.log('this.designationForm',this.designationForm)
+   // console.log('this.designationForm',this.designationForm)
     let req:any = {
       "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.id,
       // "department_id": "",
@@ -97,7 +97,7 @@ export class AddDesignationComponent {
       req['department_id'] = this.sharedService.cbpPlanFinalObj.departments
     }
     
-    console.log('req', req)
+   // console.log('req', req)
     this.sharedService.addDesignation(req).subscribe({
       next: (_res) => {
         this.loading = false

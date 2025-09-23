@@ -19,7 +19,7 @@ export class ListPopupComponent {
         this.listType = data.type
       }
      
-      console.log('this.listData', data)
+      // console.log('this.listData', data)
     }
   closeDialog() {
     this.dialogRef.close()

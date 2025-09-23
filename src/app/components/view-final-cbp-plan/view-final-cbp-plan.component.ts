@@ -135,7 +135,7 @@ export class ViewFinalCbpPlanComponent {
 
   getMappingData() {
 
-    console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+   // console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
     if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'central') {
       this.loading = true
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
@@ -146,7 +146,7 @@ export class ViewFinalCbpPlanComponent {
       this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe({
         next: (res) => {
           this.loading = false
-          console.log('res', res)
+        //  console.log('res', res)
           let behavioralCompetencies = []
           let functionalCompetencies = []
           let domainCompetencies = []
@@ -208,8 +208,8 @@ export class ViewFinalCbpPlanComponent {
 
             this.designationData.push(obj)
           }
-          console.log('this.designationData', this.designationData)
-          console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+          // console.log('this.designationData', this.designationData)
+          // console.log('this.totalCompetencieObj', this.totalCompetencieObj)
           this.cdr.detectChanges();
           setTimeout(() => {
             this.scrollToTop()
@@ -228,7 +228,7 @@ export class ViewFinalCbpPlanComponent {
     }
     if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
       this.loading = true
-      console.log('this.sharedService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+    //  console.log('this.sharedService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
       let department_id = this.sharedService?.cbpPlanFinalObj.departments
       // this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
@@ -306,7 +306,7 @@ export class ViewFinalCbpPlanComponent {
       this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
         next: (res) => {
           this.loading = false
-          console.log('res', res)
+        //  console.log('res', res)
           let behavioralCompetencies = []
           let functionalCompetencies = []
           let domainCompetencies = []
@@ -372,8 +372,8 @@ export class ViewFinalCbpPlanComponent {
           setTimeout(() => {
             this.scrollToTop()
           }, 1000);
-          console.log('this.designationData', this.designationData)
-          console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+         // console.log('this.designationData', this.designationData)
+          // console.log('this.totalCompetencieObj', this.totalCompetencieObj)
         },
         error: (error) => {
           this.loading = false

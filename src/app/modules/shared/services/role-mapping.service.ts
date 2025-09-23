@@ -68,7 +68,7 @@ export class RoleMappingService {
     onError?: (error: any) => void
   ): Promise<void> {
     const storageData:any = JSON.parse(localStorage.getItem('loginData'))
-    console.log('storageData--', storageData)
+    // console.log('storageData--', storageData)
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${storageData?.access_token}`
     });

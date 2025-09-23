@@ -67,20 +67,20 @@ export class AppComponent {
    } else {
     this.nextStep = 'initial'
    }
-   console.log('this.nextStep',this.nextStep)
-   console.log('this.sharedService.cb', this.sharedService.cbpPlanFinalObj)
+  //  console.log('this.nextStep',this.nextStep)
+  //  console.log('this.sharedService.cb', this.sharedService.cbpPlanFinalObj)
   }
 
 
   successRoleMapping(event) {
     this.nextStep = 'role-mapping'
     this.formData = event
-    console.log('event', event)
+    // console.log('event', event)
   }
 
   alreadyAvailableRoleMapping(event) {
     this.nextStep = 'role-mapping'
-    console.log('event', event)
+    // console.log('event', event)
     this.formData = event
    
     

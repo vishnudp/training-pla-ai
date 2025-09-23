@@ -54,8 +54,18 @@
                         <mat-select
                             [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
-                            style="border-radius: 25px; background: white;">
-                            <mat-option [value]="item?.id" *ngFor="let item of ministryData" [selected]="selectedMinistryId === item?.id">{{item?.name}}</mat-option>
+                            style="border-radius: 25px; background: white;"
+                            panelClass="searchable-select-panel">
+                            <mat-option>
+                                <input type="text"
+                                        name="ministrySearchInput"
+                                        [formControl]="searchControl"
+                                       (click)="$event.stopPropagation()"
+                                       (keyup)="filterMinistryData()"
+                                       placeholder="Search..."
+                                       style="width: 100%; padding: 4px;" />
+                              </mat-option>
+                            <mat-option [value]="item?.id" *ngFor="let item of filteredMinistryData | orderByName" [selected]="selectedMinistryId === item?.id">{{item?.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

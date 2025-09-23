@@ -52,6 +52,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AddCourseComponent } from './components/add-course/add-course.component';
 import { RoleMappingService } from './modules/shared/services/role-mapping.service';
 import { GapAnalysisRecommendedCourseComponent } from './components/gap-analysis-recommended-course/gap-analysis-recommended-course.component';
+import { OrderByNamePipe } from './modules/shared/pipes/order-by-name.pipe';
 const appInitializer = (initSvc: InitService) => async () => {
   try {
     await initSvc.init()
@@ -79,7 +80,8 @@ const appInitializer = (initSvc: InitService) => async () => {
     LoginComponent,
     DeleteRoleMappingPopupComponent,
     AddCourseComponent,
-    GapAnalysisRecommendedCourseComponent
+    GapAnalysisRecommendedCourseComponent,
+    OrderByNamePipe
   ],
   imports: [
     BrowserModule,

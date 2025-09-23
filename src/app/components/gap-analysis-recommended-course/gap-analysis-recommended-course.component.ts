@@ -47,7 +47,7 @@ export class GapAnalysisRecommendedCourseComponent {
     this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
       next: (res) => {
         this.loading = false
-        console.log('res', res)
+        //console.log('res', res)
         this.recommended_course_id = res.id
         let allCourses = []
         if(res && res.filtered_courses && res.filtered_courses.length) {
@@ -58,7 +58,7 @@ export class GapAnalysisRecommendedCourseComponent {
           })
         }
         this.filterdCourses = allCourses
-        console.log('this.filterdCourses', this.filterdCourses)
+        //console.log('this.filterdCourses', this.filterdCourses)
         this.updateCompetencyCounts()
         this.getUserCourse()
       },
@@ -102,11 +102,11 @@ export class GapAnalysisRecommendedCourseComponent {
         // Rebuild filterdCourses to include all course types
         
         
-        console.log('filterdCourses after adding user courses:', this.filterdCourses);
+       // console.log('filterdCourses after adding user courses:', this.filterdCourses);
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
-        console.log('error', error)
+      //  console.log('error', error)
         this.loading = false
         // Handle 409 Conflict here
         // alert('Conflict detected: The resource already exists or action conflicts.');
@@ -124,7 +124,7 @@ export class GapAnalysisRecommendedCourseComponent {
   getCompetenciesByType(type: string, index): any[] {
     const course = this.filterdCourses[index];
     if (!course) {
-      console.log(`No course found at index ${index}`);
+    //  console.log(`No course found at index ${index}`);
       return [];
     }
     
@@ -135,22 +135,22 @@ export class GapAnalysisRecommendedCourseComponent {
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+    //  console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+    //  console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
     } else {
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
-        hasCompetencies: !!course.competencies,
-        competenciesType: typeof course.competencies,
-        hasCompetenciesV6: !!course.competencies_v6,
-        competenciesV6Type: typeof course.competencies_v6,
-        courseKeys: Object.keys(course)
-      });
+      // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+      //   hasCompetencies: !!course.competencies,
+      //   competenciesType: typeof course.competencies,
+      //   hasCompetenciesV6: !!course.competencies_v6,
+      //   competenciesV6Type: typeof course.competencies_v6,
+      //   courseKeys: Object.keys(course)
+      // });
     }
     
     if (competencies.length === 0) {
-      console.log(`No competencies found for course ${index} and type ${type}`);
+     // console.log(`No competencies found for course ${index} and type ${type}`);
       return [];
     }
     
@@ -159,7 +159,7 @@ export class GapAnalysisRecommendedCourseComponent {
     
     const matchedCompetencies = competencies.filter(c => {
       if (!c || !c.competencyAreaName) {
-        console.log(`Invalid competency structure in course ${index}:`, c);
+     //   console.log(`Invalid competency structure in course ${index}:`, c);
         return false;
       }
       
@@ -174,7 +174,7 @@ export class GapAnalysisRecommendedCourseComponent {
       return competencyArea === normalizedType;
     });
     
-    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+   // console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 

@@ -65,7 +65,7 @@ export class SharedService {
     }
     this.screenWidth = window.innerWidth;
     const storageData:any = JSON.parse(localStorage.getItem('loginData'))
-    console.log('storageData--', storageData)
+   // console.log('storageData--', storageData)
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${storageData?.access_token}`
     });
@@ -247,7 +247,7 @@ export class SharedService {
 
   getMinistryData() {
     const storageData:any = JSON.parse(localStorage.getItem('loginData'))
-    console.log('storageData--', storageData)
+  //  console.log('storageData--', storageData)
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${storageData?.access_token}`
     });
@@ -286,9 +286,9 @@ export class SharedService {
       // The only difference is we don't set Content-Type for multipart/form-data
       const headers = this.headers;
       
-      console.log('generateRoleMapping FormData:', formData);
-      console.log('generateRoleMapping reqBody:', reqBody);
-      console.log('Using headers:', headers);
+      // console.log('generateRoleMapping FormData:', formData);
+      // console.log('generateRoleMapping reqBody:', reqBody);
+      // console.log('Using headers:', headers);
       
       return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING}`, formData, { headers })
         .pipe(map((response: any) => {
@@ -400,7 +400,7 @@ export class SharedService {
       }
     };
 
-    console.log('getIGOTSuggestedCourses final request:', JSON.stringify(req, null, 2));
+    //console.log('getIGOTSuggestedCourses final request:', JSON.stringify(req, null, 2));
 
     const headers = this.headers
     return this.http.post<any>(`https://portal.igotkarmayogi.gov.in/api/content/v1/search`, req, {headers})

@@ -41,7 +41,7 @@ export class EditCbpPlanComponent implements OnInit{
     private http: HttpClient
   ) {
     this.planData = data
-    console.log('Received data:', data);
+   // console.log('Received data:', data);
     // this.planData.competencies.map((competencies:any)=>{
     //   this.competenciesCount['total'] = this.competenciesCount['total'] + 1 
     //   if(competencies.type === 'Behavioral') {
@@ -67,7 +67,7 @@ export class EditCbpPlanComponent implements OnInit{
     this.sharedService.getCompetencyJson().subscribe({
       next: (data) => {
         this.competenciesData = data;
-        console.log('Competencies data loaded:', this.competenciesData);
+      //  console.log('Competencies data loaded:', this.competenciesData);
       },
       error: (error) => {
         console.error('Error loading competencies data:', error);
@@ -128,9 +128,9 @@ export class EditCbpPlanComponent implements OnInit{
     if (this.cbpForm.invalid) return;
 
   const formData = this.cbpForm.value;
-  console.log('Submitted Data:', formData);
+ // console.log('Submitted Data:', formData);
   let cbpPlanData:any = this.sharedService.cbpPlanFinalObj;
-  console.log('cbpPlanData',cbpPlanData)
+  // console.log('cbpPlanData',cbpPlanData)
   const roleResponsibilitiesArray = this.cbpForm.value.role_responsibilities_text
   .split('\n')
   .map(line => line.trim())
@@ -155,7 +155,7 @@ export class EditCbpPlanComponent implements OnInit{
     this.sharedService.updateRoleMapping(role_mapping_id,req).subscribe({
       next: (res) => {
         // Success handling
-        console.log('Success:', res);
+       // console.log('Success:', res);
         this.loading = false
         this.dialogRef.close('saved')
         this.snackBar.open('Role Mapping Saved Successfully', 'X', {
@@ -165,7 +165,7 @@ export class EditCbpPlanComponent implements OnInit{
         //this.successRoleMapping.emit(this.roleMappingForm)
       },
       error: (error) => {
-        console.log('error', error)
+       // console.log('error', error)
         this.dialogRef.close()
           // Handle 409 Conflict here
           // alert('Conflict detected: The resource already exists or action conflicts.');
@@ -307,7 +307,7 @@ export class EditCbpPlanComponent implements OnInit{
     
     this.updateCompetencyCounts();
     this.cdRef.detectChanges();
-    console.log(this.cbpForm?.get('competencies')?.value);
+   // console.log(this.cbpForm?.get('competencies')?.value);
   }
   
   resetCompetencyForm() {
