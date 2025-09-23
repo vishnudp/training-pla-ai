@@ -19,6 +19,17 @@
 
 }
 
+
+.ministry-heading {
+    color: #1b4ca1;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
 .radio-label {
     color: #000;
 
@@ -513,11 +524,12 @@ flex-shrink: 0;
 height: 15.714px;
 flex-shrink: 0;
 }
-
 .competency-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: normal;
+    gap:16px;
     flex-direction: row;
+    margin-left: 20px;
 }
 
 .outside-layer-total {
@@ -570,7 +582,7 @@ width:132px
 .inside-layer {
     color: #1B4CA1;
 font-family: Lato;
-font-size: 12px;
+font-size: 16px;
 font-style: normal;
 font-weight: 400;
 line-height: normal;
@@ -579,7 +591,7 @@ line-height: normal;
 .count  {
     color: #1B4CA1;
 font-family: Montserrat;
-font-size: 16px;
+font-size: 18px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
