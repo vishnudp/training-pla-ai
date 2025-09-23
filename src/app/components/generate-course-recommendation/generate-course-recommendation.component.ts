@@ -51,7 +51,7 @@ export class GenerateCourseRecommendationComponent {
   competencyMatchedByCategory = []
   menuItems = [
     { key: 'all', label: 'All Categories' },
-    { key: 'behavioral', label: 'Behavioral' },
+    { key: 'behavioral', label: 'Behavioural' },
     { key: 'functional', label: 'Functional' },
     { key: 'domain', label: 'Domain' }
   ];
