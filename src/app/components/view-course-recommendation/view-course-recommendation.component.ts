@@ -68,6 +68,7 @@ export class ViewCourseRecommendationComponent {
         this.updateCompetencyCounts()
         this.getSuggestedCourse()
         this.getUserCourse()
+        this.getCourses()
       },
       error: (error) => {
         this.loading = false
@@ -176,6 +177,39 @@ export class ViewCourseRecommendationComponent {
           console.error('Failed to load suggested courses');
         }
       }
+    })
+  }
+
+  getCourses() {
+    let role_mapping_id = this.planData.id
+    this.loading = true
+    this.sharedService.getCourse(role_mapping_id).subscribe({
+      next: (res) => {
+        // Success handling
+        this.loading = false
+       // console.log('res', res)
+        //this.cbp_plan_id = res?.id
+        if (res && res?.selected_courses && res?.selected_courses?.length) {
+          //this.mode = 'edit'
+          for (let i = 0; i < res?.selected_courses.length; i++) {
+            this.suggestedCourses.push(res.selected_courses[i]?.identifier)
+          }
+        }
+        //this.successRoleMapping.emit(this.roleMappingForm)
+      },
+      error: (error) => {
+      //  console.log('error', error)
+        this.loading = false
+        // Handle 409 Conflict here
+        // alert('Conflict detected: The resource already exists or action conflicts.');
+        //this.get
+        // Or you can set a UI error message variable
+
+        // this.loading = false
+        //this.alreadyAvailableRoleMapping.emit(this.roleMappingForm)
+      }
+
+
     })
   }
 
