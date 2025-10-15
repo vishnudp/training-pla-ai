@@ -1,0 +1,6 @@
+<div *ngIf="nextStep === 'initial'">
+    <app-role-mapping-generation [loginStatusFlag]="loginSuccess" (successRoleMapping)="successRoleMapping($event)" (loginSuccess)="loginSuccessStatus($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
+</div>
+<div *ngIf="nextStep === 'role-mapping'">
+    <app-role-mapping-list [formData]="formData" (moveToInitialScreen)="moveToInitialScreen($event)"></app-role-mapping-list>
+</div>

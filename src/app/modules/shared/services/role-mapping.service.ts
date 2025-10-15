@@ -168,6 +168,7 @@ export class RoleMappingService {
       if (onEnd) onEnd();
     } catch (err) {
       console.error('Streaming error:', err);
+      
       if (onError) onError(err);
     }
   }

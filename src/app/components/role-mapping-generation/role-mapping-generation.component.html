@@ -100,10 +100,10 @@
 
         </div> -->
 
-            <div class="mt-4 additional-details" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <div class="mt-4 additional-details">
                 <textarea rows="5" placeholder="Additional details" formControlName="additionalDetails"></textarea>
             </div>
-            <div class="mt-4 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <!-- <div class="mt-4 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <div class="sub-heading">
                     <p>Upload Document (PDF)</p>
                 </div>
@@ -124,7 +124,7 @@
 
                     <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
                 </div>
-            </div>
+            </div> -->
             <div class="mt-2 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
                 <div class="disclaimer-text">
                     <p>Disclaimer: Please do not upload any confidential documents. </p>

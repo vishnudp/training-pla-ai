@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Upload Document</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill" style="width: 100%; border: 1px solid #000;">
+    <!-- <mat-label>Document Name</mat-label> -->
+    <input matInput [(ngModel)]="documentName" placeholder="Document Name">
+  </mat-form-field>
+
+  <div class="file-upload-box" style="margin-top: 30px;" (click)="fileInput.click()">
+    <input type="file" #fileInput hidden (change)="onFileSelected($event)">
+    <p>Click to select a file or drag and drop</p>
+    <p><small>PDF, DOC, DOCX</small></p>
+  </div>
+
+  <div *ngIf="selectedFile">
+    <p><strong>Selected:</strong> {{ selectedFile.name }}</p>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" style="margin: 20px 0;">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" class="primary-btn" (click)="upload()" [disabled]="!documentName || !selectedFile">Upload</button>
+</mat-dialog-actions>
+
+
+<div class="overlay-loader" *ngIf="loading">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>

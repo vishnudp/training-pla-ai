@@ -1373,8 +1373,14 @@ export class GenerateCourseRecommendationComponent {
 
 
   redirectToToc(item) {
-    let url = `https://portal.igotkarmayogi.gov.in/app/toc/${item?.identifier}/overview?`
+    if(item?.platform) {
+      let url = item?.public_link
     window.open(url, '_blank')
+    } else {
+      let url = `https://portal.igotkarmayogi.gov.in/app/toc/${item?.identifier}/overview?`
+    window.open(url, '_blank')
+    }
+    
   }
 
   /**

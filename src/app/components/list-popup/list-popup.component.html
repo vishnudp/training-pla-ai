@@ -6,6 +6,8 @@
                     <span><mat-icon class="vertical-middle">remove_red_eye</mat-icon></span>
                     <span *ngIf="listType === 'role_responsibilities'" class="ml-2">Roles & Responsibilities</span>
                     <span *ngIf="listType === 'activity'" class="ml-2">Key Activities</span>
+                    <span *ngIf="listType === 'doc-summary'" class="ml-2">Summary</span>
+                    
                 </div>
 <!--                <div class="sub-text" *ngIf="listType === 'role_responsibilities'">-->
 <!--                    <p>Complete roles and responsibilities</p>-->
@@ -35,6 +37,10 @@
                 </li>
             </ul>
         </div>
+        <div class="doc-summary-text" *ngIf="listType === 'doc-summary'">
+            <markdown  [data]="listData?.summary_text"></markdown>
+        </div>
 
     </div>
+    
 </div>

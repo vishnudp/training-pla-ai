@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 //Injectable
 import { HostListener, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { InitService } from './init.service';
 // import configuration from '../../../../assets/jsonfiles/configurations.json'
@@ -32,7 +32,14 @@ const API_END_POINTS = {
   LOGOUT:'cbp-tpc-ai/auth/logout',
   DELETE_ROLE_MAPPING_BY_STATE_CENTER:'cbp-tpc-ai/role-mapping',
   ADD_USER_COURSES: 'cbp-tpc-ai/user-added-courses',
-  GET_USER_COURSES:'cbp-tpc-ai/user-added-courses/role-mapping'
+  GET_USER_COURSES:'cbp-tpc-ai/user-added-courses/role-mapping',
+  GET_USER_SELECTED_COURSES:'cbp-tpc-ai/cbp-plan',
+  UPLOAD_DOCUMENT: 'cbp-tpc-ai/files',
+  GET_DOCUMENTS: 'cbp-tpc-ai/files',
+  DELETE_FILE: 'cbp-tpc-ai/files',
+  TRIGGER_FILE_SUMMARY: 'cbp-tpc-ai/files',
+  DOWNLOAD_FILE: 'cbp-tpc-ai/files',
+  DELETE_SUMMARY: 'cbp-tpc-ai/files',
 }
 
 
@@ -48,6 +55,7 @@ export class SharedService {
   configDetails: any
   screenWidth: number;
   headers:any
+  summaryTriggerExecuted = new Subject()
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = event.target.innerWidth;
@@ -539,5 +547,96 @@ export class SharedService {
       // For durations under a minute, show seconds only
       return `${remainingSeconds}s`;
     }
+  }
+
+  uploadDocument(reqBody, file?: File) {
+    const storageData:any = JSON.parse(localStorage.getItem('loginData'))
+    //  console.log('storageData--', storageData)
+      this.headers = new HttpHeaders({
+        'Authorization': `Bearer ${storageData?.access_token}`
+      });
+      const headers = this.headers
+      const formData = new FormData();
+      
+      // Add required fields
+      if (reqBody.state_center_id) {
+        formData.append('state_center_id', reqBody.state_center_id);
+      }
+      
+      if (reqBody.department_id) {
+        formData.append('department_id', reqBody.department_id);
+      }
+      
+     
+      
+      if(reqBody.documentName) {
+        formData.append('document_name', reqBody.documentName);
+      }
+      // Add file if provided
+      if (file) {
+        formData.append('file', file);
+      }
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.UPLOAD_DOCUMENT}`, formData, { headers })
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
+  getUploadedDocuments(reqBody) {
+    const headers = this.headers;
+    let params = new HttpParams();
+
+    Object.entries(reqBody).forEach(([key, value]) => {
+      if (value !== null && value !== undefined) {
+        params = params.set(key, value.toString());
+      }
+    });
+
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_DOCUMENTS}`, {
+      headers,
+      params
+    }).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  deleteFile(fileId) {
+    const headers = this.headers
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_FILE}/${fileId}`, {headers})
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
+  triggerFileSummary(fileId) {
+    const storageData:any = JSON.parse(localStorage.getItem('loginData'))
+    // console.log('storageData--', storageData)
+     this.headers = new HttpHeaders({
+       'Authorization': `Bearer ${storageData?.access_token}`
+     });
+    const headers = this.headers
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.DELETE_FILE}/${fileId}/summary`, {}, {headers})
+    .pipe(map((response: any) => {
+      return response
+    }))
+  }
+
+  downloadFile(fileId: string): Observable<Blob> {
+    const headers = this.headers;
+  
+    return this.http.get(`${this.baseUrl}${API_END_POINTS.DOWNLOAD_FILE}/${fileId}/download`, {
+      headers,
+      responseType: 'blob'
+    });
+  }
+
+  deleteSummary(fileId) {
+    const headers = this.headers
+    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_SUMMARY}/${fileId}/summary`, {headers})
+    .pipe(map((response: any) => {
+      return response
+    }))
   }
 }

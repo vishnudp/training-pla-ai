@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { HEADER_DATA } from './modules/shared/constant/app.constant';
-import { EventService } from './modules/shared/services/event.service';
-import { SharedService } from './modules/shared/services/shared.service';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { HEADER_DATA } from '../shared/constant/app.constant';
+import { EventService } from '../shared/services/event.service';
+import { SharedService } from '../shared/services/shared.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'initial-screen',
+  templateUrl: './initial-screen.component.html',
+  styleUrls: ['./initial-screen.component.scss']
 })
-export class AppComponent {
+export class InitialScreenComponent {
   headerData = HEADER_DATA;
   title = 'sunbird-cb-staticweb';
   isMaintenancePage: any
@@ -64,7 +64,7 @@ export class AppComponent {
     this.userEmail = localStorage.getItem('userEmail')
    }
    this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
-   if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'center' || this.cbpFinalObj?.ministryType === 'state')) {
+   if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && this.cbpFinalObj.ministry.id && (this.cbpFinalObj?.ministryType === 'center' || this.cbpFinalObj?.ministryType === 'state')) {
     this.nextStep = 'role-mapping'
    } else {
     this.nextStep = 'initial'
@@ -108,7 +108,6 @@ export class AppComponent {
     localStorage.clear()    
     this.sharedService.logout().subscribe({
       next: (res) => {
-        this.router.navigate(['/']);
         this.snackBar.open('You are logout successfully', 'X', {
           duration: 3000,
           panelClass: ['snackbar-success']
@@ -125,10 +124,6 @@ export class AppComponent {
 
   goToUploadDocument() {
     this.router.navigate(['/upload-documents']);
-  }
-
-  routeToMain() {
-    this.router.navigate(['/']);
   }
 
   
