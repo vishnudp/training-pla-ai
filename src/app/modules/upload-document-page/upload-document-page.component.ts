@@ -300,7 +300,7 @@ export class UploadDocumentPageComponent {
 
     viewSummary(doc) {
       const dialogRef = this.dialog.open(ListPopupComponent, {
-        width: '600px',
+        width: '800px',
         data: { element: doc, type: 'doc-summary'},
         disableClose: true,
         maxHeight: '80vh'
@@ -317,7 +317,7 @@ export class UploadDocumentPageComponent {
       this.sharedService.downloadFile(doc.file_id).subscribe({
         
         next: (blob: Blob) => {
-
+          this.loading = false
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
@@ -332,6 +332,7 @@ export class UploadDocumentPageComponent {
           });
         },
         error: (err) => {
+          this.loading = false
           // ❌ Error feedback
           console.error('Download error:', err);
           this.snackBar.open('Failed to download the file.', 'X', {
