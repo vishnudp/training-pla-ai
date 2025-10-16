@@ -99,6 +99,12 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   ngOnInit() {
+    this.sharedService.loginSuccess.subscribe((data)=>{
+   
+      if(!data) {
+        this.login = false
+      }
+     })
     this.login = this.sharedService.checkIfLogin()
 
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()

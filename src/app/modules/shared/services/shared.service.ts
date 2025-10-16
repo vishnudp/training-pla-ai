@@ -56,6 +56,7 @@ export class SharedService {
   screenWidth: number;
   headers:any
   summaryTriggerExecuted = new Subject()
+  loginSuccess = new Subject()
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.screenWidth = event.target.innerWidth;

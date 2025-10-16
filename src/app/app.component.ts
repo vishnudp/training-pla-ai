@@ -58,6 +58,9 @@ export class AppComponent {
   }
 
   ngOnInit() {    
+    this.sharedService.loginSuccess.subscribe((data:any)=>{
+      this.loginSuccess = data
+    })
    this.loginSuccess = this.sharedService.checkIfLogin()
    if(this.loginSuccess) {
     
@@ -108,11 +111,13 @@ export class AppComponent {
     localStorage.clear()    
     this.sharedService.logout().subscribe({
       next: (res) => {
-        this.router.navigate(['/']);
+        
         this.snackBar.open('You are logout successfully', 'X', {
           duration: 3000,
           panelClass: ['snackbar-success']
         });
+        this.sharedService.loginSuccess.next(false)
+        this.router.navigate(['/']);
       },
       error: (error) => {
         this.snackBar.open(error?.error?.detail, 'X', {

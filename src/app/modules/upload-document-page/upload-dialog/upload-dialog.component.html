@@ -15,7 +15,9 @@
     <p><strong>Selected:</strong> {{ selectedFile.name }}</p>
   </div>
 </mat-dialog-content>
-
+<div class="disclaimer-text">
+  <p>Disclaimer: Please do not upload any confidential documents. </p>
+</div>
 <mat-dialog-actions align="center" style="margin: 20px 0;">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-raised-button color="primary" class="primary-btn" (click)="upload()" [disabled]="!documentName || !selectedFile">Upload</button>

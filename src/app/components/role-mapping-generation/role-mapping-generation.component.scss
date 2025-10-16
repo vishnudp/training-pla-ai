@@ -720,3 +720,15 @@ display: inline-block; /* Required in some cases */
     border: none;
     outline: none;
   }
+
+  ::ng-deep .searchable-select-panel {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 3px !important;
+  }
+  
+  ::ng-deep .searchable-select-panel input[name="ministrySearchInput"] {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+  }

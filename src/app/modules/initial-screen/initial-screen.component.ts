@@ -58,6 +58,13 @@ export class InitialScreenComponent {
   }
 
   ngOnInit() {    
+   this.sharedService.loginSuccess.subscribe((data)=>{
+   
+    if(!data) {
+      this.nextStep = 'initial'
+      localStorage.clear()
+    }
+   })
    this.loginSuccess = this.sharedService.checkIfLogin()
    if(this.loginSuccess) {
     

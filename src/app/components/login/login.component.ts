@@ -51,6 +51,7 @@ export class LoginComponent {
             duration: 3000,
             panelClass: ['snackbar-success']
           });
+          this.sharedService.loginSuccess.next(true)
         } else {
           this.snackBar.open('Invalid username or password', 'X', {
             duration: 3000,
