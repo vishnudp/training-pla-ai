@@ -43,6 +43,7 @@
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/@project-sunbird/telemetry-sdk/index.js"
             ],
+            "preserveSymlinks": true,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": true,

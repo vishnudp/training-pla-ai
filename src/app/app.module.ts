@@ -58,6 +58,8 @@ import { UploadDialogComponent } from './modules/upload-document-page/upload-dia
 import { InitialScreenComponent } from './modules/initial-screen/initial-screen.component';
 import { ProgressDialogComponent } from './modules/upload-document-page/progress-dialog/progress-dialog.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { CbpPlanAiModule } from '@sunbird-cb/cbp-plan-ai';
+import { environment } from 'src/environments/environment';
 const appInitializer = (initSvc: InitService) => async () => {
   try {
     await initSvc.init()
@@ -91,6 +93,7 @@ const appInitializer = (initSvc: InitService) => async () => {
     UploadDialogComponent,
     InitialScreenComponent,
     ProgressDialogComponent
+
   ],
   imports: [
     BrowserModule,
@@ -116,7 +119,8 @@ const appInitializer = (initSvc: InitService) => async () => {
     MatMenuModule,
     MatTooltipModule,
     MatTabsModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    CbpPlanAiModule
   ],
   providers: [
     {
@@ -130,6 +134,7 @@ const appInitializer = (initSvc: InitService) => async () => {
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: 'environment', useValue: environment },
     SharedService,
     RoleMappingService
   ],
