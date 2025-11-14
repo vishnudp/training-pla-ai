@@ -5,7 +5,7 @@ import { InitService } from './init.service';
 import { Observable } from 'rxjs';
 
 const API_END_POINTS = {
-  GET_ROLE_MAPPING: 'cbp-tpc-ai/role-mapping/generate_stream',
+  GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/generate_stream',
 }
 
 @Injectable({
