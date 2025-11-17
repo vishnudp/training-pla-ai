@@ -444,7 +444,7 @@ export class SharedService {
     const body = new HttpParams()
     .set('username', reqBody.username)
     .set('password', reqBody.password);
-
+    console.log('in login uat')
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/json'
