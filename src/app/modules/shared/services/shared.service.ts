@@ -20,7 +20,7 @@ const API_END_POINTS = {
   GET_ROLE_MAPPING_BY_STATE_CENTER: 'cbp-tpc-ai/api/v1/role-mapping/state-center',
   GET_ROLE_MAPPING_BY_STATE_CENTER_DEPARTMENT: 'cbp-tpc-ai/api/v1/role-mapping/state-center',
   UPDATE_ROLE_MAPPING:'cbp-tpc-ai/api/v1/role-mapping',
-  GET_RECOMMENDED_COURSE: 'cbp-tpc-ai',
+  GET_RECOMMENDED_COURSE: 'cbp-tpc-ai/api/v1/',
   SAVE_COURSES: 'cbp-tpc-ai/api/v1/cbp-plan/save',
   GET_COURSES:  'cbp-tpc-ai/api/v1/cbp-plan',
   UPDATE_COURSES: 'cbp-tpc-ai/api/v1/cbp-plan',
