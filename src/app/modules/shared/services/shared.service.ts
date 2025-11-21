@@ -286,6 +286,10 @@ export class SharedService {
       if (reqBody.department_id) {
         formData.append('department_id', reqBody.department_id);
       }
+
+      if (reqBody.department_name) {
+        formData.append('department_name', reqBody.department_name);
+      }
       
       // sector_name removed as it's not required
       

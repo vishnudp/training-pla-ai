@@ -505,6 +505,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
 
         const departmentName = this.departmentData.find(u => u.identifier=== formData.departments);
+        req['department_name'] = departmentName
         this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
         this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
         console.log(departmentName);
