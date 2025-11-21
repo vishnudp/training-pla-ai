@@ -462,13 +462,15 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   generateFinalRoleMapping() {
-    console.log('this.selectedMinistryObj', this.selectedMinistryObj)
+    
     this.loading = true;
     if (this.roleMappingForm.valid) {
       const formData = this.roleMappingForm.value;
       const currentFormValues = this.roleMappingForm.getRawValue();
         let formUploadData :any= new FormData();
-
+        const selectedMinistry = this.ministryData.find(item => item.identifier === currentFormValues.ministry);
+        this.selectedMinistryObj = selectedMinistry
+        console.log('this.selectedMinistryObj', this.selectedMinistryObj)
         // formUploadData.append('ministryType', currentFormValues.ministryType);
         // formUploadData.append('ministry', currentFormValues.ministry);
         // formUploadData.append('sectors', JSON.stringify(currentFormValues.sectors));
@@ -497,7 +499,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       // Submit logic here
       let req = {
         "state_center_id":formData.ministry,
-        "instruction": formData.additionalDetails
+        "instruction": formData.additionalDetails,
+        "state_center_name":this.selectedMinistryObj?.orgName
       }
       if(this.selectedMinistryType === 'state') {
         req['department_id'] = formData.departments ? formData.departments : ''
@@ -505,8 +508,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
 
 
         const departmentName = this.departmentData.find(u => u.identifier=== formData.departments);
-        req['department_name'] = departmentName
-        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName
+        req['department_name'] = departmentName?.orgName
+        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
         this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
         console.log(departmentName);
 

@@ -272,6 +272,7 @@ export class SharedService {
   }
 
     generateRoleMapping(reqBody, file?: File) {
+      console.log('reqBody--', reqBody)
       // Create FormData for multipart/form-data request
       const formData = new FormData();
       
