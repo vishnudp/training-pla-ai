@@ -13,7 +13,7 @@ const API_END_POINTS = {
   FETCH_HALL_OF_FAME: 'api/v1/halloffame/read',
   NLW_FORM_READ: 'apis/v1/static/form/v1/read',
   FETCH_TENDERS: 'api/v1/content/v1/search',
-  GET_STATE_CENTER: 'cbp-tpc-ai/api/v1/state-center/',
+  GET_STATE_CENTER: 'cbp-tpc-ai/api/v1/state-center',
   GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/generate',
   DELETE_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/delete',
   GET_DEPARTMENT: 'cbp-tpc-ai/api/v1/department/state-center',
@@ -252,14 +252,20 @@ export class SharedService {
   }
 
 
-  getMinistryData() {
+  getMinistryData(ministryType) {
+    let sub_org_type = ''
+    if(ministryType == 'center') {
+      sub_org_type = 'ministry'
+    } else {
+      sub_org_type = 'state'
+    }
     const storageData:any = JSON.parse(localStorage.getItem('loginData'))
     console.log('storageData--', storageData)
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${storageData?.access_token}`
     });
     const headers = this.headers
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}`, {headers})
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}/?sub_org_type=${sub_org_type}`, {headers})
       .pipe(map((response: any) => {
         return response
       }))
@@ -272,6 +278,9 @@ export class SharedService {
       // Add required fields
       if (reqBody.state_center_id) {
         formData.append('state_center_id', reqBody.state_center_id);
+      }
+      if (reqBody.state_center_id) {
+        formData.append('state_center_name', reqBody.state_center_name);
       }
       
       if (reqBody.department_id) {

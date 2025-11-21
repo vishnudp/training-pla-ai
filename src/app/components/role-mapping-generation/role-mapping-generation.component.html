@@ -55,7 +55,7 @@
                             [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
                             style="border-radius: 25px; background: white;">
-                            <mat-option [value]="item?.id" *ngFor="let item of ministryData" [selected]="selectedMinistryId === item?.id">{{item?.name}}</mat-option>
+                            <mat-option [value]="item?.identifier" *ngFor="let item of ministryData" [selected]="selectedMinistryId === item?.identifier">{{item?.orgName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -67,8 +67,8 @@
                         style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
                         <mat-select placeholder="Select Department" formControlName="departments"
                             style="border-radius: 25px; background: white;">
-                            <mat-option [value]="item?.id"
-                                *ngFor="let item of departmentData">{{item?.name}}</mat-option>
+                            <mat-option [value]="item?.identifier"
+                                *ngFor="let item of departmentData">{{item?.orgName}}</mat-option>
 
                         </mat-select>
                     </mat-form-field>
