@@ -11,7 +11,8 @@
     </div>
     <div class="section-container mt-2" #pdfContent>
         <div class="ministry-heading mt-2">
-            {{cbpPlanData?.ministry.name}} / {{planData?.designation_name}}
+            {{cbpPlanData?.ministry.orgName}}
+            <span *ngIf="planData?.designation_name?.orgName"> / {{planData?.designation_name?.orgName}}</span>
         </div>
         <div class="competency-container mt-4">
             <div class="outside-layer-total">

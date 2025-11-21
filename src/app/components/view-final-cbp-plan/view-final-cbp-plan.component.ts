@@ -136,9 +136,9 @@ export class ViewFinalCbpPlanComponent {
   getMappingData() {
 
     console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
-    if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'central') {
+    if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'ministry') {
       this.loading = true
-      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
+      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.identifier
       // this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
 
       //  })
@@ -226,7 +226,7 @@ export class ViewFinalCbpPlanComponent {
         }
       });
     }
-    if (this.sharedService?.cbpPlanFinalObj.ministry.type === 'state') {
+    if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'state') {
       this.loading = true
       console.log('this.sharedService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id

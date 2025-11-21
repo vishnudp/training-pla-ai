@@ -40,6 +40,8 @@ const API_END_POINTS = {
   TRIGGER_FILE_SUMMARY: 'cbp-tpc-ai/api/v1/files',
   DOWNLOAD_FILE: 'cbp-tpc-ai/api/v1/files',
   DELETE_SUMMARY: 'cbp-tpc-ai/api/v1/files',
+  GET_USER_PROFILE: 'cbp-tpc-ai/api/v1/users/me',
+  GET_USER_RECOMMENED_COURSES:'cbp-tpc-ai/api/v1/course-recommendations'
 }
 
 
@@ -561,4 +563,21 @@ export class SharedService {
       return `${remainingSeconds}s`;
     }
   }
+
+  getUserProfile() {
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_USER_PROFILE}`,  {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
+
+  getUserRecommendationCourse(role_mapping_id) {
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_USER_SELECTED_COURSES}?role_mapping_id=${role_mapping_id}`,  {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
 }
+

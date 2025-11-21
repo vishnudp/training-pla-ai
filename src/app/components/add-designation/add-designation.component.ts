@@ -88,7 +88,8 @@ export class AddDesignationComponent {
     this.cbpPlanFinalObj = this.sharedService.getCBPPlanLocalStorage()
     console.log('this.designationForm',this.designationForm)
     let req:any = {
-      "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.id,
+      "state_center_id": this.sharedService.cbpPlanFinalObj.ministry.identifier,
+      "state_center_name": this.sharedService.cbpPlanFinalObj.ministry.orgName,
       // "department_id": "",
       "designation_name": this.designationForm.value.designation_name,
       "instruction": this.designationForm.value.instruction,

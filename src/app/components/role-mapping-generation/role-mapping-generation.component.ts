@@ -86,6 +86,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   @Output() alreadyAvailableRoleMapping = new EventEmitter<any>()
   @Output() loginSuccess = new EventEmitter<any>()
   selectedMinistryObj:any = ''
+  loginUserOrgIds = []
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -347,6 +348,8 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
           }
         })
       }
+
+      this.getUserProfileData()
     })
   }
 
@@ -801,6 +804,21 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     }
     this.roleMappingForm.get('additional_document').setValue([])
     this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
+  }
+
+  getUserProfileData() {
+    this.sharedService.getUserProfile().subscribe((data)=>{
+      console.log('data--', data)
+      this.loginUserOrgIds = data?.organization_ids
+      let filteredMinistryData =  []
+      this.ministryFullData.map((item)=>{
+        if(this.loginUserOrgIds.indexOf(item?.identifier) > -1) {
+          filteredMinistryData.push(item)
+        }
+      })
+
+      this.ministryData = filteredMinistryData
+    })
   }
 }
 

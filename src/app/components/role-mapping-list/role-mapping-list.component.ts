@@ -163,9 +163,9 @@ export class RoleMappingListComponent {
 
   refreshRoleMappingData() {
     console.log('Refreshing role mapping data...');
-    if (this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
+    if (this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.identifier) {
       const ministryType = this.sharedService.cbpPlanFinalObj.ministryType;
-      const ministryId = this.sharedService.cbpPlanFinalObj.ministry.id;
+      const ministryId = this.sharedService.cbpPlanFinalObj.ministry.identifier;
       
       this.loading = true;
       
@@ -442,11 +442,11 @@ export class RoleMappingListComponent {
         console.log('Changes saved!');
         // Refresh data or show a toast here
         console.log(this.sharedService.cbpPlanFinalObj)
-        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && 
+        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.identifier && 
           this.sharedService.cbpPlanFinalObj.ministryType === 'center'
         ) {
 
-          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
+          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.identifier).subscribe((res)=>{
             console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
@@ -454,7 +454,7 @@ export class RoleMappingListComponent {
             console.log('this.dataSource',this.dataSource)
             })
         } else {
-          this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
+          this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.identifier, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
             console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
             this.dataSource.paginator = this.paginator;
