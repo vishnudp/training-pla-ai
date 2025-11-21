@@ -52,12 +52,13 @@ export class UploadDialogComponent {
         console.log(this.cbpFinalObj)
 
         let reqBody = {
-          state_center_id: this.cbpFinalObj?.ministry?.id,
+          state_center_id: this.cbpFinalObj?.ministry?.identifier,
           department_id:'' ,//this.cbpFinalObj?.departments
           documentName: this.documentName
         }
         if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'state')) {
           reqBody['department_id'] = this.cbpFinalObj?.departments
+         reqBody['state_center_id'] = this.cbpFinalObj?.ministry?.identifier
         }
         this.loading = true;
         this.sharedService.uploadDocument(reqBody, this.selectedFile).subscribe({

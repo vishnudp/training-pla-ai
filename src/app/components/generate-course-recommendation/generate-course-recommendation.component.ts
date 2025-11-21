@@ -7,6 +7,8 @@ import { SuggestMoreCoursesComponent } from '../suggest-more-courses/suggest-mor
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { AddCourseComponent } from '../add-course/add-course.component';
 import html2pdf from 'html2pdf.js';
+import { interval, of } from 'rxjs';
+import { switchMap, takeWhile, tap, catchError, finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-generate-course-recommendation',
   templateUrl: './generate-course-recommendation.component.html',
@@ -1525,59 +1527,151 @@ export class GenerateCourseRecommendationComponent {
       this.startRegenerativeProgressiveLoading();
       
       // Make the actual API call
-      this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
-        next: (response) => {
-          // Stop progressive loading and show completion
-          this.isRegeneratingWithProgress = false; // This will stop the interval
-          this.progressPercentage = 100;
-          this.currentProcessingStage = 'Course recommendations regenerated successfully!';
+      // this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
+      //   next: (response) => {
+      //     // Stop progressive loading and show completion
+      //     this.isRegeneratingWithProgress = false; // This will stop the interval
+      //     this.progressPercentage = 100;
+      //     this.currentProcessingStage = 'Course recommendations regenerated successfully!';
           
-          // Clear the loading state after showing completion
-          setTimeout(() => {
-            this.currentProcessingStage = '';
-            this.progressPercentage = 0;
-            resolve(response);
-          }, 2000);
-        },
-        error: (error) => {
-          // Stop progressive loading
-          this.isRegeneratingWithProgress = false;
-          this.currentProcessingStage = '';
-          this.progressPercentage = 0;
+      //     // Clear the loading state after showing completion
+      //     setTimeout(() => {
+      //       this.currentProcessingStage = '';
+      //       this.progressPercentage = 0;
+      //       resolve(response);
+      //     }, 2000);
+      //   },
+      //   error: (error) => {
+      //     // Stop progressive loading
+      //     this.isRegeneratingWithProgress = false;
+      //     this.currentProcessingStage = '';
+      //     this.progressPercentage = 0;
           
-          // Handle specific error cases
-          if (error.status === 409 || error.error?.detail?.includes('already exists')) {
-            // Course recommendations already exist - this is normal
-          //  console.log('Course recommendations already exist, loading existing data...');
+      //     // Handle specific error cases
+      //     if (error.status === 409 || error.error?.detail?.includes('already exists')) {
+      //       // Course recommendations already exist - this is normal
+      //     //  console.log('Course recommendations already exist, loading existing data...');
             
-            this.currentProcessingStage = 'Loading existing course recommendations...';
+      //       this.currentProcessingStage = 'Loading existing course recommendations...';
             
-            // Try to get existing data
-            this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
-              next: (existingResponse) => {
-               // console.log('Successfully loaded existing course recommendations');
-                this.progressPercentage = 100;
-                this.currentProcessingStage = 'Loaded existing course recommendations successfully!';
+      //       // Try to get existing data
+      //       this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
+      //         next: (existingResponse) => {
+      //          // console.log('Successfully loaded existing course recommendations');
+      //           this.progressPercentage = 100;
+      //           this.currentProcessingStage = 'Loaded existing course recommendations successfully!';
                 
-                setTimeout(() => {
-                  this.currentProcessingStage = '';
-                  this.progressPercentage = 0;
-                  resolve(existingResponse);
-                }, 2000);
-              },
-              error: (loadError) => {
-               // console.error('Failed to load existing course recommendations:', loadError);
+      //           setTimeout(() => {
+      //             this.currentProcessingStage = '';
+      //             this.progressPercentage = 0;
+      //             resolve(existingResponse);
+      //           }, 2000);
+      //         },
+      //         error: (loadError) => {
+      //          // console.error('Failed to load existing course recommendations:', loadError);
+      //           this.currentProcessingStage = '';
+      //           this.progressPercentage = 0;
+      //           reject(loadError);
+      //         }
+      //       });
+      //     } else {
+      //      // console.error('Error during course recommendation regeneration:', error);
+      //       reject(error);
+      //     }
+      //   }
+      // });
+      this.isRegeneratingWithProgress = true;
+      this.progressPercentage = 0;
+      this.currentProcessingStage = 'Generating course recommendations...';
+  
+      interval(5000)
+        .pipe(
+          switchMap(() =>
+            this.sharedService.getRecommendedCourse(role_mapping_id).pipe(
+              catchError(error => {
+                // Pass error through observable so polling logic can inspect it
+                return of({ error });
+              })
+            )
+          ),
+  
+          tap(res => console.log("Polling result:", res)),
+  
+          /**
+           * ⬇️ STOP POLLING only when:
+           * - SUCCESS → res.status === COMPLETED
+           * - ERROR → conflict / already exists
+           */
+          takeWhile(res => {
+            if (res?.status === 'COMPLETED') return false;       // Stop
+            if (res?.error?.status === 409) return false;        // Stop
+            if (res?.error?.error?.detail?.includes('already exists')) return false; // Stop
+            return true; // Keep polling
+          }, true) // include final emission
+        )
+        .subscribe({
+          next: (res) => {
+            /** -------------------------------
+             *  SUCCESS CASE (status COMPLETED)
+             -------------------------------- */
+            if (res?.status === 'COMPLETED') {
+              this.isRegeneratingWithProgress = false;
+              this.progressPercentage = 100;
+              this.currentProcessingStage = 'Course recommendations regenerated successfully!';
+  
+              setTimeout(() => {
                 this.currentProcessingStage = '';
                 this.progressPercentage = 0;
-                reject(loadError);
+                resolve(res);
+              }, 2000);
+  
+              return;
+            }
+  
+            /** -----------------------------------
+             *  ERROR CASE (409 / already exists)
+             ------------------------------------ */
+            if (res?.error) {
+              const error = res.error;
+  
+              if (error.status === 409 || error?.error?.detail?.includes('already exists')) {
+  
+                this.currentProcessingStage = 'Loading existing course recommendations...';
+  
+                this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
+                  next: (existingData) => {
+                    this.progressPercentage = 100;
+                    this.currentProcessingStage = 'Loaded existing course recommendations successfully!';
+  
+                    setTimeout(() => {
+                      this.currentProcessingStage = '';
+                      this.progressPercentage = 0;
+                      resolve(existingData);
+                    }, 2000);
+                  },
+                  error: loadError => reject(loadError)
+                });
+  
+                return;
               }
-            });
-          } else {
-           // console.error('Error during course recommendation regeneration:', error);
-            reject(error);
-          }
-        }
-      });
+  
+              /** Any other error → stop & reject */
+              this.isRegeneratingWithProgress = false;
+              this.currentProcessingStage = '';
+              this.progressPercentage = 0;
+              reject(error);
+              return;
+            }
+  
+            /** ------------------------------
+             *  STILL PROCESSING (keep polling)
+             ------------------------------- */
+            this.progressPercentage = Math.min(this.progressPercentage + 10, 95);
+            this.currentProcessingStage = 'Still processing course recommendations...';
+          },
+  
+          error: err => reject(err)
+        });
     });
   }
 
@@ -1723,41 +1817,64 @@ export class GenerateCourseRecommendationComponent {
   getRecommendedCourseWithProgress(role_mapping_id: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.loading = true;
+      this.currentProcessingStage = 'Generating course recommendations...';
+      this.progressPercentage = 30;
       this.startProgressiveLoading();
       
-      this.sharedService.getRecommendedCourse(role_mapping_id).subscribe({
-        next: (response) => {
+      interval(5000) // ⏱ poll every 5 seconds
+      .pipe(
+        tap(() => {
+          this.currentProcessingStage = 'Processing...';
+        }),
+        switchMap(() => this.sharedService.getRecommendedCourse(role_mapping_id)),
+
+        // Continue polling while status !== COMPLETED
+        takeWhile((response: any) => response?.status !== 'COMPLETED', true),
+
+        finalize(() => {
           this.loading = false;
-          this.progressPercentage = 100;
-          this.currentProcessingStage = 'Course recommendations generated successfully!';
-          
-          setTimeout(() => {
-            this.currentProcessingStage = '';
-            this.progressPercentage = 0;
-          }, 2000);
-          
-          resolve(response);
+        })
+      )
+      .subscribe({
+        next: (response: any) => {
+          if (response?.status === 'COMPLETED') {
+
+            this.progressPercentage = 100;
+            this.currentProcessingStage = 'Course recommendations generated successfully!';
+
+            setTimeout(() => {
+              this.currentProcessingStage = '';
+              this.progressPercentage = 0;
+            }, 2000);
+
+            this.snackBar.open('Recommendations ready!', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+
+            resolve(response);
+          }
         },
+
         error: (error) => {
           this.loading = false;
           this.currentProcessingStage = '';
           this.progressPercentage = 0;
-          
-          // Handle specific error cases
+
           if (error.status === 409 || error.error?.detail?.includes('already exists')) {
-            // Course recommendations already exist - this is normal
-            this.snackBar.open('Course recommendations already exist and have been loaded.', 'X', {
+            this.snackBar.open('Course recommendations already exist.', 'X', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
+
+            resolve(null); // not a real error
           } else {
-            this.snackBar.open('Failed to generate course recommendations. Please try again.', 'X', {
+            this.snackBar.open('Failed to generate course recommendations.', 'X', {
               duration: 3000,
               panelClass: ['snackbar-error']
             });
+            reject(error);
           }
-          
-          reject(error);
         }
       });
     });

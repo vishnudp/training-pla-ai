@@ -53,6 +53,8 @@ export class RoleMappingListComponent {
 
   ngOnInit() {
     // console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+    this.dataSource = new MatTableDataSource(this.sharedService?.cbpPlanFinalObj?.role_mapping_generation)
+    this.originalData = this.sharedService?.cbpPlanFinalObj?.role_mapping_generation
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
     if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType)) {
       this.sharedService.cbpPlanFinalObj = this.cbpFinalObj
@@ -60,12 +62,12 @@ export class RoleMappingListComponent {
         this.formData = {}
         this.formData['value'] = {}
         this.formData['value']['ministryType'] = this.cbpFinalObj.ministryType
-        this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.id
+        this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.identifier
       } else if (this.cbpFinalObj?.ministryType === 'state') {
         this.formData = {}
         this.formData['value'] = {}
         this.formData['value']['ministryType'] = this.cbpFinalObj.ministryType
-        this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.id
+        this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.identifier
         this.formData['value']['departments'] = this.cbpFinalObj?.departments
       }
     } 

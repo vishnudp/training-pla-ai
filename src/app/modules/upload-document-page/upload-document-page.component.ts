@@ -105,7 +105,7 @@ export class UploadDocumentPageComponent {
   getUploadedDocuments() {
     
     let reqBody = {
-      state_center_id: this.cbpFinalObj?.ministry?.id,
+      state_center_id: this.cbpFinalObj?.ministry?.identifier,
       include_summary: true, 
       skip:0,
       limit:200
@@ -198,29 +198,32 @@ export class UploadDocumentPageComponent {
   onMinistryTypeChange(event) {
     this.roleMappingForm.reset()
     // console.log('event', event)
+    this.getMinistryData()
      this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
      localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
-     this.ministryData = []
-     console.log('event--', event)
-     if(event?.value === 'state') {
-      this.selectedMinistryType = event?.value
-       this.roleMappingForm.get('sectors')?.setValue([]);
-       this.ministryFullData.forEach((item)=>{
-         if(item?.type === 'state') {
-           this.ministryData.push(item)
-           this.filteredMinistryData = [...this.ministryData];
-         }
-       })
-     } else if(event?.value === 'center') {
-        this.selectedMinistryType = event?.value
-       this.roleMappingForm.get('sectors')?.setValue([]);
-       this.ministryFullData.forEach((item)=>{
-         if(item?.type === 'central') {
-           this.ministryData.push(item)
-           this.filteredMinistryData = [...this.ministryData];
-         }
-       })
-     }
+     this.selectedMinistryType = event?.value
+    this.roleMappingForm.get('sectors')?.setValue([]);
+   //  this.ministryData = []
+    //  console.log('event--', event)
+    //  if(event?.value === 'state') {
+    //   this.selectedMinistryType = event?.value
+    //    this.roleMappingForm.get('sectors')?.setValue([]);
+    //    this.ministryFullData.forEach((item)=>{
+    //      if(item?.sbOrgType === 'state') {
+    //        this.ministryData.push(item)
+    //        this.filteredMinistryData = [...this.ministryData];
+    //      }
+    //    })
+    //  } else if(event?.value === 'center') {
+    //     this.selectedMinistryType = event?.value
+    //    this.roleMappingForm.get('sectors')?.setValue([]);
+    //    this.ministryFullData.forEach((item)=>{
+    //      if(item?.sbOrgType === 'ministry') {
+    //        this.ministryData.push(item)
+    //        this.filteredMinistryData = [...this.ministryData];
+    //      }
+    //    })
+    //  }
      this.roleMappingForm.controls.ministryType.setValue( this.selectedMinistryType)
    }
 
@@ -229,9 +232,9 @@ export class UploadDocumentPageComponent {
    // console.log('Selected Ministry ID:', selectedMinistryId);
 
     // You can access the selected object if needed
-    const selectedMinistry = this.ministryData.find(item => item.id === selectedMinistryId);
+    const selectedMinistry = this.ministryData.find(item => item.identifier === selectedMinistryId);
      console.log('Selected Ministry:', selectedMinistry);``
-    this.sharedService.cbpPlanFinalObj['ministry'] =  {id:selectedMinistryId?.id,name:selectedMinistryId?.name} 
+    this.sharedService.cbpPlanFinalObj['ministry'] =  {identifier:selectedMinistryId?.identifier,name:selectedMinistryId?.orgName} 
     if(selectedMinistryId && this.selectedMinistryType === 'state') {
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
         this.departmentData = res
@@ -239,12 +242,12 @@ export class UploadDocumentPageComponent {
     }
     if(this.selectedMinistryType === 'state') {
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.roleMappingForm.controls.ministryType.value
-      this.sharedService.cbpPlanFinalObj['ministry'] = {id:selectedMinistry?.id,name:selectedMinistry?.name} 
+      this.sharedService.cbpPlanFinalObj['ministry'] = {identifier:selectedMinistry?.identifier,name:selectedMinistry?.orgName} 
       this.sharedService.cbpPlanFinalObj['departments'] = this.roleMappingForm.controls.departments.value
       this.sharedService.cbpPlanFinalObj['sectors'] = this.roleMappingForm.controls.sectors.value
     } else {
       this.sharedService.cbpPlanFinalObj['ministryType'] = this.roleMappingForm.controls.ministryType.value
-      this.sharedService.cbpPlanFinalObj['ministry'] = {id:selectedMinistry?.id,name:selectedMinistry?.name} 
+      this.sharedService.cbpPlanFinalObj['ministry'] = {identifier:selectedMinistry?.identifier,name:selectedMinistry?.orgName} 
       // this.sharedService.cbpPlanFinalObj['departments'] = this.roleMappingForm.controls.departments.value
       // this.sharedService.cbpPlanFinalObj['sectors'] = this.roleMappingForm.controls.sectors.value
     }
@@ -263,7 +266,7 @@ export class UploadDocumentPageComponent {
       this.filteredMinistryData = !search
         ? [...this.ministryData]
         : this.ministryData.filter(item =>
-            item.name?.trim().toLowerCase().startsWith(search)
+            item.orgName?.trim().toLowerCase().startsWith(search)
           );
     }
     
@@ -271,27 +274,29 @@ export class UploadDocumentPageComponent {
 
     getMinistryData() {
       this.loading = true
-      this.sharedService.getMinistryData().subscribe((data:any)=>{
+      this.sharedService.getMinistryData(this.selectedMinistryType).subscribe((data:any)=>{
         this.loading = false
-      //  console.log('data--', data)
+        console.log('data--', data)
         this.ministryFullData = data
         this.ministryData = []
         if(this.selectedMinistryType === 'center') {
           data.forEach((item)=>{
-            if(item?.type === 'central') {
+            if(item?.sbOrgType === 'ministry') {
               this.ministryData.push(item)
               this.filteredMinistryData = [...this.ministryData];
             }
           })
         } else if(this.selectedMinistryType === 'state') {
           data.forEach((item)=>{
-            if(item?.type === 'state') {
+            if(item?.sbOrgType === 'state') {
               this.ministryData.push(item)
               this.filteredMinistryData = [...this.ministryData];
             }
           })
         }
       })
+      console.log('this.ministryData--', this.ministryData)
+      console.log('this.filteredMinistryData--', this.filteredMinistryData)
     }
 
     routeToMain() {

@@ -254,14 +254,20 @@ export class SharedService {
   }
 
 
-  getMinistryData() {
+  getMinistryData(ministryType) {
+    let sub_org_type = ''
+    if(ministryType == 'center') {
+      sub_org_type = 'ministry'
+    } else {
+      sub_org_type = 'state'
+    }
     const storageData:any = JSON.parse(localStorage.getItem('loginData'))
   //  console.log('storageData--', storageData)
     this.headers = new HttpHeaders({
       'Authorization': `Bearer ${storageData?.access_token}`
     });
     const headers = this.headers
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}`, {headers})
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_STATE_CENTER}/?sub_org_type=${sub_org_type}`, {headers})
       .pipe(map((response: any) => {
         return response
       }))
@@ -275,9 +281,17 @@ export class SharedService {
       if (reqBody.state_center_id) {
         formData.append('state_center_id', reqBody.state_center_id);
       }
+
+      if (reqBody.state_center_id) {
+        formData.append('state_center_name', reqBody.state_center_name);
+      }
       
       if (reqBody.department_id) {
         formData.append('department_id', reqBody.department_id);
+      }
+
+      if (reqBody.department_name) {
+        formData.append('department_name', reqBody.department_name);
       }
       
       // sector_name removed as it's not required
