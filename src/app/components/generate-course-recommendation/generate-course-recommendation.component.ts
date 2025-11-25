@@ -100,10 +100,12 @@ export class GenerateCourseRecommendationComponent {
     console.log('event', event)
     console.log('item', item)
     if (event.checked) {
-      this.selectFilterCourses.push(item?.identifier)
+      if(this.selectFilterCourses.indexOf(item?.identifier) < 0) {
+        this.selectFilterCourses.push(item?.identifier)
+      }      
     } else {
       const index = this.selectFilterCourses.findIndex(
-        control => control.identifier === item.identifier
+        control => control === item.identifier
       );
 
       if (index !== -1) {
@@ -162,7 +164,7 @@ export class GenerateCourseRecommendationComponent {
             console.log('Success:', res);
             this.loading = false
             this.dialogRef.close('saved')
-            this.snackBar.open('Courses Saved Successfully', 'X', {
+            this.snackBar.open('Courses Updated Successfully', 'X', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
@@ -333,6 +335,12 @@ export class GenerateCourseRecommendationComponent {
       }
     } else {
       this.selectFilterCourses = []
+      
+    }
+
+    if(this.cbp_plan_id) {
+      this.mode = 'update'
+    } else {
       this.mode = 'add'
     }
 
@@ -450,18 +458,18 @@ export class GenerateCourseRecommendationComponent {
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+    //  console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+     // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
     } else {
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
-        hasCompetencies: !!course.competencies,
-        competenciesType: typeof course.competencies,
-        hasCompetenciesV6: !!course.competencies_v6,
-        competenciesV6Type: typeof course.competencies_v6,
-        courseKeys: Object.keys(course)
-      });
+      // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+      //   hasCompetencies: !!course.competencies,
+      //   competenciesType: typeof course.competencies,
+      //   hasCompetenciesV6: !!course.competencies_v6,
+      //   competenciesV6Type: typeof course.competencies_v6,
+      //   courseKeys: Object.keys(course)
+      // });
     }
     
     if (competencies.length === 0) {
@@ -489,7 +497,7 @@ export class GenerateCourseRecommendationComponent {
       return competencyArea === normalizedType;
     });
     
-    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+ //   console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 
