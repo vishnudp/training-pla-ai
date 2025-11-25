@@ -50,14 +50,14 @@ export class ViewCourseRecommendationComponent {
     //   this.getUserCourse()
     // })
 
-    this.sharedService.getRecommendedCourse(this.planData.id).subscribe({
+    this.sharedService.getUserRecommendationCourse(this.planData.id).subscribe({
       next: (res) => {
         this.loading = false
         console.log('res', res)
         this.recommended_course_id = res.id
         let allCourses = []
-        if(res && res.filtered_courses && res.filtered_courses.length) {
-          res.filtered_courses.forEach((item)=>{
+        if(res && res.selected_courses && res.selected_courses.length) {
+          res.selected_courses.forEach((item)=>{
             if(item?.relevancy > 85) {
               allCourses.push(item)
             }
@@ -66,8 +66,8 @@ export class ViewCourseRecommendationComponent {
         this.filterdCourses = allCourses
         console.log('this.filterdCourses', this.filterdCourses)
         this.updateCompetencyCounts()
-        this.getSuggestedCourse()
-        this.getUserCourse()
+        // this.getSuggestedCourse()
+        // this.getUserCourse()
       },
       error: (error) => {
         this.loading = false

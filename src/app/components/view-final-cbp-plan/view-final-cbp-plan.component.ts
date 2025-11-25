@@ -440,7 +440,7 @@ export class ViewFinalCbpPlanComponent {
     this.loading = true;
     const element = this.pdfContent.nativeElement;
     html2canvas(element, {
-      scale: 2,
+      scale: 1.25,
       useCORS: true,
       scrollY: 0,
       logging: true,
@@ -485,7 +485,7 @@ export class ViewFinalCbpPlanComponent {
           );
         }
 
-        const imgData = canvasPage.toDataURL('image/png');
+        const imgData = canvasPage.toDataURL('image/png',1);
         if (page > 0) pdf.addPage();
         const imgHeightMM = canvasPage.height / ratio;
         pdf.addImage(imgData, 'PNG', marginLeft, marginTop, usableWidth, imgHeightMM);
