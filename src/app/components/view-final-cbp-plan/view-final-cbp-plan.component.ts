@@ -229,7 +229,7 @@ export class ViewFinalCbpPlanComponent {
     if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'state') {
       this.loading = true
       console.log('this.sharedService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
-      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.id
+      let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.identifier
       let department_id = this.sharedService?.cbpPlanFinalObj.departments
       // this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
       //   console.log('res', res)
@@ -302,7 +302,6 @@ export class ViewFinalCbpPlanComponent {
       //   console.log('this.totalCompetencieObj', this.totalCompetencieObj )
 
       //  })
-
       this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
         next: (res) => {
           this.loading = false
@@ -440,7 +439,7 @@ export class ViewFinalCbpPlanComponent {
     this.loading = true;
     const element = this.pdfContent.nativeElement;
     html2canvas(element, {
-      scale: 2,
+      scale: 1.25,
       useCORS: true,
       scrollY: 0,
       logging: true,
@@ -485,7 +484,7 @@ export class ViewFinalCbpPlanComponent {
           );
         }
 
-        const imgData = canvasPage.toDataURL('image/png');
+        const imgData = canvasPage.toDataURL('image/png',1);
         if (page > 0) pdf.addPage();
         const imgHeightMM = canvasPage.height / ratio;
         pdf.addImage(imgData, 'PNG', marginLeft, marginTop, usableWidth, imgHeightMM);

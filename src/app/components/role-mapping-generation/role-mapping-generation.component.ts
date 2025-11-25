@@ -65,7 +65,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     'text/plain'
   ];
   uploadError: string | null = null;
-  uploadedFile: File | null = null;
+  uploadedFile: File[] | null = null;
   login = false
   cbpFinalObj:any = {}
   selectedMinistryId= ''
@@ -273,6 +273,11 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     if (file) {
       formData.append('additional_document', file);
     }
+    this.sharedService.cbpPlanFinalObj['departments'] = currentFormValues?.departments
+    const departmentName = this.departmentData.find(u => u.identifier=== currentFormValues.departments);
+    this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
+    alert()
+    localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     console.log('this.roleMappingForm', this.roleMappingForm)
     console.log('formData--', formData)
     for (const pair of formData.entries()) {
@@ -427,32 +432,51 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   onFileChange(event: any) {
-    const file: File = event.target.files[0];
-
-    if (!file) {
+    const files: FileList = event.target.files;
+    const maxFiles = 3;
+  
+    if (!files || files.length === 0) {
       return;
     }
-
-    // Validate file size
+  
+    // Check number of files
+    if (files.length > maxFiles) {
+      this.uploadError = `You can upload a maximum of ${maxFiles} files`;
+      this.roleMappingForm.get('additional_document')?.setErrors({ maxFiles: true });
+      return;
+    }
+  
+    const validFiles: File[] = [];
     const maxBytes = this.maxFileSizeMB * 1024 * 1024;
-    if (file.size > maxBytes) {
-      this.uploadError = `File exceeds maximum size of ${this.maxFileSizeMB}MB`;
-     this.roleMappingForm.get('additional_document')?.setErrors({ maxSize: true });
-      return;
+  
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+  
+      // Validate file size
+      if (file.size > maxBytes) {
+        this.uploadError = `File "${file.name}" exceeds maximum size of ${this.maxFileSizeMB}MB`;
+        this.roleMappingForm.get('additional_document')?.setErrors({ maxSize: true });
+        return;
+      }
+  
+      // Validate file type
+      if (!this.allowedTypes.includes(file.type)) {
+        this.uploadError = `Invalid file type for "${file.name}". Allowed: PDF, Word, Excel, TXT`;
+        this.roleMappingForm.get('additional_document')?.setErrors({ fileType: true });
+        return;
+      }
+  
+      validFiles.push(file);
     }
-
-    // Validate file type
-    if (!this.allowedTypes.includes(file.type)) {
-      this.uploadError = `Invalid file type. Allowed: PDF, Word, Excel, TXT`;
-      this.roleMappingForm.get('additional_document')?.setErrors({ fileType: true });
-      return;
-    }
-
-    this.uploadedFile = file;
+  
+    // If all files are valid
+    this.uploadedFile = validFiles;
+    console.log('this.uploadedFile', this.uploadedFile)
     this.uploadError = null;
-    this.roleMappingForm.patchValue({ additional_document: file });
+    this.roleMappingForm.patchValue({ additional_document: validFiles });
     this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
   }
+  
 
   loginStatus(event) {
     if(event) {
@@ -465,87 +489,104 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   }
 
   generateFinalRoleMapping() {
-    
     this.loading = true;
-    if (this.roleMappingForm.valid) {
-      const formData = this.roleMappingForm.value;
-      const currentFormValues = this.roleMappingForm.getRawValue();
-        let formUploadData :any= new FormData();
-        const selectedMinistry = this.ministryData.find(item => item.identifier === currentFormValues.ministry);
-        this.selectedMinistryObj = selectedMinistry
-        console.log('this.selectedMinistryObj', this.selectedMinistryObj)
-        // formUploadData.append('ministryType', currentFormValues.ministryType);
-        // formUploadData.append('ministry', currentFormValues.ministry);
-        // formUploadData.append('sectors', JSON.stringify(currentFormValues.sectors));
-        // formUploadData.append('departments', JSON.stringify(currentFormValues.departments));
-        formUploadData.append('state_center_id', currentFormValues.ministry || '');
-        formUploadData.append('state_center_name', this.selectedMinistryObj?.orgName || '');
-        if(currentFormValues.departments) {
-          formUploadData.append('department_id', currentFormValues.departments || '');
-        }
-        if(currentFormValues.additionalDetails) {
-          formUploadData.append('instruction', currentFormValues.additionalDetails || '');
-        }
-        const file: File = this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
-        console.log('file', file)
-        if (file) {
-          formUploadData.append('additional_document', file);
-        }
-        console.log('this.roleMappingForm', this.roleMappingForm)
-        console.log('formUploadData--', formUploadData)
-        for (const pair of formUploadData.entries()) {
-          console.log(`${pair[0]}:`, pair[1]);
-        }
-      console.log('Form submitted:', formData);
-      let sectors = Array.isArray(formData.sectors) ? formData.sectors.join(', ') : ''
-      this.sharedService.cbpPlanFinalObj['sectors'] = formData.sectors
-      // Submit logic here
-      let req = {
-        "state_center_id":formData.ministry,
-        "instruction": formData.additionalDetails,
-        "state_center_name":this.selectedMinistryObj?.orgName
+  
+    if (!this.roleMappingForm.valid) {
+      this.roleMappingForm.markAllAsTouched();
+      return;
+    }
+  
+    const currentFormValues = this.roleMappingForm.getRawValue();
+    let formUploadData = new FormData();
+  
+    // Ministry selection
+    const selectedMinistry = this.ministryData.find(item =>
+      item.identifier === currentFormValues.ministry
+    );
+  
+    this.selectedMinistryObj = selectedMinistry;
+  
+    // Append base fields
+    formUploadData.append('state_center_id', currentFormValues.ministry || '');
+    formUploadData.append('state_center_name', selectedMinistry?.orgName || '');
+  
+    if (currentFormValues.departments) {
+      formUploadData.append('department_id', currentFormValues.departments);
+    }
+  
+    if (currentFormValues.additionalDetails) {
+      formUploadData.append('instruction', currentFormValues.additionalDetails);
+    }
+  
+    // Get uploaded file(s)
+    const files: File | File[] =
+      this.uploadedFile || this.roleMappingForm.get('additional_document')?.value;
+  
+    console.log('Files selected:', files);
+  
+    // Append single or multiple files
+    if (files) {
+      if (Array.isArray(files)) {
+        files.forEach((file: File) => {
+          formUploadData.append('additional_document', file, file.name);
+        });
+      } else {
+        formUploadData.append('additional_document', files, files.name);
       }
-      if(this.selectedMinistryType === 'state') {
-        req['department_id'] = formData.departments ? formData.departments : ''
-        this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
-
-
-        const departmentName = this.departmentData.find(u => u.identifier=== formData.departments);
-        req['department_name'] = departmentName?.orgName
-        this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
-        this.sharedService.cbpPlanFinalObj['additionalDetails'] =  formData.additionalDetails
-        console.log(departmentName);
-
+    }
+  
+    // Debug: print FormData
+    console.log("FormData Debug:");
+    formUploadData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`${key}: FILE -> ${value.name} (${value.size} bytes)`);
+      } else {
+        console.log(`${key}: ${value}`);
       }
-      this.sharedService.cbpPlanFinalObj['ministryType'] = this.selectedMinistryType
-      interval(5000)  // every 5 seconds
+    });
+
+  
+    // Build request body for polling API
+    let req: any = {
+      state_center_id: currentFormValues.ministry,
+      instruction: currentFormValues.additionalDetails,
+      state_center_name: selectedMinistry?.orgName
+    };
+  
+    if (this.selectedMinistryType === 'state') {
+      const departmentName = this.departmentData.find(
+        d => d.identifier === currentFormValues.departments
+      );
+  
+      req.department_id = currentFormValues.departments || '';
+      req.department_name = departmentName?.orgName || '';
+    }
+  
+
+    
+    // Polling API
+    interval(5000)
       .pipe(
-        switchMap(() => this.sharedService.generateRoleMapping(req)),
-        tap(data => console.log('data--', data)),
-        takeWhile(data => data?.status !== 'COMPLETED', true) // keep going until COMPLETED (inclusive)
+        switchMap(() => this.sharedService.generateRoleMapping(req, files)),
+        takeWhile(data => data?.status !== 'COMPLETED', true)
       )
       .subscribe(data => {
-        if (data && data.status === 'COMPLETED') {
-          
+        if (data?.status === 'COMPLETED') {
           this.loading = false;
-
-          // Process final data
-          
+  
           this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = data?.role_mappings;
-          localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+          localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj));
+  
           this.successRoleMapping.emit(this.roleMappingForm);
-
+  
           this.snackBar.open('CBP Plan generated successfully!', 'X', {
             duration: 3000,
             panelClass: ['snackbar-success']
           });
         }
       });
-    } else {
-      this.roleMappingForm.markAllAsTouched();
-    }
-
   }
+  
 
   generateFinalRoleMappingWithStream() {
     this.loading = true;
@@ -792,19 +833,24 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       });
     }
   }
-
-  removeFile(): void {
-    this.uploadedFile = null;
-    this.uploadError = '';
-
-    // Also reset the input element if needed
-    const input = document.getElementById('uploadDoc') as HTMLInputElement;
-    if (input) {
-      input.value = '';
-    }
-    this.roleMappingForm.get('additional_document').setValue([])
+  removeFile(index: number): void {
+    if (!this.uploadedFile || this.uploadedFile.length === 0) return;
+  
+    // Remove one file at the given index
+    this.uploadedFile.splice(index, 1);
+  
+    // Update form control value
+    this.roleMappingForm.get('additional_document')?.setValue(this.uploadedFile);
     this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
+  
+    // Clear errors if no files left
+    if (this.uploadedFile.length === 0) {
+      this.uploadError = '';
+      const input = document.getElementById('uploadDoc') as HTMLInputElement;
+      if (input) input.value = '';
+    }
   }
+  
 
   getUserProfileData() {
     this.sharedService.getUserProfile().subscribe((data)=>{

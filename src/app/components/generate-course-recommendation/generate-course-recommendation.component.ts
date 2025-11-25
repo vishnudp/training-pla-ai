@@ -102,10 +102,12 @@ export class GenerateCourseRecommendationComponent {
     console.log('event', event)
     console.log('item', item)
     if (event.checked) {
-      this.selectFilterCourses.push(item?.identifier)
+      if(this.selectFilterCourses.indexOf(item?.identifier) < 0) {
+        this.selectFilterCourses.push(item?.identifier)
+      }  
     } else {
       const index = this.selectFilterCourses.findIndex(
-        control => control.identifier === item.identifier
+        control => control === item.identifier
       );
 
       if (index !== -1) {
@@ -164,7 +166,7 @@ export class GenerateCourseRecommendationComponent {
             console.log('Success:', res);
             this.loading = false
             this.dialogRef.close('saved')
-            this.snackBar.open('Courses Saved Successfully', 'X', {
+            this.snackBar.open('Courses Updated Successfully', 'X', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
@@ -335,6 +337,11 @@ export class GenerateCourseRecommendationComponent {
       }
     } else {
       this.selectFilterCourses = []
+      
+    }
+    if(this.cbp_plan_id) {
+      this.mode = 'update'
+    } else {
       this.mode = 'add'
     }
 

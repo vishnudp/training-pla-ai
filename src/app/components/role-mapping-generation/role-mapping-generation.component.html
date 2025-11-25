@@ -89,33 +89,57 @@
             </div>
 
         </div> -->
-
-            <div class="mt-4 additional-details" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <!-- *ngIf="roleMappingForm.get('ministryType')?.value === 'state'" -->
+            <div class="mt-4 additional-details">
                 <textarea rows="5" placeholder="Additional details" formControlName="additionalDetails"></textarea>
             </div>
-            <div class="mt-4 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <!-- *ngIf="roleMappingForm.get('ministryType')?.value === 'state'" -->
+            <div class="mt-4 section" >
                 <div class="sub-heading">
                     <p>Upload Document (PDF)</p>
                 </div>
                 <div class="file-upload-wrapper">
                     <label for="uploadDoc" class="file-upload-label">
                         <span class="file-upload-icon">📎</span>
-                        <span>{{ uploadedFile?.name || 'Choose a file (PDF)' }}
-                            <span *ngIf="uploadedFile" class="remove-file-icon" (click)="removeFile()">
-                                <mat-icon style="vertical-align: middle;margin-left: 5px;">close</mat-icon>
-                            </span>
+                      
+                        <!-- Text when no files are selected -->
+                        <span *ngIf="!uploadedFile || uploadedFile.length === 0">
+                          Choose up to 3 files (PDF/Word/Excel/TXT)
                         </span>
-                    </label>
+                      
+                        <!-- Show list of selected files -->
+                        <div *ngIf="uploadedFile?.length > 0" class="file-list">
+                          <div *ngFor="let file of uploadedFile; let i = index" class="file-item">
+                            {{ file.name }}
+                      
+                            <!-- Remove icon -->
+                            <span class="remove-file-icon" (click)="removeFile(i);$event.preventDefault()">
+                              <mat-icon>close</mat-icon>
+                            </span>
+                          </div>
+                        </div>
+                      </label>
+                      
+                      <!-- Actual file input -->
+                      <input
+                        id="uploadDoc"
+                        type="file"
+                        multiple
+                        (change)="onFileChange($event)"
+                        hidden
+                      />
+                      
 
                     <small class="file-upload-hint">Max file size: 25MB</small>
 
-                    <input id="uploadDoc" type="file" (change)="onFileChange($event)"
+                    <input id="uploadDoc" multiple type="file" (change)="onFileChange($event)"
                         accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" class="file-upload-input" />
 
                     <div *ngIf="uploadError" class="error">{{ uploadError }}</div>
                 </div>
             </div>
-            <div class="mt-2 section" *ngIf="roleMappingForm.get('ministryType')?.value === 'state'">
+            <!-- *ngIf="roleMappingForm.get('ministryType')?.value === 'state'" -->
+            <div class="mt-2 section">
                 <div class="disclaimer-text">
                     <p>Disclaimer: Please do not upload any confidential documents. </p>
                 </div>

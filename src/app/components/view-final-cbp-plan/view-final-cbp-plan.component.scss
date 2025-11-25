@@ -1123,3 +1123,36 @@ line-height: normal;
     flex-direction: row;
     width: 30%;
   }
+
+  .avoid-page-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-clean * {
+    box-shadow: none !important;       /* optional: remove shadows if slow */
+    filter: none !important;
+    transform: none !important;
+  }
+  
+  .view-cbp-plan.pdf-clean {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+  
+  /* Prevent page-break inside cards */
+  .section-container,
+  .popup-container,
+  .outside-layer-total,
+  .outside-layer-behavioral,
+  .outside-layer-functional,
+  .outside-layer-domain,
+  .section-shadow {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  
+  /* Optional: improve performance by hiding heavy backgrounds */
+  .bg-gradient-to-br {
+    background: none !important;
+  }

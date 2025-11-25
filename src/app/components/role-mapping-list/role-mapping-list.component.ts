@@ -273,7 +273,7 @@ export class RoleMappingListComponent {
         console.log('Changes saved!');
         // Refresh data or show a toast here
         console.log(this.sharedService.cbpPlanFinalObj)
-        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id) {
+        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && !this.sharedService.cbpPlanFinalObj.departments) {
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
             console.log('res', res)
             this.dataSource = new MatTableDataSource(res)
@@ -281,8 +281,15 @@ export class RoleMappingListComponent {
             this.originalData = res;
             console.log('this.dataSource',this.dataSource)
             })
-        } else {
-          
+        } else if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && this.sharedService.cbpPlanFinalObj.departments) {{
+          this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
+            console.log('res', res)
+            this.dataSource = new MatTableDataSource(res)
+            this.dataSource.paginator = this.paginator;
+            this.originalData = res;
+            console.log('this.dataSource',this.dataSource)
+            })
+          }
         }
         
       }

@@ -135,18 +135,18 @@ export class GapAnalysisRecommendedCourseComponent {
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+//      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+    //  console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
     } else {
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
-        hasCompetencies: !!course.competencies,
-        competenciesType: typeof course.competencies,
-        hasCompetenciesV6: !!course.competencies_v6,
-        competenciesV6Type: typeof course.competencies_v6,
-        courseKeys: Object.keys(course)
-      });
+      // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+      //   hasCompetencies: !!course.competencies,
+      //   competenciesType: typeof course.competencies,
+      //   hasCompetenciesV6: !!course.competencies_v6,
+      //   competenciesV6Type: typeof course.competencies_v6,
+      //   courseKeys: Object.keys(course)
+      // });
     }
     
     if (competencies.length === 0) {
@@ -174,7 +174,7 @@ export class GapAnalysisRecommendedCourseComponent {
       return competencyArea === normalizedType;
     });
     
-    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+//    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 
