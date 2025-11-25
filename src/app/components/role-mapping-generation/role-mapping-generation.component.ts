@@ -276,7 +276,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     this.sharedService.cbpPlanFinalObj['departments'] = currentFormValues?.departments
     const departmentName = this.departmentData.find(u => u.identifier=== currentFormValues.departments);
     this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
-    alert()
+    
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     console.log('this.roleMappingForm', this.roleMappingForm)
     console.log('formData--', formData)

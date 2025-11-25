@@ -5,6 +5,7 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -26,6 +27,7 @@ export class ViewFinalCbpPlanComponent {
   designationData: any = []
   totalCompetencieObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
   pdfTrigger = false
+  jsonData = []
   @ViewChild('dialogContent') dialogContent!: ElementRef;
   // designationData = [
   //   {
@@ -116,6 +118,8 @@ export class ViewFinalCbpPlanComponent {
   }
 
   ngAfterViewInit() {
+    console.log('this.data', this.data)
+    this.jsonData = this.data
     this.cdr.detectChanges();
 
     setTimeout(() => {
@@ -504,4 +508,116 @@ export class ViewFinalCbpPlanComponent {
 
 
   }
-}
+
+  
+    
+  generateExcel(jsonArray: any[], filename: string = "final.xlsx") {
+    console.log('jsonArray', jsonArray)
+    if (!jsonArray || jsonArray.length === 0) return;
+
+    // -------- MAIN HEADER FROM FIRST OBJECT ---------
+    const firstObj = jsonArray[0];
+    let title = firstObj.state_center_name || "";
+    if (firstObj.department_name) title += " / " + firstObj.department_name;
+
+    // -------- COLUMN HEADERS ---------
+    const headers = [
+      "Designation",
+      "Role & Responsibilities",
+      "Activities",
+      "Behavioral Competencies",
+      "Functional Competencies",
+      "Domain Competencies"
+    ];
+
+    // -------- DATA ROWS ---------
+    const dataRows = jsonArray.map(json => ({
+      "Designation": `${json.designation_name} : Wing/Division - ${json.wing_division_section}`,
+      "Role & Responsibilities": (json.role_responsibilities || [])
+        .map((v: string, i: number) => `${i + 1}. ${v}`).join("\n\n"),
+      "Activities": (json.activities || [])
+        .map((v: string, i: number) => `${i + 1}. ${v}`).join("\n\n"),
+      "Behavioral Competencies": (json.competencies || [])
+        .filter((c: any) => c.type === "Behavioral")
+        .map((c: any, i: number) => `${i + 1}. ${c.theme} - ${c.sub_theme}`).join("\n\n"),
+      "Functional Competencies": (json.competencies || [])
+        .filter((c: any) => c.type === "Functional")
+        .map((c: any, i: number) => `${i + 1}. ${c.theme} - ${c.sub_theme}`).join("\n\n"),
+      "Domain Competencies": (json.competencies || [])
+        .filter((c: any) => c.type === "Domain")
+        .map((c: any, i: number) => `${i + 1}. ${c.theme} - ${c.sub_theme}`).join("\n\n"),
+    }));
+
+    // -------- CREATE WORKSHEET ---------
+    const ws = XLSX.utils.aoa_to_sheet([]);
+
+    // Main header (merged)
+    XLSX.utils.sheet_add_aoa(ws, [[title]], { origin: "A1" });
+    ws['!merges'] = [{
+      s: { r: 0, c: 0 },
+      e: { r: 0, c: headers.length - 1 }
+    }];
+
+    // Column headers at row 2
+    XLSX.utils.sheet_add_aoa(ws, [headers], { origin: "A2" });
+
+    // Style column headers
+    headers.forEach((header, index) => {
+      const cellAddress = XLSX.utils.encode_cell({ r: 1, c: index });
+      if (ws[cellAddress]) {
+        ws[cellAddress].s = {
+          font: { bold: true },
+          fill: { patternType: "solid", fgColor: { rgb: "FFFF00" } },
+          alignment: { horizontal: "center", vertical: "center", wrapText: true }
+        };
+      }
+    });
+
+    // Insert data rows starting from row 3
+    XLSX.utils.sheet_add_json(ws, dataRows, { origin: "A3", skipHeader: true });
+
+    // Auto column widths based on longest line in each column
+    const colWidths = headers.map((header, idx) => {
+      const maxLen = Math.max(
+        header.length,
+        ...dataRows.map(row => (row[header] || "").split("\n").reduce((a, b) => Math.max(a, b.length), 0))
+      );
+      return { wch: Math.min(Math.max(maxLen + 5, 20), 80) }; // min 20, max 80
+    });
+    ws['!cols'] = colWidths;
+
+    // Wrap text in data rows
+    dataRows.forEach((row, rowIndex) => {
+      headers.forEach((header, colIndex) => {
+        const cellAddress = XLSX.utils.encode_cell({ r: rowIndex + 2, c: colIndex });
+        if (ws[cellAddress]) {
+          ws[cellAddress].s = { alignment: { wrapText: true, vertical: "top" } };
+        }
+      });
+    });
+
+    // Style main header
+    if (ws["A1"]) {
+      ws["A1"].s = {
+        font: { bold: true, sz: 16 },
+        alignment: { horizontal: "center", vertical: "center" }
+      };
+    }
+
+    // -------- CREATE WORKBOOK ---------
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+    // Export Excel
+    XLSX.writeFile(wb, filename);
+  }
+
+      
+    
+
+    downloadCSV() {
+      this.generateExcel(this.jsonData,  'final.xlsx');
+    }
+  
+  }
+

@@ -477,7 +477,7 @@ export class RoleMappingListComponent {
   viewFinalCBPPlan() {
     const dialogRef = this.dialog.open(ViewFinalCbpPlanComponent, {
       width: '1100px',
-      data: '',
+      data: this.originalData,
        panelClass: 'view-cbp-plan-popup',
       minHeight: '300px',          // Set minimum height
       maxHeight: '90vh',           // Prevent it from going beyond viewport
