@@ -547,4 +547,12 @@ export class SharedService {
       return `${remainingSeconds}s`;
     }
   }
+
+  getUserRecommendationCourse(role_mapping_id) {
+    const headers = this.headers
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_USER_SELECTED_COURSES}?role_mapping_id=${role_mapping_id}`,  {headers})
+      .pipe(map((response: any) => {
+        return response
+      }))
+  }
 }
