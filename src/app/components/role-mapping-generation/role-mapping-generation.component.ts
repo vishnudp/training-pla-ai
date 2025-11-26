@@ -57,7 +57,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   ]
   departmentData = []
   loading = false
-  maxFileSizeMB = 5;
+  maxFileSizeMB = 25;
   allowedTypes = [
     'application/pdf',
     'application/msword',
