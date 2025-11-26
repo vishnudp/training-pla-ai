@@ -1156,3 +1156,17 @@ line-height: normal;
   .bg-gradient-to-br {
     background: none !important;
   }
+
+  .section-container, 
+  .outside-layer-total,
+  .outside-layer-behavioral,
+  .outside-layer-functional,
+  .outside-layer-domain,
+  .competencis-grid {
+    page-break-inside: avoid;
+  }
+  
+  /* Force page breaks if needed */
+  .page-break {
+    page-break-before: always;
+  }
