@@ -3,14 +3,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HEADER_DATA } from 'src/app/modules/shared/constant/app.constant';
 import { EventService } from 'src/app/modules/shared/services/event.service';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import html2pdf from 'html2pdf.js';
 import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoleMappingService } from 'src/app/modules/shared/services/role-mapping.service';
-import { interval } from 'rxjs';
+import { interval, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, takeWhile, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators'; 
+
 @Component({
   selector: 'app-role-mapping-generation',
   templateUrl: './role-mapping-generation.component.html',
@@ -87,6 +89,9 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   @Output() loginSuccess = new EventEmitter<any>()
   selectedMinistryObj:any = ''
   loginUserOrgIds = []
+  panelOpen = false;
+filteredList = [];
+originalMinistryData = []
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -142,7 +147,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       });
     }
 
-
+   
 
 
 
@@ -339,6 +344,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
     this.sharedService.getMinistryData(this.selectedMinistryType).subscribe((data:any)=>{
       console.log('data--', data)
       this.ministryFullData = data
+      
       this.ministryData = []
       if(this.selectedMinistryType === 'center') {
         data.forEach((item)=>{
@@ -864,7 +870,32 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
       })
 
       this.ministryData = filteredMinistryData
+      this.originalMinistryData = filteredMinistryData
+      this.filteredList = filteredMinistryData;
     })
   }
+
+  onOpened(opened: boolean) {
+    this.panelOpen = opened;
+  }
+  
+  filterData(event) {
+    if(event && event.target && event.target.value) {
+      const s = event.target.value.toLowerCase();
+    
+      this.filteredList = this.ministryData.filter(x =>
+        x.orgName.toLowerCase().includes(s)
+      );
+    } else {
+      this.filteredList = this.ministryData
+    }
+    
+  }
+
+
+
+  
 }
+
+
 

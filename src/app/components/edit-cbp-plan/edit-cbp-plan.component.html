@@ -189,14 +189,25 @@
                     </div>
 
                     <!-- Add Button -->
-                    <div class="add-button-section" *ngIf="selectedCompetencyType">
-                        <button type="button"
+                    <div class="add-button-section" *ngIf="selectedCompetencyType ">
+                        <button type="button" *ngIf="!editDomainCompetencyFlag"
                                 class="add-competency-btn"
                                 [disabled]="!canAddCompetency()"
                                 [ngClass]="canAddCompetency() ? 'btn-active' : 'btn-disable'"
                                 (click)="addCompetency()">
                             Add Competency
                         </button>
+                        <button type="button" *ngIf="editDomainCompetencyFlag"
+                        class="add-competency-btn btn-active"
+                        
+                        (click)="updateCompetency()">
+                    Update Competency
+                </button>
+                <button type="button" *ngIf="editDomainCompetencyFlag"
+                        class="add-competency-btn btn-active" style="margin-left: 5px;"
+                        
+                        (click)="cancelUpdate()">
+                    Cancel                 </button>
                     </div>
                 </div>
                 <div class="mt-4">
@@ -238,6 +249,9 @@
                             *ngFor="let comp of getCompetenciesByType('Domain')">
                             <span class="competency-text-domain">
                                 {{ comp.theme }} - {{ comp.sub_theme }}
+                            </span>
+                            <span class="cursor-pointer edit" (click)="editCompetency(comp)">
+                                <mat-icon>edit</mat-icon>
                             </span>
                             <span class="cursor-pointer close" (click)="deleteCompetency(comp)">
                                 <mat-icon>close</mat-icon>

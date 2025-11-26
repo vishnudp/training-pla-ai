@@ -31,6 +31,8 @@ export class EditCbpPlanComponent implements OnInit{
   manualSubTheme = '';
   themeSearchText = '';
   subThemeSearchText = '';
+  editDomainCompetencyFlag = false
+  editCompetencyIndex = -1
   constructor(
     public dialogRef: MatDialogRef<EditCbpPlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -378,6 +380,72 @@ export class EditCbpPlanComponent implements OnInit{
     }
     this.updateCompetencyCounts();
     this.cdRef.detectChanges();
+  }
+
+  editCompetency(comp) {
+    this.editDomainCompetencyFlag = true
+    this.editCompetencyIndex = -1
+    this.cbpForm.patchValue({
+      competencyType: 'Domain',
+      manualThemeInput: comp?.theme,
+      manualSubThemeInput: comp?.sub_theme
+    });
+    const index = this.competenciesArray.value.findIndex(c => 
+      c.theme === comp?.theme &&
+      c.sub_theme === comp?.sub_theme &&
+      c.type === "Domain"
+    );
+    if(index > -1) {
+      this.editCompetencyIndex = index
+    }
+    this.selectedCompetencyType = 'Domain'
+  }
+
+  cancelUpdate() {
+    this.editDomainCompetencyFlag = false
+    this.editCompetencyIndex = -1
+    this.resetCompetencyForm()
+  }
+
+  updateCompetency() {
+    let type = this.selectedCompetencyType;
+    let theme = '';
+    let subTheme = '';
+    
+    if (type === 'Domain') {
+      // For Domain, use manual input
+      theme = this.cbpForm.value.manualThemeInput?.trim();
+      subTheme = this.cbpForm.value.manualSubThemeInput?.trim();
+    }
+    console.log(' this.competenciesArray',  this.competenciesArray)
+    if (type && theme && subTheme) {
+      
+      console.log('this.editCompetencyIndex--',this.editCompetencyIndex)
+      if(this.editCompetencyIndex > -1) {
+        this.competenciesArray.value[this.editCompetencyIndex]['type'] = type
+        this.competenciesArray.value[this.editCompetencyIndex]['theme'] = theme
+        this.competenciesArray.value[this.editCompetencyIndex]['sub_theme'] = subTheme
+      }
+      
+      // if (!exists) {
+      //   const newComp = this.fb.group({
+      //     type: [type],
+      //     theme: [theme],
+      //     sub_theme: [subTheme]
+      //   });
+      //   this.competenciesArray.push(newComp);
+      // }
+      
+      // Clear input fields after adding
+      this.resetCompetencyForm();
+    }
+    
+    const currentValues = this.competenciesArray.value;
+    this.cbpForm.patchValue({ competencies: [...currentValues] });
+    
+    this.updateCompetencyCounts();
+    this.cdRef.detectChanges();
+    console.log(this.cbpForm?.get('competencies')?.value);
   }
 
 

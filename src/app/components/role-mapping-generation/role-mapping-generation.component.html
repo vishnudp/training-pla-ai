@@ -48,14 +48,22 @@
                     <span *ngIf="selectedMinistryType === 'centeral' || selectedMinistryType === 'center'">Ministry/ Department</span>
                     <span *ngIf="selectedMinistryType === 'state'">State</span>
                 </label>
-                <div class="mt-2">
+                <div class="mt-2 search-box-with-select">
                     <mat-form-field appearance="fill"
                         style="background: white; border-radius: 25px; padding: 0 12px; border: 1px solid #ccc;">
                         <mat-select
                             [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
-                            style="border-radius: 25px; background: white;">
-                            <mat-option [value]="item?.identifier" *ngFor="let item of ministryData" [selected]="selectedMinistryId === item?.identifier">{{item?.orgName}}</mat-option>
+                            style="border-radius: 25px; background: white;" 
+                            (openedChange)="onOpened($event)">
+                            <div class="search-wrapper" *ngIf="panelOpen">
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    (input)="filterData($event)"
+                                    class="search-input">
+                            </div>
+                            <mat-option [value]="item?.identifier" *ngFor="let item of filteredList" [selected]="selectedMinistryId === item?.identifier">{{item?.orgName}}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -104,7 +112,7 @@
                       
                         <!-- Text when no files are selected -->
                         <span *ngIf="!uploadedFile || uploadedFile.length === 0">
-                          Choose up to 3 files (PDF/Word/Excel/TXT)
+                          Choose up to 3 files (PDF/TXT)
                         </span>
                       
                         <!-- Show list of selected files -->

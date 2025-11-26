@@ -711,3 +711,31 @@ display: inline-block; /* Required in some cases */
     font-weight: 400;
     
   }
+
+/* Force search wrapper width to match panel exactly */
+.mat-select-panel .search-wrapper {
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+  }
+  
+  /* Ensure search input fills correctly */
+  .search-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  ::ng-deep {
+    .mat-select-panel-wrap {
+        border: 1px solid #ccc !important;
+        overflow: hidden;
+    }
+  }

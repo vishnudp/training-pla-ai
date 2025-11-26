@@ -772,6 +772,11 @@ border: none;
     width: 18px !important;
 }
 
+.edit .mat-icon {
+  height: auto !important;
+  width: auto !important;
+}
+
 :host ::ng-deep .mat-select-arrow-wrapper {
     height: 6px !important;
 }
