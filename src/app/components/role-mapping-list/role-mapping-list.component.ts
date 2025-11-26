@@ -225,11 +225,12 @@ export class RoleMappingListComponent {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      if (result === 'saved') {
-        console.log('Changes saved!');
-        // Refresh data or show a toast here
-        this.refreshRoleMappingData();
-      }
+      // if (result === 'saved') {
+      //   console.log('Changes saved!');
+      //   // Refresh data or show a toast here
+        
+      // }
+      this.refreshRoleMappingData();
     });
   }
   

@@ -1,5 +1,5 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -33,6 +33,8 @@ export class EditCbpPlanComponent implements OnInit{
   subThemeSearchText = '';
   editDomainCompetencyFlag = false
   editCompetencyIndex = -1
+  originalCompetencyValueArr:any = []
+  @ViewChild('dialogContent') dialogContent!: ElementRef;
   constructor(
     public dialogRef: MatDialogRef<EditCbpPlanComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -187,9 +189,15 @@ export class EditCbpPlanComponent implements OnInit{
     // Mark all controls as pristine and untouched without changing the values
     this.cbpForm.markAsPristine();
     this.cbpForm.markAsUntouched();
-  
+    this.competenciesArray.value = this.originalCompetencyValueArr
+    console.log('this.competenciesArray',this.competenciesArray)
     // Also, if you want to mark all child controls (FormControls / FormArrays / FormGroups) as pristine and untouched
     this.markFormGroupPristineUntouched(this.cbpForm);
+    if(this.editCompetencyIndex > -1) {
+      this.competenciesArray.value[this.editCompetencyIndex]['type'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['type']
+      this.competenciesArray.value[this.editCompetencyIndex]['theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['theme']
+      this.competenciesArray.value[this.editCompetencyIndex]['sub_theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['sub_theme']
+    }
     this.dialogRef.close()
   }
   
@@ -205,7 +213,7 @@ export class EditCbpPlanComponent implements OnInit{
     });
   }
 
-  get competenciesArray(): FormArray {
+  get competenciesArray(): any {
     return this.cbpForm.get('competencies') as FormArray;
   }
 
@@ -399,6 +407,12 @@ export class EditCbpPlanComponent implements OnInit{
       this.editCompetencyIndex = index
     }
     this.selectedCompetencyType = 'Domain'
+    setTimeout(() => {
+      this.dialogContent.nativeElement.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }, 500)
   }
 
   cancelUpdate() {
@@ -416,6 +430,7 @@ export class EditCbpPlanComponent implements OnInit{
       // For Domain, use manual input
       theme = this.cbpForm.value.manualThemeInput?.trim();
       subTheme = this.cbpForm.value.manualSubThemeInput?.trim();
+      this.originalCompetencyValueArr = JSON.parse(JSON.stringify(this.competenciesArray.value))
     }
     console.log(' this.competenciesArray',  this.competenciesArray)
     if (type && theme && subTheme) {
@@ -438,6 +453,7 @@ export class EditCbpPlanComponent implements OnInit{
       
       // Clear input fields after adding
       this.resetCompetencyForm();
+      console.log('this.originalCompetencyValueArr', this.originalCompetencyValueArr)
     }
     
     const currentValues = this.competenciesArray.value;

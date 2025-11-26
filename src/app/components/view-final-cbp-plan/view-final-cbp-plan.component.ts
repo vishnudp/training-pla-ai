@@ -509,7 +509,7 @@ export class ViewFinalCbpPlanComponent {
 
   }
 
-  async downloadPDFNew() {
+  downloadPDFNew() {
     this.loading = true
     const element = this.pdfContent.nativeElement;
 
@@ -534,6 +534,10 @@ export class ViewFinalCbpPlanComponent {
       // Handle errors and stop loading
       this.loading = false;
     });
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
 
 
   

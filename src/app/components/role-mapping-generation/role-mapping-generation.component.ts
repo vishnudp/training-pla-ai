@@ -440,48 +440,59 @@ originalMinistryData = []
   onFileChange(event: any) {
     const files: FileList = event.target.files;
     const maxFiles = 3;
-  
+
     if (!files || files.length === 0) {
-      return;
+        return;
     }
-  
+
     // Check number of files
     if (files.length > maxFiles) {
-      this.uploadError = `You can upload a maximum of ${maxFiles} files`;
-      this.roleMappingForm.get('additional_document')?.setErrors({ maxFiles: true });
-      return;
+        this.uploadError = `You can upload a maximum of ${maxFiles} files`;
+        this.roleMappingForm.get('additional_document')?.setErrors({ maxFiles: true });
+        return;
     }
-  
+
     const validFiles: File[] = [];
+    const invalidFiles: string[] = [];
     const maxBytes = this.maxFileSizeMB * 1024 * 1024;
-  
+
     for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-  
-      // Validate file size
-      if (file.size > maxBytes) {
-        this.uploadError = `File "${file.name}" exceeds maximum size of ${this.maxFileSizeMB}MB`;
-        this.roleMappingForm.get('additional_document')?.setErrors({ maxSize: true });
-        return;
-      }
-  
-      // Validate file type
-      if (!this.allowedTypes.includes(file.type)) {
-        this.uploadError = `Invalid file type for "${file.name}". Allowed: PDF, Word, Excel, TXT`;
-        this.roleMappingForm.get('additional_document')?.setErrors({ fileType: true });
-        return;
-      }
-  
-      validFiles.push(file);
+        const file = files[i];
+
+        // Validate file size
+        if (file.size > maxBytes) {
+            invalidFiles.push(`${file.name} (size exceeds ${this.maxFileSizeMB}MB)`);
+            continue; // Skip invalid file but continue checking others
+        }
+
+        // Validate file type
+        if (!this.allowedTypes.includes(file.type)) {
+            invalidFiles.push(`${file.name} (invalid file type)`);
+            continue; // Skip invalid file
+        }
+
+        validFiles.push(file);
     }
-  
-    // If all files are valid
-    this.uploadedFile = validFiles;
-    console.log('this.uploadedFile', this.uploadedFile)
-    this.uploadError = null;
-    this.roleMappingForm.patchValue({ additional_document: validFiles });
+
+    if (validFiles.length > 0) {
+        // At least one valid file, form should be valid
+        this.uploadedFile = validFiles;
+        this.uploadError = invalidFiles.length > 0 
+            ? `Some files were skipped: ${invalidFiles.join(', ')}` 
+            : null;
+
+        this.roleMappingForm.patchValue({ additional_document: validFiles });
+        this.roleMappingForm.get('additional_document')?.setErrors(null); // Clear errors
+    } else {
+        // No valid files, form is invalid
+        this.uploadedFile = [];
+        this.uploadError = `All files are invalid: ${invalidFiles.join(', ')}`;
+        this.roleMappingForm.get('additional_document')?.setErrors({ invalidFiles: true });
+    }
+
     this.roleMappingForm.get('additional_document')?.updateValueAndValidity();
-  }
+}
+
   
 
   loginStatus(event) {
