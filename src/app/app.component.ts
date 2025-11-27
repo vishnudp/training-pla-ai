@@ -18,7 +18,7 @@ export class AppComponent {
   dataSource: any
   displayedColumns: string[] = ['RequestId', 'title', 'requestor', 'requestType',
     'requestStatus', 'assignee', 'requestedOn', 'interests', 'action']
-    selectedMinistryType: string = 'center';
+    selectedMinistryType: string = 'ministry';
     ministryData:any = []
   ministryFullData:any = []
   sectorData = [
@@ -62,7 +62,7 @@ export class AppComponent {
     this.userEmail = localStorage.getItem('userEmail')
    }
    this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
-   if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'center' || this.cbpFinalObj?.ministryType === 'state')) {
+   if(this.cbpFinalObj && this.cbpFinalObj?.ministry && (this.cbpFinalObj?.ministry?.sbOrgType === 'ministry' || this.cbpFinalObj?.ministry?.sbOrgType === 'state')) {
     this.nextStep = 'role-mapping'
    } else {
     this.nextStep = 'initial'

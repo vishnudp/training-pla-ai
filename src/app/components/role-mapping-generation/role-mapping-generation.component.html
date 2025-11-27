@@ -26,10 +26,10 @@
                     [(ngModel)]="selectedMinistryType" (change)="onMinistryTypeChange($event)">
 
                     <!-- Left radio button -->
-                    <mat-radio-button value="center" class="radio-btn left-radio">
+                    <mat-radio-button value="ministry" class="radio-btn left-radio">
                         <span class="radio-label">
                             <!-- <mat-icon class="radio-icon" [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">domain</mat-icon>  -->
-                            <span [ngClass]="selectedMinistryType === 'center'? 'checked-label':''">Centre</span>
+                            <span [ngClass]="selectedMinistryType === 'ministry'? 'checked-label':''">Centre</span>
                         </span>
                     </mat-radio-button>
 
@@ -44,15 +44,17 @@
                 </mat-radio-group>
             </div>
             <div class="mt-4">
+                
                 <label class="label">
-                    <span *ngIf="selectedMinistryType === 'centeral' || selectedMinistryType === 'center'">Ministry/ Department</span>
+                    <span *ngIf="selectedMinistryType === 'ministry'">Ministry/ Department</span>
                     <span *ngIf="selectedMinistryType === 'state'">State</span>
                 </label>
                 <div class="mt-2 search-box-with-select">
+                    
                     <mat-form-field appearance="fill"
                         style="background: white; border-radius: 25px; padding: 0 12px; border: 1px solid #ccc;">
                         <mat-select
-                            [placeholder]="selectedMinistryType === 'center' ? 'Select Ministry/ Department':'Select State'"
+                            [placeholder]="selectedMinistryType === 'ministry' ? 'Select Ministry/ Department':'Select State'"
                             (selectionChange)="onMinistryChange($event)" formControlName="ministry"
                             style="border-radius: 25px; background: white;" 
                             (openedChange)="onOpened($event)">

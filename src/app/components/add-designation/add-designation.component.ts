@@ -94,7 +94,7 @@ export class AddDesignationComponent {
       "designation_name": this.designationForm.value.designation_name,
       "instruction": this.designationForm.value.instruction,
     }
-    if(this.sharedService.cbpPlanFinalObj?.ministryType === 'state') {
+    if(this.sharedService.cbpPlanFinalObj?.ministry?.sbOrgType === 'state') {
       req['department_id'] = this.sharedService.cbpPlanFinalObj.departments
     }
     

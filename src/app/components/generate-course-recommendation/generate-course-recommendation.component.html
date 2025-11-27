@@ -644,8 +644,8 @@
     <div class="gap-analysis-pdf-header">
       <img src="assets/icons/karmayogiLogo-min.png" alt="Karmayogi Bharat Logo" class="logo" />
       <h1><span>
-        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'state'">{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span> 
-        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'center'">{{sharedService?.cbpPlanFinalObj?.ministry?.name}}</span>   
+        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'state'">{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span> 
+        <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.name}}</span>   
         <span *ngIf="planData?.designation_name ">/ {{planData?.designation_name}}</span>
         </span></h1>
       <p class="subtitle">A detailed breakdown of competencies Gap Analysis</p>

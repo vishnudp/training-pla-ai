@@ -256,7 +256,7 @@ export class SharedService {
 
   getMinistryData(ministryType) {
     let sub_org_type = ''
-    if(ministryType == 'center') {
+    if(ministryType == 'ministry') {
       sub_org_type = 'ministry'
     } else {
       sub_org_type = 'state'

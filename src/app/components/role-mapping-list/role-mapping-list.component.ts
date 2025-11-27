@@ -53,26 +53,27 @@ export class RoleMappingListComponent {
 
   ngOnInit() {
     console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
-    this.dataSource = new MatTableDataSource(this.sharedService?.cbpPlanFinalObj?.role_mapping_generation)
-    this.originalData = this.sharedService?.cbpPlanFinalObj?.role_mapping_generation
+    
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
-    if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType)) {
+    this.dataSource = new MatTableDataSource(this.cbpFinalObj?.role_mapping_generation)
+    this.originalData = this.cbpFinalObj?.role_mapping_generation
+    if(this.cbpFinalObj && this.cbpFinalObj?.ministry && (this.cbpFinalObj?.ministry.sbOrgType)) {
       this.sharedService.cbpPlanFinalObj = this.cbpFinalObj
-      if(this.cbpFinalObj?.ministryType === 'center') {
+      if(this.cbpFinalObj?.ministry.sbOrgType === 'ministry') {
         this.formData = {}
         this.formData['value'] = {}
-        this.formData['value']['ministryType'] = this.cbpFinalObj.ministryType
+        this.formData['value']['ministryType'] = this.cbpFinalObj?.ministry.sbOrgType
         this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.identifier
-      } else if (this.cbpFinalObj?.ministryType === 'state') {
+      } else if (this.cbpFinalObj?.ministry.sbOrgType === 'state') {
         this.formData = {}
         this.formData['value'] = {}
-        this.formData['value']['ministryType'] = this.cbpFinalObj.ministryType
+        this.formData['value']['ministryType'] = this.cbpFinalObj?.ministry.sbOrgType
         this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.identifier
         this.formData['value']['departments'] = this.cbpFinalObj?.departments
       }
     } 
     console.log('this.formData', this.formData  )
-      if(this.formData && this.formData.value && this.formData.value.ministryType === 'center') {
+      if(this.formData && this.formData.value && this.formData.value.ministryType === 'ministry') {
         let state_center_id = this.formData.value.ministry
         this.loading = true
         this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
@@ -164,12 +165,12 @@ export class RoleMappingListComponent {
   refreshRoleMappingData() {
     console.log('Refreshing role mapping data...');
     if (this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.identifier) {
-      const ministryType = this.sharedService.cbpPlanFinalObj.ministryType;
+      const ministryType = this.sharedService.cbpPlanFinalObj.ministry.sbOrgType;
       const ministryId = this.sharedService.cbpPlanFinalObj.ministry.identifier;
       
       this.loading = true;
       
-      if (ministryType === 'center') {
+      if (ministryType === 'ministry') {
         this.sharedService.getRoleMappingByStateCenter(ministryId).subscribe({
           next: (res) => {
             this.loading = false;
@@ -451,7 +452,7 @@ export class RoleMappingListComponent {
         // Refresh data or show a toast here
         console.log(this.sharedService.cbpPlanFinalObj)
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.identifier && 
-          this.sharedService.cbpPlanFinalObj.ministryType === 'center'
+          this.sharedService.cbpPlanFinalObj.ministry?.sbOrgType === 'ministry'
         ) {
 
           this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.identifier).subscribe((res)=>{

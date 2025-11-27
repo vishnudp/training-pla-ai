@@ -29,7 +29,7 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   dataSource: any
   displayedColumns: string[] = ['RequestId', 'title', 'requestor', 'requestType',
     'requestStatus', 'assignee', 'requestedOn', 'interests', 'action']
-    selectedMinistryType: string = 'center';
+    selectedMinistryType: string = 'ministry';
     ministryData:any = []
   ministryFullData:any = []
   roleMappingForm!: FormGroup;
@@ -109,7 +109,7 @@ originalMinistryData = []
     this.login = this.sharedService.checkIfLogin()
 
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
-    if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType)) {
+    if(this.cbpFinalObj && this.cbpFinalObj?.ministry && this.cbpFinalObj?.ministry?.sbOrgType) {
       
 
       this.editMinistryForm()
@@ -120,7 +120,7 @@ originalMinistryData = []
       }
       
       this.roleMappingForm = this.fb.group({
-        ministryType: ['center', Validators.required],
+        ministryType: ['ministry', Validators.required],
         ministry: [null, Validators.required],
         sectors: [[]],
         departments: [[]], // shown only if ministryType == 'state'
@@ -154,8 +154,8 @@ originalMinistryData = []
   }
 
   async editMinistryForm() {
-    if(this.cbpFinalObj?.ministryType === 'center') {
-      this.selectedMinistryType = this.cbpFinalObj?.ministryType
+    if(this.cbpFinalObj?.ministry.sbOrgType === 'ministry') {
+      this.selectedMinistryType = this.cbpFinalObj?.ministry.sbOrgType
 
       await this.getMinistryData()
 
@@ -192,8 +192,8 @@ originalMinistryData = []
       }
 
       //this.onGenerateRoleMapping()
-    } else if( this.cbpFinalObj?.ministryType === 'state') {
-      this.selectedMinistryType = this.cbpFinalObj?.ministryType
+    } else if( this.cbpFinalObj?.ministry?.sbOrgType === 'state') {
+      this.selectedMinistryType = this.cbpFinalObj?.ministry?.sbOrgType
       await this.getMinistryData()
       await this.sharedService.getDepartmentList(this.cbpFinalObj?.ministry?.identifier).subscribe((res)=>{
         this.departmentData = res
@@ -346,7 +346,7 @@ originalMinistryData = []
       this.ministryFullData = data
       
       this.ministryData = []
-      if(this.selectedMinistryType === 'center') {
+      if(this.selectedMinistryType === 'ministry') {
         data.forEach((item)=>{
           if(item?.sbOrgType === 'ministry') {
             this.ministryData.push(item)
@@ -380,13 +380,19 @@ originalMinistryData = []
           this.ministryData.push(item)
         }
       })
-    } else if(event?.value === 'center') {
+    } else if(event?.value === 'ministry') {
       this.roleMappingForm.get('sectors')?.setValue([]);
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'central') {
           this.ministryData.push(item)
         }
       })
+    }
+    if(!this.sharedService.cbpPlanFinalObj?.ministry) {
+      this.roleMappingForm.setErrors({ invalid: true });
+      setTimeout(()=>{
+        this.roleMappingForm.updateValueAndValidity();
+      },5000)
     }
   }
 

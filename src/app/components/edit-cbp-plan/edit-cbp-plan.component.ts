@@ -189,15 +189,15 @@ export class EditCbpPlanComponent implements OnInit{
     // Mark all controls as pristine and untouched without changing the values
     this.cbpForm.markAsPristine();
     this.cbpForm.markAsUntouched();
-    this.competenciesArray.value = this.originalCompetencyValueArr
-    console.log('this.competenciesArray',this.competenciesArray)
+   // this.competenciesArray.value = this.originalCompetencyValueArr
+   // console.log('this.competenciesArray',this.competenciesArray)
     // Also, if you want to mark all child controls (FormControls / FormArrays / FormGroups) as pristine and untouched
     this.markFormGroupPristineUntouched(this.cbpForm);
-    if(this.editCompetencyIndex > -1) {
-      this.competenciesArray.value[this.editCompetencyIndex]['type'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['type']
-      this.competenciesArray.value[this.editCompetencyIndex]['theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['theme']
-      this.competenciesArray.value[this.editCompetencyIndex]['sub_theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['sub_theme']
-    }
+    // if(this.editCompetencyIndex > -1) {
+    //   this.competenciesArray.value[this.editCompetencyIndex]['type'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['type']
+    //   this.competenciesArray.value[this.editCompetencyIndex]['theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['theme']
+    //   this.competenciesArray.value[this.editCompetencyIndex]['sub_theme'] = this.originalCompetencyValueArr[this.editCompetencyIndex]['sub_theme']
+    // }
     this.dialogRef.close()
   }
   

@@ -29,8 +29,8 @@
                     </div>
                     <div class="text-right" style="width:50%">
                         <h1 class="text-2xl font-bold text-gray-900">
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'state'">{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span> 
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministryType === 'center'">{{sharedService?.cbpPlanFinalObj?.ministry?.name}}</span>  - Capacity Building Plan
+                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'state'">{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</span> 
+                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.name}}</span>  - Capacity Building Plan
                         </h1>
                         <p class="text-gray-600">Comprehensive Role-Based Competency Analysis</p>
                     </div>
