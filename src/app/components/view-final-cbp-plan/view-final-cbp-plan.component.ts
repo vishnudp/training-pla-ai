@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from 'src/app/modules/shared/services/shared.service';
-// import html2pdf from 'html2pdf.js';
+import html2pdf from 'html2pdf.js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -504,5 +504,39 @@ export class ViewFinalCbpPlanComponent {
 
 
 
+  }
+
+  downloadPDFNew() {
+    this.loading = true
+    const element = this.pdfContent.nativeElement;
+
+    const opt = {
+      margin:       [10, 5, 5, 10], // top, left, bottom, right in mm
+      filename:     'CBP_Plan.pdf',
+      image:        { type: 'jpeg', quality: 0.85 },
+      html2canvas:  { scale: 1.5, useCORS: true, logging: false },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+      pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } // avoid cutting text
+    };
+
+    html2pdf()
+    .set(opt)
+    .from(element)
+    .save()
+    .then(() => {
+      // PDF download finished
+      this.loading = false;
+    })
+    .catch(() => {
+      // Handle errors and stop loading
+      this.loading = false;
+    });
+
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
+
+
+  
   }
 }
