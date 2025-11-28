@@ -572,7 +572,12 @@ export class ViewFinalCbpPlanComponent {
 
   downloadPdfFromBE() {
     this.loading = true
-    this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.id)
+    if(!this.sharedService?.cbpPlanFinalObj.departments) {
+      this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.id)  
+    } else {
+      this.sharedService.downloadPdfForDepartment(this.sharedService?.cbpPlanFinalObj.ministry.id, this.sharedService?.cbpPlanFinalObj.departments)  
+    }
+    
     setTimeout(()=>{
       this.loading = false
     },5000)
