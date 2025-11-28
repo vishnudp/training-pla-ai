@@ -8,7 +8,7 @@
                 <mat-icon>close</mat-icon>
             </div>
         </div>
-        <div class="section-container" #pdfContent>
+        <div class="section-container" id="pdf-content" #pdfContent>
             <header class="bg-white header-border">
                 <div class="header-flex justify-between" style="width:100%">
                     <div class="flex items-center space-x-4" style="width:50%">
@@ -358,7 +358,7 @@
         <div class="popup-footer">
             
             <div>
-                <input class="btn-active" type="button" value="Download" (click)="downloadPDFNew()" />
+                <input class="btn-active" type="button" value="Download" (click)="downloadPdfFromBE()" />
             </div>
             <div>
                 <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />

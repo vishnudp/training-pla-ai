@@ -58,9 +58,9 @@ export class ViewCourseRecommendationComponent {
         let allCourses = []
         if(res && res.selected_courses && res.selected_courses.length) {
           res.selected_courses.forEach((item)=>{
-            if(item?.relevancy > 85) {
+            // if(item?.relevancy > 85) {
               allCourses.push(item)
-            }
+            // }
           })
         }
         this.filterdCourses = allCourses

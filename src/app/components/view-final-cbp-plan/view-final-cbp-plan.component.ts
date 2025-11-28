@@ -5,6 +5,11 @@ import html2pdf from 'html2pdf.js';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import htmlToPdfmake from "html-to-pdfmake";
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+pdfMake.vfs = pdfFonts.vfs;
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -538,5 +543,38 @@ export class ViewFinalCbpPlanComponent {
 
 
   
+  }
+
+  downloadWithPDFMake() {
+    const html = document.getElementById('pdf-content')!.innerHTML;
+    const pdfContent = htmlToPdfmake(html);
+  
+    pdfMake.createPdf({ content: pdfContent }).download("doc.pdf");
+  
+  }
+
+  getBase64Image(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = url;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx!.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror = (error) => reject(error);
+    });
+  }
+
+  downloadPdfFromBE() {
+    this.loading = true
+    this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.id)
+    setTimeout(()=>{
+      this.loading = false
+    },5000)
   }
 }
