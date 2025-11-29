@@ -650,7 +650,27 @@ export class ViewFinalCbpPlanComponent {
     
 
     downloadCSV() {
-      this.generateExcel(this.jsonData,  'final.xlsx');
+      let fileName = ''
+      if(!this.sharedService?.cbpPlanFinalObj.departments) {
+        fileName = `CBP_Report_${this.sharedService?.cbpPlanFinalObj.ministry.identifier}_${this.sharedService?.cbpPlanFinalObj.departments}.xlsx`
+      } else {
+        fileName = `CBP_Report_${this.sharedService?.cbpPlanFinalObj.ministry.identifier}.xlsx`
+      }
+      this.generateExcel(this.jsonData, fileName );
+    }
+
+    downloadPdfFromBE() {
+      this.loading = true
+      this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)
+      if(!this.sharedService?.cbpPlanFinalObj.departments) {
+        this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)  
+      } else {
+        this.sharedService.downloadPdfForDepartment(this.sharedService?.cbpPlanFinalObj.ministry.identifier, this.sharedService?.cbpPlanFinalObj.departments)  
+      }
+      
+      setTimeout(()=>{
+        this.loading = false
+      },5000)
     }
   
   }

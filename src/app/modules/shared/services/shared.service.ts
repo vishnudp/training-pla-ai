@@ -41,7 +41,8 @@ const API_END_POINTS = {
   DOWNLOAD_FILE: 'cbp-tpc-ai/api/v1/files',
   DELETE_SUMMARY: 'cbp-tpc-ai/api/v1/files',
   GET_USER_PROFILE: 'cbp-tpc-ai/api/v1/users/me',
-  GET_USER_RECOMMENED_COURSES:'cbp-tpc-ai/api/v1/course-recommendations'
+  GET_USER_RECOMMENED_COURSES:'cbp-tpc-ai/api/v1/course-recommendations',
+  DOWNLOAD_PDF:'cbp-tpc-ai/api/v1/cbp-plan/download'
 }
 
 
@@ -589,6 +590,74 @@ export class SharedService {
       .pipe(map((response: any) => {
         return response
       }))
+  }
+
+  downloadPdf(state_center_id: string) {
+    const url = `${this.baseUrl}${API_END_POINTS.DOWNLOAD_PDF}?state_center_id=${state_center_id}`;
+    const headers = this.headers
+
+    return this.http.get(url, {
+      headers,
+      observe: 'response',
+      responseType: 'blob'
+    }).subscribe((res: any) => {
+
+      const contentDisposition = res.headers.get('content-disposition');
+      console.log('contentDisposition', res.headers)
+      let filename = `CBP_Report_${state_center_id}.pdf`;
+
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      // Create a blob URL and download
+      const blob = new Blob([res.body], { type: 'application/pdf' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = filename;
+      a.click();
+
+      URL.revokeObjectURL(downloadUrl);
+    });
+  }
+
+  downloadPdfForDepartment(state_center_id, department_id: string) {
+    const url = `${this.baseUrl}${API_END_POINTS.DOWNLOAD_PDF}?state_center_id=${state_center_id}&department_id=${department_id}`;
+    const headers = this.headers
+
+    return this.http.get(url, {
+      headers,
+      observe: 'response',
+      responseType: 'blob'
+    }).subscribe((res: any) => {
+
+      const contentDisposition = res.headers.get('content-disposition');
+      console.log('contentDisposition', res.headers)
+      let filename = `CBP_Report_${state_center_id}_${department_id}.pdf`;
+
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      // Create a blob URL and download
+      const blob = new Blob([res.body], { type: 'application/pdf' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = filename;
+      a.click();
+
+      URL.revokeObjectURL(downloadUrl);
+    });
   }
 }
 
