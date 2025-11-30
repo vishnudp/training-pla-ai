@@ -90,8 +90,11 @@ export class RoleMappingGenerationComponent implements OnInit, OnChanges{
   selectedMinistryObj:any = ''
   loginUserOrgIds = []
   panelOpen = false;
+  departmentPanelOpen = false
 filteredList = [];
+filteredDepartmentList = [];
 originalMinistryData = []
+apiLoading= false
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -197,6 +200,8 @@ originalMinistryData = []
       await this.getMinistryData()
       await this.sharedService.getDepartmentList(this.cbpFinalObj?.ministry?.identifier).subscribe((res)=>{
         this.departmentData = res
+        this.filteredDepartmentList = res
+        console.log('this.filteredDepartmentList --',this.filteredDepartmentList )
       })
       if(this.ministryData && this.ministryData.length) {
         this.selectedMinistryId = this.cbpFinalObj?.ministry?.identifier
@@ -341,10 +346,11 @@ originalMinistryData = []
 
 
   getMinistryData() {
+    this.apiLoading = true
     this.sharedService.getMinistryData(this.selectedMinistryType).subscribe((data:any)=>{
       console.log('data--', data)
       this.ministryFullData = data
-      
+      this.apiLoading = false
       this.ministryData = []
       if(this.selectedMinistryType === 'ministry') {
         data.forEach((item)=>{
@@ -919,6 +925,10 @@ originalMinistryData = []
   onOpened(opened: boolean) {
     this.panelOpen = opened;
   }
+
+  onOpenedDepartment(opened: boolean) {
+    this.departmentPanelOpen = opened
+  }
   
   filterData(event) {
     if(event && event.target && event.target.value) {
@@ -929,6 +939,19 @@ originalMinistryData = []
       );
     } else {
       this.filteredList = this.ministryData
+    }
+    
+  }
+
+  filterDepartmentData(event) {
+    if(event && event.target && event.target.value) {
+      const s = event.target.value.toLowerCase();
+    
+      this.filteredDepartmentList = this.departmentData.filter(x =>
+        x.orgName.toLowerCase().includes(s)
+      );
+    } else {
+      this.filteredDepartmentList = this.departmentData
     }
     
   }

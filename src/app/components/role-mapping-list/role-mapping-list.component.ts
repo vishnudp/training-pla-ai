@@ -94,17 +94,24 @@ export class RoleMappingListComponent {
         console.log('this.formData',this.formData)
         let state_center_id = this.formData.value.ministry
         let department_id = this.formData.value.departments
-        this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe((res)=>{
-          this.loading = false
-         console.log('res', res)
-         this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource = new MatTableDataSource(res)
-         setTimeout(()=>{
-          this.dataSource.paginator = this.paginator;
-         },1000)
-         this.originalData = res;
-         console.log('this.dataSource',this.dataSource)
-         })
+        this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
+          next:(res)=>{
+            this.loading = false
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+            this.dataSource = new MatTableDataSource(res)
+            setTimeout(()=>{
+             this.dataSource.paginator = this.paginator;
+            },1000)
+            this.originalData = res;
+            console.log('this.dataSource',this.dataSource)
+          },
+          error:()=>{
+            this.loading = false
+          }
+        })
+        
+         
+        
       }
       localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
    

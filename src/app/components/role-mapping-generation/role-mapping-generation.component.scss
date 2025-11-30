@@ -735,7 +735,14 @@ display: inline-block; /* Required in some cases */
 
   ::ng-deep {
     .mat-select-panel-wrap {
-        border: 1px solid #ccc !important;
-        overflow: hidden;
-    }
+        overflow: visible !important;   /* allow content + scrollbar */
+        padding: 0;
+        margin-top: 42px;
+      }
+      
+      .mat-select-panel {
+        border: 1px solid #ccc !important;  /* border around dropdown */
+        box-sizing: border-box;
+        max-height: 250px;                  /* optional */
+      }
   }

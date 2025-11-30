@@ -146,7 +146,7 @@ export class EditCbpPlanComponent implements OnInit{
   this.loading = true
   let req = 
     {
-      "sector_name":cbpPlanData?.sectors.join(","),
+      "sector_name":cbpPlanData?.sectors?.join(","),
       "instruction": cbpPlanData?.instruction ? cbpPlanData.instruction:'',
       "designation_name": formData?.designation_name ? formData.designation_name : '',
       "wing_division_section": formData?.wing_division_section,
