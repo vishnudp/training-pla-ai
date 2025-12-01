@@ -388,7 +388,7 @@ export class GenerateCourseRecommendationComponent {
   }
 
   suggestMoreCourses() {
-    this.dialogRef.close()
+    // this.dialogRef.close()
     const dialogRefNew = this.dialog.open(SuggestMoreCoursesComponent, {
       width: '1000px',
       data: { recommended_course_id: this.recommended_course_id, role_mapping_id: this.planData.id },
@@ -402,9 +402,9 @@ export class GenerateCourseRecommendationComponent {
       if (result === 'saved') {
         console.log('Changes saved!');
         // Refresh data or show a toast here
-        this.generateCourseRecommendation(this.planData)
+        this.getSuggestedCourse()
       }  else {
-        this.generateCourseRecommendation(this.planData)
+        this.getSuggestedCourse()
       }
     });
   }
@@ -1382,8 +1382,13 @@ export class GenerateCourseRecommendationComponent {
 
 
   redirectToToc(item) {
-    let url = `https://portal.igotkarmayogi.gov.in/app/toc/${item?.identifier}/overview?`
+    if(item?.public_link) {
+      window.open(item?.public_link, '_blank')
+    } else {
+      let url = `https://portal.igotkarmayogi.gov.in/app/toc/${item?.identifier}/overview?`
     window.open(url, '_blank')
+    }
+    
   }
 
   /**
