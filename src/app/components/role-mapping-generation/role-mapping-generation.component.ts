@@ -377,6 +377,7 @@ apiLoading= false
     }
     
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
+    this.selectedMinistryType = event.value
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     this.ministryData = []
     if(event?.value === 'state') {
@@ -415,6 +416,7 @@ apiLoading= false
     if(selectedMinistryId && this.selectedMinistryType === 'state') {
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
         this.departmentData = res
+        this.filteredDepartmentList = res
       })
     }
   }
