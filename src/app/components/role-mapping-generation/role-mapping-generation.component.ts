@@ -161,13 +161,28 @@ apiLoading= false
       this.selectedMinistryType = this.cbpFinalObj?.ministry.sbOrgType
 
       await this.getMinistryData()
-
-
+      if(this.cbpFinalObj?.departments) {
+        await this.sharedService.getCenterBasedDepartment(this.cbpFinalObj?.ministry?.identifier).subscribe((res)=>{
+          if(res?.result?.response?.content?.length) {
+            this.departmentData = res?.result?.response?.content
+          this.filteredDepartmentList = res?.result?.response?.content
+          } else {
+            this.snackBar.open('No Department Found for Selected Ministry', 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+            this.sharedService.cbpPlanFinalObj['department_name'] =  ''
+            this.sharedService.cbpPlanFinalObj['departments'] =  ''
+            localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+          }
+        })
+      }
+     
       this.roleMappingForm = this.fb.group({
         ministryType: [this.selectedMinistryType, Validators.required],
         ministry: [this.cbpFinalObj?.ministry?.identifier, Validators.required],
         sectors: [[]],
-        departments: [[]], // shown only if ministryType == 'state'
+        departments: [this.cbpFinalObj?.departments], // shown only if ministryType == 'state'
         additionalDetails: ['']
       });
 
@@ -370,10 +385,11 @@ apiLoading= false
     })
   }
 
-  onMinistryTypeChange(event) {
+  async onMinistryTypeChange(event) {
     console.log('event', event)
+    
     if(this.login) {
-      this.getMinistryData()
+      await this.getMinistryData()
     }
     
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
@@ -382,6 +398,7 @@ apiLoading= false
     this.ministryData = []
     if(event?.value === 'state') {
       this.roleMappingForm.get('sectors')?.setValue([]);
+      this.roleMappingForm.get('departments')?.setValue([]);
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'state') {
           this.ministryData.push(item)
@@ -389,12 +406,18 @@ apiLoading= false
       })
     } else if(event?.value === 'ministry') {
       this.roleMappingForm.get('sectors')?.setValue([]);
+      this.roleMappingForm.get('departments')?.setValue([]);
       this.ministryFullData.forEach((item)=>{
         if(item?.type === 'central') {
           this.ministryData.push(item)
         }
       })
     }
+
+    this.sharedService.cbpPlanFinalObj['department_name'] =  ''
+    this.sharedService.cbpPlanFinalObj['departments'] =  ''
+    localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+    // this.roleMappingForm.reset()
     if(!this.sharedService.cbpPlanFinalObj?.ministry) {
       this.roleMappingForm.setErrors({ invalid: true });
       setTimeout(()=>{
@@ -417,6 +440,23 @@ apiLoading= false
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
         this.departmentData = res
         this.filteredDepartmentList = res
+      })
+    }  
+    if(selectedMinistryId && this.selectedMinistryType === 'ministry') {
+      this.sharedService.getCenterBasedDepartment(selectedMinistryId).subscribe((res)=>{
+        if(res?.result?.response?.content?.length) {
+          this.departmentData = res?.result?.response?.content
+        this.filteredDepartmentList = res?.result?.response?.content
+        } else {
+          this.snackBar.open('No Department Found for Selected Ministry', 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+          this.sharedService.cbpPlanFinalObj['department_name'] =  ''
+          this.sharedService.cbpPlanFinalObj['departments'] =  ''
+          localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+        }
+        
       })
     }
   }
@@ -608,7 +648,7 @@ apiLoading= false
       state_center_name: selectedMinistry?.orgName
     };
   
-    if (this.selectedMinistryType === 'state') {
+    if (this.selectedMinistryType === 'state' || currentFormValues.departments) {
       const departmentName = this.departmentData.find(
         d => d.identifier === currentFormValues.departments
       );
@@ -682,7 +722,7 @@ apiLoading= false
         "state_center_id":formData.ministry,
         "instruction": formData.additionalDetails
       }
-      if(this.selectedMinistryType === 'state') {
+      if(this.selectedMinistryType === 'state' || formData.departments ) {
         req['department_id'] = formData.departments ? formData.departments : ''
         this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
 

@@ -64,6 +64,7 @@ export class RoleMappingListComponent {
         this.formData['value'] = {}
         this.formData['value']['ministryType'] = this.cbpFinalObj?.ministry.sbOrgType
         this.formData['value']['ministry'] = this.cbpFinalObj?.ministry?.identifier
+        this.formData['value']['departments'] = this.cbpFinalObj?.departments
       } else if (this.cbpFinalObj?.ministry.sbOrgType === 'state') {
         this.formData = {}
         this.formData['value'] = {}
@@ -74,20 +75,46 @@ export class RoleMappingListComponent {
     } 
     console.log('this.formData', this.formData  )
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'ministry') {
+
         let state_center_id = this.formData.value.ministry
         this.loading = true
-        this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
-          this.loading = false
-         console.log('res', res)
-         this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
-         this.dataSource = new MatTableDataSource(res)
-         setTimeout(()=>{
-          this.dataSource.paginator = this.paginator;
-         },1000)
-         
-         this.originalData = res;
-         console.log('this.dataSource',this.dataSource)
-         })
+        if(this.formData.value.departments) {
+          let department_id = this.formData.value.departments
+          if(typeof department_id === 'string') {
+            this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
+              next:(res)=>{
+                this.loading = false
+                this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+                this.dataSource = new MatTableDataSource(res)
+                setTimeout(()=>{
+                 this.dataSource.paginator = this.paginator;
+                },1000)
+                this.originalData = res;
+                console.log('this.dataSource',this.dataSource)
+              },
+              error:()=>{
+                this.loading = false
+              }
+            })
+          } else {
+            this.loading = false
+          }
+          
+        } else {
+          this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
+            this.loading = false
+           console.log('res', res)
+           this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = res
+           this.dataSource = new MatTableDataSource(res)
+           setTimeout(()=>{
+            this.dataSource.paginator = this.paginator;
+           },1000)
+           
+           this.originalData = res;
+           console.log('this.dataSource',this.dataSource)
+           })
+        }
+        
       }
       if(this.formData && this.formData.value && this.formData.value.ministryType === 'state') {
         this.loading = true
@@ -178,17 +205,33 @@ export class RoleMappingListComponent {
       this.loading = true;
       
       if (ministryType === 'ministry') {
-        this.sharedService.getRoleMappingByStateCenter(ministryId).subscribe({
+        if(this.sharedService.cbpPlanFinalObj.departments) {
+          const departmentId = this.sharedService.cbpPlanFinalObj.departments;
+        this.sharedService.getRoleMappingByStateCenterAndDepartment(ministryId, departmentId).subscribe({
           next: (res) => {
             this.loading = false;
-            console.log('Center role mapping data refreshed:', res);
+            console.log('State role mapping data refreshed:', res);
             this.updateDataSource(res);
           },
           error: (error) => {
             this.loading = false;
-            console.error('Error refreshing center role mapping data:', error);
+            console.error('Error refreshing state role mapping data:', error);
           }
         });
+        } else {
+          this.sharedService.getRoleMappingByStateCenter(ministryId).subscribe({
+            next: (res) => {
+              this.loading = false;
+              console.log('Center role mapping data refreshed:', res);
+              this.updateDataSource(res);
+            },
+            error: (error) => {
+              this.loading = false;
+              console.error('Error refreshing center role mapping data:', error);
+            }
+          });
+        }
+        
       } else if (ministryType === 'state') {
         const departmentId = this.sharedService.cbpPlanFinalObj.departments;
         this.sharedService.getRoleMappingByStateCenterAndDepartment(ministryId, departmentId).subscribe({
@@ -282,14 +325,26 @@ export class RoleMappingListComponent {
         console.log('Changes saved!');
         // Refresh data or show a toast here
         console.log(this.sharedService.cbpPlanFinalObj)
-        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && !this.sharedService.cbpPlanFinalObj.departments) {
-          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
-            console.log('res', res)
-            this.dataSource = new MatTableDataSource(res)
-            this.dataSource.paginator = this.paginator;
-            this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
-            })
+        if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id ) {
+          if(this.sharedService.cbpPlanFinalObj.departments) {
+            this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.id).subscribe((res)=>{
+              console.log('res', res)
+              this.dataSource = new MatTableDataSource(res)
+              this.dataSource.paginator = this.paginator;
+              this.originalData = res;
+              console.log('this.dataSource',this.dataSource)
+              })
+          } else {
+            this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
+              console.log('res', res)
+              this.dataSource = new MatTableDataSource(res)
+              this.dataSource.paginator = this.paginator;
+              this.originalData = res;
+              console.log('this.dataSource',this.dataSource)
+              })
+          }
+          
+         
         } else if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.id && this.sharedService.cbpPlanFinalObj.departments) {{
           this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.id, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
             console.log('res', res)
@@ -461,14 +516,25 @@ export class RoleMappingListComponent {
         if(this.sharedService.cbpPlanFinalObj && this.sharedService.cbpPlanFinalObj.ministry && this.sharedService.cbpPlanFinalObj.ministry.identifier && 
           this.sharedService.cbpPlanFinalObj.ministry?.sbOrgType === 'ministry'
         ) {
+          if(this.sharedService.cbpPlanFinalObj.departments) {
+            this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.identifier, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
+              console.log('res', res)
+              this.dataSource = new MatTableDataSource(res)
+              this.dataSource.paginator = this.paginator;
+              this.originalData = res;
+              console.log('this.dataSource',this.dataSource)
+              })
+          } else {
+            this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.identifier).subscribe((res)=>{
+              console.log('res', res)
+              this.dataSource = new MatTableDataSource(res)
+              this.dataSource.paginator = this.paginator;
+              this.originalData = res;
+              console.log('this.dataSource',this.dataSource)
+              })
+          }
 
-          this.sharedService.getRoleMappingByStateCenter(this.sharedService.cbpPlanFinalObj.ministry.identifier).subscribe((res)=>{
-            console.log('res', res)
-            this.dataSource = new MatTableDataSource(res)
-            this.dataSource.paginator = this.paginator;
-            this.originalData = res;
-            console.log('this.dataSource',this.dataSource)
-            })
+          
         } else {
           this.sharedService.getRoleMappingByStateCenterAndDepartment(this.sharedService.cbpPlanFinalObj.ministry.identifier, this.sharedService.cbpPlanFinalObj.departments).subscribe((res)=>{
             console.log('res', res)

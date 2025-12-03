@@ -143,92 +143,175 @@ export class ViewFinalCbpPlanComponent {
     if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'ministry') {
       this.loading = true
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.identifier
-      // this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe((res)=>{
-
-      //  })
-
-      this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe({
-        next: (res) => {
-          this.loading = false
-          console.log('res', res)
-          let behavioralCompetencies = []
-          let functionalCompetencies = []
-          let domainCompetencies = []
-          for (let i = 0; i < res.length; i++) {
-            behavioralCompetencies = []
-            functionalCompetencies = []
-            domainCompetencies = []
-            let competenciesObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
-            res[i].competencies.forEach(c => {
-              competenciesObj.total++;
-              this.totalCompetencieObj.total++
-              if (c.type.toLowerCase() === 'behavioral') {
-
-                behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-                competenciesObj.behavioral++;
-                this.totalCompetencieObj.behavioral++
+      if(this.sharedService?.cbpPlanFinalObj.departments) {
+        let department_id = this.sharedService?.cbpPlanFinalObj.departments
+        this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
+          next: (res) => {
+            this.loading = false
+            console.log('res', res)
+            let behavioralCompetencies = []
+            let functionalCompetencies = []
+            let domainCompetencies = []
+            for (let i = 0; i < res.length; i++) {
+              behavioralCompetencies = []
+              functionalCompetencies = []
+              domainCompetencies = []
+              let competenciesObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
+              res[i].competencies.forEach(c => {
+                competenciesObj.total++;
+                this.totalCompetencieObj.total++
+                if (c.type.toLowerCase() === 'behavioral') {
+  
+                  behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.behavioral++;
+                  this.totalCompetencieObj.behavioral++
+                }
+                if (c.type.toLowerCase() === 'functional') {
+                  functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.functional++;
+                  this.totalCompetencieObj.functional++
+                }
+                if (c.type.toLowerCase() === 'domain') {
+                  domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.domain++;
+                  this.totalCompetencieObj.domain++
+  
+                }
+              });
+              let obj: any = {
+                designation: res[i].designation_name,
+                wing: res[i].wing_division_section,
+                updated: res[i].updated_at,
+                rolesResponsibilities: res[i].role_responsibilities,
+                activities: res[i].activities,
+                competenciesObj: competenciesObj,
+                behavioralCompetencies: behavioralCompetencies,
+                functionalCompetencies: functionalCompetencies,
+                domainCompetencies: domainCompetencies
+                // behavioralCompetencies: [
+                //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+                //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+                //   "Accountability", "Conflict Management"
+                // ],
+                // functionalCompetencies: [
+                //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+                //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+                //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+                //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+                // ],
+                // domainCompetencies: [
+                //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+                //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+                //   "National Programme Strategic Direction"
+                // ],
+                // completionRate: { behavioral: 85, functional: 78, domain: 92 }
               }
-              if (c.type.toLowerCase() === 'functional') {
-                functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-                competenciesObj.functional++;
-                this.totalCompetencieObj.functional++
-              }
-              if (c.type.toLowerCase() === 'domain') {
-                domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
-                competenciesObj.domain++;
-                this.totalCompetencieObj.domain++
-
-              }
-            });
-            let obj: any = {
-              designation: res[i].designation_name,
-              wing: res[i].wing_division_section,
-              updated: res[i].updated_at,
-              rolesResponsibilities: res[i].role_responsibilities,
-              activities: res[i].activities,
-              competenciesObj: competenciesObj,
-              behavioralCompetencies: behavioralCompetencies,
-              functionalCompetencies: functionalCompetencies,
-              domainCompetencies: domainCompetencies
-              // behavioralCompetencies: [
-              //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
-              //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
-              //   "Accountability", "Conflict Management"
-              // ],
-              // functionalCompetencies: [
-              //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
-              //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
-              //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
-              //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
-              // ],
-              // domainCompetencies: [
-              //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
-              //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
-              //   "National Programme Strategic Direction"
-              // ],
-              // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+  
+  
+              this.designationData.push(obj)
             }
-
-
-            this.designationData.push(obj)
+            this.cdr.detectChanges();
+            setTimeout(() => {
+              this.scrollToTop()
+            }, 1000);
+            console.log('this.designationData', this.designationData)
+            console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+          },
+          error: (error) => {
+            this.loading = false
+            this.snackBar.open(error?.error?.detail, 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
           }
-          console.log('this.designationData', this.designationData)
-          console.log('this.totalCompetencieObj', this.totalCompetencieObj)
-          this.cdr.detectChanges();
-          setTimeout(() => {
-            this.scrollToTop()
-          }, 1000);
+        });
+      } else {
+        this.sharedService.getRoleMappingByStateCenter(state_center_id).subscribe({
+          next: (res) => {
+            this.loading = false
+            console.log('res', res)
+            let behavioralCompetencies = []
+            let functionalCompetencies = []
+            let domainCompetencies = []
+            for (let i = 0; i < res.length; i++) {
+              behavioralCompetencies = []
+              functionalCompetencies = []
+              domainCompetencies = []
+              let competenciesObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
+              res[i].competencies.forEach(c => {
+                competenciesObj.total++;
+                this.totalCompetencieObj.total++
+                if (c.type.toLowerCase() === 'behavioral') {
+  
+                  behavioralCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.behavioral++;
+                  this.totalCompetencieObj.behavioral++
+                }
+                if (c.type.toLowerCase() === 'functional') {
+                  functionalCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.functional++;
+                  this.totalCompetencieObj.functional++
+                }
+                if (c.type.toLowerCase() === 'domain') {
+                  domainCompetencies.push(`${c.theme} - ${c.sub_theme}`)
+                  competenciesObj.domain++;
+                  this.totalCompetencieObj.domain++
+  
+                }
+              });
+              let obj: any = {
+                designation: res[i].designation_name,
+                wing: res[i].wing_division_section,
+                updated: res[i].updated_at,
+                rolesResponsibilities: res[i].role_responsibilities,
+                activities: res[i].activities,
+                competenciesObj: competenciesObj,
+                behavioralCompetencies: behavioralCompetencies,
+                functionalCompetencies: functionalCompetencies,
+                domainCompetencies: domainCompetencies
+                // behavioralCompetencies: [
+                //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
+                //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
+                //   "Accountability", "Conflict Management"
+                // ],
+                // functionalCompetencies: [
+                //   "Rules of business (AoB/ToB)", "Cabinet note writing", "Submission of briefs, supply of information",
+                //   "Policy design/ amendment", "Policy implementation", "Policy monitoring & impact assessment",
+                //   "Project Planning", "Project Evaluation & Monitoring", "Creation of M&E Framework",
+                //   "Citizen Partnering & Collaboration", "Public Grievance Handling"
+                // ],
+                // domainCompetencies: [
+                //   "Strategic Policy Formulation", "Inter-ministerial & State Government Coordination",
+                //   "Senior Leadership Governance & Oversight", "Legislative & Parliamentary Affairs Management",
+                //   "National Programme Strategic Direction"
+                // ],
+                // completionRate: { behavioral: 85, functional: 78, domain: 92 }
+              }
+  
+  
+              this.designationData.push(obj)
+            }
+            console.log('this.designationData', this.designationData)
+            console.log('this.totalCompetencieObj', this.totalCompetencieObj)
+            this.cdr.detectChanges();
+            setTimeout(() => {
+              this.scrollToTop()
+            }, 1000);
+  
+          },
+  
+          error: (error) => {
+            this.loading = false
+            this.snackBar.open(error?.error?.detail, 'X', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
+        });
+      }
+     
 
-        },
-
-        error: (error) => {
-          this.loading = false
-          this.snackBar.open(error?.error?.detail, 'X', {
-            duration: 3000,
-            panelClass: ['snackbar-error']
-          });
-        }
-      });
+      
     }
     if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'state') {
       this.loading = true
@@ -661,7 +744,7 @@ export class ViewFinalCbpPlanComponent {
 
     downloadPdfFromBE() {
       this.loading = true
-      this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)
+    //  this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)
       if(!this.sharedService?.cbpPlanFinalObj.departments) {
         this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)  
       } else {
