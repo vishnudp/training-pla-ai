@@ -46,7 +46,7 @@
             <div class="mt-4">
                 
                 <label class="label">
-                    <span *ngIf="selectedMinistryType === 'ministry'">Ministry <span *ngIf="filteredDepartmentList?.length">/Department</span></span>
+                    <span *ngIf="selectedMinistryType === 'ministry'">Ministry</span>
                     <span *ngIf="selectedMinistryType === 'state'">State</span>
                 </label>
                 <div class="mt-2 search-box-with-select">
@@ -72,7 +72,7 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="mt-4" *ngIf="filteredDepartmentList?.length">
+            <div class="mt-4" *ngIf="departmentData?.length">
                 <label class="label">Department</label>
                 <div class="mt-2">
                     <mat-form-field appearance="fill"

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HEADER_DATA } from 'src/app/modules/shared/constant/app.constant';
 import { EventService } from 'src/app/modules/shared/services/event.service';
@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './role-mapping-generation.component.html',
   styleUrls: ['./role-mapping-generation.component.scss']
 })
-export class RoleMappingGenerationComponent implements OnInit, OnChanges{
+export class RoleMappingGenerationComponent implements OnInit, OnChanges, OnDestroy{
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
   headerData = HEADER_DATA;
   @Input() loginStatusFlag = false
@@ -114,14 +114,13 @@ apiLoading= false
     this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
     if(this.cbpFinalObj && this.cbpFinalObj?.ministry && this.cbpFinalObj?.ministry?.sbOrgType) {
       
-
+      
       this.editMinistryForm()
       // this.getMinistryData()
     } else {
       if( this.login) {
         this.getMinistryData()
       }
-      
       this.roleMappingForm = this.fb.group({
         ministryType: ['ministry', Validators.required],
         ministry: [null, Validators.required],
@@ -159,9 +158,8 @@ apiLoading= false
   async editMinistryForm() {
     if(this.cbpFinalObj?.ministry.sbOrgType === 'ministry') {
       this.selectedMinistryType = this.cbpFinalObj?.ministry.sbOrgType
-
       await this.getMinistryData()
-      if(this.cbpFinalObj?.departments) {
+      if(this.cbpFinalObj?.ministry?.sbOrgType) {
         await this.sharedService.getCenterBasedDepartment(this.cbpFinalObj?.ministry?.identifier).subscribe((res)=>{
           if(res?.result?.response?.content?.length) {
             this.departmentData = res?.result?.response?.content
@@ -393,7 +391,9 @@ apiLoading= false
     }
     
     this.sharedService.cbpPlanFinalObj['ministryType'] =  event.value
+    this.sharedService.cbpPlanFinalObj['role_mapping_generation'] =  []
     this.selectedMinistryType = event.value
+    
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     this.ministryData = []
     if(event?.value === 'state') {
@@ -413,7 +413,7 @@ apiLoading= false
         }
       })
     }
-
+    this.sharedService.cbpPlanFinalObj['ministry'] =  ''
     this.sharedService.cbpPlanFinalObj['department_name'] =  ''
     this.sharedService.cbpPlanFinalObj['departments'] =  ''
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
@@ -435,6 +435,7 @@ apiLoading= false
     this.selectedMinistryObj = selectedMinistry
     console.log('Selected Ministry:', selectedMinistry);``
     this.sharedService.cbpPlanFinalObj['ministry'] =  selectedMinistry
+    this.sharedService.cbpPlanFinalObj['role_mapping_generation'] =  []
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     if(selectedMinistryId && this.selectedMinistryType === 'state') {
       this.sharedService.getDepartmentList(selectedMinistryId).subscribe((res)=>{
@@ -573,10 +574,12 @@ apiLoading= false
 
   
 
-  loginStatus(event) {
+  loginStatus(event) {    
     if(event) {
       this.login = true
       this.loginSuccess.emit(true)
+      this.selectedMinistryType = 'ministry'
+      
       this.getMinistryData()
     } else {
       this.login = false
@@ -996,6 +999,11 @@ apiLoading= false
       this.filteredDepartmentList = this.departmentData
     }
     
+  }
+
+  ngOnDestroy() {
+    this.selectedMinistryId = ''
+    this.roleMappingForm.reset()
   }
 
 
