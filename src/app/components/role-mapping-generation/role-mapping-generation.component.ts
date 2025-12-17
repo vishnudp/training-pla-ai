@@ -161,9 +161,9 @@ apiLoading= false
       await this.getMinistryData()
       if(this.cbpFinalObj?.ministry?.sbOrgType) {
         await this.sharedService.getCenterBasedDepartment(this.cbpFinalObj?.ministry?.identifier).subscribe((res)=>{
-          if(res?.result?.response?.content?.length) {
-            this.departmentData = res?.result?.response?.content
-          this.filteredDepartmentList = res?.result?.response?.content
+          if(res?.length) {
+            this.departmentData = res
+          this.filteredDepartmentList = res
           } else {
             this.snackBar.open('No Department Found for Selected Ministry', 'X', {
               duration: 3000,
@@ -429,7 +429,7 @@ apiLoading= false
   onMinistryChange(event: any) {
     const selectedMinistryId = event.value;
     console.log('Selected Ministry ID:', selectedMinistryId);
-
+    this.departmentData = []
     // You can access the selected object if needed
     const selectedMinistry = this.ministryData.find(item => item.identifier === selectedMinistryId);
     this.selectedMinistryObj = selectedMinistry
@@ -445,9 +445,9 @@ apiLoading= false
     }  
     if(selectedMinistryId && this.selectedMinistryType === 'ministry') {
       this.sharedService.getCenterBasedDepartment(selectedMinistryId).subscribe((res)=>{
-        if(res?.result?.response?.content?.length) {
-          this.departmentData = res?.result?.response?.content
-        this.filteredDepartmentList = res?.result?.response?.content
+        if(res?.length) {
+          this.departmentData = res
+        this.filteredDepartmentList = res
         } else {
           this.snackBar.open('No Department Found for Selected Ministry', 'X', {
             duration: 3000,

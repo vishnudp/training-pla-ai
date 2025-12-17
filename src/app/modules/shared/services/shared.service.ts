@@ -43,7 +43,7 @@ const API_END_POINTS = {
   GET_USER_PROFILE: 'cbp-tpc-ai/api/v1/users/me',
   GET_USER_RECOMMENED_COURSES: 'cbp-tpc-ai/api/v1/course-recommendations',
   DOWNLOAD_PDF: 'cbp-tpc-ai/api/v1/cbp-plan/download',
-  CENTER_BASED_MINISTRY: 'https://portal.igotkarmayogi.gov.in//api/org/v1/search'
+  CENTER_BASED_MINISTRY: 'cbp-tpc-ai/api/v1/department/state-center'
 }
 
 
@@ -662,9 +662,9 @@ export class SharedService {
   }
 
   getCenterBasedDepartment(state_center_id) {
-    let reqBody = { "request": { "filters": { "status": 1, "ministryOrStateType": "ministry", "ministryOrStateId": state_center_id}, "sort_by": { "createdDate": "desc" }, "limit": 9999, "offset": 0, "fields": ["identifier", "orgName", "description", "parentOrgName", "ministryOrStateId", "ministryOrStateType", "ministryOrStateName", "sbOrgSubType"] } }
+   // let reqBody = { "request": { "filters": { "status": 1, "ministryOrStateType": "ministry", "ministryOrStateId": state_center_id}, "sort_by": { "createdDate": "desc" }, "limit": 9999, "offset": 0, "fields": ["identifier", "orgName", "description", "parentOrgName", "ministryOrStateId", "ministryOrStateType", "ministryOrStateName", "sbOrgSubType"] } }
     const headers = this.headers
-    return this.http.post<any>(`${API_END_POINTS.CENTER_BASED_MINISTRY}`, reqBody, { headers })
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.CENTER_BASED_MINISTRY}/${state_center_id}?limit=9999&offset=0&sub_org_type=ministry`, { headers })
       .pipe(map((response: any) => {
         return response
       }))
