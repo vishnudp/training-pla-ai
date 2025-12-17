@@ -340,4 +340,16 @@ export class ViewCourseRecommendationComponent {
     }, 3000); 
   });
 }
+
+downloadPdfFromBE() {
+  this.loading = true
+//  this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)
+  
+  this.sharedService.downloadPdfForCourseRecommendation(this.data?.id)  
+  
+  
+  setTimeout(()=>{
+    this.loading = false
+  },5000)
+}
 }

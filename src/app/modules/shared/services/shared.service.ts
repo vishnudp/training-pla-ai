@@ -43,7 +43,8 @@ const API_END_POINTS = {
   GET_USER_PROFILE: 'cbp-tpc-ai/api/v1/users/me',
   GET_USER_RECOMMENED_COURSES: 'cbp-tpc-ai/api/v1/course-recommendations',
   DOWNLOAD_PDF: 'cbp-tpc-ai/api/v1/cbp-plan/download',
-  CENTER_BASED_MINISTRY: 'cbp-tpc-ai/api/v1/department/state-center'
+  CENTER_BASED_MINISTRY: 'cbp-tpc-ai/api/v1/department/state-center',
+  DOWNLOAD_COURSE_RECOMMENDATION: 'cbp-tpc-ai/api/v1/course-recommendations/report/download'
 }
 
 
@@ -669,5 +670,42 @@ export class SharedService {
         return response
       }))
   }
+
+
+  downloadPdfForCourseRecommendation(state_center_id) {
+    
+    const url = `${this.baseUrl}${API_END_POINTS.DOWNLOAD_COURSE_RECOMMENDATION}?role_mapping_id=${state_center_id}`;
+    const headers = this.headers
+
+    return this.http.get(url, {
+      headers,
+      observe: 'response',
+      responseType: 'blob'
+    }).subscribe((res: any) => {
+
+      const contentDisposition = res.headers.get('content-disposition');
+      let filename = `COURSE_RECOMMENDATION_Report_${state_center_id}.pdf`;
+
+      if (contentDisposition) {
+        const match = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+      }
+
+      // Create a blob URL and download
+      const blob = new Blob([res.body], { type: 'application/pdf' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = filename;
+      a.click();
+
+      URL.revokeObjectURL(downloadUrl);
+    });
+  }
+
+
 }
 
