@@ -11,7 +11,8 @@
     </div>
     <div class="section-container mt-2" #pdfContent>
         <div class="ministry-heading mt-2">
-            {{cbpPlanData?.ministry.orgName}}
+           <span *ngIf="!cbpPlanData?.department_name">{{cbpPlanData?.ministry.orgName}}</span> 
+           <span *ngIf="cbpPlanData?.department_name">{{cbpPlanData?.department_name}}</span> 
             <span *ngIf="planData?.designation_name"> / {{planData?.designation_name}}</span>
         </div>
         <div class="competency-container mt-4">

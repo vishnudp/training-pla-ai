@@ -30,7 +30,8 @@
                     <div class="text-right" style="width:50%">
                         <h1 class="text-2xl font-bold text-gray-900">
                            <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'state'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span> 
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span>  - Capacity Building Plan
+                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span>
+                           <span *ngIf="sharedService?.cbpPlanFinalObj?.department_name">/{{sharedService?.cbpPlanFinalObj?.department_name}}</span>  - Capacity Building Plan
                         </h1>
                         <p class="text-gray-600">Comprehensive Role-Based Competency Analysis</p>
                     </div>
@@ -328,6 +329,9 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Recommended Courses-->
+                                 
                             </div>
                         </ng-container>
                     </div>
