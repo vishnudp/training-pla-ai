@@ -1,0 +1,154 @@
+<div class="upload-container">
+    <div class="header">
+        <div class="sub-heading mt-10 cursor-pointer">
+            <p (click)="routeToMain()"><mat-icon style="vertical-align: middle;">arrow_back</mat-icon><span
+                    class="pl-10">Back to Role Mapping</span></p>
+        </div>
+
+    </div>
+    <mat-card class="mat-card-container" [formGroup]="roleMappingForm">
+        <div class="header">
+            <div class="sub-heading">
+                <p>CBP Document Library</p>
+            </div>
+           
+           
+        </div>
+        <div class="edit-section mt-4">
+            <div class="select-map-route-container">
+                <div class="select-map-flex-container">
+                    <div class="select-map-flex">
+                        <div class="selected-mapping-route">
+                            <p>{{cbpPlanFinalObj?.ministry?.orgName}} <span
+                                    *ngIf="sharedService?.cbpPlanFinalObj?.department_name">
+                                    / {{cbpPlanFinalObj?.department_name}}</span>
+                            </p>
+                        </div>
+                        <div class="edit-plan cursor-pointer" (click)="routeToMain()">
+                            <mat-icon>edit</mat-icon>Edit
+                        </div>
+<!--                            <div class="cursor-pointer ml-10">-->
+<!--                                <button class="btn-active cursor-pointer" (click)="moveToInitialScreenLayout('add')">-->
+<!--                                    <mat-icon>add</mat-icon>-->
+<!--                                    Create New CBP-->
+<!--                                </button>-->
+<!--                            </div>-->
+                    </div>
+                    <div>
+                        <button [ngClass]="!(cbpPlanFinalObj?.ministry?.orgName) ? 'btn-disable':'btn-active'" mat-raised-button
+                            color="primary" [disabled]="!(cbpPlanFinalObj?.ministry?.orgName)" (click)="openUploadDialog()">
+                            <mat-icon>upload</mat-icon> Upload Document
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </mat-card>
+    <mat-card class="mat-card-container">
+        <div class="sub-heading">
+            <p>Uploaded Documents</p>
+        </div>
+        <div class="search flex margin-right-m">
+            <div class="mt-10">
+                <div class="search-container">
+                    <div class="rsearch">
+                        <mat-icon
+                            class="color-60 search-icon mat-icon notranslate material-icons mat-icon-no-color">search</mat-icon>
+                        <input class="sinput color-60 w-full" [(ngModel)]="searchText" label="" (input)="applyFilter()"
+                            placeholder="Search Documents" type="Standard">
+                        <mat-icon *ngIf="searchText.trim().length > 0"
+                            class="color-60 clear-icon mat-icon notranslate material-icons mat-icon-no-color cursor-pointer"
+                            (click)="clearSearch()">clear</mat-icon>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+        <p class="mt-10" style="font-family: 'Lato'; font-size: 18px; margin-left: 10px;">
+            {{filteredDocuments()?.length}} Documents</p>
+        <table mat-table [dataSource]="filteredDocuments()" class="mat-elevation-z2 full-width-table mt-10">
+
+            <!-- Document Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Document </th>
+                <td mat-cell *matCellDef="let doc" style="width: 15%;">
+                    <div>
+                        <div class="doc-title" *ngIf="doc.document_name">{{ doc.document_name }}</div>
+                        <div class="doc-title" *ngIf="!doc.document_name">{{ doc.originalName }}</div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Summary Status Column -->
+            <ng-container matColumnDef="summary_status">
+                <th mat-header-cell *matHeaderCellDef> Summary Status </th>
+                <td mat-cell *matCellDef="let doc" style="width: 15%;"> {{ doc.summary_status }} </td>
+            </ng-container>
+
+            <!-- Summary Text Column -->
+            <ng-container matColumnDef="summary_text">
+                <th mat-header-cell *matHeaderCellDef> Summary </th>
+                <td mat-cell *matCellDef="let doc">
+                    <div class="doc-summary-text" style="width: 80%;">
+                        <markdown [data]="doc?.summary_text | slice : 0 : 200"></markdown>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let doc" style="width: 15%;"> {{ doc.created_at | date: 'MMM d, y'}} </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let doc" style="width: 15%;">
+                    <button mat-icon-button color="primary" (click)="downloadDoc(doc)" matTooltip="Download">
+                        <mat-icon>download</mat-icon>
+                    </button>
+
+                    <button *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="primary"
+                        (click)="viewSummary(doc)" matTooltip="View Summary">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+
+                    <button *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="warn"
+                        (click)="deleteDocument(doc)" matTooltip="Delete">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <!-- Header and Row Definitions -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- No Data Message -->
+
+        </table>
+        <div *ngIf="filteredDocuments().length === 0" class="no-data-message">
+            No record found
+        </div>
+        <!-- Pagination -->
+        <div class="mt-10">
+            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+        </div>
+
+
+    </mat-card>
+</div>
+
+
+<div class="overlay-loader" *ngIf="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>

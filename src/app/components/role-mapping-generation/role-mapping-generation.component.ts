@@ -12,7 +12,7 @@ import { RoleMappingService } from 'src/app/modules/shared/services/role-mapping
 import { interval, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, takeWhile, tap } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators'; 
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-role-mapping-generation',
   templateUrl: './role-mapping-generation.component.html',
@@ -101,7 +101,8 @@ apiLoading= false
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    public roleMappingService: RoleMappingService
+    public roleMappingService: RoleMappingService,
+    private router: Router
   ) {
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
@@ -147,8 +148,22 @@ apiLoading= false
         }
         this.roleMappingForm.get('departments')?.updateValueAndValidity();
       });
+      this.roleMappingForm.statusChanges.subscribe((status:any) => {
+        let hasUploadDocuments =  false
+        this.router.events.subscribe(() => {
+           hasUploadDocuments =
+            this.router.url.includes('/upload-documents');
+          
+        });
+        if(!hasUploadDocuments) {
+          this.sharedService.checkRoleMappingFormValidation.next(status);
+          
+        }
+        
+      });
     }
 
+    
    
 
 
@@ -183,7 +198,19 @@ apiLoading= false
         departments: [this.cbpFinalObj?.departments], // shown only if ministryType == 'state'
         additionalDetails: ['']
       });
-
+      this.roleMappingForm.statusChanges.subscribe((status:any) => {
+        let hasUploadDocuments =  false
+        this.router.events.subscribe(() => {
+           hasUploadDocuments =
+            this.router.url.includes('/upload-documents');
+          
+        });
+        if(!hasUploadDocuments) {
+          this.sharedService.checkRoleMappingFormValidation.next(status);
+          
+        }
+        
+      });
 
       // this.roleMappingForm.get('sectors')?.setValue([]);
       // this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {
@@ -227,6 +254,19 @@ apiLoading= false
         additionalDetails: [this.cbpFinalObj?.additionalDetails]
       });
 
+      this.roleMappingForm.statusChanges.subscribe((status:any) => {
+        let hasUploadDocuments =  false
+        this.router.events.subscribe(() => {
+           hasUploadDocuments =
+            this.router.url.includes('/upload-documents');
+          
+        });
+        if(!hasUploadDocuments) {
+          this.sharedService.checkRoleMappingFormValidation.next(status);
+          
+        }
+        
+      });
 
       // this.roleMappingForm.get('sectors')?.setValue([]);
       // this.roleMappingForm.get('ministryType')?.valueChanges.subscribe(type => {

@@ -47,11 +47,13 @@ export class LoginComponent {
           localStorage.setItem('loginData', JSON.stringify(_res))
           localStorage.setItem('userEmail',username)
           this.success.emit(true)
+          this.sharedService.loginSuccess.next(true)
           this.snackBar.open('Login Successful!', 'X', {
             duration: 3000,
             panelClass: ['snackbar-success']
           });
         } else {
+          this.sharedService.loginSuccess.next(false)
           this.snackBar.open('Invalid username or password', 'X', {
             duration: 3000,
             panelClass: ['snackbar-error']
@@ -60,6 +62,7 @@ export class LoginComponent {
       },
       error: (error) => {
         this.loading = false
+        this.sharedService.loginSuccess.next(false)
         console.error('Login error:', error);
         this.snackBar.open('Invalid username or password', 'X', {
           duration: 3000,

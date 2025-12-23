@@ -1,6 +1,6 @@
 <div class="request-container">
     <div class="header-container">
-        <div class="left-container mt-4 mb-1">            
+        <div class="left-container mt-4 mb-1 cursor-pointer" (click)="routeToMain()">            
             <div>
                 <img src="assets/icons/dopt-logo.png"
                     alt="Department of Personnel & Training" class="h-50" />
@@ -20,24 +20,43 @@
             </div>
         </div>
         
-        <div class="right-container mt-4" *ngIf="loginSuccess">
+        <div class="right-container mt-4" style="justify-content: space-between;" *ngIf="loginSuccess">
             <div><mat-icon>help</mat-icon></div>
-            <div><mat-icon>settings</mat-icon></div>
-            <div class="cursor-pointer" [matTooltip]="userEmail"><img src="assets/icons/user.png" alt="Profile" class="profile-pic"></div>
-            <div class="cursor-pointer" (click)="logout()" matTooltip="Logout"><mat-icon>logout</mat-icon></div>
+            <div style="margin-top: -5px;">
+                <!-- <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+                  <mat-icon>settings</mat-icon>
+                </button> -->
+              
+                <!-- <mat-menu #settingsMenu="matMenu">
+                  <button mat-menu-item (click)="goToUploadDocument()">
+                    <mat-icon>upload</mat-icon>
+                    <span>Manage Documents</span>
+                  </button>
+                </mat-menu> -->
+                <div>
+                <button [ngClass]="disableUploadDocument ? 'btn-active-disable':'btn-active'" class="" [disabled]="disableUploadDocument"  mat-raised-button color="primary" (click)="goToUploadDocument()">
+                    <mat-icon>upload</mat-icon> Manage Documents
+                </button>
+            </div>
+              </div>
+            <div class="cursor-pointer" [matTooltip]="userEmail">
+                <img src="assets/icons/user.png" alt="Profile" class="profile-pic">
+            </div>
+            <div style="margin-left: 10px;" class="cursor-pointer" (click)="logout()" matTooltip="Logout"><mat-icon>logout</mat-icon></div>
         </div>
     </div>
     
 </div>
 
 <div class="container-fluid">
+    <router-outlet></router-outlet>
     <!-- <div class="heading">Create CBP</div> -->
-    <div *ngIf="nextStep === 'initial'">
+    <!-- <div *ngIf="nextStep === 'initial'">
         <app-role-mapping-generation [loginStatusFlag]="loginSuccess" (successRoleMapping)="successRoleMapping($event)" (loginSuccess)="loginSuccessStatus($event)" (alreadyAvailableRoleMapping)="alreadyAvailableRoleMapping($event)"></app-role-mapping-generation>
     </div>
     <div *ngIf="nextStep === 'role-mapping'">
         <app-role-mapping-list [formData]="formData" (moveToInitialScreen)="moveToInitialScreen($event)"></app-role-mapping-list>
-    </div>
+    </div> -->
 </div>
 
 

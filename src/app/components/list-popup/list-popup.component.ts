@@ -14,6 +14,7 @@ export class ListPopupComponent {
   listType:any
   constructor( public dialogRef: MatDialogRef<ListPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+      console.log('data--',data)
       if(data && data.element && data.type) {
         this.listData = data.element
         this.listType = data.type
