@@ -36,7 +36,8 @@ export class GenerateCourseRecommendationComponent {
   stageStartTime: number = 0;
   constructor(public dialogRef: MatDialogRef<GenerateCourseRecommendationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
-    private snackBar: MatSnackBar, public dialog: MatDialog) {
+    private snackBar: MatSnackBar, public dialog: MatDialog,
+    private fb: FormBuilder) {
     this.planData = data
   }
   searchText = ''
@@ -82,15 +83,43 @@ export class GenerateCourseRecommendationComponent {
   behaviouralMatched = []
   functionalMatched = []
   domainMatched = []
+  filterForm!: FormGroup;
+  competenciesType= ['All','Behavioural','Functional', 'Domain' ]
+  ratings = ['4.5 and above', '4.0 and above', '3.5 and above','2.5 and above','1 and above'];
+  languages = ['English', 'Hindi', 'Tamil','Kannada', 'Telugu', 'Malayalam', 'Assamese', 'Bengali', 'Gujarati', 'Marathi','Odia', 'Punjabi', 'Konkani', 'Bodo', 'Dogri', 'Kashmiri', 'Maithili','Manipuri', 'Nepali','Sanskrit','Santali','Sindhi','Urdu'];
+  durations = ['< 1 Hour', '1-5 Hours', '5+ Hours'];
+  providers = [];
+  filteredCompetency = [...this.competenciesType];
+  filteredRatings = [...this.ratings];
+  filteredLanguages = [...this.languages];
+  filteredDurations = [...this.durations];
+  filteredProviders = [...this.providers];
+  fullCourseList = []
+   // Selected filters
+  selectedCompetency = 'All';
+  selectedRating: string | null = null;
+  selectedLanguage: string | null = null;
+  selectedDuration: string | null = null;
+  selectedProvider: string | null = null;
+
   selectCategory(category: string) {
     this.selectedCategory = category;
     this.gapAnalysisStats()
   }
   ngOnInit() {
+    this.filterForm = this.fb.group({
+      competency: [[]],
+      rating: [[]],
+      language: [[]],
+      duration: [[]],
+      provider: [[]]
+    });
     this.loadComponentData();
   }
 
-  applyFilter() {
+  applyFilter(value:any) {
+    console.log('this.searchText', value)
+    this.searchText = value
     this.filterdCourses = this.filterData(this.searchText);
   }
 
@@ -459,22 +488,22 @@ export class GenerateCourseRecommendationComponent {
     let competencies = [];
     if (course.competencies && Array.isArray(course.competencies)) {
       competencies = course.competencies;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
+    //  console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies' property:`, competencies);
     } else if (course.competencies_v6 && Array.isArray(course.competencies_v6)) {
       competencies = course.competencies_v6;
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
+     // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) using 'competencies_v6' property:`, competencies);
     } else {
-      console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
-        hasCompetencies: !!course.competencies,
-        competenciesType: typeof course.competencies,
-        hasCompetenciesV6: !!course.competencies_v6,
-        competenciesV6Type: typeof course.competencies_v6,
-        courseKeys: Object.keys(course)
-      });
+      // console.log(`Course ${index} (${course.course_type || course.name || 'Unknown'}) has no valid competencies property:`, {
+      //   hasCompetencies: !!course.competencies,
+      //   competenciesType: typeof course.competencies,
+      //   hasCompetenciesV6: !!course.competencies_v6,
+      //   competenciesV6Type: typeof course.competencies_v6,
+      //   courseKeys: Object.keys(course)
+      // });
     }
     
     if (competencies.length === 0) {
-      console.log(`No competencies found for course ${index} and type ${type}`);
+    //  console.log(`No competencies found for course ${index} and type ${type}`);
       return [];
     }
     
@@ -498,7 +527,7 @@ export class GenerateCourseRecommendationComponent {
       return competencyArea === normalizedType;
     });
     
-    console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
+   // console.log(`Found ${matchedCompetencies.length} competencies of type ${type} for course ${index}:`, matchedCompetencies);
     return matchedCompetencies;
   }
 
@@ -582,6 +611,8 @@ export class GenerateCourseRecommendationComponent {
     
     // Get all available courses (original + suggested + user added)
     const allAvailableCourses = this.getAllAvailableCourses();
+
+
     
     switch (tabIndex) {
       case 0: // All
@@ -646,7 +677,17 @@ export class GenerateCourseRecommendationComponent {
       userAddedCourses: this.userAddedCourses.length,
       totalAvailable: allCourses.length
     });
-    
+
+    console.log('allCourses--', allCourses)
+    allCourses.forEach((item)=>{
+      if(item && item.organisation && item.organisation.length) {
+        if(this.filteredProviders.indexOf(item.organisation[0]) < 0) {
+          this.filteredProviders.push(item.organisation[0])
+        }
+        
+      }
+    })
+    this.fullCourseList = allCourses
     return allCourses;
   }
 
@@ -656,6 +697,7 @@ export class GenerateCourseRecommendationComponent {
    */
   rebuildFilteredCourses() {
     this.filterdCourses = this.getAllAvailableCourses();
+    
     console.log('Rebuilt filterdCourses with all course types:', {
       total: this.filterdCourses.length,
       breakdown: {
@@ -1887,6 +1929,190 @@ export class GenerateCourseRecommendationComponent {
       });
     });
   }
+
+  resetFilters(): void {
+    this.filterForm.reset({
+      competency: [],
+      rating: [],
+      language: [],
+      duration: [],
+      provider: []
+    });
+  
+    // Reset filtered dropdown lists
+    this.filteredCompetency = [...this.competenciesType];
+    this.filteredRatings = [...this.ratings];
+    this.filteredLanguages = [...this.languages];
+    this.filteredDurations = [...this.durations];
+    this.filteredProviders = [...this.providers];
+  
+    // Reset course list
+    this.filterdCourses = [...this.fullCourseList];
+    // this.fullCourseList.forEach((item)=>{
+    //   if(item && item.organisation && item.organisation.length) {
+    //     if(this.filteredProviders.indexOf(item.organisation[0]) < 0) {
+    //       this.filteredProviders.push(item.organisation[0])
+    //     }
+        
+    //   }
+    // })
+    this.getAllAvailableCourses()
+  }
+
+  filterList(value: string, type: string) {
+    const search = value.toLowerCase();
+
+    switch (type) {
+      case 'competency':
+        this.filteredCompetency = this.competenciesType.filter(v => v.toLowerCase().includes(search));
+        break;
+      case 'rating':
+        this.filteredRatings = this.ratings.filter(v => v.toLowerCase().includes(search));
+        break;
+      case 'language':
+        this.filteredLanguages = this.languages.filter(v => v.toLowerCase().includes(search));
+        break;
+      case 'duration':
+        this.filteredDurations = this.durations.filter(v => v.toLowerCase().includes(search));
+        break;
+      case 'provider':
+        this.filteredProviders = this.providers.filter(v => v.toLowerCase().includes(search));
+        break;
+    }
+  }
+
+  normalizeCompetency(value: string): string {
+    if (!value) return '';
+    const v = value.toLowerCase();
+  
+    if (v === 'all') return 'all';
+    if (v.includes('behavioural') || v.includes('behavioral')) return 'behavioral';
+    if (v.includes('functional')) return 'functional';
+    if (v.includes('domain')) return 'domain';
+  
+    return '';
+  }
+
+  applyFilters(): void {
+    const {
+      competency = [],
+      rating = [],
+      language = [],
+      duration = [],
+      provider = []
+    } = this.filterForm.value;
+  
+    this.filterdCourses = this.fullCourseList.filter(course => {
+  
+      /* ---------------- Competency ---------------- */
+      const courseCompetencies = [
+        ...(course.competencies || []),
+        ...(course.competencies_v6 || [])
+      ];
+  
+      const selectedCompetencies = competency
+        .map((c: string) => this.normalizeCompetency(c))
+        .filter(c => c !== '');
+
+      const competencyMatch =
+        selectedCompetencies.length === 0 ||
+        selectedCompetencies.includes('all') ||
+        courseCompetencies.some((c: any) =>
+          selectedCompetencies.includes(
+            this.normalizeCompetency(c.competencyAreaName)
+          )
+        );
+  
+      /* ---------------- Rating ---------------- */
+      const ratingMatch =
+        rating.length === 0 ||
+        this.matchRating(course, rating);
+  
+      /* ---------------- Language ---------------- */
+      const languageMatch =
+        language.length === 0 ||
+        language.some((l: string) =>
+          course.language === l ||
+          course.language?.includes?.(l) ||
+          course.language?.[0]?.includes?.(l)
+        );
+  
+      /* ---------------- Duration ---------------- */
+      const durationMatch =
+        duration.length === 0 ||
+        this.matchDuration(course.duration, duration);
+  
+      /* ---------------- Provider ---------------- */
+      const providerMatch =
+        provider.length === 0 ||
+        provider.some((p: string) =>
+          course.organisation?.includes(p)
+        );
+  
+      return (
+        competencyMatch &&
+        ratingMatch &&
+        languageMatch &&
+        durationMatch &&
+        providerMatch
+      );
+    });
+  }
+
+  matchRating(course: any, selectedRatings: string[]): boolean {
+    if (!selectedRatings || selectedRatings.length === 0) {
+      return true; // no filter selected → match everything
+    }
+  
+    let rating = null;
+  
+    // 1️⃣ Use avgRating if available
+    if (course.avgRating != null && !isNaN(course.avgRating)) {
+      rating = Number(course.avgRating);
+    } 
+    // 2️⃣ Map relevancy if avgRating missing
+    else if (course.relevancy != null && !isNaN(course.relevancy)) {
+      const rel = Number(course.relevancy);
+      if (rel >= 90) rating = 4.5;
+      else if (rel >= 80) rating = 4.0;
+      else if (rel >= 70) rating = 3.5;
+      else if (rel >= 50) rating = 2.5;
+      else rating = 1.0;
+    }
+  
+    // 3️⃣ No usable rating → exclude
+    if (rating === null) return false;
+  
+    // 4️⃣ Match selected rating ranges
+    return selectedRatings.some(r => {
+      switch (r) {
+        case '4.5 and above': return rating >= 4.5;
+        case '4.0 and above': return rating >= 4.0;
+        case '3.5 and above': return rating >= 3.5;
+        case '2.5 and above': return rating >= 2.5;
+        case '1 and above': return rating >= 1.0;
+        default: return false;
+      }
+    });
+  }
+  
+
+  matchDuration(durationInSeconds: number | string, selectedRanges: string[]): boolean {
+    const hours = Number(durationInSeconds) / 3600;
+  
+    return selectedRanges.some(range => {
+      switch (range) {
+        case '< 1 Hour':
+          return hours < 1;
+        case '1-5 Hours':
+          return hours >= 1 && hours <= 5;
+        case '5+ Hours':
+          return hours > 5;
+        default:
+          return true;
+      }
+    });
+  }
 }
 
 // Confirmation Dialog Component
@@ -2000,4 +2226,6 @@ export class RegenerateConfirmationDialog {
   onConfirm(): void {
     this.dialogRef.close(true);
   }
+
+ 
 }

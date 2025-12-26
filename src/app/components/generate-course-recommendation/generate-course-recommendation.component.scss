@@ -1333,21 +1333,24 @@ background: #f8f9fa;
 // New improved layout styles
 .section-header-improved {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-direction: row;
+  gap: 35px;
+  width: 100%;
 }
 
 .search-and-buttons-container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-direction: column;
   flex-wrap: wrap;
+  width: 20%;
 }
+
 
 .search-container-compact {
   flex: 0 0 auto;
-  min-width: 280px;
+  min-width: 180px;
 
   .rsearch {
     position: relative;
@@ -1365,7 +1368,7 @@ background: #f8f9fa;
 
   .sinput-compact {
     border-radius: 25px;
-    border: 1px solid #d5d0d0;
+    border: 1px solid #000;
     padding: 8px 12px 8px 40px;
     height: 32px;
     width: 100%;
@@ -1950,4 +1953,27 @@ background: #f8f9fa;
     color: #000;
     font-weight: 600;
   }
+}
+
+.select-all-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+::ng-deep .search-and-buttons-container {
+  .mat-form-field-infix {
+  
+    padding: 8px !important;
+  }
+
+  .mat-form-field-wrapper {
+    width: 100% !important;
+  }
+
+ 
+}
+
+::ng-deep  .select-search-panel {
+  border: 1px solid #000 !important;
 }
