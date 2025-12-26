@@ -2,7 +2,7 @@
     <div class="popup-container">
         <div class="popup-header">
             <div>
-                <div class="heading">View Final CBP</div>
+                <div class="heading">View Final <span *ngIf="openedFrom === 'cbp'">CBP</span><span *ngIf="openedFrom === 'acbp'">ACBP</span></div>
             </div>
             <div class="cursor-pointer" (click)="closeDialog()">
                 <mat-icon>close</mat-icon>
@@ -29,9 +29,9 @@
                     </div>
                     <div class="text-right" style="width:50%">
                         <h1 class="text-2xl font-bold text-gray-900">
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'state'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span> 
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span>
-                           <span *ngIf="sharedService?.cbpPlanFinalObj?.department_name">/{{sharedService?.cbpPlanFinalObj?.department_name}}</span>  - Capacity Building Plan
+                            <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'state'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span> 
+                            <span *ngIf="sharedService?.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry'">{{sharedService?.cbpPlanFinalObj?.ministry?.orgName}}</span>
+                            <span *ngIf="sharedService?.cbpPlanFinalObj?.department_name">/{{sharedService?.cbpPlanFinalObj?.department_name}}</span>  - Capacity Building Plan
                         </h1>
                         <p class="text-gray-600">Comprehensive Role-Based Competency Analysis</p>
                     </div>
@@ -328,10 +328,176 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <!-- Adding courses -->
+                                    <div class="cbp mt-4" *ngIf="designation.selectedCourses?.length && openedFrom === 'acbp'">
+                                              <h4 class="text-xl font-semibold text-gray-900 mb-3 flex items-center">
+                                            <svg class="h-5 w-5 mr-2 text-indigo-600 icon-sm" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                           Courses
+                                        </h4>
+                                        <div class="course-list-container">
+                                            <div class="course-list-item" *ngFor="let item of designation.selectedCourses; let i = index">
+                                                <div class="course-header">
+                                                    <div class="checked-course-container">
+                                    
+                                                        <div>
+                                                            <div class="course-pill">
+                                                                <div class="course-pill-text">
+                                                                    <span><img src="assets/icons/course.svg"></span>&nbsp;<span>Course</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                    
+                                                    </div>
+                                                    <div *ngIf="item?.rationale && !item?.is_public">
+                                                        <div class="ai-recommened-pill-green">
+                                                            <div class="ai-recommened-pill-green-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                                                <span>AI Recommended - iGOT </span>
+                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform -
+                                                                        {{item?.platform}}</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <span>Provider - {{item?.organisation[0]}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="item?.rationale && item?.is_public">
+                                                        <div class="ai-recommened-pill-public">
+                                                            <div class="ai-recommened-pill-public-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                                                <span>AI Recommended - Public </span>
+                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform -
+                                                                        {{item?.platform}}</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <span>Provider - {{item?.organisation[0]}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="!item?.rationale">
+                                                        <div class="ai-recommened-pill-gray">
+                                                            <div class="ai-recommened-pill-gray-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                    
+                                                                <span>Manually Suggested - iGOT </span>
+                                    
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.platform">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <a class="cursor-pointer" [href]="item?.public_link" target="_blank"><span>Platform -
+                                                                        {{item?.platform}}</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ai-recommened-pill-orange mt-2" *ngIf="item?.organisation?.length">
+                                                            <div class="ai-recommened-pill-orange-text">
+                                                                <span class="ai-loader-icon"><img src="assets/icons/ai-loader.gif"></span>
+                                                                <span>Provider - {{item?.organisation[0]}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="course-title mt-4">
+                                                    <div>
+                                                        <div *ngIf="item?.course">{{item?.course}}</div>
+                                                        <div *ngIf="item?.name">{{item?.name}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="course-desc mt-2">
+                                                    <div *ngIf="isPDFDownload">
+                                                        <div>{{item?.rationale}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3" *ngIf="getCompetenciesByType('Behavioural',item)?.length">
+                                                    <div class="competency-sub-heading">Behavioral Competencies</div>
+                                                    <ul class="competency-list mt-1">
+                                                        <li class="behavioural-pill" *ngFor="let comp of getDisplayedCompetencies('Behavioural',item)">
+                                                            <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                                {{
+                                                                comp.competencySubThemeName }} </span>
+                                                        </li>
+                                                        <li *ngIf="hasMoreThanTwo('Behavioural',item)" class="show-more-competency">
+                                                            <span class="show-more-link cursor-pointer" (click)="toggleCompetencies('Behavioural',item)">
+                                                                {{ isExpanded('Behavioural',item) ? 'Show Less' : '+' +
+                                                                getRemainingCount('Behavioural',item) + ' More' }}
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mt-2" *ngIf="getCompetenciesByType('Functional',item)?.length">
+                                                    <div class="competency-sub-heading">Functional Competencies</div>
+                                                    <ul class="competency-list mt-1">
+                                                        <li class="functional-pill" *ngFor="let comp of getDisplayedCompetencies('Functional',item)">
+                                                            <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                                {{
+                                                                comp.competencySubThemeName }} </span>
+                                                        </li>
+                                                        <li *ngIf="hasMoreThanTwo('Functional',item)" class="show-more-competency">
+                                                            <span class="show-more-link cursor-pointer" (click)="toggleCompetencies('Functional',item)">
+                                                                {{ isExpanded('Functional',item) ? 'Show Less' : '+' +
+                                                                getRemainingCount('Functional',item) + ' More' }}
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mt-2" *ngIf="getCompetenciesByType('Domain',item)?.length">
+                                                    <div class="competency-sub-heading">Domain Competencies</div>
+                                                    <ul class="competency-list mt-1">
+                                                        <li class="domain-pill" *ngFor="let comp of getDisplayedCompetencies('Domain',item)">
+                                                            <span class="competency-text"> {{ comp.competencyThemeName }} -
+                                                                {{
+                                                                comp.competencySubThemeName }} </span>
+                                                        </li>
+                                                        <li *ngIf="hasMoreThanTwo('Domain',item)" class="show-more-competency">
+                                                            <span class="show-more-link cursor-pointer" (click)="toggleCompetencies('Domain',item)">
+                                                                {{ isExpanded('Domain',item) ? 'Show Less' : '+' +
+                                                                getRemainingCount('Domain',item) + ' More' }}
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="mt-2 d-flex justify-content-between item">
+                                                    <div class="relevancy-container">
+                                                        <div class="relevancy">Relevancy</div>
+                                                        <div class="dash">-</div>
+                                                        <div class="percentage" *ngIf="item?.relevancy">{{item?.relevancy}}%</div>
+                                                        <div class="percentage" *ngIf="!item?.relevancy">N/A</div>
+                                                    </div>
+                                             
+                                                </div>
 
-                                <!-- Recommended Courses-->
-                                 
+                                            </div>
+                                    
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- adding courses -->
+                                </div>
                             </div>
                         </ng-container>
                     </div>
@@ -365,7 +531,7 @@
                 <input class="btn-active" type="button" value="Download as Excel" (click)="downloadCSV()" />
             </div>
             <div>
-                <input class="btn-active" type="button" value="Download as PDF" (click)="downloadPdfFromBE()" />
+                <input class="btn-active" type="button" value="Download as PDF" (click)="downloadPdfFromBE(openedFrom)" />
             </div>
             <div>
                 <input class="btn-active" type="button" value="Cancel" (click)="cancelForm()" />

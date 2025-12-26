@@ -1,35 +1,63 @@
-<div class="view-cbp-plan">
-    <div class="popup-container">
+<!-- VIEW COURSE DELETE CONFIRMATION -->
+<ng-container *ngIf="isViewCourse; else regenerateCBP">
+    <!-- 👇 PUT YOUR "Delete Course" HTML HERE -->
+    <!-- Example structure only -->
+    <div class="view-cbp-plan">
+      <div class="popup-container">
         <div class="popup-header">
-            <div>
-                <div class="heading">Regenerate CBP</div>
-            </div>
-            <div class="cursor-pointer" (click)="cancel()">
-                <mat-icon>close</mat-icon>
-            </div>
+          <div class="heading">Delete Course</div>
+          <div class="cursor-pointer" (click)="cancel()">
+            <mat-icon>close</mat-icon>
+          </div>
         </div>
+  
         <div class="section-container mt-4">
-            <div class="progress-icon">
-                <img src="assets/icons/info.svg" style="scale: 2;margin: 10px;">
-            </div>
-            <!-- <div class="heading">
-                <div>Regenerate CBP</div>
-            </div> -->
-            <div class="mt-2">
-                <div>CBP is already available for <b>{{sharedService?.cbpPlanFinalObj?.department_name?.name}}</b>, Do you want to Regenerate the Capacity building plan ?</div>
-            </div>
-
+          <div class="progress-icon">
+            <img src="assets/icons/info.svg" style="scale: 2;margin: 10px;">
+          </div>
+          <div>
+            Are you sure you want to delete this course?
+          </div>
         </div>
+  
         <div class="popup-footer mt-4">
-            <div>
-                <input class="btn-active" type="button" value="No" (click)="cancel()" />
-            </div>
-            <div>
-                <input class="btn-active" type="button" value="Yes" (click)="regenerateRoleMapping()" />
-            </div>
+          <input class="btn-active" type="button" value="No" (click)="cancel()" />
+  <input class="btn-active" type="button" value="Yes" (click)="confirmDelete()" />
         </div>
+      </div>
     </div>
-</div>
-<!-- <div class="overlay-loader" *ngIf="loading">
-    <mat-spinner diameter="50"></mat-spinner>
-</div> -->
+  </ng-container>
+  
+  <!-- REGENERATE CBP -->
+  <ng-template #regenerateCBP>
+    <!-- 👇 YOUR EXISTING HTML (you already shared this) -->
+    <div class="view-cbp-plan">
+      <div class="popup-container">
+        <div class="popup-header">
+          <div>
+            <div class="heading">Regenerate CBP</div>
+          </div>
+          <div class="cursor-pointer" (click)="cancel()">
+            <mat-icon>close</mat-icon>
+          </div>
+        </div>
+  
+        <div class="section-container mt-4">
+          <div class="progress-icon">
+            <img src="assets/icons/info.svg" style="scale: 2;margin: 10px;">
+          </div>
+  
+          <div class="mt-2">
+            CBP is already available for
+            <b>{{ sharedService?.cbpPlanFinalObj?.department_name?.name }}</b>,
+            Do you want to Regenerate the Capacity building plan ?
+          </div>
+        </div>
+  
+        <div class="popup-footer mt-4">
+          <input class="btn-active" type="button" value="No" (click)="cancel()" />
+          <input class="btn-active" type="button" value="Yes" (click)="regenerateRoleMapping()" />
+        </div>
+      </div>
+    </div>
+  </ng-template>

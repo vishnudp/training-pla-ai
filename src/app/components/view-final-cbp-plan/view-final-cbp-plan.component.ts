@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as XLSX from 'xlsx';
+import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
 @Component({
   selector: 'app-view-final-cbp-plan',
   templateUrl: './view-final-cbp-plan.component.html',
@@ -20,6 +21,7 @@ export class ViewFinalCbpPlanComponent {
     public sharedService: SharedService,
     private snackBar: MatSnackBar
   ) {
+    this.openedFrom = data?.openedFrom;
     this.getMappingData()
   }
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
@@ -28,6 +30,12 @@ export class ViewFinalCbpPlanComponent {
   totalCompetencieObj = { total: 0, behavioral: 0, functional: 0, domain: 0 }
   pdfTrigger = false
   jsonData = []
+  filterdCourses = [];
+  planData: any
+  recommended_course_id = ''
+  expandedCompetencies: any = {};
+  competenciesCount = { total: 0, public_courses: 0, igot: 0 };
+  openedFrom!: string;
   @ViewChild('dialogContent') dialogContent!: ElementRef;
   // designationData = [
   //   {
@@ -119,7 +127,7 @@ export class ViewFinalCbpPlanComponent {
 
   ngAfterViewInit() {
     console.log('this.data', this.data)
-    this.jsonData = this.data
+    this.jsonData = this.data?.payload
     this.cdr.detectChanges();
 
     setTimeout(() => {
@@ -138,12 +146,11 @@ export class ViewFinalCbpPlanComponent {
   }
 
   getMappingData() {
-
-    console.log('haredService?.cbpPlanFinalObj', this.sharedService?.cbpPlanFinalObj)
+    console.log('haredService?.cbpPlanFinalObj', this.sharedService.getCbpPlansWithSelectedCourses())
     if (this.sharedService?.cbpPlanFinalObj.ministry.sbOrgType === 'ministry') {
       this.loading = true
       let state_center_id = this.sharedService?.cbpPlanFinalObj.ministry.identifier
-      if(this.sharedService?.cbpPlanFinalObj.departments) {
+      if(this.sharedService?.cbpPlanFinalObj.departments?.length) {
         let department_id = this.sharedService?.cbpPlanFinalObj.departments
         this.sharedService.getRoleMappingByStateCenterAndDepartment(state_center_id, department_id).subscribe({
           next: (res) => {
@@ -178,6 +185,12 @@ export class ViewFinalCbpPlanComponent {
   
                 }
               });
+              const cbpPlans = res[i]?.cbp_plans || [];
+
+              const latestPlan = cbpPlans.length
+                ? cbpPlans[cbpPlans.length - 1]
+                : null;
+
               let obj: any = {
                 designation: res[i].designation_name,
                 wing: res[i].wing_division_section,
@@ -187,7 +200,8 @@ export class ViewFinalCbpPlanComponent {
                 competenciesObj: competenciesObj,
                 behavioralCompetencies: behavioralCompetencies,
                 functionalCompetencies: functionalCompetencies,
-                domainCompetencies: domainCompetencies
+                domainCompetencies: domainCompetencies,
+                selectedCourses: latestPlan?.selected_courses || []
                 // behavioralCompetencies: [
                 //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
                 //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
@@ -259,6 +273,12 @@ export class ViewFinalCbpPlanComponent {
   
                 }
               });
+              const cbpPlans = res[i]?.cbp_plans || [];
+
+              const latestPlan = cbpPlans.length
+                ? cbpPlans[cbpPlans.length - 1]
+                : null;
+
               let obj: any = {
                 designation: res[i].designation_name,
                 wing: res[i].wing_division_section,
@@ -268,7 +288,8 @@ export class ViewFinalCbpPlanComponent {
                 competenciesObj: competenciesObj,
                 behavioralCompetencies: behavioralCompetencies,
                 functionalCompetencies: functionalCompetencies,
-                domainCompetencies: domainCompetencies
+                domainCompetencies: domainCompetencies,
+                selectedCourses: latestPlan?.selected_courses || []
                 // behavioralCompetencies: [
                 //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
                 //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
@@ -422,6 +443,12 @@ export class ViewFinalCbpPlanComponent {
 
               }
             });
+            const cbpPlans = res[i]?.cbp_plans || [];
+
+            const latestPlan = cbpPlans.length
+              ? cbpPlans[cbpPlans.length - 1]
+              : null;
+
             let obj: any = {
               designation: res[i].designation_name,
               wing: res[i].wing_division_section,
@@ -431,7 +458,8 @@ export class ViewFinalCbpPlanComponent {
               competenciesObj: competenciesObj,
               behavioralCompetencies: behavioralCompetencies,
               functionalCompetencies: functionalCompetencies,
-              domainCompetencies: domainCompetencies
+              domainCompetencies: domainCompetencies,
+              selectedCourses: latestPlan?.selected_courses || []
               // behavioralCompetencies: [
               //   "Strategic Leadership", "Executive Presence", "Influencing and Negotiation",
               //   "Relationship Management", "Verbal & Non-Verbal Fluency", "Planning & Prioritization",
@@ -473,6 +501,151 @@ export class ViewFinalCbpPlanComponent {
 
 
 
+  }
+getCompetenciesByType(type: string, course: any): any[] {
+  if (!course) {
+    return [];
+  }
+
+  let competencies: any[] = [];
+
+  // AI Recommended / Public / User Added
+  if (Array.isArray(course.competencies)) {
+    competencies = course.competencies;
+  }
+  // Manually Suggested - iGOT (v6)
+  else if (Array.isArray(course.competencies_v6)) {
+    competencies = course.competencies_v6;
+  }
+
+  if (!competencies.length) {
+    return [];
+  }
+
+  const normalizedType = type.toLowerCase().trim();
+
+  return competencies.filter(c => {
+    if (!c?.competencyAreaName) {
+      return false;
+    }
+
+    const area = c.competencyAreaName.toLowerCase().trim();
+
+    // handle behavioural / behavioral
+    if (normalizedType === 'behavioural' || normalizedType === 'behavioral') {
+      return area === 'behavioural' || area === 'behavioral';
+    }
+
+    return area === normalizedType;
+  });
+}
+
+    getDisplayedCompetencies(type: string, index: number): any[] {
+    const competencies = this.getCompetenciesByType(type, index);
+    const key = `${index}-${type}`;
+
+    if (this.expandedCompetencies[key]) {
+      return competencies;
+    }
+
+    return competencies.slice(0, 2);
+  }
+
+  toggleCompetencies(type: string, index: number): void {
+    const key = `${index}-${type}`;
+    this.expandedCompetencies[key] = !this.expandedCompetencies[key];
+  }
+
+  isExpanded(type: string, index: number): boolean {
+    const key = `${index}-${type}`;
+    return this.expandedCompetencies[key] || false;
+  }
+
+  hasMoreThanTwo(type: string, index: number): boolean {
+    return this.getCompetenciesByType(type, index).length > 2;
+  }
+    getRemainingCount(type: string, index: number): number {
+      const totalCount = this.getCompetenciesByType(type, index).length;
+      return totalCount - 2;
+    }
+    updateCompetencyCounts() {
+   // const comps = this.competenciesArray.value;
+    this.competenciesCount = {total: 0, public_courses: 0, igot: 0};
+    this.filterdCourses.forEach(c => {
+      this.competenciesCount.total++;
+      if (c.is_public) this.competenciesCount.public_courses++;
+      if (!c.is_public) this.competenciesCount.igot++;
+    });
+  }
+   
+  confirmDeleteCourse(item: any, index: number) {
+    const roleMappingId = this.recommended_course_id;
+    const courseIdentifier =
+      item?.course_identifier || item?.id || item?.identifier;
+  
+    if (!roleMappingId || !courseIdentifier) {
+      this.snackBar.open('Unable to delete course', 'X', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
+      return;
+    }
+  
+    this.loading = true;
+  
+    this.sharedService
+      .deleteRecommendedCourse(roleMappingId, courseIdentifier)
+      .subscribe({
+        next: () => {
+          // Remove from UI
+          this.filterdCourses.splice(index, 1);
+  
+          // Update counts
+          this.updateCompetencyCounts();
+  
+          this.loading = false;
+  
+          this.snackBar.open('Course deleted successfully', 'X', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        },
+        error: (error) => {
+          this.loading = false;
+  
+          this.snackBar.open(
+            error?.error?.detail || 'Failed to delete course',
+            'X',
+            {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            }
+          );
+        }
+      });
+  }
+  
+  deleteCard(item: any, index: number) {
+    console.log("item, index", item,index)
+    const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
+      width: '600px',
+      data: {
+        planId: this.planData?.id,   // role mapping id
+        course: item,                // course object
+        index: index,
+        from : 'viewCourse'                 // index for UI removal
+      },
+      panelClass: 'view-cbp-plan-popup',
+      minHeight: '300px',
+      maxHeight: '90vh',
+      disableClose: true
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'saved') {
+        this.confirmDeleteCourse(item, index);
+      }
+    });
   }
   scrollToTop(): void {
 
@@ -742,19 +915,28 @@ export class ViewFinalCbpPlanComponent {
       this.generateExcel(this.jsonData, fileName );
     }
 
-    downloadPdfFromBE() {
+    downloadPdfFromBE(context : string) {
       this.loading = true
     //  this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)
       if(!this.sharedService?.cbpPlanFinalObj.departments) {
-        this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier)  
+        this.sharedService.downloadPdf(this.sharedService?.cbpPlanFinalObj.ministry.identifier, context)  
       } else {
-        this.sharedService.downloadPdfForDepartment(this.sharedService?.cbpPlanFinalObj.ministry.identifier, this.sharedService?.cbpPlanFinalObj.departments)  
+        this.sharedService.downloadPdfForDepartment(this.sharedService?.cbpPlanFinalObj.ministry.identifier, this.sharedService?.cbpPlanFinalObj.departments, context)  
       }
       
       setTimeout(()=>{
         this.loading = false
       },5000)
     }
-  
+  getSelectedCourses(department: any): any[] {
+    if (!department?.cbp_plans?.length) {
+      return [];
+    }
+
+    // take latest CBP plan (or adjust logic if needed)
+    const latestPlan = department.cbp_plans[department.cbp_plans.length - 1];
+
+    return latestPlan?.selected_courses || [];
   }
 
+  }

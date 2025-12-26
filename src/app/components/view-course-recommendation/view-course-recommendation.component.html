@@ -206,12 +206,15 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-2 d-flex justify-content-between item">
                         <div class="relevancy-container">
                             <div class="relevancy">Relevancy</div>
                             <div class="dash">-</div>
                             <div class="percentage" *ngIf="item?.relevancy">{{item?.relevancy}}%</div>
                             <div class="percentage" *ngIf="!item?.relevancy">N/A</div>
+                        </div>
+                        <div class="delete-button">
+                           <mat-icon matTooltip="Delete Course" matTooltipPosition="above" class="text-danger cursor-pointer" (click)="deleteCard(item, i)" >delete</mat-icon>
                         </div>
                     </div>
                     <!-- <div>
@@ -270,7 +273,7 @@
             </div>
         </div>
     </div>
-    <div class="popup-footer">
+    <div class="popup-footer" *ngIf="filterdCourses?.length">
         <div>
             <input class="btn-active" type="button" value="Download" (click)="downloadPdfFromBE()"/>
         </div>

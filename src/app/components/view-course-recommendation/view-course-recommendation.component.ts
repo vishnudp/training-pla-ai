@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GenerateCourseRecommendationComponent } from '../generate-course-recommendation/generate-course-recommendation.component';
 import { AddPersonalisationComponent } from '../add-personalisation/add-personalisation.component';
 import html2pdf from 'html2pdf.js';
+import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
 
 @Component({
   selector: 'app-view-course-recommendation',
@@ -351,5 +352,75 @@ downloadPdfFromBE() {
   setTimeout(()=>{
     this.loading = false
   },5000)
+}
+
+confirmDeleteCourse(item: any, index: number) {
+  const roleMappingId = this.recommended_course_id;
+  const courseIdentifier =
+    item?.course_identifier || item?.id || item?.identifier;
+
+  if (!roleMappingId || !courseIdentifier) {
+    this.snackBar.open('Unable to delete course', 'X', {
+      duration: 3000,
+      panelClass: ['snackbar-error']
+    });
+    return;
+  }
+
+  this.loading = true;
+
+  this.sharedService
+    .deleteRecommendedCourse(roleMappingId, courseIdentifier)
+    .subscribe({
+      next: () => {
+        // Remove from UI
+        this.filterdCourses.splice(index, 1);
+
+        // Update counts
+        this.updateCompetencyCounts();
+
+        this.loading = false;
+
+        this.snackBar.open('Course deleted successfully', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+      },
+      error: (error) => {
+        this.loading = false;
+
+        this.snackBar.open(
+          error?.error?.detail || 'Failed to delete course',
+          'X',
+          {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          }
+        );
+      }
+    });
+
+  }
+
+deleteCard(item: any, index: number) {
+  const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
+    width: '600px',
+    data: {
+      planId: this.planData?.id,   // role mapping id
+      course: item,                // course object
+      index: index,
+      from : 'viewCourse'                 // index for UI removal
+    },
+    panelClass: 'view-cbp-plan-popup',
+    minHeight: '300px',
+    maxHeight: '90vh',
+    disableClose: true
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result === 'saved') {
+      this.confirmDeleteCourse(item, index);
+    }
+  });
 }
 }

@@ -8,14 +8,23 @@ import { SharedService } from 'src/app/modules/shared/services/shared.service';
   styleUrls: ['./delete-role-mapping-popup.component.scss']
 })
 export class DeleteRoleMappingPopupComponent {
-  planData:any
-  constructor( public dialogRef: MatDialogRef<DeleteRoleMappingPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService) {
-      this.planData = data
-    }
+  planData:any;
+  isViewCourse = false;
+
+  constructor(
+    public dialogRef: MatDialogRef<DeleteRoleMappingPopupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public sharedService: SharedService
+  ) {
+    this.planData = data
+    this.isViewCourse = this.data?.from === 'viewCourse';
+  }
+  confirmDelete() {
+    this.dialogRef.close('saved');
+  }
 
   regenerateRoleMapping() {
-      this.dialogRef.close('saved')
+    this.dialogRef.close('saved')
   }
 
   cancel() {

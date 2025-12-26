@@ -417,6 +417,11 @@ font-weight: 600;
 line-height: normal;
 }
 
+.delete-button input {
+  background-color: rgb(182, 10, 10);
+  border-radius: 10px;
+}
+
 .relevancy-container {
     display: flex;
     flex-direction: row;

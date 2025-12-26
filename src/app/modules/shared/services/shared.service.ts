@@ -14,7 +14,7 @@ const API_END_POINTS = {
   NLW_FORM_READ: 'apis/v1/static/form/v1/read',
   FETCH_TENDERS: 'api/v1/content/v1/search',
   GET_STATE_CENTER: 'cbp-tpc-ai/api/v1/state-center',
-  GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/generate',
+  GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v2/role-mapping/generate',
   DELETE_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/delete',
   GET_DEPARTMENT: 'cbp-tpc-ai/api/v1/department/state-center',
   GET_ROLE_MAPPING_BY_STATE_CENTER: 'cbp-tpc-ai/api/v1/role-mapping/state-center',
@@ -42,9 +42,11 @@ const API_END_POINTS = {
   DELETE_SUMMARY: 'cbp-tpc-ai/api/v1/files',
   GET_USER_PROFILE: 'cbp-tpc-ai/api/v1/users/me',
   GET_USER_RECOMMENED_COURSES: 'cbp-tpc-ai/api/v1/course-recommendations',
-  DOWNLOAD_PDF: 'cbp-tpc-ai/api/v1/cbp-plan/download',
+  DOWNLOAD_PDF: 'cbp-tpc-ai/api/v1/reports/cbp-plan/download',
+  DOWNLOAD_PDF_ACBP: 'cbp-tpc-ai/api/v1/reports/acbp-plan/download',
   CENTER_BASED_MINISTRY: 'cbp-tpc-ai/api/v1/department/state-center',
-  DOWNLOAD_COURSE_RECOMMENDATION: 'cbp-tpc-ai/api/v1/course-recommendations/report/download'
+  DOWNLOAD_COURSE_RECOMMENDATION: 'cbp-tpc-ai/api/v1/reports/course-recommendations/download',
+  DELETE_COURSE_RECOMMENDATION: 'cbp-tpc-ai/api/v1/cbp-plan',
 }
 
 
@@ -351,7 +353,7 @@ export class SharedService {
 
   getRoleMappingByStateCenter(state_center_id) {
     const headers = this.headers
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}`, { headers })
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}?load_cbp_plans=true`, { headers })
       .pipe(map((response: any) => {
         return response
       }))
@@ -359,7 +361,7 @@ export class SharedService {
 
   getRoleMappingByStateCenterAndDepartment(state_center_id, department_id) {
     const headers = this.headers
-    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}`, { headers })
+    return this.http.get<any>(`${this.baseUrl}${API_END_POINTS.GET_ROLE_MAPPING_BY_STATE_CENTER}/${state_center_id}/department/${department_id}?load_cbp_plans=true`, { headers })
       .pipe(map((response: any) => {
         return response
       }))
@@ -597,8 +599,12 @@ export class SharedService {
       }))
   }
 
-  downloadPdf(state_center_id: string) {
-    const url = `${this.baseUrl}${API_END_POINTS.DOWNLOAD_PDF}?state_center_id=${state_center_id}`;
+  downloadPdf(state_center_id: string, context : string) {
+    const endpoint =
+    context === 'acbp'
+      ? API_END_POINTS.DOWNLOAD_PDF_ACBP
+      : API_END_POINTS.DOWNLOAD_PDF;
+    const url = `${this.baseUrl}${endpoint}?state_center_id=${state_center_id}`;
     const headers = this.headers
 
     return this.http.get(url, {
@@ -631,8 +637,12 @@ export class SharedService {
     });
   }
 
-  downloadPdfForDepartment(state_center_id, department_id: string) {
-    const url = `${this.baseUrl}${API_END_POINTS.DOWNLOAD_PDF}?state_center_id=${state_center_id}&department_id=${department_id}`;
+  downloadPdfForDepartment(state_center_id, department_id: string, context?: string) {
+    const endpoint =
+    context === 'acbp'
+      ? API_END_POINTS.DOWNLOAD_PDF_ACBP
+      : API_END_POINTS.DOWNLOAD_PDF;
+    const url = `${this.baseUrl}${endpoint}?state_center_id=${state_center_id}&department_id=${department_id}`;
     const headers = this.headers
 
     return this.http.get(url, {
@@ -798,6 +808,27 @@ export class SharedService {
     .pipe(map((response: any) => {
       return response
     }))
+  }
+
+  deleteRecommendedCourse(roleMappingId: string, courseIdentifier: string) {
+    const headers = this.headers;
+  
+    return this.http.delete<any>(
+      `${this.baseUrl}${API_END_POINTS.DELETE_COURSE_RECOMMENDATION}/${roleMappingId}/course/${courseIdentifier}`,
+      { headers }
+    );
+  }
+
+  getCbpPlansWithSelectedCourses(): any[] {
+    const source = this.cbpPlanFinalObj;
+
+    return source?.role_mapping_generation
+      ?.flatMap((role: any) => role.cbp_plans || [])
+      ?.filter(
+        (plan: any) =>
+          Array.isArray(plan.selected_courses) &&
+          plan.selected_courses.length > 0
+      ) || [];
   }
 
 
