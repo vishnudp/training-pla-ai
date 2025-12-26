@@ -92,7 +92,7 @@
                         
 
                         <div class="search-and-buttons-container">
-                            <div>
+                            <div style="margin-left: 10px;">
                                 <label>Select Competency</label>
                             </div>   
                             <div>
@@ -128,7 +128,7 @@
                             
                         </div>
                         <div class="search-and-buttons-container">
-                            <div>
+                            <div style="margin-left: 10px;">
                                 <label>Select Rating</label>
                             </div>                            
                             <div>
@@ -162,8 +162,14 @@
                                   </mat-form-field>
                             </div>
                         </div>
+                       
+                      
+                        
+                        
+                    </div>
+                    <div class="section-header-improved-sec-2 mt-4">
                         <div class="search-and-buttons-container">
-                            <div>
+                            <div style="margin-left: 10px;">
                                 <label>Select Language</label>
                             </div>                            
                             <div>
@@ -197,13 +203,8 @@
                                   </mat-form-field>
                             </div>
                         </div>
-                      
-                        
-                        
-                    </div>
-                    <div class="section-header-improved mt-3">
                         <div class="search-and-buttons-container">
-                            <div>
+                            <div style="margin-left: 10px;">
                                 <label>Select Duration</label>
                             </div>                            
                             <div>
@@ -238,7 +239,7 @@
                             </div>
                         </div>
                         <div class="search-and-buttons-container">
-                            <div>
+                            <div style="margin-left: 10px;">
                                 <label>Select Provider</label>
                             </div>                            
                             <div>
@@ -277,8 +278,12 @@
                                 (click)="resetFilters()" />
                         </div>
                     </div>
-                   
-                    <div class="mt-3 sub-heading select-all-container" *ngIf="filterdCourses?.length">
+                    <div class="mt-4">
+                        <div style="font-size:16px;font-weight:bold;color:#000">
+                            Filtered Course Count : {{filterdCourses?.length}}
+                        </div>
+                    </div>
+                    <div class="mt-5 sub-heading select-all-container" *ngIf="filterdCourses?.length">
                         <div style="margin-left: 16px;">
                             <mat-checkbox [checked]="false" (change)="selectAllCourses($event)">Select All
                                 Courses</mat-checkbox>

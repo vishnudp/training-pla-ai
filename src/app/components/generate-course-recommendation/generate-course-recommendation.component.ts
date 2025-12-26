@@ -688,9 +688,29 @@ export class GenerateCourseRecommendationComponent {
       }
     })
     this.fullCourseList = allCourses
+    let identifiersArr = []
+    this.fullCourseList.map((item)=>{
+      identifiersArr.push(item?.identifier)
+    })
+    this.sharedService.getAdditionalParameterforSuggestedCourses(identifiersArr).subscribe((response)=>{
+      if(response && response.result && response.result.content && response.result.content.length) {
+        for(let i=0; i < response.result.content.length;i++) {
+          for(let j=0; j<this.fullCourseList.length;j++) {
+            if(this.fullCourseList[j]['identifier'] === response.result.content[i]['identifier'] ) {
+              this.fullCourseList[j]['language'] = response.result.content[i]['language']
+              this.fullCourseList[j]['avgRating'] = response.result.content[i]['avgRating']
+              break;
+            }
+          }
+          
+        }
+      }
+      
+    })
     return allCourses;
   }
 
+  
   /**
    * Rebuild filterdCourses array with all available course types
    * This ensures consistency across the application
@@ -2001,6 +2021,8 @@ export class GenerateCourseRecommendationComponent {
       duration = [],
       provider = []
     } = this.filterForm.value;
+
+    console.log('this.fullCourseList--',this.fullCourseList)
   
     this.filterdCourses = this.fullCourseList.filter(course => {
   

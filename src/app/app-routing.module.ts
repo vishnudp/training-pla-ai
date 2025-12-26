@@ -3,6 +3,7 @@ import { Routes, RouterModule, ExtraOptions } from '@angular/router';
 import { PublicHomeComponent } from "./modules/public-home/components/public-home/public-home.component";
 import { UploadDocumentPageComponent } from './modules/upload-document-page/upload-document-page.component';
 import { InitialScreenComponent } from './modules/initial-screen/initial-screen.component';
+import { RoleMappingGenerationComponent } from './components/role-mapping-generation/role-mapping-generation.component';
 const routerOptions: any = {
   scrollPositionRestoration: 'enabled',
   anchorScrolling: 'enabled',
@@ -17,6 +18,11 @@ const routes: Routes = [
   {
     path: '',
     component: InitialScreenComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'initial',
+    component: RoleMappingGenerationComponent,
     pathMatch: 'full'
   },
   {

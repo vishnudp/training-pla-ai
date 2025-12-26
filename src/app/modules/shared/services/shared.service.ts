@@ -27,7 +27,7 @@ const API_END_POINTS = {
   IGOT_SUGGESTED_COURSE: 'api/v1/content/v1/search',
   SAVE_COURSE_SUGGESTED_COURSE: 'cbp-tpc-ai/api/v1/course/suggestions/save',
   SUGGESTED_COURSE_LIST: 'cbp-tpc-ai/api/v1/course/suggestions',
-  ADD_DESIGNATION: 'cbp-tpc-ai/api/v1/role-mapping/add-designation',
+  ADD_DESIGNATION: 'cbp-tpc-ai/api/v2/role-mapping/add-designation',
   LOGIN: 'cbp-tpc-ai/api/v1/auth/login',
   LOGOUT: 'cbp-tpc-ai/api/v1/auth/logout',
   DELETE_ROLE_MAPPING_BY_STATE_CENTER: 'cbp-tpc-ai/api/v1/role-mapping',
@@ -829,6 +829,33 @@ export class SharedService {
           Array.isArray(plan.selected_courses) &&
           plan.selected_courses.length > 0
       ) || [];
+  }
+
+  getAdditionalParameterforSuggestedCourses(identifiers) {
+    const headers = this.headers
+    let reqBody = {
+      "request": {
+        "filters": {
+          "identifier":identifiers,
+          
+          "status": [
+            "Live"
+          ]
+        },
+        "fields": [
+          "language",
+          "identifier",
+          "avgRating"
+        ],
+        "limit": 1000,
+        "offset": 0,
+        "sort_by": {}
+      }
+    }
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.SUGGESTED_COURSE_LIST}`, reqBody, { headers })
+      .pipe(map((response: any) => {
+        return response
+      }))
   }
 
 

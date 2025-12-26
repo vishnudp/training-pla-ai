@@ -45,7 +45,7 @@ export class UploadDocumentPageComponent {
 
   ]
   searchText = '';
-  displayedColumns: string[] = ['name', 'summary_status', 'summary_text', 'date', 'actions'];
+  displayedColumns: string[] = ['name', 'summary_status',  'date', 'actions'];
   cbpFinalObj:any= {}
   departmentData:any = []
   documents = [
@@ -390,6 +390,10 @@ export class UploadDocumentPageComponent {
         this.filteredList = filteredMinistryData;
         console.log('this.filteredList--', this.filteredList)
       })
+    }
+
+    routeToInitial() {
+      this.router.navigate(['/initial']);
     }
 
 }

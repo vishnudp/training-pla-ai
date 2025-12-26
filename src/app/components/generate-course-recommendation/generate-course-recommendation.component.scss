@@ -1334,17 +1334,25 @@ background: #f8f9fa;
 .section-header-improved {
   display: flex;
   flex-direction: row;
-  gap: 35px;
+  gap: 0px;
+  width: 100%;
+}
+
+.section-header-improved-sec-2 {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
   width: 100%;
 }
 
 .search-and-buttons-container {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 5px;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 20%;
+  width: 37%;
+  margin:0 5px;
 }
 
 
@@ -1368,8 +1376,8 @@ background: #f8f9fa;
 
   .sinput-compact {
     border-radius: 25px;
-    border: 1px solid #000;
-    padding: 8px 12px 8px 40px;
+    border: 2px solid #ccc;
+    padding: 20px 12px 20px 40px;
     height: 32px;
     width: 100%;
     font: 400 14px Lato;
@@ -1964,7 +1972,7 @@ background: #f8f9fa;
 ::ng-deep .search-and-buttons-container {
   .mat-form-field-infix {
   
-    padding: 8px !important;
+    padding: 10px !important;
   }
 
   .mat-form-field-wrapper {
@@ -1975,5 +1983,70 @@ background: #f8f9fa;
 }
 
 ::ng-deep  .select-search-panel {
-  border: 1px solid #000 !important;
+  border: 1px solid #ccc!important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  
+ 
 }
+
+:host ::ng-deep .mat-select-arrow-wrapper {
+  margin-top: 5px !important;
+}
+
+:host ::ng-deep  .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ccc; /* gray */
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-focused
+.mat-form-field-outline-thick {
+  color: #1B4CA1; /* Material blue */
+  border-color: #1B4CA1 !important;
+}
+
+::ng-deep .select-search-panel .mat-option.mat-selected:not(.mat-option-disabled) {
+  background-color: #1B4CA1 !important;
+  color: #ffffff !important;
+}
+
+
+/* Apply border and rounded corners to the whole form field */
+:host ::ng-deep .mat-form-field-appearance-outline {
+  border-radius: 25px; /* Apply rounded corners to the whole outline */
+  border: 1px solid #ccc; /* Add border to the entire form field */
+}
+
+:host ::ng-deep .mat-form-field-focused .mat-form-field-appearance-outline {
+  border-color: #1B4CA1 !important; /* Blue border when focused */
+}
+
+/* Apply the left border with proper radius to start */
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+ // border-left: 1px solid #ccc;
+  border-radius: 25px 0 0 25px; /* Rounded left corner */
+  border: none !important;
+}
+
+/* Apply the right border with proper radius to end */
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+  border-right: none !important;
+  border: none !important;
+  border-radius: 0 25px 25px 0; /* Rounded right corner */
+}
+
+/* Apply top and bottom borders for consistency */
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-gap {
+  // border-top: 1px solid #ccc;
+  // border-bottom: 1px solid #ccc;
+  border: none !important;
+  border-radius: 25px; /* Apply same radius to the gap */
+}
+
+
+
+
+
+:host::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  background-color: transparent !important;
+}
+

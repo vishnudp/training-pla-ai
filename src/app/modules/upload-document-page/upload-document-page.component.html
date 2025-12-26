@@ -20,11 +20,11 @@
                     <div class="select-map-flex">
                         <div class="selected-mapping-route">
                             <p>{{cbpPlanFinalObj?.ministry?.orgName}} <span
-                                    *ngIf="sharedService?.cbpPlanFinalObj?.department_name">
+                                    *ngIf="cbpPlanFinalObj?.department_name">
                                     / {{cbpPlanFinalObj?.department_name}}</span>
                             </p>
                         </div>
-                        <div class="edit-plan cursor-pointer" (click)="routeToMain()">
+                        <div class="edit-plan cursor-pointer" (click)="routeToInitial()">
                             <mat-icon>edit</mat-icon>Edit
                         </div>
 <!--                            <div class="cursor-pointer ml-10">-->
@@ -51,7 +51,7 @@
     </mat-card>
     <mat-card class="mat-card-container">
         <div class="sub-heading">
-            <p>Uploaded Documents</p>
+            <p>Uploaded Documents (Max. 10 Documents are allowed)</p>
         </div>
         <div class="search flex margin-right-m">
             <div class="mt-10">
@@ -74,7 +74,9 @@
         </div>
         <p class="mt-10" style="font-family: 'Lato'; font-size: 18px; margin-left: 10px;">
             {{filteredDocuments()?.length}} Documents</p>
-        <table mat-table [dataSource]="filteredDocuments()" class="mat-elevation-z2 full-width-table mt-10">
+        <table style="border-radius: 25px 25px 0 0;
+        overflow: hidden;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.12);" mat-table [dataSource]="filteredDocuments()" class="mat-elevation-z2 full-width-table mt-10">
 
             <!-- Document Column -->
             <ng-container matColumnDef="name">
@@ -90,18 +92,21 @@
             <!-- Summary Status Column -->
             <ng-container matColumnDef="summary_status">
                 <th mat-header-cell *matHeaderCellDef> Summary Status </th>
-                <td mat-cell *matCellDef="let doc" style="width: 15%;"> {{ doc.summary_status }} </td>
+                <td mat-cell *matCellDef="let doc" style="width: 15%;"> 
+                   <span *ngIf="doc.summary_status === 'COMPLETED'" class="success"> {{ doc.summary_status | titlecase }} </span>
+                   <span *ngIf="doc.summary_status !== 'COMPLETED'" class="progress"> {{ doc.summary_status | titlecase }} </span>
+                </td>
             </ng-container>
 
             <!-- Summary Text Column -->
-            <ng-container matColumnDef="summary_text">
+            <!-- <ng-container matColumnDef="summary_text">
                 <th mat-header-cell *matHeaderCellDef> Summary </th>
                 <td mat-cell *matCellDef="let doc">
                     <div class="doc-summary-text" style="width: 80%;">
                         <markdown [data]="doc?.summary_text | slice : 0 : 200"></markdown>
                     </div>
                 </td>
-            </ng-container>
+            </ng-container> -->
 
             <!-- Date Column -->
             <ng-container matColumnDef="date">
@@ -117,12 +122,12 @@
                         <mat-icon>download</mat-icon>
                     </button>
 
-                    <button *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="primary"
+                    <button style="margin-left: 15px;" *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="primary"
                         (click)="viewSummary(doc)" matTooltip="View Summary">
                         <mat-icon>visibility</mat-icon>
                     </button>
 
-                    <button *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="warn"
+                    <button style="margin-left: 15px;" *ngIf="doc.summary_status === 'COMPLETED'" mat-icon-button color="warn"
                         (click)="deleteDocument(doc)" matTooltip="Delete">
                         <mat-icon>delete</mat-icon>
                     </button>

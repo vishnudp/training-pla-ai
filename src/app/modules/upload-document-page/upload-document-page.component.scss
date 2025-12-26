@@ -10,7 +10,7 @@
 }
 
 .mat-card-container {
-    background: #fff;
+    background: transparent;
     padding: 25px;
     margin: 25px 0;
 }
@@ -273,4 +273,18 @@ text-decoration-skip-ink: auto;
 text-decoration-thickness: auto;
 text-underline-offset: auto;
 text-underline-position: from-font;
+}
+
+.success {
+    background: green;
+    padding: 10px;
+    color: white;
+    border-radius: 25px;
+}
+
+.progress {
+    background: orange;
+    padding: 10px;
+    color: white;
+    border-radius: 25px;
 }
