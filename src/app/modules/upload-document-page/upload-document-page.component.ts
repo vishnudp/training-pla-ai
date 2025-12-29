@@ -141,7 +141,7 @@ export class UploadDocumentPageComponent {
       width: '600px',
         data: '',
         disableClose: true,
-        maxHeight: '80vh'
+        maxHeight: '80vh',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -159,6 +159,7 @@ export class UploadDocumentPageComponent {
   }
 
   filteredDocuments() {
+    console.log('this.documents', this.documents)
     return this.documents.filter(doc => doc.filename.toLowerCase().includes(this.searchText.toLowerCase()));
   }
 
@@ -175,12 +176,14 @@ export class UploadDocumentPageComponent {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
+            this.getUploadedDocuments()
           } else {
             this.loading = false
             this.snackBar.open('Error While Deleting Document', 'X', {
               duration: 3000,
               panelClass: ['snackbar-error']
             });
+            this.getUploadedDocuments()
           }
           
         })

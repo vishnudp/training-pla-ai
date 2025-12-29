@@ -2,146 +2,239 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SharedService } from '../../shared/services/shared.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressDialogComponent } from '../progress-dialog/progress-dialog.component';
+import { interval, forkJoin } from 'rxjs';
+import { map, startWith, switchMap, takeWhile, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-upload-dialog',
   templateUrl: './upload-dialog.component.html',
   styleUrls: ['./upload-dialog.component.scss']
 })
 export class UploadDialogComponent {
+
+  readonly MAX_FILES = 10;
+
   documentName = '';
-  selectedFile: File | null = null;
-  cbpFinalObj:any= {}
-  loading = false
-  uploadedFileData:any = {}
-  constructor(public dialogRef: MatDialogRef<UploadDialogComponent>, public sharedService: SharedService,
-    public snackBar: MatSnackBar, 
+  selectedFiles: File[] = [];
+  cbpFinalObj: any = {};
+  loading = false;
+  uploadedFileData: any = {};
+
+  constructor(
+    public dialogRef: MatDialogRef<UploadDialogComponent>,
+    public sharedService: SharedService,
+    public snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {
-    this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
+    this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage();
+  }
+
+  /** Already uploaded files count */
+  get uploadedCount(): number {
+    return this.cbpFinalObj?.documents?.length || 0;
+  }
+
+  /** Uploaded + newly selected */
+  get totalFileCount(): number {
+    return this.uploadedCount + this.selectedFiles.length;
   }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const allowedExtensions = ['pdf', 'doc', 'docx'];
-      const fileExtension = file.name.split('.').pop()?.toLowerCase();
-  
-      if (fileExtension && allowedExtensions.includes(fileExtension)) {
-        this.selectedFile = file;
-      } else {
-        this.selectedFile = null; // clear selection
-        this.snackBar.open('Only PDF, DOC, and DOCX files are allowed.', 'X', {
+    if (!input.files) return;
+
+    const files = Array.from(input.files);
+    const allowedExtensions = ['pdf', 'doc', 'docx'];
+
+    for (const file of files) {
+      if (this.totalFileCount >= this.MAX_FILES) {
+        this.snackBar.open('You can upload a maximum of 10 documents.', 'X', {
           duration: 3000,
           panelClass: ['snackbar-error']
         });
+        break;
       }
+
+      const ext = file.name.split('.').pop()?.toLowerCase();
+      if (!ext || !allowedExtensions.includes(ext)) {
+        this.snackBar.open(
+          `Invalid file type: ${file.name}`,
+          'X',
+          { duration: 3000, panelClass: ['snackbar-error'] }
+        );
+        continue;
+      }
+
+      // Prevent duplicate selection
+      if (this.selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+        continue;
+      }
+
+      this.selectedFiles.push(file);
     }
+
+    // Reset input so same file can be re-selected
+    input.value = '';
   }
+
+  removeFile(index: number): void {
+    this.selectedFiles.splice(index, 1);
+  }
+
+  // upload(): void {
+  //   if (!this.documentName || this.selectedFiles.length === 0) {
+  //     return;
+  //   }
+
+  //   if (this.totalFileCount > this.MAX_FILES) {
+  //     this.snackBar.open('Maximum 10 documents allowed.', 'X', {
+  //       duration: 3000,
+  //       panelClass: ['snackbar-error']
+  //     });
+  //     return;
+  //   }
+
+  //   this.loading = true;
+
+  //   const uploadNext = (index: number) => {
+  //     if (index >= this.selectedFiles.length) {
+  //       this.loading = false;
+  //       this.dialogRef.close('close');
+  //       return;
+  //     }
+
+  //     const file = this.selectedFiles[index];
+
+  //     const reqBody = {
+  //       state_center_id: this.cbpFinalObj?.ministry?.identifier,
+  //       department_id: this.cbpFinalObj?.departments,
+  //       documentName: this.documentName
+  //     };
+
+  //     this.sharedService.uploadDocument(reqBody, file).subscribe({
+  //       next: (res) => {
+  //         this.uploadedFileData = res;
+  //         this.triggerFileSummary();
+  //         uploadNext(index + 1);
+  //       },
+  //       error: (err) => {
+  //         this.loading = false;
+  //         this.snackBar.open(
+  //           err?.error?.detail || 'Upload failed',
+  //           'X',
+  //           { duration: 3000, panelClass: ['snackbar-error'] }
+  //         );
+  //       }
+  //     });
+  //   };
+
+  //   uploadNext(0);
+  // }
 
   upload(): void {
-    if (this.selectedFile && this.documentName) {
-      const newDoc = {
-        name: this.documentName,
-        size: +(this.selectedFile.size / 1024).toFixed(1),
-        date: new Date().toLocaleDateString()
-      };
-      if(this.cbpFinalObj && this.cbpFinalObj?.ministry && (this.cbpFinalObj?.ministry.sbOrgType === 'ministry' || this.cbpFinalObj?.ministry.sbOrgType  === 'state')) { 
-        console.log(this.cbpFinalObj)
-
-        let reqBody = {
-          state_center_id: this.cbpFinalObj?.ministry?.identifier,
-          department_id: this.cbpFinalObj?.departments ,//this.cbpFinalObj?.departments
-          documentName: this.documentName
-        }
-        if(this.cbpFinalObj && this.cbpFinalObj?.ministry.sbOrgType && (this.cbpFinalObj?.ministry.sbOrgType === 'state')) {
-          reqBody['department_id'] = this.cbpFinalObj?.departments
-         reqBody['state_center_id'] = this.cbpFinalObj?.ministry?.identifier
-        }
-        this.loading = true;
-        this.sharedService.uploadDocument(reqBody, this.selectedFile).subscribe({
-          next: (res) => {
-            this.uploadedFileData = res
-            this.loading = false;
-            //console.log('Center role mapping data refreshed:', res);
-            this.snackBar.open('Document Uploaded Successfully', 'X', {
-              duration: 3000,
-              panelClass: ['snackbar-success']
-            });
-
-            this.triggerFileSummary()
-            this.dialogRef.close('close');
-          },
-          error: (error) => {
-            console.log('error', error)
-            let errorText = error?.error?.detail
-            console.log('errorText', errorText)
-            this.uploadedFileData = {}
-            this.loading = false;
-            this.snackBar.open(errorText, 'X', {
-              duration: 3000,
-              panelClass: ['snackbar-error']
-            });
-          }
-        });
-        
-      }
-     
-
-      //this.dialogRef.close(newDoc);
+    if (this.selectedFiles.length === 0) {
+      return;
     }
+  
+    if (this.totalFileCount > this.MAX_FILES) {
+      this.snackBar.open('Maximum 10 documents allowed.', 'X', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
+      return;
+    }
+  
+    const formData = new FormData();
+  
+    // Required fields
+    formData.append(
+      'state_center_id',
+      this.cbpFinalObj?.ministry?.identifier || ''
+    );
+  
+    formData.append(
+      'department_id',
+      this.cbpFinalObj?.departments || ''
+    );
+  
+    // Append multiple files with SAME key "files"
+    this.selectedFiles.forEach((file: File) => {
+      formData.append('files', file, file.name);
+    });
+  
+    this.loading = true;
+  
+    this.sharedService.uploadDocument(formData).subscribe({
+      next: (res) => {
+        this.loading = false;
+        this.uploadedFileData = res;
+        this.triggerFileSummary();
+        this.snackBar.open(res?.message, 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+  
+        
+      },
+      error: (error) => {
+        this.loading = false;
+  
+        this.snackBar.open(
+          error?.error?.detail || 'Upload failed',
+          'X',
+          { duration: 3000, panelClass: ['snackbar-error'] }
+        );
+      }
+    });
   }
+  
+
 
   triggerFileSummary() {
-    if (this.uploadedFileData && this.uploadedFileData.file_id) {
-      let fileId = this.uploadedFileData.file_id;
-      
-      // Open progress dialog
-      const dialogRefForProgress = this.dialog.open(ProgressDialogComponent, {
-        disableClose: true,
-        data: {
-          progress: 0,
-          message: 'Starting...'
-        }
-      });
+    if (!this.uploadedFileData?.successful_uploads?.length) return;
   
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        dialogRefForProgress.componentInstance.data.progress = progress;
-        dialogRefForProgress.componentInstance.data.message = `${progress}% done`;
+    const files = this.uploadedFileData.successful_uploads;
+    const totalFiles = files.length;
   
-        if (progress >= 100) {
-          this.sharedService.summaryTriggerExecuted.next(this.uploadedFileData)
-          clearInterval(interval);
-        }
-      }, 300); // adjust time per update if needed
+    const dialogRefForProgress = this.dialog.open(ProgressDialogComponent, {
+      disableClose: true,
+      data: { progress: 0, message: `Processing 0 of ${totalFiles} summaries...` }
+    });
   
-      this.loading = true;
-      this.sharedService.triggerFileSummary(fileId).subscribe({
-        next: (res) => {
-          this.loading = false;
-          // Wait until 100% and then close dialog
-          const waitToClose = setInterval(() => {
-            if (progress >= 100) {
-              dialogRefForProgress.close();
-              
-              clearInterval(waitToClose);
-            }
-          }, 100);
-        },
-        error: () => {
-          this.loading = false;
+    let completedFiles = 0;
+  
+    const pollingRequests = files.map(file =>
+      interval(5000).pipe(
+        startWith(0), // trigger immediately
+        switchMap(() => this.sharedService.triggerFileSummary(file.file_id)), // must return { summary_status }
+        tap((res: any) => {
+          if (res.summary_status === 'COMPLETED') {
+            completedFiles++;
+            dialogRefForProgress.componentInstance.data.progress = Math.floor((completedFiles / totalFiles) * 100);
+            dialogRefForProgress.componentInstance.data.message = `Processing ${completedFiles} of ${totalFiles} summaries...`;
+          }
+        }),
+        takeWhile((res: any) => res.summary_status !== 'COMPLETED', true)
+      )
+    );
+  
+    forkJoin(pollingRequests).subscribe({
+      complete: () => {
+        dialogRefForProgress.componentInstance.data.progress = 100;
+        dialogRefForProgress.componentInstance.data.message = `All ${totalFiles} summaries completed!`;
+        setTimeout(() => {
           dialogRefForProgress.close();
-          this.snackBar.open('Error while generating summary', 'X', {
-            duration: 3000,
-            panelClass: ['snackbar-error']
-          });
-        }
-      });
-    }
+          this.dialogRef.close('close');
+        }, 500);
+      },
+      error: () => {
+        dialogRefForProgress.close();
+        this.dialogRef.close('close');
+      }
+    });
   }
   
+
+
 }

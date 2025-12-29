@@ -726,27 +726,26 @@ export class SharedService {
         'Authorization': `Bearer ${storageData?.access_token}`
       });
       const headers = this.headers
-      const formData = new FormData();
       
       // Add required fields
-      if (reqBody.state_center_id) {
-        formData.append('state_center_id', reqBody.state_center_id);
-      }
+      // if (reqBody.state_center_id) {
+      //   formData.append('state_center_id', reqBody.state_center_id);
+      // }
       
-      if (reqBody.department_id) {
-        formData.append('department_id', reqBody.department_id);
-      }
+      // if (reqBody.department_id) {
+      //   formData.append('department_id', reqBody.department_id);
+      // }
       
      
       
-      if(reqBody.documentName) {
-        formData.append('document_name', reqBody.documentName);
-      }
+      // if(reqBody.documentName) {
+      //   formData.append('document_name', reqBody.documentName);
+      // }
       // Add file if provided
-      if (file) {
-        formData.append('file', file);
-      }
-    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.UPLOAD_DOCUMENT}`, formData, { headers })
+      // if (file) {
+      //   formData.append('file', file);
+      // }
+    return this.http.post<any>(`${this.baseUrl}${API_END_POINTS.UPLOAD_DOCUMENT}`, reqBody, { headers })
     .pipe(map((response: any) => {
       return response
     }))

@@ -17,3 +17,20 @@
   margin-left: 24px;
   
 }
+
+.file-cross-icon {
+  height: 24px;
+  width: 24px;
+  vertical-align: middle;
+  background: lightgray;
+  margin-left: 10px;
+  border-radius: 25px;
+}
+
+:host .mat-mdc-dialog-content {
+  max-height: 100vh !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
