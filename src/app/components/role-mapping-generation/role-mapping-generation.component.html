@@ -78,7 +78,7 @@
                     <mat-form-field appearance="fill"
                         style="background: white; border-radius: 25px; padding: 0 12px;border: 1px solid #ccc;">
                         <mat-select placeholder="Select Department" formControlName="departments"
-                            style="border-radius: 25px; background: white;" (openedChange)="onOpenedDepartment($event)">
+                            style="border-radius: 25px; background: white;"  (selectionChange)="onDepartmentChange()" (openedChange)="onOpenedDepartment($event)">
                             <div class="search-wrapper" *ngIf="departmentPanelOpen">
                                 <input
                                     type="text"

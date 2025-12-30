@@ -1047,6 +1047,17 @@ apiLoading= false
     this.roleMappingForm.reset()
   }
 
+  onDepartmentChange() {
+    const formData = this.roleMappingForm.value;
+     
+    this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
+
+
+      const departmentName = this.departmentData.find(u => u.identifier=== formData.departments);
+      this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
+      localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
+  }
+
 
 
   
