@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     <div class="progress-container">
       <h3>Processing Summaries</h3>      
       <p>Please wait , it will take few minutes to complete</p>
+      <mat-progress-bar mode="determinate" [value]="data.progress"></mat-progress-bar>
     </div>
   `,
   styles: [`
