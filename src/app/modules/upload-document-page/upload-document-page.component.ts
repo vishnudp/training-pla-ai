@@ -86,7 +86,8 @@ export class UploadDocumentPageComponent {
     });
     // this.cbpFinalObj = this.sharedService.getCBPPlanLocalStorage()
     this.getMinistryData()
-    this.getUploadedDocuments()
+   
+   
   }
 
   ngOnInit() {
@@ -105,6 +106,9 @@ export class UploadDocumentPageComponent {
         this.getUploadedDocuments()
       }
     })
+    if(this.cbpPlanFinalObj && this.cbpPlanFinalObj.ministry && this.cbpPlanFinalObj.ministry.identifier) {
+      this.getUploadedDocuments()
+    }
   }
 
   ngAfterViewInit() {
@@ -114,13 +118,13 @@ export class UploadDocumentPageComponent {
   getUploadedDocuments() {
     
     let reqBody = {
-      state_center_id: this.cbpFinalObj?.ministry?.identifier,
+      state_center_id: this.cbpPlanFinalObj?.ministry?.identifier,
       include_summary: true, 
       skip:0,
       limit:200
     }
-    if(this.cbpFinalObj && this.cbpFinalObj?.ministryType && (this.cbpFinalObj?.ministryType === 'state')) {
-      reqBody['department_id'] = this.cbpFinalObj?.departments
+    if(this.cbpPlanFinalObj && this.cbpPlanFinalObj?.departments ) {
+      reqBody['department_id'] = this.cbpPlanFinalObj?.departments
     }
     this.loading = true
     
