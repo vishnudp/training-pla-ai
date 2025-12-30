@@ -163,7 +163,7 @@ export class UploadDocumentPageComponent {
   }
 
   filteredDocuments() {
-    console.log('this.documents', this.documents)
+   // console.log('this.documents', this.documents)
     return this.documents.filter(doc => doc.filename.toLowerCase().includes(this.searchText.toLowerCase()));
   }
 

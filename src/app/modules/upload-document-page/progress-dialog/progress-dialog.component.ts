@@ -5,15 +5,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   selector: 'app-progress-dialog',
   template: `
     <div class="progress-container">
-      <h3>Processing Summaries</h3>
-      <p>{{ data.message }}</p>
-      <mat-progress-bar mode="determinate" [value]="data.progress"></mat-progress-bar>
+      <h3>Processing Summaries</h3>      
+      <p>Please wait , it will take few minutes to complete</p>
     </div>
   `,
   styles: [`
     .progress-container {
       padding: 20px;
-      width: 300px;
+      width: 400px;
       text-align: center;
     }
     mat-progress-bar {
@@ -22,5 +21,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   `]
 })
 export class ProgressDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { progress: number; message: string }) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { progress: number; message: string }) {
+    console.log('data--', data)
+  }
 }
