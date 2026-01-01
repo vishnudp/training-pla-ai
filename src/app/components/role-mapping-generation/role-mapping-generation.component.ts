@@ -339,7 +339,12 @@ apiLoading= false
     this.sharedService.cbpPlanFinalObj['departments'] = currentFormValues?.departments
     const departmentName = this.departmentData.find(u => u.identifier=== currentFormValues.departments);
     this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName
-    
+    const selectedMinistry = this.ministryData.find(item =>
+      item.identifier === currentFormValues.ministry
+    );
+  
+    this.selectedMinistryObj = selectedMinistry;
+     this.sharedService.cbpPlanFinalObj['ministry'] =  selectedMinistry
     localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj))
     console.log('this.roleMappingForm', this.roleMappingForm)
     console.log('formData--', formData)
