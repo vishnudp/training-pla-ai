@@ -307,6 +307,15 @@ export class SharedService {
       formData.append('instruction', reqBody.instruction);
     }
 
+    const cbpData: any = JSON.parse(localStorage.getItem('cbpPlanFinalObj') || '{}');
+    const orgType =
+      cbpData?.ministry?.sbOrgType ||
+      cbpData?.org_type ||
+      '';
+    if (orgType) {
+      formData.append('org_type', orgType);
+    }
+
     // Handle multiple or single file
     if (files) {
       if (Array.isArray(files)) {
