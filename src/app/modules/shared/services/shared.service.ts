@@ -14,7 +14,7 @@ const API_END_POINTS = {
   NLW_FORM_READ: 'apis/v1/static/form/v1/read',
   FETCH_TENDERS: 'api/v1/content/v1/search',
   GET_STATE_CENTER: 'cbp-tpc-ai/api/v1/state-center',
-  GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v2/role-mapping/generate',
+  GET_ROLE_MAPPING: 'cbp-tpc-ai/api/v3/role-mapping/generate',
   DELETE_ROLE_MAPPING: 'cbp-tpc-ai/api/v1/role-mapping/delete',
   GET_DEPARTMENT: 'cbp-tpc-ai/api/v1/department/state-center',
   GET_ROLE_MAPPING_BY_STATE_CENTER: 'cbp-tpc-ai/api/v1/role-mapping/state-center',
