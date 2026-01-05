@@ -2050,3 +2050,9 @@ background: #f8f9fa;
   background-color: transparent !important;
 }
 
+
+:host ::ng-deep .search-and-buttons-container {
+   .mat-option-text {
+    color:#fff !important
+  }
+}
