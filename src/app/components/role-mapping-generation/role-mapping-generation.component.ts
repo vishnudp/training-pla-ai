@@ -9,7 +9,7 @@ import html2pdf from 'html2pdf.js';
 import { DeleteRoleMappingPopupComponent } from '../delete-role-mapping-popup/delete-role-mapping-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoleMappingService } from 'src/app/modules/shared/services/role-mapping.service';
-import { interval, ReplaySubject, Subject } from 'rxjs';
+import { interval,  of,  concat, ReplaySubject, Subject } from 'rxjs';
 import { switchMap, takeWhile, tap } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators'; 
 import { Router } from '@angular/router';
@@ -95,6 +95,7 @@ filteredList = [];
 filteredDepartmentList = [];
 originalMinistryData = []
 apiLoading= false
+private destroy$ = new Subject<void>();
   constructor(
     private eventSvc: EventService,
     public sharedService: SharedService,
@@ -104,6 +105,7 @@ apiLoading= false
     public roleMappingService: RoleMappingService,
     private router: Router
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.dataSource = new MatTableDataSource<any>([])
     this.isMaintenancePage = window.location.href.includes('/maintenance')
   }
@@ -385,7 +387,7 @@ apiLoading= false
                     panelClass: ['snackbar-error']
                   });
                   this.loading = false
-                  this.generateFinalRoleMapping()
+                 // this.generateFinalRoleMapping()
                 }
               });
             } else {
@@ -708,27 +710,85 @@ apiLoading= false
 
     
     // Polling API
-    interval(5000)
-      .pipe(
-        switchMap(() => this.sharedService.generateRoleMapping(req, files)),
-        takeWhile(data => data?.status !== 'COMPLETED', true)
-      )
-      .subscribe(data => {
-        if (data?.status === 'COMPLETED') {
-          this.loading = false;
-  
-          this.sharedService.cbpPlanFinalObj['role_mapping_generation'] = data?.role_mappings;
-          localStorage.setItem('cbpPlanFinalObj', JSON.stringify(this.sharedService.cbpPlanFinalObj));
-          
-          this.successRoleMapping.emit(this.roleMappingForm);
-          
-          this.snackBar.open('CBP Plan generated successfully!', 'X', {
-            duration: 3000,
-            panelClass: ['snackbar-success']
-          });
-          this.router.navigate(['/']);
-        }
-      });
+    concat(
+      of(null),              // 🔥 immediate first emission
+      interval(5000)         // ⏱ subsequent polling every 5s
+    )
+    .pipe(
+      takeUntil(this.destroy$),
+      switchMap(() => this.sharedService.generateRoleMapping(req, files)),
+      takeWhile((data:any) => data?.status !== 'COMPLETED', true)
+    )
+    .subscribe(data => {
+      console.log('role mapping data--', data)
+      if(data?.is_existing) {
+        this.loading = false;
+        this.destroy$.next();   // 🛑 stop polling
+        this.destroy$.complete();
+        const dialogRef = this.dialog.open(DeleteRoleMappingPopupComponent, {
+          width: '400px',
+          data: '',
+           panelClass: 'view-cbp-plan-popup',
+          minHeight: '300px',          // Set minimum height
+          maxHeight: '80vh',           // Prevent it from going beyond viewport
+          disableClose: true // Optional: prevent closing with outside click
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result === 'saved') {
+            console.log('Changes saved!');
+
+            this.loading = true
+            this.sharedService.deleteRoleMappingByStateAndDepartment(this.roleMappingForm.value.ministry, this.roleMappingForm.value.departments).subscribe({
+              next: (res) => {
+                // Success handling
+                console.log('Success:', res);
+                this.loading = false
+                this.generateFinalRoleMapping()
+              },
+              error: (error) => {
+                this.snackBar.open(error?.error?.detail, 'X', {
+                  duration: 3000,
+                  panelClass: ['snackbar-error']
+                });
+                this.loading = false
+               // this.generateFinalRoleMapping()
+              }
+            });
+          } else {
+            this.loading = false
+            // this.generateFinalRoleMapping()
+            // this.router.navigate(['/']);
+            const currentUrl = this.router.url;
+
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigateByUrl(currentUrl);
+            });
+            
+          }
+        });
+      }
+      else if (data?.status === 'COMPLETED') {
+        this.loading = false;
+    
+        this.sharedService.cbpPlanFinalObj['role_mapping_generation'] =
+          data?.role_mappings;
+    
+        localStorage.setItem(
+          'cbpPlanFinalObj',
+          JSON.stringify(this.sharedService.cbpPlanFinalObj)
+        );
+    
+        this.successRoleMapping.emit(this.roleMappingForm);
+    
+        this.snackBar.open('CBP Plan generated successfully!', 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-success']
+        });
+    
+        this.router.navigate(['/']);
+      }
+    });
   }
   
 
