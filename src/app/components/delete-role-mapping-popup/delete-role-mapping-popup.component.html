@@ -48,14 +48,13 @@
           </div>
   
           <div class="mt-2">
-            CBP is already available for
-            <b>{{ sharedService?.cbpPlanFinalObj?.department_name?.name }}</b>,
+            CBP is already available ,
             Do you want to Regenerate the Capacity building plan ?
           </div>
         </div>
   
         <div class="popup-footer mt-4">
-          <input class="btn-active" type="button" value="No" (click)="cancel()" />
+          <input class="btn-active-cancel" type="button" value="View Existing CBP" (click)="cancel()" />
           <input class="btn-active" type="button" value="Yes" (click)="regenerateRoleMapping()" />
         </div>
       </div>

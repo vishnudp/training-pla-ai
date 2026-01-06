@@ -761,9 +761,14 @@ private destroy$ = new Subject<void>();
             // this.router.navigate(['/']);
             const currentUrl = this.router.url;
 
-            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigateByUrl(currentUrl);
+            // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            //   this.router.navigateByUrl(currentUrl);
+            // });
+
+            this.router.navigate(['/'], {
+              onSameUrlNavigation: 'reload'
             });
+            window.location.reload()
             
           }
         });
