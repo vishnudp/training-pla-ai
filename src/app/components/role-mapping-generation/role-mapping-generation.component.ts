@@ -764,7 +764,15 @@ private destroy$ = new Subject<void>();
             // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             //   this.router.navigateByUrl(currentUrl);
             // });
-
+            this.sharedService.cbpPlanFinalObj['role_mapping_generation'] =
+            data?.role_mappings;
+      
+            localStorage.setItem(
+              'cbpPlanFinalObj',
+              JSON.stringify(this.sharedService.cbpPlanFinalObj)
+            );
+        
+          this.successRoleMapping.emit(this.roleMappingForm);
             this.router.navigate(['/'], {
               onSameUrlNavigation: 'reload'
             });

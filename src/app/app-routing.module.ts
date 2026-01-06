@@ -4,6 +4,7 @@ import { PublicHomeComponent } from "./modules/public-home/components/public-hom
 import { UploadDocumentPageComponent } from './modules/upload-document-page/upload-document-page.component';
 import { InitialScreenComponent } from './modules/initial-screen/initial-screen.component';
 import { RoleMappingGenerationComponent } from './components/role-mapping-generation/role-mapping-generation.component';
+import { RoleMappingListComponent } from './components/role-mapping-list/role-mapping-list.component';
 const routerOptions: any = {
   scrollPositionRestoration: 'enabled',
   anchorScrolling: 'enabled',
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: '',
     component: InitialScreenComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'list',
+    component: RoleMappingListComponent,
     pathMatch: 'full'
   },
   {
