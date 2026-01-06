@@ -733,6 +733,10 @@ display: inline-block; /* Required in some cases */
     box-sizing: border-box;
   }
 
+  .mat-select-panel mat-option {
+    padding-top: 10px;
+  }
+
   ::ng-deep {
     .mat-select-panel-wrap {
         overflow: visible !important;   /* allow content + scrollbar */
@@ -746,3 +750,34 @@ display: inline-block; /* Required in some cases */
         max-height: 250px;                  /* optional */
       }
   }
+
+  ::ng-deep .select-with-search.mat-select-panel {
+    padding-top: 0;
+    overflow: auto;
+  }
+  
+  /* Sticky search container */
+  ::ng-deep .select-with-search .search-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  /* Search input styling */
+  ::ng-deep .select-with-search .search-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  /* Prevent mat-options from overlapping search box */
+  ::ng-deep .select-with-search mat-option:first-of-type {
+    margin-top: 4px;
+  }
+  
