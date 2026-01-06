@@ -95,6 +95,7 @@ filteredList = [];
 filteredDepartmentList = [];
 originalMinistryData = []
 apiLoading= false
+firstApiResponse:any = null
 private destroy$ = new Subject<void>();
   constructor(
     private eventSvc: EventService,
@@ -717,11 +718,17 @@ private destroy$ = new Subject<void>();
     .pipe(
       takeUntil(this.destroy$),
       switchMap(() => this.sharedService.generateRoleMapping(req, files)),
+      tap(data => {
+        if (!this.firstApiResponse) {
+          this.firstApiResponse = data; // 👈 store first response
+          console.log('First API response:', this.firstApiResponse);
+        }
+      }),
       takeWhile((data:any) => data?.status !== 'COMPLETED', true)
     )
     .subscribe(data => {
       console.log('role mapping data--', data)
-      if(data?.is_existing) {
+      if(this.firstApiResponse?.is_existing) {
         this.loading = false;
         this.destroy$.next();   // 🛑 stop polling
         this.destroy$.complete();
