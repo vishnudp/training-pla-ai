@@ -783,7 +783,7 @@ private destroy$ = new Subject<void>();
             this.router.navigate(['/'], {
               onSameUrlNavigation: 'reload'
             });
-            window.location.reload()
+           // window.location.reload()
             
           }
         });
