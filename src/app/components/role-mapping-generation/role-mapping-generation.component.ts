@@ -405,9 +405,11 @@ private destroy$ = new Subject<void>();
                   // Success handling
                   console.log('Success:', res);
                   this.loading = false
+                  this.firstApiResponse = []
                   this.generateFinalRoleMapping()
                 },
                 error: (error) => {
+                  this.firstApiResponse = []
                   this.snackBar.open(error?.error?.detail, 'X', {
                     duration: 3000,
                     panelClass: ['snackbar-error']
@@ -786,6 +788,7 @@ private destroy$ = new Subject<void>();
                   duration: 3000,
                   panelClass: ['snackbar-error']
                 });
+                this.firstApiResponse = []
                 this.loading = false
                // this.generateFinalRoleMapping()
               }
