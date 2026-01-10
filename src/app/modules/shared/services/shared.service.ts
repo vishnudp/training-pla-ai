@@ -531,7 +531,14 @@ export class SharedService {
 
   deleteRoleMappingByStateAndDepartment(state_center_id, department_id) {
     const headers = this.headers
-    return this.http.delete<any>(`${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}?state_center_id=${state_center_id}&department_id=${department_id}`, { headers })
+    let url  = ''
+    if(department_id && department_id !== 'null' && department_id !== 'undefined' && department_id !== undefined && department_id !== null) {
+      url = `${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}?state_center_id=${state_center_id}&department_id=${department_id}`
+    } else {
+      url = `${this.baseUrl}${API_END_POINTS.DELETE_ROLE_MAPPING_BY_STATE_CENTER}?state_center_id=${state_center_id}`
+    }
+    
+    return this.http.delete<any>(url, { headers })
       .pipe(map((response: any) => {
         return response
       }))

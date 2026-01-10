@@ -27,7 +27,12 @@ export class DeleteRoleMappingPopupComponent {
     this.dialogRef.close('saved')
   }
 
-  cancel() {
+  cancel(event) {
+    
+    this.dialogRef.close(event)
+  }
+
+  cancelCourse() {
     this.dialogRef.close()
   }
 }

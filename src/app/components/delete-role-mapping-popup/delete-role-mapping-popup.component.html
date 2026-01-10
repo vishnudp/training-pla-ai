@@ -6,7 +6,7 @@
       <div class="popup-container">
         <div class="popup-header">
           <div class="heading">Delete Course</div>
-          <div class="cursor-pointer" (click)="cancel()">
+          <div class="cursor-pointer" (click)="cancelCourse()">
             <mat-icon>close</mat-icon>
           </div>
         </div>
@@ -21,7 +21,7 @@
         </div>
   
         <div class="popup-footer mt-4">
-          <input class="btn-active" type="button" value="No" (click)="cancel()" />
+          <input class="btn-active" type="button" value="No" (click)="cancelCourse()" />
   <input class="btn-active" type="button" value="Yes" (click)="confirmDelete()" />
         </div>
       </div>
@@ -37,7 +37,7 @@
           <div>
             <div class="heading">Regenerate CBP</div>
           </div>
-          <div class="cursor-pointer" (click)="cancel()">
+          <div class="cursor-pointer" (click)="cancel('cross')">
             <mat-icon>close</mat-icon>
           </div>
         </div>
@@ -54,7 +54,7 @@
         </div>
   
         <div class="popup-footer mt-4">
-          <input class="btn-active-cancel" type="button" value="View Existing CBP" (click)="cancel()" />
+          <input class="btn-active-cancel" type="button" value="View Existing CBP" (click)="cancel('button')" />
           <input class="btn-active" type="button" value="Yes" (click)="regenerateRoleMapping()" />
         </div>
       </div>
