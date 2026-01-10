@@ -157,7 +157,7 @@
                     <p>Disclaimer: Please do not upload any confidential documents. </p>
                 </div>
             </div> -->
-            <div class="mt-2" *ngIf="documents?.length < 1">
+            <div class="mt-2" *ngIf="documents?.length < 1 && !(roleMappingForm?.invalid)">
                 <p class="error">Please Upload atleast 1 Document</p>
             </div>
             <div class="mt-4" >
