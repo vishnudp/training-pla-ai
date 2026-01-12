@@ -175,15 +175,16 @@ private destroy$ = new Subject<void>();
   }
 
   getUploadedDocuments() {
+    const formData = this.roleMappingForm.value;
     
     let reqBody = {
-      state_center_id: this.cbpFinalObj?.ministry?.identifier,
+      state_center_id: formData.ministry,
       include_summary: true, 
       skip:0,
       limit:200
     }
-    if(this.cbpFinalObj && this.cbpFinalObj?.departments ) {
-      reqBody['department_id'] = this.cbpFinalObj?.departments
+    if(formData?.departments ) {
+      reqBody['department_id'] = formData?.departments
     }
     this.loading = true
     
@@ -192,6 +193,7 @@ private destroy$ = new Subject<void>();
         this.loading = false
         this.documents = res?.items
       } else {
+        this.documents = []
         this.loading = false
       }
     })
@@ -1169,7 +1171,11 @@ private destroy$ = new Subject<void>();
     const formData = this.roleMappingForm.value;
      
     this.sharedService.cbpPlanFinalObj['departments'] =  formData.departments ? formData.departments : ''
-
+    this.cbpFinalObj['departments'] = formData.departments ? formData.departments : ''
+    const selectedMinistry = this.ministryData.find(item => item.identifier === formData.ministry);
+    
+   
+    this.sharedService.cbpPlanFinalObj['ministry'] =  selectedMinistry
 
       const departmentName = this.departmentData.find(u => u.identifier=== formData.departments);
       this.sharedService.cbpPlanFinalObj['department_name'] =  departmentName?.orgName

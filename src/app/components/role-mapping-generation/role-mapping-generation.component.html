@@ -158,7 +158,7 @@
                 </div>
             </div> -->
             <div class="mt-2" *ngIf="documents?.length < 1 && !(roleMappingForm?.invalid)">
-                <p class="error">Please Upload atleast 1 Document</p>
+               <p><span style="font-size: .875rem;font-weight: bold;">Note: </span><span class="error">Please Upload atleast 1 Document.</span></p>
             </div>
             <div class="mt-4" >
                 <input [disabled]="roleMappingForm?.invalid || (roleMappingForm.get('ministryType')?.value === 'state' && !roleMappingForm.get('departments')?.value) || loading || documents?.length < 1"
