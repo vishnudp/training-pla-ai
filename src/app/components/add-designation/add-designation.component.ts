@@ -94,8 +94,13 @@ export class AddDesignationComponent {
       "designation_name": this.designationForm.value.designation_name,
       "instruction": this.designationForm.value.instruction,
     }
-    if(this.sharedService.cbpPlanFinalObj?.ministry?.sbOrgType === 'state') {
+    if(this.sharedService.cbpPlanFinalObj?.ministry?.sbOrgType === 'state' && this.sharedService.cbpPlanFinalObj.department_name) {
       req['department_id'] = this.sharedService.cbpPlanFinalObj.departments
+      req['department_name'] = this.sharedService.cbpPlanFinalObj.department_name
+    }
+    if(this.sharedService.cbpPlanFinalObj?.ministry?.sbOrgType === 'ministry' && this.sharedService.cbpPlanFinalObj.department_name) {
+      req['department_id'] = this.sharedService.cbpPlanFinalObj.departments
+      req['department_name'] = this.sharedService.cbpPlanFinalObj.department_name
     }
     
     console.log('req', req)

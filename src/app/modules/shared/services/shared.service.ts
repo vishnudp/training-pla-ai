@@ -853,11 +853,13 @@ export class SharedService {
         "filters": {
           "identifier":identifiers,
           
+          
           "status": [
             "Live"
           ]
         },
         "fields": [
+          "name",
           "language",
           "identifier",
           "avgRating"
