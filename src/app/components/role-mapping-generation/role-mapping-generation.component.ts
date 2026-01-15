@@ -176,7 +176,7 @@ private destroy$ = new Subject<void>();
 
   getUploadedDocuments() {
     const formData = this.roleMappingForm.value;
-    
+    this.loading = true
     let reqBody = {
       state_center_id: formData.ministry,
       include_summary: true, 
